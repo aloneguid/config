@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+   <metadata>
+      <id>Config.Net</id>
+      <version>1.0.0</version>
+      <authors>Ivan Gavryliuk</authors>
+      <owners>Ivan Gavryliuk</owners>
+      <projectUrl>https://github.com/aloneguid/config</projectUrl>
+      <requireLicenseAcceptance>false</requireLicenseAcceptance>
+      <description>
+         .NET configuration library
+      </description>
+      <releaseNotes>
+         The first official release
+      </releaseNotes>
+      <copyright>Copyright (c) 2015 by Ivan Gavryliuk</copyright>
+      <tags>Configuration</tags>
+   </metadata>
+   <files>
+      <file src="src\Config.Net\bin\Release\Config.Net.*" target="lib\net45"/>
+   </files>
+</package>

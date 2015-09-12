@@ -22,5 +22,9 @@ namespace Config.Net.Stores
       {
          throw new NotSupportedException();
       }
+
+      public void Dispose()
+      {
+      }
    }
 }

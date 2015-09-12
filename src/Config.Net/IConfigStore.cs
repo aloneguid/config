@@ -1,6 +1,8 @@
-﻿namespace Config.Net
+﻿using System;
+
+namespace Config.Net
 {
-   public interface IConfigStore
+   public interface IConfigStore : IDisposable
    {
       string Name { get; }
 

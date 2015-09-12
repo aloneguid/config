@@ -25,5 +25,9 @@ namespace Config.Net.Tests
       {
          Map[key] = value;
       }
+
+      public void Dispose()
+      {
+      }
    }
 }

@@ -6,29 +6,38 @@ using NUnit.Framework;
 
 namespace Config.Net.Tests
 {
-   [TestFixture]
-   public class IniFileStoreTest : AbstractTestFixture
+   [TestFixture("ini")]
+   public class AllStoresTest : AbstractTestFixture
    {
+      private IConfigStore _store;
+      private readonly string _storeName;
       private string _testFile;
-      private IniFileConfigStore _store;
+
+      public AllStoresTest(string storeName)
+      {
+         _storeName = storeName;
+      }
+
 
       [SetUp]
-      public void CreateTestFile()
+      public void CreateStore()
       {
-         string dir = BuildDir.FullName;
-         string src = Path.Combine(dir, "TestData", "example.ini");
-         _testFile = Path.Combine(dir, "test.ini");
-         File.Copy(src, _testFile, true);
-
-         _store = new IniFileConfigStore(_testFile);
+         switch(_storeName)
+         {
+            case "ini":
+               string dir = BuildDir.FullName;
+               string src = Path.Combine(dir, "TestData", "example.ini");
+               _testFile = Path.Combine(dir, "test.ini");
+               File.Copy(src, _testFile, true);
+               _store = new IniFileConfigStore(_testFile);
+               break;
+         }
       }
 
       [TearDown]
-      public void DeleteTestFile()
+      public void DisposeStore()
       {
          _store.Dispose();
-
-         File.Delete(_testFile);
       }
 
       [Test]
@@ -67,7 +76,7 @@ namespace Config.Net.Tests
       [TestCase("testkey3", null)]
       public void Write_WritesKeyValue_ReadsBackCorrectly(string key, string value)
       {
-         Assert.IsTrue(_store.CanWrite);
+         IgnoreNonWriteable();
 
          _store.Write(key, value);
 
@@ -77,6 +86,8 @@ namespace Config.Net.Tests
       [Test]
       public void Write_ReplacesValue_ReadsBackCorrectly()
       {
+         IgnoreNonWriteable();
+
          const string key = "key7";
          const string value = "changedvalue7";
 
@@ -96,8 +107,9 @@ namespace Config.Net.Tests
       }
 
       [Test]
-      public void Write_ReplacesValue_FileFormatIsSameAndReadsBackCorrectly()
+      public void IniWrite_ReplacesValue_FileFormatIsSameAndReadsBackCorrectly()
       {
+         if(_storeName != "ini") Assert.Ignore();
          const string key = "key7";
          const string value = "changedvalue7";
          List<string> fileContentsBeforeChange = File.ReadLines(_testFile).ToList();
@@ -109,8 +121,10 @@ namespace Config.Net.Tests
       }
 
       [Test]
-      public void Write_AddsValue_FileFormatIsSameAndReadsBackCorrectly()
+      public void IniWrite_AddsValue_FileFormatIsSameAndReadsBackCorrectly()
       {
+         if(_storeName != "ini") Assert.Ignore();
+
          const string key = "key8";
          const string value = "value8";
          List<string> fileContentsBeforeChange = File.ReadLines(_testFile).ToList();
@@ -124,7 +138,7 @@ namespace Config.Net.Tests
       [Test]
       public void Write_AddValueWithEqualToSignDelimiter_ShouldWriteAndReadCorrectly()
       {
-         Assert.IsTrue(_store.CanWrite);
+         IgnoreNonWriteable();
 
          _store.Write("key9", "value=9");
 
@@ -134,11 +148,16 @@ namespace Config.Net.Tests
       [Test]
       public void Write_AddKeyAndValueWithEqualToSignDelimiter_ShouldWriteAndReadCorrectly()
       {
-         Assert.IsTrue(_store.CanWrite);
+         IgnoreNonWriteable();
 
          _store.Write("key=10", "value=10");
 
          Assert.AreEqual("value=10", _store.Read("key=10"));
+      }
+
+      private void IgnoreNonWriteable()
+      {
+         if(!_store.CanWrite) Assert.Ignore("ignored as store is not writeable");
       }
    }
 }

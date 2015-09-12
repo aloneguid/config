@@ -55,8 +55,7 @@
     <Compile Include="AbstractTestFixture.cs" />
     <Compile Include="AssemblyConfigStoreTest.cs" />
     <Compile Include="ConfigManagerTest.cs" />
-    <Compile Include="ConfigStoreTest.cs" />
-    <Compile Include="IniFileStoreTest.cs" />
+    <Compile Include="AllStoresTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestStore.cs" />
     <Compile Include="TypeParsers\BoolParserTest.cs" />

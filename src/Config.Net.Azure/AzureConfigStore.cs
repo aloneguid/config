@@ -31,5 +31,9 @@ namespace Config.Net.Azure
       {
          throw new NotSupportedException();
       }
+
+      public void Dispose()
+      {
+      }
    }
 }
