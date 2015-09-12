@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
    <metadata>
       <id>Config.Net.Azure</id>
-      <version>1.0.0</version>
+      <version>1.0.1</version>
       <authors>Ivan Gavryliuk</authors>
       <owners>Ivan Gavryliuk</owners>
       <projectUrl>https://github.com/aloneguid/config</projectUrl>
@@ -15,11 +15,13 @@
       </releaseNotes>
       <copyright>Copyright (c) 2015 by Ivan Gavryliuk</copyright>
       <tags>Configuration, Azure</tags>
+      <dependencies>
+         <dependency id="Config.Net" version="1.0"/>
+         <dependency id="Microsoft.WindowsAzure.ConfigurationManager" version="3.1"/>
+         <dependency id="WindowsAzure.Storage" version="5.0"/>
+      </dependencies>
    </metadata>
    <files>
       <file src="src\Config.Net.Azure\bin\Release\Config.Net.Azure.*" target="lib\net45"/>
    </files>
-   <dependencies>
-      <dependency id="Microsoft.WindowsAzure.ConfigurationManager" version="3.1.0"/>
-   </dependencies>
 </package>
