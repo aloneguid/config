@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Config.Net.Azure;
 using Config.Net.Stores;
 using NUnit.Framework;
 
 namespace Config.Net.Tests
 {
    [TestFixture("ini")]
+   [TestFixture("azTable")]
    public class AllStoresTest : AbstractTestFixture
    {
       private IConfigStore _store;
@@ -31,6 +33,9 @@ namespace Config.Net.Tests
                File.Copy(src, _testFile, true);
                _store = new IniFileConfigStore(_testFile);
                break;
+            case "azTable":
+               _store = new AzureTableConfigStore("", "", "configurationtest", "confignettests");
+               break;
          }
       }
 
@@ -41,30 +46,36 @@ namespace Config.Net.Tests
       }
 
       [Test]
-      public void ReadSectionlessTest()
+      public void Ini_ReadSectionlessTest()
       {
+         if(_storeName != "ini") Assert.Ignore();
+
          string value0 = _store.Read("key0");
          Assert.AreEqual("value0", value0);
       }
 
       [Test]
-      public void ReadSection1Test()
+      public void Ini_ReadSection1Test()
       {
+         if(_storeName != "ini") Assert.Ignore();
+
          string value1 = _store.Read("key1");
          Assert.AreEqual("value1", value1);
       }
 
-
       [Test]
-      public void ReadCommentedKeyTest()
+      public void Ini_ReadCommentedKeyTest()
       {
+         if(_storeName != "ini") Assert.Ignore();
+
          string value = _store.Read("key5");
          Assert.AreEqual(null, value);
       }
 
       [Test]
-      public void ReadCommentedKey2Test()
+      public void Ini_ReadCommentedKey2Test()
       {
+         if(_storeName != "ini") Assert.Ignore();
          string value = _store.Read("key7");
          Assert.AreEqual("value7", value);
       }
@@ -99,8 +110,10 @@ namespace Config.Net.Tests
       }
 
       [Test]
-      public void Read_CommentedKeyValue_ReturnsNull()
+      public void IniRead_CommentedKeyValue_ReturnsNull()
       {
+         if(_storeName != "ini") Assert.Ignore();
+
          const string key = "key5";
          
          Assert.AreEqual(null, _store.Read(key));

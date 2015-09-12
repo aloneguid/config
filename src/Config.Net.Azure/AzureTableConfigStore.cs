@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
+using Config.Net.Azure.Model;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -9,13 +11,8 @@ namespace Config.Net.Azure
 {
    public class AzureTableConfigStore : IConfigStore
    {
-      private readonly CloudTableClient _client;
-
-      private readonly string _tableName;
+      private readonly CloudTable _table;
       private readonly string _appName;
-      private readonly object _readLock = new object();
-      private DateTime _lastRead = DateTime.MinValue;
-      private readonly ConcurrentDictionary<string, string> _cache = new ConcurrentDictionary<string, string>();
 
       public AzureTableConfigStore(string accountName, string storageKey, string tableName, string appName)
       {
@@ -25,9 +22,9 @@ namespace Config.Net.Azure
          if(appName == null) throw new ArgumentNullException(nameof(appName));
 
          var account = new CloudStorageAccount(new StorageCredentials(accountName, storageKey), true);
-         _client = account.CreateCloudTableClient();
-
-         _tableName = tableName;
+         var client = account.CreateCloudTableClient();
+         _table = client.GetTableReference(tableName);
+         _table.CreateIfNotExists();
          _appName = appName;
       }
 
@@ -39,55 +36,54 @@ namespace Config.Net.Azure
 
       public string Read(string key)
       {
-         CheckCache();
+         if(key == null) throw new ArgumentNullException(nameof(key));
 
-         string result;
-         _cache.TryGetValue(key, out result);
-         return result;
+         var filter = TableQuery.CombineFilters(
+            TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, _appName),
+            TableOperators.And,
+            TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, key));
+         var query = new TableQuery<AzureTableRecord>().Where(filter);
+         IEnumerable<AzureTableRecord> records = _table.ExecuteQuery(query);
+         AzureTableRecord record = records?.FirstOrDefault();
+         return record?.Value;
       }
 
       public void Write(string key, string value)
       {
-         if (value != null)
+         var batch = new TableBatchOperation();
+         var record = new AzureTableRecord
          {
-            var row = new TableRow(_appName, key);
-            row["value"] = value;
-            _tableStorage.Merge(_tableName, row);
+            PartitionKey = _appName,
+            RowKey = key,
+            ETag = "*"
+         };
+
+         if(value != null)
+         {
+            record.Value = value;
+            batch.InsertOrMerge(record);
          }
          else
          {
-            _tableStorage.Delete(_tableName, new TableRowId(_appName, key));
+            batch.Delete(record);
          }
 
-         InvalidateCache();
-      }
-
-      private void InvalidateCache()
-      {
-         _lastRead = DateTime.MinValue;
-      }
-
-      private void CheckCache()
-      {
-         lock (_readLock)
+         try
          {
-            if (DateTime.UtcNow - _lastRead < TimeSpan.FromHours(1)) return;
-
-            _cache.Clear();
-            _lastRead = DateTime.UtcNow;
-            IEnumerable<TableRow> rows = _tableStorage.Get(_tableName, _appName);
-            if (rows != null)
-            {
-               foreach (TableRow row in rows)
-               {
-                  _cache[row.RowKey] = row["value"];
-               }
-            }
+            _table.ExecuteBatch(batch);
+         }
+         catch(StorageException)
+         {
+            //not ideal check. If value is null (Delete operation) and record doesn't exist
+            //I ignore the exception as it simply says that entity doesn't exist which is fine.
+            //I don't know how to check for the specific error code.
+            if(value != null) throw;
          }
       }
 
       public void Dispose()
       {
+         //nothing to dispose
       }
    }
 }
