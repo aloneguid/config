@@ -2,6 +2,8 @@
 
 _This library is in process of migration from private solution to opensource and is not ready to use yet. Please come back later_
 
+The library is available as a [NuGet package](https://www.nuget.org/packages/Config.Net)
+
 A comprehensive easy to use and powerful .NET configuration library.
 Configuration is an interesting and complicated area in .NET and other platforms. This library eliminates the
 problem of having configuration in different places, having to convert types between different providers, hardcoding
