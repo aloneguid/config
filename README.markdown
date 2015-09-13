@@ -50,7 +50,8 @@ public static class AppSettings
   public static readonly Setting<int> MyIntegerSetting = new Setting<int>("Namespace.App.MyIntegerSetting", 5);
 
   //more setting definitions
-}```
+}
+```
 
 This definition has a few important points.
 
