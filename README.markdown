@@ -44,7 +44,8 @@ which has the following definition:
 
 ### Setting definition
 
-```public static class AppSettings
+```csharp
+public static class AppSettings
 {
   public static readonly Setting<int> MyIntegerSetting = new Setting<int>("Namespace.App.MyIntegerSetting", 5);
 
