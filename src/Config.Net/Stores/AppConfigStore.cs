@@ -3,17 +3,20 @@ using System.Configuration;
 
 namespace Config.Net.Stores
 {
+   /// <summary>
+   /// Standard app.config (web.config) configuration store. Read-only.
+   /// </summary>
    public class AppConfigStore : IConfigStore
    {
-      public string Name { get { return "App.config"; } }
+      public string Name => "App.config";
 
-      public bool CanRead { get { return true; } }
+      public bool CanRead => true;
 
-      public bool CanWrite { get { return false; } }
+      public bool CanWrite => false;
 
       public string Read(string key)
       {
-         if (key == null) return null;
+         if(key == null) return null;
          string value = ConfigurationManager.AppSettings[key];
          return value;
       }

@@ -5,6 +5,9 @@ using System.Reflection;
 
 namespace Config.Net.Stores
 {
+   /// <summary>
+   /// Reads configuration from the .dll.config or .exe.config file.
+   /// </summary>
    public class AssemblyConfigStore : IConfigStore
    {
       private readonly Configuration _configuration;
@@ -14,26 +17,17 @@ namespace Config.Net.Stores
          _configuration = ConfigurationManager.OpenExeConfiguration(assembly.Location);
       }
 
-      public string Name
-      {
-         get { return Path.GetFileName(_configuration.FilePath); }
-      }
+      public string Name => Path.GetFileName(_configuration.FilePath);
 
-      public bool CanRead
-      {
-         get { return true; }
-      }
+      public bool CanRead => true;
 
-      public bool CanWrite
-      {
-         get { return false; }
-      }
+      public bool CanWrite => false;
 
       public string Read(string key)
       {
          KeyValueConfigurationElement element = _configuration.AppSettings.Settings[key];
 
-         return element != null ? element.Value : null;
+         return element?.Value;
       }
 
       public void Write(string key, string value)

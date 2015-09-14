@@ -5,20 +5,11 @@ namespace Config.Net.Azure
 {
    public class AzureConfigStore : IConfigStore
    {
-      public string Name
-      {
-         get { return "Windows Azure"; }
-      }
+      public string Name => "Windows Azure Configuration Manager";
 
-      public bool CanRead
-      {
-         get { return true; }
-      }
+      public bool CanRead => true;
 
-      public bool CanWrite
-      {
-         get { return false; }
-      }
+      public bool CanWrite => false;
 
       public string Read(string key)
       {

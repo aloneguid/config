@@ -9,7 +9,7 @@ namespace Config.Net.Stores
    /// Simple INI storage.
    /// </summary>
    /// <remarks>This implementation DOES NOT handle sections, they will be removed first time you save a value</remarks>
-   public class IniFileConfigStore : IConfigStore, IDisposable
+   public class IniFileConfigStore : IConfigStore
    {
       private readonly string _fullName;
       private readonly string _fileName;
@@ -82,7 +82,7 @@ namespace Config.Net.Stores
       /// try to write to it</param>
       public IniFileConfigStore(string fullName)
       {
-         if (fullName == null) throw new ArgumentNullException("fullName");
+         if (fullName == null) throw new ArgumentNullException(nameof(fullName));
 
          _fileName = Path.GetFileName(fullName);
          _fullName = fullName;
@@ -117,13 +117,11 @@ namespace Config.Net.Stores
          }
       }
 
-      public string Name
-      {
-         get { return "ini:" + _fileName; }
-      }
+      public string Name => "ini: " + _fileName;
 
-      public bool CanRead { get { return true; } }
-      public bool CanWrite { get { return true; } }
+      public bool CanRead => true;
+
+      public bool CanWrite => true;
 
       public string Read(string fullKey)
       {
@@ -221,7 +219,7 @@ namespace Config.Net.Stores
                      IniValue outValue;
                      if (localKeyValue.TryGetValue(kvp.Key, out outValue))
                      {
-                        sb.AppendLine(string.Format("{0}={1}", kvp.Key, outValue.ToString()));
+                        sb.AppendLine($"{kvp.Key}={outValue}");
                         localKeyValue.Remove(kvp.Key);
                      }
                   }
@@ -238,7 +236,7 @@ namespace Config.Net.Stores
          {
             if (line.Value.Value != null)
             {
-               sb.Append(string.Format("{0}={1}", line.Key, line.Value));
+               sb.Append($"{line.Key}={line.Value}");
             }
          }
 
