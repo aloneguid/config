@@ -11,20 +11,11 @@ namespace Config.Net
       {
          ManagerConfig = new ConfigManagerConfig();
          Manager = new ConfigManager(ManagerConfig);
-
-         //this can only be used in full stack .NET
-         //ManagerConfig.AddStore(new AppConfigStore());
       }
 
-      public static IConfigManager Default
-      {
-         get { return Manager; }
-      }
+      public static IConfigManager Default => Manager;
 
-      public static IConfigManagerConfig Configuration
-      {
-         get { return ManagerConfig; }
-      }
+      public static IConfigManagerConfig Configuration => ManagerConfig;
 
       /// <summary>
       /// Creates a full implementation of <see cref="IConfigManager"/> which contains single store
@@ -33,7 +24,7 @@ namespace Config.Net
       /// <returns></returns>
       public static IConfigManager FromStore(IConfigStore store)
       {
-         if(store == null) throw new ArgumentNullException("store");
+         if(store == null) throw new ArgumentNullException(nameof(store));
 
          var managerConfig = new ConfigManagerConfig();
          managerConfig.AddStore(store);

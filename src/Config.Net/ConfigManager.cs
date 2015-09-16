@@ -27,7 +27,7 @@ namespace Config.Net
                value = key.DefaultValue;
             }
 
-            return ReturnThroughCache(key, value);
+            return AsProperty(key, value);
          }
       }
 
@@ -57,10 +57,14 @@ namespace Config.Net
             }
          }
 
-         return ReturnThroughCache(key, value);
+         return AsProperty(key, value);
       }
 
-      private Property<T> ReturnThroughCache<T>(Setting<T> key, T value)
+      /// <summary>
+      /// Responsible for returning the Property for raw value.
+      /// If values is changed it simply returns the cached Property and calls ChangeValue on it.
+      /// </summary>
+      private Property<T> AsProperty<T>(Setting<T> key, T value)
       {
          if (!_keyToProperty.ContainsKey(key.Name))
          {
@@ -160,13 +164,14 @@ namespace Config.Net
 
       public void Write<T>(Setting<T?> key, T? value) where T : struct
       {
-         if (key == null) throw new ArgumentNullException(nameof(key));
+         if(key == null) throw new ArgumentNullException(nameof(key));
 
-         if (!_cfg.HasParser(key.ValueType) && !_defaultParser.IsSupported(typeof(T)))
+         if(!_cfg.HasParser(key.ValueType) && !_defaultParser.IsSupported(typeof(T)))
          {
-            throw new ArgumentException("value parser for " + key.ValueType.FullName + " is not registered and not supported by default parser");
+            throw new ArgumentException("value parser for " + key.ValueType.FullName +
+                                        " is not registered and not supported by default parser");
          }
-         lock (_storeLock)
+         lock(_storeLock)
          {
             var nonNullableKey = new Setting<T>(
                key.Name,
@@ -174,7 +179,7 @@ namespace Config.Net
 
             string stringValue = null;
 
-            if (value != null)
+            if(value != null)
             {
                T notNullableValue = (T)value;
 
@@ -204,17 +209,17 @@ namespace Config.Net
 
       private void WriteValue<T>(Setting<T> key, string value)
       {
-         if (key == null) throw new ArgumentNullException(nameof(key));
+         if(key == null) throw new ArgumentNullException(nameof(key));
 
-         foreach (IConfigStore store in _cfg.Stores)
+         foreach(IConfigStore store in _cfg.Stores)
          {
-            if (store.CanWrite)
+            if(store.CanWrite)
             {
                try
                {
                   store.Write(key.Name, value);
                }
-               catch (Exception e)
+               catch(Exception e)
                {
                   throw new InvalidOperationException("could not write value", e);
                }
@@ -222,7 +227,7 @@ namespace Config.Net
          }
       }
 
-      public string Read(string key)
+      private string Read(string key)
       {
          if(key == null) throw new ArgumentNullException(nameof(key));
 

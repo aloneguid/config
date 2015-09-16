@@ -54,10 +54,7 @@ namespace Config.Net
             _rawValue = rawValue;
          }
 
-         if (ValueChanged != null)
-         {
-            ValueChanged(Value);
-         }
+         ValueChanged?.Invoke(Value);
       }
 
       public static implicit operator T(Property<T> property)

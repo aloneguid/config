@@ -39,21 +39,21 @@ namespace Config.Net.Tests
       }
 
       [Test]
-      public void ReadStringDefaultValueTest()
+      public void Read_DefaultValue_Returns()
       {
          string v = Cfg.Default.Read(UnitTestName);
          Assert.AreEqual(UnitTestName.DefaultValue, v);
       }
 
       [Test]
-      public void ReadStringConfiguredValueTest()
+      public void Read_ConfiguredValue_Returns()
       {
          _store.Map[UnitTestName.Name] = "configured value";
          Assert.AreEqual("configured value", Cfg.Default.Read(UnitTestName).Value);
       }
 
       [Test]
-      public void ReadIntegerTest()
+      public void Read_Integer_Reads()
       {
          _store.Map["NumberOfMinutes"] = "78";
 
@@ -62,13 +62,13 @@ namespace Config.Net.Tests
       }
 
       [Test]
-      public void ReadDefaultIntegerTest()
+      public void Read_DefaultInteger_Reads()
       {
          Assert.AreEqual(10, Cfg.Default.Read(NumberOfMinutes));
       }
 
       [Test]
-      public void ReadStringArrayTest()
+      public void Read_StringArray_Reads()
       {
          _store.Map["Regions"] = "IT, UK, US";
 
