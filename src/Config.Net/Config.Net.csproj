@@ -51,6 +51,10 @@
     <Compile Include="JiraTime.cs" />
     <Compile Include="Stores\AppConfigStore.cs" />
     <Compile Include="Stores\AssemblyConfigStore.cs" />
+    <Compile Include="Stores\Formats\IniComment.cs" />
+    <Compile Include="Stores\Formats\IniEntity.cs" />
+    <Compile Include="Stores\Formats\IniSection.cs" />
+    <Compile Include="Stores\Formats\StructuredIniFile.cs" />
     <Compile Include="Stores\IniFileConfigStore.cs" />
     <Compile Include="Stores\InMemoryConfigStore.cs" />
     <Compile Include="ITypeParser.cs" />

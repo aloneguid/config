@@ -9,6 +9,8 @@ namespace Config.Net.Tests
 {
    [TestFixture("ini")]
    [TestFixture("azTable")]
+   [TestFixture("inmemory")]
+   [TestFixture("appconfig")]
    public class AllStoresTest : AbstractTestFixture
    {
       private IConfigStore _store;
@@ -19,7 +21,6 @@ namespace Config.Net.Tests
       {
          _storeName = storeName;
       }
-
 
       [SetUp]
       public void CreateStore()
@@ -34,7 +35,17 @@ namespace Config.Net.Tests
                _store = new IniFileConfigStore(_testFile);
                break;
             case "azTable":
-               _store = new AzureTableConfigStore("", "", "configurationtest", "confignettests");
+               var azIni = new IniFileConfigStore("c:\\tmp\\integration-tests.ini");
+               _store = new AzureTableConfigStore(
+                  azIni.Read("Azure.Storage.Name"),
+                  azIni.Read("Azure.Storage.Key"),
+                  "configurationtest", "confignettests");
+               break;
+            case "inmemory":
+               _store = new InMemoryConfigStore();
+               break;
+            case "appconfig":
+               _store = new AppConfigStore();
                break;
          }
       }

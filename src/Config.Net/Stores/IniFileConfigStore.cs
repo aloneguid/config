@@ -19,6 +19,8 @@ namespace Config.Net.Stores
       private readonly FileSystemWatcher _systemWatcher;
       private readonly object _watcherAndAccessLock = new object();
 
+      public event Action ChangesDetected;
+
       private class IniValue
       {
          public IniValue(string value)
@@ -42,13 +44,13 @@ namespace Config.Net.Stores
          public string Value { get; set; }
 
          // ReSharper disable once MemberCanBePrivate.Local
-         public string Comment { get; set; }
+         public string Comment { get; }
 
          public override string ToString()
          {
             if (string.IsNullOrEmpty(Comment)) return Value;
 
-            return string.Format("{0}; {1}", Value, Comment);
+            return $"{Value}; {Comment}";
          }
       }
 
@@ -111,9 +113,17 @@ namespace Config.Net.Stores
          lock (_watcherAndAccessLock)
          {
             _systemWatcher.EnableRaisingEvents = false;
-            ReadIniFile();
-            //this prevents file watcher from raising multiple events for the same change 
-            _systemWatcher.EnableRaisingEvents = true;
+            try
+            {
+               ReadIniFile();
+
+               ChangesDetected?.Invoke();
+            }
+            finally
+            {
+               //this prevents file watcher from raising multiple events for the same change 
+               _systemWatcher.EnableRaisingEvents = true;
+            }
          }
       }
 
