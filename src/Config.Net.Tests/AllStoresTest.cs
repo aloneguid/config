@@ -87,7 +87,7 @@ namespace Config.Net.Tests
       public void Ini_ReadCommentedKey2Test()
       {
          if(_storeName != "ini") Assert.Ignore();
-         string value = _store.Read("key7");
+         string value = _store.Read("SectionTwo.key7");
          Assert.AreEqual("value7", value);
       }
 
@@ -113,8 +113,6 @@ namespace Config.Net.Tests
          const string key = "key7";
          const string value = "changedvalue7";
 
-         Assert.IsTrue(_store.CanWrite);
-
          _store.Write(key, value);
 
          Assert.AreEqual(value, _store.Read(key));
@@ -128,20 +126,6 @@ namespace Config.Net.Tests
          const string key = "key5";
          
          Assert.AreEqual(null, _store.Read(key));
-      }
-
-      [Test]
-      public void IniWrite_ReplacesValue_FileFormatIsSameAndReadsBackCorrectly()
-      {
-         if(_storeName != "ini") Assert.Ignore();
-         const string key = "key7";
-         const string value = "changedvalue7";
-         List<string> fileContentsBeforeChange = File.ReadLines(_testFile).ToList();
-         
-         _store.Write(key, value);
-         List<string> fileContentsAfterChange = File.ReadLines(_testFile).ToList();
-         
-         Assert.AreEqual(1, fileContentsAfterChange.Except(fileContentsBeforeChange).Count());
       }
 
       [Test]

@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Config.Net.Stores.Formats
+﻿namespace Config.Net.Stores.Formats
 {
-   class IniComment
+   class IniComment : IniEntity
    {
+      public const string CommentSeparator = ";";
+
+      public IniComment(string value)
+      {
+         Value = value;
+      }
+
+      public string Value { get; set; }
    }
 }

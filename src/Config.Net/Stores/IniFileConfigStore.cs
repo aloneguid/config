@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using Config.Net.Stores.Formats;
 
 namespace Config.Net.Stores
 {
@@ -13,69 +12,13 @@ namespace Config.Net.Stores
    {
       private readonly string _fullName;
       private readonly string _fileName;
-      private readonly Dictionary<string, IniValue> _keyToValue = new Dictionary<string, IniValue>();
+      private StructuredIniFile _iniFile;
 
       //FileSystemWatcher is not perfect and has lots of issues around it, more info : http://weblogs.asp.net/ashben/archive/2003/10/14/31773.aspx
       private readonly FileSystemWatcher _systemWatcher;
       private readonly object _watcherAndAccessLock = new object();
 
       public event Action ChangesDetected;
-
-      private class IniValue
-      {
-         public IniValue(string value)
-         {
-            int idx = -1;
-            if (value != null) idx = value.IndexOf(';');
-            if (idx == -1)
-            {
-               Value = value;
-            }
-            else
-            {
-               if (value != null)
-               {
-                  Value = value.Substring(0, idx).Trim();
-                  Comment = value.Substring(idx + 1).Trim();
-               }
-            }
-         }
-
-         public string Value { get; set; }
-
-         // ReSharper disable once MemberCanBePrivate.Local
-         public string Comment { get; }
-
-         public override string ToString()
-         {
-            if (string.IsNullOrEmpty(Comment)) return Value;
-
-            return $"{Value}; {Comment}";
-         }
-      }
-
-      private class KeyValue
-      {
-         readonly char[] _separator = { '=' };
-         public KeyValue(string line)
-         {
-            string[] keyValue = line.Split(_separator, 2, StringSplitOptions.RemoveEmptyEntries);
-            if (keyValue.Length == 2)
-            {
-               Key = keyValue[0].Trim();
-               Value = keyValue[1].Trim();
-            }
-            else
-            {
-               Key = null;
-               Value = null;
-            }
-         }
-
-         public string Key { get; private set; }
-
-         public string Value { get; private set; }
-      }
 
       /// <summary>
       /// 
@@ -138,7 +81,7 @@ namespace Config.Net.Stores
          //todo : changing to .Net 4.0 and having a ConcurrentDictictionary would increase performance a lot
          lock (_watcherAndAccessLock) //this will make reading slower but we can't read at the same time that someone is changing the file manually and saving it
          {
-            return _keyToValue.ContainsKey(fullKey) ? _keyToValue[fullKey].Value : null;
+            return _iniFile[fullKey];
          }
       }
 
@@ -146,27 +89,7 @@ namespace Config.Net.Stores
       {
          lock (_watcherAndAccessLock)
          {
-            if (_keyToValue.ContainsKey(key))
-            {
-               if (_keyToValue[key].Value == value) return;
-
-               if (value == null)
-               {
-                  _keyToValue.Remove(key);
-               }
-               else
-               {
-                  _keyToValue[key].Value = value;
-               }
-            }
-            else if (value != null)
-            {
-               _keyToValue[key] = new IniValue(value);
-            }
-            else
-            {
-               return;
-            }
+            _iniFile[key] = value;
 
             //disables filewatcher because we are updating the file in code and not manually no point getting the file changed event
             _systemWatcher.EnableRaisingEvents = false;
@@ -175,84 +98,27 @@ namespace Config.Net.Stores
          }
       }
 
-      private static bool TryGetKeyAndCategory(string fullKey, out string key, out string category)
+      private void ReadIniFile()
       {
-         int idx = fullKey.IndexOf(':');
-         if (idx == -1)
+         FileInfo iniFile = new FileInfo(_fullName);
+         if(iniFile.Exists)
          {
-            key = fullKey;
-            category = null;
+            using(var stream = iniFile.Open(FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+               _iniFile = StructuredIniFile.ReadFrom(stream);
+            }
          }
          else
          {
-            key = fullKey.Substring(0, idx);
-            category = fullKey.Substring(idx + 1);
-         }
-         return true;
-      }
-
-      private void ReadIniFile()
-      {
-         _keyToValue.Clear();
-         FileInfo iniFile = new FileInfo(_fullName);
-         if (iniFile.Exists)
-         {
-            using (var sr = new StreamReader(iniFile.Open(FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
-            {
-               string line;
-               while ((line = sr.ReadLine()) != null)
-               {
-                  KeyValue kvp = new KeyValue(line);
-                  if (kvp.Key != null) _keyToValue[kvp.Key] = new IniValue(kvp.Value);
-               }
-            }
+            _iniFile = new StructuredIniFile();
          }
       }
 
       private void WriteIniFile()
       {
-         var sb = new StringBuilder();
-         //Clone the original so to work with the cloned dictionary.
-         var localKeyValue = new Dictionary<string, IniValue>(_keyToValue);
-
-         //Read values to retain format of the file
-         using (var sr = new StreamReader(new FileStream(_fullName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read)))
+         using(var stream = File.Create(_fullName))
          {
-            string line;
-            while ((line = sr.ReadLine()) != null)
-            {
-               KeyValue kvp = new KeyValue(line);
-               if (kvp.Key != null)
-               {
-                  if (localKeyValue.ContainsKey(kvp.Key))
-                  {
-                     IniValue outValue;
-                     if (localKeyValue.TryGetValue(kvp.Key, out outValue))
-                     {
-                        sb.AppendLine($"{kvp.Key}={outValue}");
-                        localKeyValue.Remove(kvp.Key);
-                     }
-                  }
-               }
-               else
-               {
-                  sb.AppendLine(line);
-               }
-            }
-         }
-
-         //Now get rest of the properties
-         foreach (KeyValuePair<string, IniValue> line in localKeyValue)
-         {
-            if (line.Value.Value != null)
-            {
-               sb.Append($"{line.Key}={line.Value}");
-            }
-         }
-
-         using (var w = new StreamWriter(_fullName))
-         {
-            w.Write(sb.ToString());
+            _iniFile.WriteTo(stream);
          }
       }
 

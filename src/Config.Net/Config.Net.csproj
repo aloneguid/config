@@ -53,6 +53,7 @@
     <Compile Include="Stores\AssemblyConfigStore.cs" />
     <Compile Include="Stores\Formats\IniComment.cs" />
     <Compile Include="Stores\Formats\IniEntity.cs" />
+    <Compile Include="Stores\Formats\IniKeyValue.cs" />
     <Compile Include="Stores\Formats\IniSection.cs" />
     <Compile Include="Stores\Formats\StructuredIniFile.cs" />
     <Compile Include="Stores\IniFileConfigStore.cs" />

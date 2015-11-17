@@ -31,9 +31,21 @@ namespace Config.Net.Tests.Stores
       }
 
       [Test]
-      public void Read_CleanFile_CorrectValue()
+      public void Read_Sectionless_CorrectValue()
       {
-         Assert.AreEqual("value1", _store.Read("key1"));
+         Assert.AreEqual("svalue0", _store.Read("skey0"));
+      }
+
+      [Test]
+      public void Read_SectionOne_CorrectValue()
+      {
+         Assert.AreEqual("s1value0", _store.Read("SectionOne.key0"));
+      }
+
+      [Test]
+      public void Read_KeyWithComment_CorrectValue()
+      {
+         Assert.AreEqual("s1value1", _store.Read("SectionOne.key1"));
       }
 
       [Test]
@@ -52,6 +64,29 @@ namespace Config.Net.Tests.Stores
          Thread.Sleep(TimeSpan.FromSeconds(1));
 
          Assert.AreEqual("valueV", _store.Read("keyV"));
+      }
+
+      [Test]
+      public void Write_NewFileWithNewValues_WritesCorrectText()
+      {
+         string fullPath = Path.Combine(TestDir.FullName, Guid.NewGuid() + ".ini");
+         var ini = new IniFileConfigStore(fullPath);
+
+         ini.Write("key0", "value0");
+         ini.Write("S1.key0", "s1value0");
+         ini.Write("S2.key0", "s2value0");
+
+         string resultText = File.ReadAllText(fullPath);
+
+         Assert.AreEqual(
+            @"key0=value0
+
+[S1]
+key0=s1value0
+
+[S2]
+key0=s2value0
+", resultText);
       }
    }
 }
