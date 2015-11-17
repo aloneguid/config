@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using Config.Net.Azure;
 using Config.Net.Stores;
 using NUnit.Framework;
@@ -57,41 +55,6 @@ namespace Config.Net.Tests
       }
 
       [Test]
-      public void Ini_ReadSectionlessTest()
-      {
-         if(_storeName != "ini") Assert.Ignore();
-
-         string value0 = _store.Read("key0");
-         Assert.AreEqual("value0", value0);
-      }
-
-      [Test]
-      public void Ini_ReadSection1Test()
-      {
-         if(_storeName != "ini") Assert.Ignore();
-
-         string value1 = _store.Read("key1");
-         Assert.AreEqual("value1", value1);
-      }
-
-      [Test]
-      public void Ini_ReadCommentedKeyTest()
-      {
-         if(_storeName != "ini") Assert.Ignore();
-
-         string value = _store.Read("key5");
-         Assert.AreEqual(null, value);
-      }
-
-      [Test]
-      public void Ini_ReadCommentedKey2Test()
-      {
-         if(_storeName != "ini") Assert.Ignore();
-         string value = _store.Read("SectionTwo.key7");
-         Assert.AreEqual("value7", value);
-      }
-
-      [Test]
       [TestCase("testkey", "testvalue")]
       [TestCase("testkey1", "34567")]
       [TestCase("testkey2", "HOMER,BART,LISA,MARGE,MAGGI")]
@@ -116,31 +79,6 @@ namespace Config.Net.Tests
          _store.Write(key, value);
 
          Assert.AreEqual(value, _store.Read(key));
-      }
-
-      [Test]
-      public void IniRead_CommentedKeyValue_ReturnsNull()
-      {
-         if(_storeName != "ini") Assert.Ignore();
-
-         const string key = "key5";
-         
-         Assert.AreEqual(null, _store.Read(key));
-      }
-
-      [Test]
-      public void IniWrite_AddsValue_FileFormatIsSameAndReadsBackCorrectly()
-      {
-         if(_storeName != "ini") Assert.Ignore();
-
-         const string key = "key8";
-         const string value = "value8";
-         List<string> fileContentsBeforeChange = File.ReadLines(_testFile).ToList();
-
-         _store.Write(key, value);
-         List<string> fileContentsAfterChange = File.ReadLines(_testFile).ToList();
-         
-         Assert.AreEqual("key8=value8", fileContentsAfterChange.Except(fileContentsBeforeChange).First());
       }
 
       [Test]
