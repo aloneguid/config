@@ -63,6 +63,16 @@ This definition has a few important points.
   the library will return the default value. In addition to that if you try to save default value to a setting it will be
   deleted on the target store to save spece, but more about this later.
 
+### Key Names
+
+Key name (the first parameter) treatment depends on actual store. For example in INI file key name will look like this:
+
+```
+key_name=some value
+```
+
+Setting definition also has an extra property AlsoKnownAs which you can assign as array of alternative key names to look up for. This is useful in situations when same setting may have more than one key definition.
+
 ### Configuration Stores
 
 In order for application to know where the configuration is stored you need to configure one or more stores on app
