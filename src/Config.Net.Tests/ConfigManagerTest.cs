@@ -27,6 +27,10 @@ namespace Config.Net.Tests
       private static readonly Setting<JiraTime> IssueEstimate = new Setting<JiraTime>("estimate", JiraTime.FromHumanReadableString("1h2m")); 
       private static readonly Setting<Grid> ActiveGrid = new Setting<Grid>("ActiveGrid", Grid.ZA);
       private static readonly Setting<Grid?> ActiveGridMaybe = new Setting<Grid?>("ActiveGridMaybe", null);
+      private static readonly Setting<string> WithAlternativeKeyNames = new Setting<string>("Key1", null)
+      {
+         AlsoKnownAs = new[] {"NewKey1", "OldKey1"}
+      };
  
       private TestStore _store;
 
@@ -59,6 +63,14 @@ namespace Config.Net.Tests
 
          int minutes = Cfg.Default.Read(NumberOfMinutes);
          Assert.AreEqual(78, minutes);
+      }
+
+      [Test]
+      public void Read_AlternativeKeys_Reads()
+      {
+         _store.Map[WithAlternativeKeyNames.AlsoKnownAs[1]] = "66";
+
+         Assert.AreEqual("66", Cfg.Default.Read(WithAlternativeKeyNames).Value);
       }
 
       [Test]
@@ -483,8 +495,6 @@ namespace Config.Net.Tests
       [Test]
       public void WriteNullableEnumTest()
       {
-         Grid? writeValue = null;
-
          Cfg.Default.Write(ActiveGridMaybe, null);
 
          Assert.AreEqual(null, Cfg.Read(ActiveGridMaybe).Value);

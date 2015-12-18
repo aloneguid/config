@@ -21,9 +21,8 @@ namespace Config.Net
       /// <summary>
       /// Aliases for this property. Useful when renaming property to something else to support
       /// backward compatibility.
-      /// todo: implement
       /// </summary>
-      //public string[] AlsoKnownAs { get; set; }
+      public string[] AlsoKnownAs { get; set; }
 
       public override string ToString()
       {

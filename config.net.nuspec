@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
    <metadata>
       <id>Config.Net</id>
-      <version>1.0.3</version>
+      <version>1.1.0</version>
       <authors>Ivan Gavryliuk</authors>
       <owners>Ivan Gavryliuk</owners>
       <projectUrl>https://github.com/aloneguid/config</projectUrl>
@@ -11,7 +11,7 @@
          .NET configuration library
       </description>
       <releaseNotes>
-         The first official release
+         Added support for alternative key names in Setting definition.
       </releaseNotes>
       <copyright>Copyright (c) 2015 by Ivan Gavryliuk</copyright>
       <tags>Configuration</tags>

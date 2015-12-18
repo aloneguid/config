@@ -35,7 +35,7 @@ namespace Config.Net
       {
          T? value;
 
-         string rawValue = Read(key.Name);
+         string rawValue = Read(key.Name, key.AlsoKnownAs);
          if (rawValue == null)
          {
             value = null;
@@ -128,7 +128,7 @@ namespace Config.Net
                                         " is not registered and not supported by default parser");
          }
 
-         string value = ReadFirst(key.Name);
+         string value = ReadFirst(key.Name, key.AlsoKnownAs);
          if(_defaultParser.IsSupported(typeof(T)))
          {
             object resultObject;
@@ -227,23 +227,36 @@ namespace Config.Net
          }
       }
 
-      private string Read(string key)
+      private string Read(string key, string[] alsoKnownAs)
       {
          if(key == null) throw new ArgumentNullException(nameof(key));
 
          lock(_storeLock)
          {
-            return ReadFirst(key);
+            return ReadFirst(key, alsoKnownAs);
          }
       }
 
-      private string ReadFirst(string key)
+      private string ReadFirst(string key, string[] alsoKnownAs)
       {
+         bool hasAlternatives = alsoKnownAs != null && alsoKnownAs.Length > 0;
+
          foreach(IConfigStore store in _cfg.Stores)
          {
             if(store.CanRead)
             {
                string value = store.Read(key);
+
+               //try to read by alternative key
+               if(value == null && hasAlternatives)
+               {
+                  foreach(string altName in alsoKnownAs)
+                  {
+                     value = store.Read(altName);
+                     if(value != null) break;
+                  }
+               }
+
                if(value != null) return value;
             }
          }
