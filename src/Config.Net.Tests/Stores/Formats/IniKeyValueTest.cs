@@ -15,6 +15,7 @@ namespace Config.Net.Tests.Stores.Formats
       [TestCase("key=value;123", "key", "value")]
       [TestCase("key==value", "key", "=value")]
       [TestCase("key=value;value;value", "key", "value;value")]
+      [TestCase("key=value=value;value", "key", "value=value")]
       public void FromLine_Variable_Variable(string input, string expectedKey, string expectedValue)
       {
          IniKeyValue kv = IniKeyValue.FromLine(input);
