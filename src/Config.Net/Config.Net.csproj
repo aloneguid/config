@@ -30,6 +30,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\config.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -73,6 +79,11 @@
     <Compile Include="TypeParsers\StringParser.cs" />
     <Compile Include="TypeParsers\TimeSpanParser.cs" />
     <Compile Include="TypeParsers\TypeParserSettings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\config.snk">
+      <Link>config.snk</Link>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
