@@ -2,7 +2,7 @@
 
 namespace Config.Net.Stores.Formats
 {
-   class IniKeyValue : IniEntity
+   internal class IniKeyValue : IniEntity
    {
       public const string KeyValueSeparator = "=";
 
@@ -28,7 +28,7 @@ namespace Config.Net.Stores.Formats
          string key = line.Substring(0, idx).Trim();
          string value = line.Substring(idx + 1).Trim();
          string comment;
-         idx = value.IndexOf(IniComment.CommentSeparator, StringComparison.InvariantCulture);
+         idx = value.LastIndexOf(IniComment.CommentSeparator, StringComparison.InvariantCulture);
          if(idx != -1)
          {
             comment = value.Substring(idx + 1).Trim();
