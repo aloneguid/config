@@ -4,14 +4,14 @@ using Config.Net.TypeParsers;
 
 namespace Config.Net
 {
-   internal class ConfigManager : IConfigManager
+   internal class ConfigManager : IConfigSource
    {
-      private readonly IConfigManagerConfig _cfg;
+      private readonly IConfigConfiguration _cfg;
       private readonly DefaultParser _defaultParser = new DefaultParser();
       private readonly object _storeLock = new object();
       private readonly Dictionary<string, object> _keyToProperty = new Dictionary<string, object>();
 
-      public ConfigManager(IConfigManagerConfig config)
+      public ConfigManager(IConfigConfiguration config)
       {
          if (config == null) throw new ArgumentNullException(nameof(config));
          _cfg = config;

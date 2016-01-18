@@ -4,32 +4,18 @@ namespace Config.Net
 {
    public static class Cfg
    {
-      private static readonly IConfigManager Manager;
-      private static readonly IConfigManagerConfig ManagerConfig;
+      private static readonly IConfigSource Manager;
+      private static readonly IConfigConfiguration ManagerConfig;
 
       static Cfg()
       {
-         ManagerConfig = new ConfigManagerConfig();
+         ManagerConfig = new GlobalConfiguration();
          Manager = new ConfigManager(ManagerConfig);
       }
 
-      public static IConfigManager Default => Manager;
+      public static IConfigSource Default => Manager;
 
-      public static IConfigManagerConfig Configuration => ManagerConfig;
-
-      /// <summary>
-      /// Creates a full implementation of <see cref="IConfigManager"/> which contains single store
-      /// </summary>
-      /// <param name="store"></param>
-      /// <returns></returns>
-      public static IConfigManager FromStore(IConfigStore store)
-      {
-         if(store == null) throw new ArgumentNullException(nameof(store));
-
-         var managerConfig = new ConfigManagerConfig();
-         managerConfig.AddStore(store);
-         return new ConfigManager(managerConfig);
-      }
+      public static IConfigConfiguration Configuration => ManagerConfig;
 
       /// <summary>
       /// Short syntax for reading from default config manager

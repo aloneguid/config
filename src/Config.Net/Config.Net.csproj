@@ -50,7 +50,7 @@
   <ItemGroup>
     <Compile Include="Cfg.cs" />
     <Compile Include="ConfigManager.cs" />
-    <Compile Include="ConfigManagerConfig.cs" />
+    <Compile Include="GlobalConfiguration.cs" />
     <Compile Include="IConfigManager.cs" />
     <Compile Include="IConfigManagerConfig.cs" />
     <Compile Include="IConfigStore.cs" />

@@ -5,7 +5,7 @@ using Config.Net.TypeParsers;
 
 namespace Config.Net
 {
-   class ConfigManagerConfig : IConfigManagerConfig
+   class GlobalConfiguration : IConfigConfiguration
    {
       private readonly List<IConfigStore> _stores = new List<IConfigStore>();
       private static readonly Dictionary<Type, ITypeParser> TypeParsers = GetBuiltInParsers();
@@ -96,7 +96,7 @@ namespace Config.Net
          }
       }
 
-      public void RegisterParser<T>(ITypeParser<T> parser)
+      private void RegisterParser<T>(ITypeParser<T> parser)
       {
          if(parser == null) throw new ArgumentNullException("parser");
          lock(_lock)

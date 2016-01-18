@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Config.Net
 {
-   public interface IConfigManagerConfig
+   public interface IConfigConfiguration
    {
       void AddStore(IConfigStore store);
 
@@ -18,7 +18,5 @@ namespace Config.Net
       bool HasParser(Type t);
 
       ITypeParser<T> GetParser<T>();
-
-      void RegisterParser<T>(ITypeParser<T> parser);
    }
 }

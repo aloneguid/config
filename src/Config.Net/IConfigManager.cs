@@ -3,7 +3,7 @@
    /// <summary>
    /// Top interface to read and write configuration values in your application or a part of it.
    /// </summary>
-   public interface IConfigManager
+   public interface IConfigSource
    {
       /// <summary>
       /// Reads the value by key
