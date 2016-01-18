@@ -24,6 +24,11 @@ namespace Config.Net
       /// </summary>
       public string[] AlsoKnownAs { get; set; }
 
+      public static implicit operator T(Setting<T> property)
+      {
+         return Cfg.Read(property);
+      }
+
       public override string ToString()
       {
          return Name;

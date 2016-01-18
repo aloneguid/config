@@ -120,6 +120,14 @@ So if you'd like to read the setting you've declared previously you would normal
 int value = Cfg.Read(AppSettings.MyIntegerSetting);
 ```
 
+You can make the syntax even shorter:
+
+```csharp
+int value = AppSettings.MyIntegerSetting;
+```
+
+Using this syntax causes implicit conversion operator to read from default configuration store `Cfg`.
+
 Read method returns Property<T> or (<T?> for nullable types) however an implicit conversion operator gives you back
 the type you have declared.
 

@@ -110,6 +110,13 @@ namespace Config.Net.Tests
       }
 
       [Test]
+      public void Read_PropertySyntax_Reads()
+      {
+         _store.Map["log-xml"] = "no";
+         Assert.IsFalse(LogXml);
+      }
+
+      [Test]
       public void ReadBoolean10Test()
       {
          _store.Map["log-xml"] = "1";
