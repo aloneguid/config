@@ -50,15 +50,18 @@ namespace Config.Net.TypeParsers
 
       static bool IsEnum(Type t)
       {
-         if (t == null) return false;
+         if(t == null) return false;
+
+         //try to get the underlying type if this is a nullable type
+         Type nullable = Nullable.GetUnderlyingType(t);
+         if(nullable != null) t = nullable;
 
          try
          {
-            // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
             Enum.GetUnderlyingType(t);
             return true;
          }
-         catch (ArgumentException)
+         catch(ArgumentException)
          {
             return false;
          }

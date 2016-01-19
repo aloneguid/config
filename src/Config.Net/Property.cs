@@ -13,8 +13,6 @@ namespace Config.Net
 
       public Property(T value, string rawValue, bool isDefaultValue)
       {
-         if(!Cfg.Configuration.HasParser(typeof(T))) throw new TypeLoadException($"type {typeof(T).FullName} not supported");
-
          _value = value;
          _rawValue = rawValue;
          _isDefaultValue = isDefaultValue;

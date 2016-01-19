@@ -7,14 +7,14 @@ namespace Config.Net
    internal class ConfigManager : IConfigSource
    {
       private readonly IConfigConfiguration _cfg;
-      private readonly DefaultParser _defaultParser = new DefaultParser();
+      private readonly DefaultParser _defaultParser;
       private readonly object _storeLock = new object();
       private readonly Dictionary<string, object> _keyToProperty = new Dictionary<string, object>();
 
-      public ConfigManager(IConfigConfiguration config)
+      public ConfigManager()
       {
-         if (config == null) throw new ArgumentNullException(nameof(config));
-         _cfg = config;
+         _cfg = GlobalConfiguration.Instance;
+         _defaultParser = GlobalConfiguration.Instance.DefaultParser;
       }
 
       public Property<T> Read<T>(Setting<T> key)
@@ -122,7 +122,7 @@ namespace Config.Net
       {
          if(key == null) throw new ArgumentNullException(nameof(key));
 
-         if(!_cfg.HasParser(key.ValueType) && !_defaultParser.IsSupported(typeof(T)))
+         if(!GlobalConfiguration.Instance.CanParse(key.ValueType))
          {
             throw new ArgumentException("value parser for " + key.ValueType.FullName +
                                         " is not registered and not supported by default parser");
@@ -148,9 +148,9 @@ namespace Config.Net
 
       public void Write<T>(Setting<T> key, T value)
       {
-         if (key == null) throw new ArgumentNullException(nameof(key));
+         if(key == null) throw new ArgumentNullException(nameof(key));
 
-         if (!_cfg.HasParser(key.ValueType) && !_defaultParser.IsSupported(typeof(T)))
+         if(!GlobalConfiguration.Instance.CanParse(key.ValueType))
          {
             throw new ArgumentException("value parser for " + key.ValueType.FullName + " is not registered and not supported by default parser");
          }
@@ -166,12 +166,12 @@ namespace Config.Net
       {
          if(key == null) throw new ArgumentNullException(nameof(key));
 
-         if(!_cfg.HasParser(key.ValueType) && !_defaultParser.IsSupported(typeof(T)))
+         if(!GlobalConfiguration.Instance.CanParse(key.ValueType))
          {
             throw new ArgumentException("value parser for " + key.ValueType.FullName +
                                         " is not registered and not supported by default parser");
          }
-         lock(_storeLock)
+         lock (_storeLock)
          {
             var nonNullableKey = new Setting<T>(
                key.Name,

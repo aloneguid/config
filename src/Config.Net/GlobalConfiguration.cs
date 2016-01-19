@@ -8,8 +8,35 @@ namespace Config.Net
    class GlobalConfiguration : IConfigConfiguration
    {
       private readonly List<IConfigStore> _stores = new List<IConfigStore>();
-      private static readonly Dictionary<Type, ITypeParser> TypeParsers = GetBuiltInParsers();
+      private readonly Dictionary<Type, ITypeParser> TypeParsers = GetBuiltInParsers();
       private readonly object _lock = new object();
+
+      private static GlobalConfiguration _instance;
+
+      public static GlobalConfiguration Instance
+      {
+         get
+         {
+            if(_instance == null) _instance = new GlobalConfiguration();
+
+            return _instance;
+         }
+      }
+
+      private GlobalConfiguration()
+      {
+         DefaultParser = new DefaultParser();
+      }
+
+      public DefaultParser DefaultParser
+      {
+         get;
+      }
+
+      public bool CanParse(Type t)
+      {
+         return HasParser(t) || DefaultParser.IsSupported(t);
+      }
 
       public void AddStore(IConfigStore store)
       {

@@ -6,7 +6,8 @@ namespace Config.Net
    {
       public Setting(string name, T defaultValue)
       {
-         if (name == null) throw new ArgumentNullException(nameof(name));
+         if(name == null) throw new ArgumentNullException(nameof(name));
+         //if(!GlobalConfiguration.Instance.CanParse(typeof(T))) throw new TypeLoadException($"type {typeof(T).FullName} not supported");
 
          Name = name;
          DefaultValue = defaultValue;

@@ -5,17 +5,15 @@ namespace Config.Net
    public static class Cfg
    {
       private static readonly IConfigSource Manager;
-      private static readonly IConfigConfiguration ManagerConfig;
 
       static Cfg()
       {
-         ManagerConfig = new GlobalConfiguration();
-         Manager = new ConfigManager(ManagerConfig);
+         Manager = new ConfigManager();
       }
 
       public static IConfigSource Default => Manager;
 
-      public static IConfigConfiguration Configuration => ManagerConfig;
+      public static IConfigConfiguration Configuration => GlobalConfiguration.Instance;
 
       /// <summary>
       /// Short syntax for reading from default config manager
