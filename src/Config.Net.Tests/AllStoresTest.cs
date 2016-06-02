@@ -23,7 +23,7 @@ namespace Config.Net.Tests
       [SetUp]
       public void CreateStore()
       {
-         switch(_storeName)
+         switch (_storeName)
          {
             case "ini":
                string dir = BuildDir.FullName;
@@ -34,9 +34,10 @@ namespace Config.Net.Tests
                break;
             case "azTable":
                var azIni = new IniFileConfigStore("c:\\tmp\\integration-tests.ini");
+               var azEnv = new EnvironmentVariablesStore();
                _store = new AzureTableConfigStore(
-                  azIni.Read("Azure.Storage.Name"),
-                  azIni.Read("Azure.Storage.Key"),
+                  azIni.Read("Azure.Storage.Name") ?? azEnv.Read("Azure.Storage.Name"),
+                  azIni.Read("Azure.Storage.Key") ?? azEnv.Read("Azure.Storage.Key"),
                   "configurationtest", "confignettests");
                break;
             case "inmemory":

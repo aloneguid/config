@@ -57,6 +57,7 @@
     <Compile Include="JiraTime.cs" />
     <Compile Include="Stores\AppConfigStore.cs" />
     <Compile Include="Stores\AssemblyConfigStore.cs" />
+    <Compile Include="Stores\EnvironmentVariablesStore.cs" />
     <Compile Include="Stores\Formats\IniComment.cs" />
     <Compile Include="Stores\Formats\IniEntity.cs" />
     <Compile Include="Stores\Formats\IniKeyValue.cs" />
