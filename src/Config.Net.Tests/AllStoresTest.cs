@@ -36,8 +36,8 @@ namespace Config.Net.Tests
                var azIni = new IniFileConfigStore("c:\\tmp\\integration-tests.ini");
                var azEnv = new EnvironmentVariablesStore();
                _store = new AzureTableConfigStore(
-                  azIni.Read("Azure.Storage.Name") ?? azEnv.Read("Azure.Storage.Name"),
-                  azIni.Read("Azure.Storage.Key") ?? azEnv.Read("Azure.Storage.Key"),
+                  azIni.Read("Azure.Storage.Name") ?? azEnv.Read("AZURE_STORAGE_NAME"),
+                  azIni.Read("Azure.Storage.Key") ?? azEnv.Read("AZURE_STORAGE_KEY"),
                   "configurationtest", "confignettests");
                break;
             case "inmemory":
