@@ -1,5 +1,7 @@
 # Config.Net
 
+![](https://aloneguid.visualstudio.com/DefaultCollection/_apis/public/build/definitions/323c5f4c-c814-452d-9eaf-1006c83fd44c/4/badge)
+
 The library is available as a [NuGet package](https://www.nuget.org/packages/Config.Net)
 
 A comprehensive easy to use and powerful .NET configuration library, fully covered with unit tests and tested in the wild on thousands of servers and applications.
