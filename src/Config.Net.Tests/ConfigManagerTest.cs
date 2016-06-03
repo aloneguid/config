@@ -76,7 +76,7 @@ namespace Config.Net.Tests
       [Test]
       public void Read_DefaultInteger_Reads()
       {
-         Assert.AreEqual(10, Cfg.Default.Read(NumberOfMinutes));
+         Assert.AreEqual(10, Cfg.Default.Read(NumberOfMinutes).Value);
       }
 
       [Test]
@@ -227,13 +227,13 @@ namespace Config.Net.Tests
       {
          _store.Map["NumberOfMinutes"] = "78";
          Property<int> minutes1 = Cfg.Read(NumberOfMinutes);
-         Assert.AreEqual(78, minutes1);
+         Assert.AreEqual(78, (int)minutes1);
 
          //now change property value and check it's updated in first and second instance
          _store.Map["NumberOfMinutes"] = "79";
          Property<int> minutes2 = Cfg.Read(NumberOfMinutes);
-         Assert.AreEqual(79, minutes2);
-         Assert.AreEqual(79, minutes1);
+         Assert.AreEqual(79, (int)minutes2);
+         Assert.AreEqual(79, (int)minutes1);
       }
 
       [Test]
@@ -241,14 +241,14 @@ namespace Config.Net.Tests
       {
          _store.Map["NumberOfMinutes"] = "78";
          Property<int> minutes = Cfg.Read(NumberOfMinutes);
-         Assert.AreEqual(78, minutes);
+         Assert.AreEqual(78, (int)minutes);
 
          bool thrown = false;
          minutes.ValueChanged += (v) => thrown = true;
          _store.Map["NumberOfMinutes"] = "80";
          minutes = Cfg.Read(NumberOfMinutes);
 
-         Assert.AreEqual(80, minutes);
+         Assert.AreEqual(80, (int)minutes);
          Assert.IsTrue(thrown);
       }
 
@@ -257,13 +257,13 @@ namespace Config.Net.Tests
       {
          _store.Map["NumberOfMinutes"] = "78";
          Property<int> minutes = Cfg.Read(NumberOfMinutes);
-         Assert.AreEqual(78, minutes);
+         Assert.AreEqual(78, (int)minutes);
 
          bool thrown = false;
          minutes.ValueChanged += (v) => thrown = true;
          minutes = Cfg.Read(NumberOfMinutes);
 
-         Assert.AreEqual(78, minutes);
+         Assert.AreEqual(78, (int)minutes);
          Assert.IsFalse(thrown);
       }
 
