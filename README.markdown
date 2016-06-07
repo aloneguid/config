@@ -123,17 +123,13 @@ the type you have declared.
 
 You might also think this is a bad architectural approach to use global static class for those, but you will be wrong - 
 this is only a helper class to make things as easy as possible. Therefore if you need to be more flexible, or use
-Config.Net in mocking and unit testing, with IoC containers and all that beautiful stuff read the page on [Architecture](doc/Architecture).
+Config.Net in mocking and unit testing, with IoC containers and all that beautiful stuff.
 
 ## Best Practices
 
-Config.Net makes configuration extremely easy and it's great, however it is also a big problem. Developers tend to
-cut the corners as much as they can (at least the ones I know) and generate dirty unrefactorable code in minutes.
+Config.Net makes configuration extremely easy and it's great, however it is also a big problem. Developers tend to cut the corners as much as they can (at least the ones I know) and generate dirty unrefactorable code in minutes.
 
-Try not to overuse the simplicity and do not use Config.Net everywhere in the code as a cross cutting concern. Use it
-merely for initialisation of your classes, not inside the business logic. Create overloaded constructors which
-allow you to pass the dependent values as well as read them from Cfg class. Or in the worst case pass IConfigurationManager - 
-read more on this in the [architecture](doc/Architecture) section.
+Try not to overuse the simplicity and do not use Config.Net everywhere in the code as a cross cutting concern. Use it merely for initialisation of your classes, not inside the business logic. Create overloaded constructors which allow you to pass the dependent values as well as read them from Cfg class. Or in the worst case pass IConfigurationManager.
 
 Keep your classes unit testable and IoC enabled by design.
 
