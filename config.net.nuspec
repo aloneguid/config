@@ -4,6 +4,7 @@
       <id>Config.Net</id>
       <version>1.2.0</version>
       <authors>Ivan Gavryliuk</authors>
+      <iconUrl>https://alonestore.blob.core.windows.net/nuget/config.net.png</iconUrl>
       <owners>Ivan Gavryliuk</owners>
       <projectUrl>https://github.com/aloneguid/config</projectUrl>
       <requireLicenseAcceptance>false</requireLicenseAcceptance>
