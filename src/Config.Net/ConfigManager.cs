@@ -9,7 +9,36 @@ namespace Config.Net
       private readonly IConfigConfiguration _cfg;
       private readonly DefaultParser _defaultParser;
       private readonly object _storeLock = new object();
-      private readonly Dictionary<string, object> _keyToProperty = new Dictionary<string, object>();
+      private readonly Dictionary<string, SettingTag> _keyToTag = new Dictionary<string, SettingTag>();
+
+      private class SettingTag
+      {
+         private DateTime _readOn;
+         private object _value;
+
+         public SettingTag(object value)
+         {
+            _readOn = DateTime.UtcNow;
+            _value = value;
+         }
+
+         public object Value
+         {
+            get { return _value; }
+         }
+
+         public void Update()
+         {
+            _readOn = DateTime.UtcNow;
+         }
+
+         public bool IsExpired(TimeSpan timeout)
+         {
+            if (timeout == TimeSpan.Zero) return true;
+
+            return (DateTime.UtcNow - _readOn) > timeout;
+         }
+      }
 
       public ConfigManager()
       {
@@ -21,6 +50,9 @@ namespace Config.Net
       {
          lock (_storeLock)
          {
+            Property<T> result = GetCached(key);
+            if (result != null) return result;
+
             T value;
             if (!ReadValue(key.Name, key.AlsoKnownAs, key.ValueType, out value))
             {
@@ -35,6 +67,9 @@ namespace Config.Net
       {
          lock(_storeLock)
          {
+            Property<T?> result = GetCached(key);
+            if (result != null) return result;
+
             T? nullableValue;
             T value;
             if(!ReadValue(key.Name, key.AlsoKnownAs, typeof(T), out value))
@@ -50,21 +85,32 @@ namespace Config.Net
          }
       }
 
+      private Property<T> GetCached<T>(Setting<T> key)
+      {
+         SettingTag tag;
+         if (!_keyToTag.TryGetValue(key.Name, out tag)) return null;
+
+         if (tag.IsExpired(_cfg.CacheTimeout)) return null;
+
+         return (Property<T>)tag.Value;
+      }
+
       /// <summary>
       /// Responsible for returning the Property for raw value.
       /// If values is changed it simply returns the cached Property and calls ChangeValue on it.
       /// </summary>
       private Property<T> AsProperty<T>(Setting<T> key, T value)
       {
-         if (!_keyToProperty.ContainsKey(key.Name))
+         if (!_keyToTag.ContainsKey(key.Name))
          {
             var result = new Property<T>(value, GetRawStringValue(value), AreEqual(value, key.DefaultValue));
-            _keyToProperty[key.Name] = result;
+            _keyToTag[key.Name] = new SettingTag(result);
             return result;
          }
          else
          {
-            var result = (Property<T>)_keyToProperty[key.Name];
+            SettingTag tag = _keyToTag[key.Name];
+            var result = (Property<T>)tag.Value;
             if (!AreEqual(value, result.Value))
             {
                result.ChangeValue(value, GetRawStringValue(value), AreEqual(value, key.DefaultValue));

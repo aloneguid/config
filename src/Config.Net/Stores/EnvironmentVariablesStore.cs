@@ -3,15 +3,29 @@ using System.Collections.Generic;
 
 namespace Config.Net.Stores
 {
+   /// <summary>
+   /// Uses system environment variables
+   /// </summary>
    public class EnvironmentVariablesStore : IConfigStore
    {
+      /// <summary>
+      /// Readable
+      /// </summary>
       public bool CanRead => true;
 
+      /// <summary>
+      /// Writeable
+      /// </summary>
       public bool CanWrite => true;
 
+      /// <summary>
+      /// Store name
+      /// </summary>
       public string Name => "System Environment";
 
-
+      /// <summary>
+      /// Reads value by key
+      /// </summary>
       public string Read(string key)
       {
          foreach(string variant in GetAllKeyVariants(key))
@@ -23,6 +37,9 @@ namespace Config.Net.Stores
          return null;
       }
 
+      /// <summary>
+      /// Writes value by key
+      /// </summary>
       public void Write(string key, string value)
       {
          Environment.SetEnvironmentVariable(key, value);
@@ -36,6 +53,9 @@ namespace Config.Net.Stores
          return result;
       }
 
+      /// <summary>
+      /// Nothing to dispose
+      /// </summary>
       public void Dispose()
       {
       }

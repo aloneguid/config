@@ -26,6 +26,7 @@ namespace Config.Net
       private GlobalConfiguration()
       {
          DefaultParser = new DefaultParser();
+         CacheTimeout = TimeSpan.FromHours(1);
       }
 
       public DefaultParser DefaultParser
@@ -104,6 +105,11 @@ namespace Config.Net
                return new List<ITypeParser>(TypeParsers.Values);
             }
          }
+      }
+
+      public TimeSpan CacheTimeout
+      {
+         get; set;
       }
 
       public bool HasParser(Type t)

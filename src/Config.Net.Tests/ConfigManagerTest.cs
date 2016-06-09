@@ -40,6 +40,7 @@ namespace Config.Net.Tests
          Cfg.Configuration.RemoveAllStores();
          _store = new TestStore();
          Cfg.Configuration.AddStore(_store);
+         Cfg.Configuration.CacheTimeout = TimeSpan.Zero;
       }
 
       [Test]

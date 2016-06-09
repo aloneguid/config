@@ -1,5 +1,6 @@
 ﻿using Moq;
 using NUnit.Framework;
+using System;
 
 namespace Config.Net.Tests
 {
@@ -17,6 +18,7 @@ namespace Config.Net.Tests
 
          Cfg.Configuration.RemoveAllStores();
          Cfg.Configuration.AddStore(_store.Object);
+         Cfg.Configuration.CacheTimeout = TimeSpan.Zero;
       }
 
       [Test]
