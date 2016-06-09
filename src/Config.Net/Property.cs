@@ -2,6 +2,10 @@
 
 namespace Config.Net
 {
+   /// <summary>
+   /// Property definition
+   /// </summary>
+   /// <typeparam name="T"></typeparam>
    public class Property<T>
    {
       private readonly object _sync = new object();

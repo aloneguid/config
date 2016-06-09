@@ -22,7 +22,7 @@ namespace Config.Net
          lock (_storeLock)
          {
             T value;
-            if (!ReadValue(key, out value))
+            if (!ReadValue(key.Name, key.AlsoKnownAs, key.ValueType, out value))
             {
                value = key.DefaultValue;
             }
@@ -33,31 +33,21 @@ namespace Config.Net
 
       public Property<T?> Read<T>(Setting<T?> key) where T : struct
       {
-         T? value;
-
-         string rawValue = Read(key.Name, key.AlsoKnownAs);
-         if (rawValue == null)
+         lock(_storeLock)
          {
-            value = null;
-         }
-         else
-         {
-            var notNullableKey = new Setting<T>(
-               key.Name,
-               default(T));
-
-            T notNullableValue;
-            if (ReadValue(notNullableKey, out notNullableValue))
+            T? nullableValue;
+            T value;
+            if(!ReadValue(key.Name, key.AlsoKnownAs, typeof(T), out value))
             {
-               value = notNullableValue;
+               nullableValue = null;
             }
             else
             {
-               value = null;
+               nullableValue = value;
             }
-         }
 
-         return AsProperty(key, value);
+            return AsProperty(key, nullableValue);
+         }
       }
 
       /// <summary>
@@ -118,17 +108,21 @@ namespace Config.Net
          return true;
       }
 
-      private bool ReadValue<T>(Setting<T> key, out T result)
+      private bool ReadValue<T>(string keyName, string[] alsoKnownAs, Type valueType, out T result)
       {
-         if(key == null) throw new ArgumentNullException(nameof(key));
-
-         if(!GlobalConfiguration.Instance.CanParse(key.ValueType))
+         if(!GlobalConfiguration.Instance.CanParse(valueType))
          {
-            throw new ArgumentException("value parser for " + key.ValueType.FullName +
+            throw new ArgumentException("value parser for " + valueType.FullName +
                                         " is not registered and not supported by default parser");
          }
 
-         string value = ReadFirst(key.Name, key.AlsoKnownAs);
+         string value = ReadFirst(keyName, alsoKnownAs);
+         if(value == null)
+         {
+            result = default(T);
+            return false;
+         }
+
          if(_defaultParser.IsSupported(typeof(T)))
          {
             object resultObject;
@@ -138,7 +132,7 @@ namespace Config.Net
                return true;
             }
 
-            result = key.DefaultValue;
+            result = default(T);
             return false;
          }
 
@@ -224,16 +218,6 @@ namespace Config.Net
                   throw new InvalidOperationException("could not write value", e);
                }
             }
-         }
-      }
-
-      private string Read(string key, string[] alsoKnownAs)
-      {
-         if(key == null) throw new ArgumentNullException(nameof(key));
-
-         lock(_storeLock)
-         {
-            return ReadFirst(key, alsoKnownAs);
          }
       }
 
