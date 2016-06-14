@@ -5,8 +5,44 @@ namespace Config.Net
    /// <summary>
    /// Describes a configuration setting
    /// </summary>
+   public abstract class Setting
+   {
+      /// <summary>
+      /// Gets configuration setting name
+      /// </summary>
+      public string Name { get; protected set; }
+
+      /// <summary>
+      /// Gets type of configuration value
+      /// </summary>
+      public Type ValueType { get; protected set; }
+
+      /// <summary>
+      /// Gets default value used when nothing can be fetches from any configuration stores or they are not configured
+      /// </summary>
+      public object DefaultValue { get; private set; }
+
+      /// <summary>
+      /// Aliases for this property. Useful when renaming property to something else to support
+      /// backward compatibility.
+      /// </summary>
+      public string[] AlsoKnownAs { get; set; }
+
+      /// <summary>
+      /// Returns setting name
+      /// </summary>
+      public override string ToString()
+      {
+         return Name;
+      }
+   }
+
+
+   /// <summary>
+   /// Describes a configuration setting
+   /// </summary>
    /// <typeparam name="T"></typeparam>
-   public sealed class Setting<T>
+   public sealed class Setting<T> : Setting
    {
       /// <summary>
       /// Creates a new instance of configuraton setting by name and default value
@@ -18,6 +54,7 @@ namespace Config.Net
 
          Name = name;
          DefaultValue = defaultValue;
+         ValueType = typeof(T);
       }
 
       /// <summary>
@@ -30,25 +67,9 @@ namespace Config.Net
       }
 
       /// <summary>
-      /// Gets configuration setting name
-      /// </summary>
-      public string Name { get; }
-
-      /// <summary>
-      /// Gets type of configuration value
-      /// </summary>
-      public Type ValueType => typeof(T);
-
-      /// <summary>
       /// Gets default value used when nothing can be fetches from any configuration stores or they are not configured
       /// </summary>
-      public T DefaultValue { get; private set; }
-
-      /// <summary>
-      /// Aliases for this property. Useful when renaming property to something else to support
-      /// backward compatibility.
-      /// </summary>
-      public string[] AlsoKnownAs { get; set; }
+      public new T DefaultValue { get; private set; }
 
       /// <summary>
       /// Cast operator which reads the setting
@@ -57,14 +78,6 @@ namespace Config.Net
       public static implicit operator T(Setting<T> property)
       {
          return Cfg.Read(property);
-      }
-
-      /// <summary>
-      /// Returns setting name
-      /// </summary>
-      public override string ToString()
-      {
-         return Name;
       }
    }
 }
