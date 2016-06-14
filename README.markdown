@@ -72,6 +72,21 @@ Cfg.Configuration.CacheTimeout = TimeSpan.FromHours(1);
 
 setting it to `TimeSpan.Zero` disables caching completely.
 
+## Best practices for declaring settings
+
+Usually you would declare settings used in your application either in the application itself or a shared library in a file like Settings.cs:
+
+```csharp
+   static class Settings
+   {
+      public static readonly Setting<string> AzureStorageName = new Setting<string>("Azure.Storage.Name", null);
+
+      public static readonly Setting<string> AzureStorageKey = new Setting<string>("Azure.Storage.Key", null);
+   }
+```
+
+It's recommended to declared them as `public static readonly` fields.
+
 # Available Stores
 
 ## App.Config

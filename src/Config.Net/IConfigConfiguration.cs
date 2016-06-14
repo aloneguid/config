@@ -8,10 +8,21 @@ namespace Config.Net
    /// </summary>
    public interface IConfigConfiguration
    {
+      /// <summary>
+      /// Adds configuration store
+      /// </summary>
       void AddStore(IConfigStore store);
 
+      /// <summary>
+      /// Removes configuration store
+      /// </summary>
+      /// <param name="name"></param>
+      /// <returns></returns>
       bool RemoveStore(string name);
 
+      /// <summary>
+      /// Removes all cofnigures stores
+      /// </summary>
       void RemoveAllStores();
 
       /// <summary>

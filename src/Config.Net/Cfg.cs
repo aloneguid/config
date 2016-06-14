@@ -2,6 +2,9 @@
 
 namespace Config.Net
 {
+   /// <summary>
+   /// Global entry
+   /// </summary>
    public static class Cfg
    {
       private static readonly IConfigSource Manager;
