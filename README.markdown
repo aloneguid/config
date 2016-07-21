@@ -1,5 +1,7 @@
 # Config.Net
 
+[![Join the chat at https://gitter.im/aloneguid/config](https://badges.gitter.im/aloneguid/config.svg)](https://gitter.im/aloneguid/config?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ![](https://aloneguid.visualstudio.com/DefaultCollection/_apis/public/build/definitions/323c5f4c-c814-452d-9eaf-1006c83fd44c/4/badge)
 
 The library is available as a [NuGet package](https://www.nuget.org/packages/Config.Net)
