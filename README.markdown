@@ -1,6 +1,4 @@
-# Config.Net
-
-![](https://aloneguid.visualstudio.com/DefaultCollection/_apis/public/build/definitions/323c5f4c-c814-452d-9eaf-1006c83fd44c/4/badge)
+# Config.Net ![](https://aloneguid.visualstudio.com/DefaultCollection/_apis/public/build/definitions/323c5f4c-c814-452d-9eaf-1006c83fd44c/4/badge) [![Gitter](https://badges.gitter.im/aloneguid/config.svg)](https://gitter.im/aloneguid/config?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 The library is available as a [NuGet package](https://www.nuget.org/packages/Config.Net)
 
