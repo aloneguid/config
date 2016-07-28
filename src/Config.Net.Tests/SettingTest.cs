@@ -10,6 +10,6 @@ namespace Config.Net.Tests
    [TestFixture]
    public class SettingTest
    {
-      public void 
+      //public void 
    }
 }
