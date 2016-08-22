@@ -3,7 +3,7 @@ using Microsoft.Azure;
 
 namespace Config.Net.Azure
 {
-   public class AzureConfigStore : IConfigStore
+   class AzureConfigStore : IConfigStore
    {
       public string Name => "Windows Azure Configuration Manager";
 

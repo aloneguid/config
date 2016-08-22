@@ -2,7 +2,7 @@
 
 namespace Config.Net.Stores
 {
-   public class InMemoryConfigStore : IConfigStore
+   class InMemoryConfigStore : IConfigStore
    {
       public string Name => "InMemoryStore";
       public bool CanRead => true;

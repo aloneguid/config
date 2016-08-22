@@ -13,8 +13,17 @@ namespace Config.Net
       private string _rawValue;
       private bool _isDefaultValue;
 
+      /// <summary>
+      /// Triggered when value is changed
+      /// </summary>
       public event Action<T> ValueChanged;
 
+      /// <summary>
+      /// Constructs an instance
+      /// </summary>
+      /// <param name="value"></param>
+      /// <param name="rawValue"></param>
+      /// <param name="isDefaultValue"></param>
       public Property(T value, string rawValue, bool isDefaultValue)
       {
          _value = value;
@@ -22,6 +31,9 @@ namespace Config.Net
          _isDefaultValue = isDefaultValue;
       }
 
+      /// <summary>
+      /// Strong typed value
+      /// </summary>
       public T Value
       {
          get
@@ -33,6 +45,9 @@ namespace Config.Net
          }
       }
 
+      /// <summary>
+      /// Returns true if current value is the same as default value
+      /// </summary>
       public bool IsDefaultValue
       {
          get
@@ -44,6 +59,9 @@ namespace Config.Net
          }
       }
 
+      /// <summary>
+      /// Converts to string
+      /// </summary>
       public override string ToString()
       {
          return _rawValue;
@@ -61,6 +79,9 @@ namespace Config.Net
          ValueChanged?.Invoke(Value);
       }
 
+      /// <summary>
+      /// Implicit conversion to strong typed value
+      /// </summary>
       public static implicit operator T(Property<T> property)
       {
          return property.Value;

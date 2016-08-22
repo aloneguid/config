@@ -17,6 +17,10 @@ namespace Config.Net
    /// </example>
    public class JiraTime : IComparable
    {
+      /// <summary>
+      /// Constructs an instance
+      /// </summary>
+      /// <param name="timeSpan"></param>
       public JiraTime(TimeSpan timeSpan)
       {
          this.TimeSpan = timeSpan;
@@ -32,19 +36,33 @@ namespace Config.Net
          TimeSpan = r.TimeSpan;
       }
 
+      /// <summary>
+      /// Constructs an instance from human readable representation
+      /// </summary>
+      /// <param name="s"></param>
+      /// <returns></returns>
       public static JiraTime FromHumanReadableString(string s)
       {
          if (s == null) return null;
          return new JiraTime(s);
       }
 
+      /// <summary>
+      /// Value as <see cref="TimeSpan"/>
+      /// </summary>
       public TimeSpan TimeSpan { get; private set; }
 
+      /// <summary>
+      /// Converts to string
+      /// </summary>
       public override string ToString()
       {
          return TimeSpan == TimeSpan.Zero ? "<zero>" : JiraTimeParser.ToDetailedString(TimeSpan);
       }
 
+      /// <summary>
+      /// Comparison
+      /// </summary>
       public int CompareTo(object obj)
       {
          var that = obj as JiraTime;

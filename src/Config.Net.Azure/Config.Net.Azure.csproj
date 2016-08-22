@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="AzureConfigStore.cs" />
     <Compile Include="AzureTableConfigStore.cs" />
+    <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="Model\AzureTableRecord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

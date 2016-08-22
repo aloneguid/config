@@ -6,7 +6,7 @@ namespace Config.Net.Stores
    /// <summary>
    /// Standard app.config (web.config) configuration store. Read-only.
    /// </summary>
-   public class AppConfigStore : IConfigStore
+   class AppConfigStore : IConfigStore
    {
       public string Name => "App.config";
 

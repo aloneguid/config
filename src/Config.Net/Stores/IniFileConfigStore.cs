@@ -7,8 +7,7 @@ namespace Config.Net.Stores
    /// <summary>
    /// Simple INI storage.
    /// </summary>
-   /// <remarks>This implementation DOES NOT handle sections, they will be removed first time you save a value</remarks>
-   public class IniFileConfigStore : IConfigStore
+   class IniFileConfigStore : IConfigStore
    {
       private readonly string _fullName;
       private readonly string _fileName;

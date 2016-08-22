@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Cfg.cs" />
     <Compile Include="ConfigManager.cs" />
+    <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="GlobalConfiguration.cs" />
     <Compile Include="IConfigConfiguration.cs" />
     <Compile Include="IConfigStore.cs" />
