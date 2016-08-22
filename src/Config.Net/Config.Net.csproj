@@ -53,7 +53,6 @@
     <Compile Include="Cfg.cs" />
     <Compile Include="ConfigManager.cs" />
     <Compile Include="GlobalConfiguration.cs" />
-    <Compile Include="IConfigManager.cs" />
     <Compile Include="IConfigConfiguration.cs" />
     <Compile Include="IConfigStore.cs" />
     <Compile Include="JiraTime.cs" />

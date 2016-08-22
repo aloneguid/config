@@ -4,7 +4,7 @@ using Config.Net.TypeParsers;
 
 namespace Config.Net
 {
-   internal class ConfigManager : IConfigSource
+   internal class ConfigManager
    {
       private readonly IConfigConfiguration _cfg;
       private readonly DefaultParser _defaultParser;
