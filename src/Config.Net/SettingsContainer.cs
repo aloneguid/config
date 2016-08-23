@@ -9,8 +9,8 @@ namespace Config.Net
    {
       private readonly IConfigConfiguration _config = new ContainerConfiguration();
 
-      private readonly ConcurrentDictionary<string, OptionAttribute> _nameToOption =
-         new ConcurrentDictionary<string, OptionAttribute>();
+      private readonly ConcurrentDictionary<string, Option> _nameToOption =
+         new ConcurrentDictionary<string, Option>();
 
       private static readonly DefaultParser DefaultParser = new DefaultParser();
 
@@ -34,22 +34,12 @@ namespace Config.Net
       {
          Type t = this.GetType();
 
-         FieldInfo[] properties = t.GetFields(BindingFlags.Public);
+         FieldInfo[] properties = t.GetFields();
          foreach(FieldInfo pi in properties)
          {
-            bool attributed = false;
-
-            foreach(OptionAttribute attr in pi.GetCustomAttributes<OptionAttribute>())
+            if(pi.FieldType.IsSubclassOf(typeof(Option)))
             {
-               attributed = true;
-
-               if (attr.Name == null) attr.Name = pi.Name;
-               _nameToOption[attr.Name] = attr;
-            }
-
-            if(!attributed)
-            {
-               _nameToOption[pi.Name] = new OptionAttribute { Name = pi.Name };
+               //hit it
             }
          }
       }

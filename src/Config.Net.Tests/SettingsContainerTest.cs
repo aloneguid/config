@@ -31,9 +31,11 @@ namespace Config.Net.Tests
          }
          #endregion
 
-         public Option<TimeSpan> StrongSpan;
+         public Option<TimeSpan> StrongSpan = new Option<TimeSpan>(TimeSpan.FromDays(1));
 
-         public Option<int> Timeout;
+         public Option<int> Timeout = new Option<int>(2);
+
+         public Option<long> LongValue;
 
          protected override void OnConfigure(IConfigConfiguration configuration)
          {
