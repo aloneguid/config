@@ -8,7 +8,7 @@ namespace Config.Net.Stores
    /// <summary>
    /// Reads configuration from the .dll.config or .exe.config file.
    /// </summary>
-   class AssemblyConfigStore : IConfigStore
+   public class AssemblyConfigStore : IConfigStore
    {
       private readonly Configuration _configuration;
 
