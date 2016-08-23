@@ -12,6 +12,7 @@ namespace Config.Net
       private T _value;
       private string _rawValue;
       private bool _isDefaultValue;
+      private DateTime _updated;
 
       /// <summary>
       /// Triggered when value is changed
@@ -29,6 +30,7 @@ namespace Config.Net
          _value = value;
          _rawValue = rawValue;
          _isDefaultValue = isDefaultValue;
+         _updated = DateTime.UtcNow;
       }
 
       /// <summary>
@@ -74,6 +76,7 @@ namespace Config.Net
             _value = newValue;
             _isDefaultValue = isDefault;
             _rawValue = rawValue;
+            _updated = DateTime.UtcNow;
          }
 
          ValueChanged?.Invoke(Value);
