@@ -1,16 +1,21 @@
-﻿namespace Config.Net.TypeParsers
+﻿using System;
+using System.Collections.Generic;
+
+namespace Config.Net.TypeParsers
 {
    class StringParser : ITypeParser
    {
-      public bool TryParse(string value, out string result)
+      public IEnumerable<Type> SupportedTypes => new[] { typeof(string) };
+
+      public bool TryParse(string value, Type t, out object result)
       {
          result = value;
          return value != null;
       }
 
-      public string ToRawString(string value)
+      public string ToRawString(object value)
       {
-         return value;
+         return value as string;
       }
    }
 }

@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace Config.Net.TypeParsers
 {
    class DoubleParser : ITypeParser
    {
+      public IEnumerable<Type> SupportedTypes => new[] { typeof(double) };
+
       public bool TryParse(string value, Type t, out object result)
       {
          double dr;

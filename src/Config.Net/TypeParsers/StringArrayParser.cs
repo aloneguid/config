@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Config.Net.TypeParsers
 {
@@ -6,6 +7,8 @@ namespace Config.Net.TypeParsers
    {
       private static readonly char[] SplitChars = {',', ' '};
       private static readonly string Delimiter = new string(SplitChars);
+
+      public IEnumerable<Type> SupportedTypes => new[] { typeof(string[]) };
 
       public bool TryParse(string value, Type t, out object result)
       {

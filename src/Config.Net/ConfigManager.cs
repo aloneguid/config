@@ -182,8 +182,11 @@ namespace Config.Net
             return false;
          }
 
-         ITypeParser<T> typeParser = _cfg.GetParser<T>();
-         return typeParser.TryParse(value, out result);
+         ITypeParser typeParser = _cfg.GetParser(typeof(T));
+         object objResult;
+         bool parsed = typeParser.TryParse(value, typeof(T), out objResult);
+         result = (T)objResult;
+         return parsed;
       }
 
       public void Write<T>(Setting<T> key, T value)
@@ -232,7 +235,7 @@ namespace Config.Net
       private string GetRawStringValue<T>(T value)
       {
          string stringValue = null;
-         ITypeParser<T> typeParser = _cfg.GetParser<T>();
+         ITypeParser typeParser = _cfg.GetParser(typeof(T));
          if (typeParser != null)
          {
             stringValue = typeParser.ToRawString(value);
