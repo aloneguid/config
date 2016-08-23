@@ -46,11 +46,11 @@ namespace Config.Net
          _defaultParser = GlobalConfiguration.Instance.DefaultParser;
       }
 
-      public Property<T> Read<T>(Option<T> key)
+      public OptionValue<T> Read<T>(Option<T> key)
       {
          lock (_storeLock)
          {
-            Property<T> result = GetCached(key);
+            OptionValue<T> result = GetCached(key);
             if (result != null) return result;
 
             T value;
@@ -63,11 +63,11 @@ namespace Config.Net
          }
       }
 
-      public Property<T?> Read<T>(Option<T?> key) where T : struct
+      public OptionValue<T?> Read<T>(Option<T?> key) where T : struct
       {
          lock(_storeLock)
          {
-            Property<T?> result = GetCached(key);
+            OptionValue<T?> result = GetCached(key);
             if (result != null) return result;
 
             T? nullableValue;
@@ -85,32 +85,32 @@ namespace Config.Net
          }
       }
 
-      private Property<T> GetCached<T>(Option<T> key)
+      private OptionValue<T> GetCached<T>(Option<T> key)
       {
          SettingTag tag;
          if (!_keyToTag.TryGetValue(key.Name, out tag)) return null;
 
          if (tag.IsExpired(_cfg.CacheTimeout)) return null;
 
-         return (Property<T>)tag.Value;
+         return (OptionValue<T>)tag.Value;
       }
 
       /// <summary>
       /// Responsible for returning the Property for raw value.
       /// If values is changed it simply returns the cached Property and calls ChangeValue on it.
       /// </summary>
-      private Property<T> AsProperty<T>(Option<T> key, T value)
+      private OptionValue<T> AsProperty<T>(Option<T> key, T value)
       {
          if (!_keyToTag.ContainsKey(key.Name))
          {
-            var result = new Property<T>(value, GetRawStringValue(value), AreEqual(value, key.DefaultValue));
+            var result = new OptionValue<T>(value, GetRawStringValue(value), AreEqual(value, key.DefaultValue));
             _keyToTag[key.Name] = new SettingTag(result);
             return result;
          }
          else
          {
             SettingTag tag = _keyToTag[key.Name];
-            var result = (Property<T>)tag.Value;
+            var result = (OptionValue<T>)tag.Value;
             if (!AreEqual(value, result.Value))
             {
                result.ChangeValue(value, GetRawStringValue(value), AreEqual(value, key.DefaultValue));

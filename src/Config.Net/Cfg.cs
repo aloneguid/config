@@ -20,7 +20,7 @@ namespace Config.Net
       /// <typeparam name="T">Property type</typeparam>
       /// <param name="key">Property definition</param>
       /// <returns></returns>
-      public static Property<T> Read<T>(Option<T> key)
+      public static OptionValue<T> Read<T>(Option<T> key)
       {
          return Manager.Read(key);
       }
@@ -31,7 +31,7 @@ namespace Config.Net
       /// <typeparam name="T">Property type</typeparam>
       /// <param name="key">Property definition</param>
       /// <returns></returns>
-      public static Property<T?> Read<T>(Option<T?> key) where T : struct
+      public static OptionValue<T?> Read<T>(Option<T?> key) where T : struct
       {
          return Manager.Read(key);
       }

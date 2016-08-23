@@ -72,7 +72,7 @@
     <Compile Include="Stores\InMemoryConfigStore.cs" />
     <Compile Include="ITypeParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Property.cs" />
+    <Compile Include="OptionValue.cs" />
     <Compile Include="Option.cs" />
     <Compile Include="TypeParsers\BoolParser.cs" />
     <Compile Include="TypeParsers\DateTimeParser.cs" />

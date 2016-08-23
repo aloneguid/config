@@ -6,7 +6,7 @@ namespace Config.Net
    /// Property definition
    /// </summary>
    /// <typeparam name="T"></typeparam>
-   public class Property<T>
+   public class OptionValue<T>
    {
       private readonly object _sync = new object();
       private T _value;
@@ -24,7 +24,7 @@ namespace Config.Net
       /// <param name="value"></param>
       /// <param name="rawValue"></param>
       /// <param name="isDefaultValue"></param>
-      public Property(T value, string rawValue, bool isDefaultValue)
+      public OptionValue(T value, string rawValue, bool isDefaultValue)
       {
          _value = value;
          _rawValue = rawValue;
@@ -82,7 +82,7 @@ namespace Config.Net
       /// <summary>
       /// Implicit conversion to strong typed value
       /// </summary>
-      public static implicit operator T(Property<T> property)
+      public static implicit operator T(OptionValue<T> property)
       {
          return property.Value;
       }

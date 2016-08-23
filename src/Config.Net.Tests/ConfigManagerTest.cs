@@ -227,12 +227,12 @@ namespace Config.Net.Tests
       public void ReadProperty_TwoInsances_BothUpdateValue()
       {
          _store.Map["NumberOfMinutes"] = "78";
-         Property<int> minutes1 = Cfg.Read(NumberOfMinutes);
+         OptionValue<int> minutes1 = Cfg.Read(NumberOfMinutes);
          Assert.AreEqual(78, (int)minutes1);
 
          //now change property value and check it's updated in first and second instance
          _store.Map["NumberOfMinutes"] = "79";
-         Property<int> minutes2 = Cfg.Read(NumberOfMinutes);
+         OptionValue<int> minutes2 = Cfg.Read(NumberOfMinutes);
          Assert.AreEqual(79, (int)minutes2);
          Assert.AreEqual(79, (int)minutes1);
       }
@@ -241,7 +241,7 @@ namespace Config.Net.Tests
       public void ReadProperty_ValueChanges_EventThrown()
       {
          _store.Map["NumberOfMinutes"] = "78";
-         Property<int> minutes = Cfg.Read(NumberOfMinutes);
+         OptionValue<int> minutes = Cfg.Read(NumberOfMinutes);
          Assert.AreEqual(78, (int)minutes);
 
          bool thrown = false;
@@ -257,7 +257,7 @@ namespace Config.Net.Tests
       public void ReadProperty_ValueNotChanged_EventNotThrown()
       {
          _store.Map["NumberOfMinutes"] = "78";
-         Property<int> minutes = Cfg.Read(NumberOfMinutes);
+         OptionValue<int> minutes = Cfg.Read(NumberOfMinutes);
          Assert.AreEqual(78, (int)minutes);
 
          bool thrown = false;
@@ -306,7 +306,7 @@ namespace Config.Net.Tests
       {
          _store.Map["ActiveGrid"] = Grid.ZA.ToString();
 
-         Property<Grid> activeGrid = Cfg.Read(ActiveGrid);
+         OptionValue<Grid> activeGrid = Cfg.Read(ActiveGrid);
 
          Assert.IsTrue(activeGrid.IsDefaultValue);
       }
@@ -316,7 +316,7 @@ namespace Config.Net.Tests
       {
          _store.Map["ActiveGrid"] = Grid.US.ToString();
 
-         Property<Grid> activeGrid = Cfg.Read(ActiveGrid);
+         OptionValue<Grid> activeGrid = Cfg.Read(ActiveGrid);
 
          Assert.IsFalse(activeGrid.IsDefaultValue);
       }
@@ -326,7 +326,7 @@ namespace Config.Net.Tests
       {
          _store.Map["UnitTestName"] = "not set";
          
-         Property<string> unitTestName = Cfg.Read(UnitTestName);
+         OptionValue<string> unitTestName = Cfg.Read(UnitTestName);
 
          Assert.IsTrue(unitTestName.IsDefaultValue);
       }
@@ -336,7 +336,7 @@ namespace Config.Net.Tests
       {
          _store.Map["UnitTestName"] = "UnitTestName";
 
-         Property<string> unitTestName = Cfg.Read(UnitTestName);
+         OptionValue<string> unitTestName = Cfg.Read(UnitTestName);
 
          Assert.IsFalse(unitTestName.IsDefaultValue);
       }
@@ -346,7 +346,7 @@ namespace Config.Net.Tests
       {
          _store.Map["Regions"] = null;
 
-         Property<string[]> regions = Cfg.Read(Regions);
+         OptionValue<string[]> regions = Cfg.Read(Regions);
 
          Assert.IsTrue(regions.IsDefaultValue);
       }
@@ -356,7 +356,7 @@ namespace Config.Net.Tests
       {
          _store.Map["Regions"] = "UK, JP, ZA";
 
-         Property<string[]> regions = Cfg.Read(Regions);
+         OptionValue<string[]> regions = Cfg.Read(Regions);
 
          Assert.IsFalse(regions.IsDefaultValue);
       }
@@ -366,7 +366,7 @@ namespace Config.Net.Tests
       {
          _store.Map["log-xml"] = "yes";
 
-         Property<bool> logXml = Cfg.Read(LogXml);
+         OptionValue<bool> logXml = Cfg.Read(LogXml);
 
          Assert.IsTrue(logXml.IsDefaultValue);
       }
@@ -376,7 +376,7 @@ namespace Config.Net.Tests
       {
          _store.Map["log-xml"] = "no";
 
-         Property<bool> logXml = Cfg.Read(LogXml);
+         OptionValue<bool> logXml = Cfg.Read(LogXml);
 
          Assert.IsFalse(logXml.IsDefaultValue);
       }
@@ -386,7 +386,7 @@ namespace Config.Net.Tests
       {
          _store.Map["ping-interval"] = TimeSpan.FromMinutes(1).ToString();
 
-         Property<TimeSpan> pingInterval = Cfg.Read(PingInterval);
+         OptionValue<TimeSpan> pingInterval = Cfg.Read(PingInterval);
 
          Assert.IsTrue(pingInterval.IsDefaultValue);
       }
@@ -396,7 +396,7 @@ namespace Config.Net.Tests
       {
          _store.Map["ping-interval"] = TimeSpan.FromHours(5).ToString();
 
-         Property<TimeSpan> pingInterval = Cfg.Read(PingInterval);
+         OptionValue<TimeSpan> pingInterval = Cfg.Read(PingInterval);
 
          Assert.IsFalse(pingInterval.IsDefaultValue);
       }
