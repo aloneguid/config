@@ -79,10 +79,12 @@ namespace Config.Net
       /// <summary>
       /// Cast operator which reads the option
       /// </summary>
-      /// <param name="property"></param>
-      public static implicit operator T(Option<T> property)
+      /// <param name="option"></param>
+      public static implicit operator T(Option<T> option)
       {
-         return Cfg.Read(property);
+         object newValue = option._parent.Read(option.ValueType, option.Name);
+
+         return Cfg.Read(option);
       }
    }
 }

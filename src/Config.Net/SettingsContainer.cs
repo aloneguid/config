@@ -16,9 +16,16 @@ namespace Config.Net
 
       protected SettingsContainer(string namespaceName)
       {
+         DiscoverProperties();
+      }
+
+      public object Read(Type valueType, string name)
+      {
          OnConfigure(_config);
 
-         DiscoverProperties();
+         object result;
+         ReadValue(name, valueType, out result);
+         return result;
       }
 
       protected abstract void OnConfigure(IConfigConfiguration configuration);
@@ -27,8 +34,8 @@ namespace Config.Net
       {
          Type t = this.GetType();
 
-         PropertyInfo[] properties = t.GetProperties();
-         foreach(PropertyInfo pi in properties)
+         FieldInfo[] properties = t.GetFields(BindingFlags.Public);
+         foreach(FieldInfo pi in properties)
          {
             bool attributed = false;
 

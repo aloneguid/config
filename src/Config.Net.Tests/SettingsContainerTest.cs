@@ -22,12 +22,14 @@ namespace Config.Net.Tests
 
       class MyContainer : SettingsContainer
       {
+         #region crap
          private IConfigStore _store;
 
          public MyContainer(IConfigStore store) : base("MyApp")
          {
             _store = store;
          }
+         #endregion
 
          public Option<TimeSpan> StrongSpan;
 
