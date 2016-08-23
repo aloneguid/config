@@ -7,7 +7,6 @@ namespace Config.Net.Tests
    [TestFixture]
    class ConfigManagerTest
    {
-      // ReSharper disable InconsistentNaming
       enum Grid
       {
          IT,
@@ -16,7 +15,6 @@ namespace Config.Net.Tests
          US,
          ZA
       }
-      // ReSharper restore InconsistentNaming
 
       private static readonly Option<string> UnitTestName = new Option<string>("UnitTestName", "not set");
       private static readonly Option<int> NumberOfMinutes = new Option<int>("NumberOfMinutes", 10);
@@ -27,10 +25,6 @@ namespace Config.Net.Tests
       private static readonly Option<JiraTime> IssueEstimate = new Option<JiraTime>("estimate", JiraTime.FromHumanReadableString("1h2m")); 
       private static readonly Option<Grid> ActiveGrid = new Option<Grid>("ActiveGrid", Grid.ZA);
       private static readonly Option<Grid?> ActiveGridMaybe = new Option<Grid?>("ActiveGridMaybe", null);
-      private static readonly Option<string> WithAlternativeKeyNames = new Option<string>("Key1", null)
-      {
-         AlsoKnownAs = new[] {"NewKey1", "OldKey1"}
-      };
  
       private TestStore _store;
 
@@ -64,14 +58,6 @@ namespace Config.Net.Tests
 
          int minutes = Cfg.Read(NumberOfMinutes);
          Assert.AreEqual(78, minutes);
-      }
-
-      [Test]
-      public void Read_AlternativeKeys_Reads()
-      {
-         _store.Map[WithAlternativeKeyNames.AlsoKnownAs[1]] = "66";
-
-         Assert.AreEqual("66", Cfg.Read(WithAlternativeKeyNames).Value);
       }
 
       [Test]

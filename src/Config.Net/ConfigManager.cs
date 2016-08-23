@@ -54,7 +54,7 @@ namespace Config.Net
             if (result != null) return result;
 
             T value;
-            if (!ReadValue(key.Name, key.AlsoKnownAs, key.ValueType, out value))
+            if (!ReadValue(key.Name, key.ValueType, out value))
             {
                value = key.DefaultValue;
             }
@@ -72,7 +72,7 @@ namespace Config.Net
 
             T? nullableValue;
             T value;
-            if(!ReadValue(key.Name, key.AlsoKnownAs, typeof(T), out value))
+            if(!ReadValue(key.Name, typeof(T), out value))
             {
                nullableValue = null;
             }
@@ -154,7 +154,7 @@ namespace Config.Net
          return true;
       }
 
-      private bool ReadValue<T>(string keyName, string[] alsoKnownAs, Type valueType, out T result)
+      private bool ReadValue<T>(string keyName, Type valueType, out T result)
       {
          if(!GlobalConfiguration.Instance.CanParse(valueType))
          {
@@ -162,7 +162,7 @@ namespace Config.Net
                                         " is not registered and not supported by default parser");
          }
 
-         string value = ReadFirst(keyName, alsoKnownAs);
+         string value = ReadFirst(keyName);
          if(value == null)
          {
             result = default(T);
@@ -270,25 +270,13 @@ namespace Config.Net
          }
       }
 
-      private string ReadFirst(string key, string[] alsoKnownAs)
+      private string ReadFirst(string key)
       {
-         bool hasAlternatives = alsoKnownAs != null && alsoKnownAs.Length > 0;
-
          foreach(IConfigStore store in _cfg.Stores)
          {
             if(store.CanRead)
             {
                string value = store.Read(key);
-
-               //try to read by alternative key
-               if(value == null && hasAlternatives)
-               {
-                  foreach(string altName in alsoKnownAs)
-                  {
-                     value = store.Read(altName);
-                     if(value != null) break;
-                  }
-               }
 
                if(value != null) return value;
             }

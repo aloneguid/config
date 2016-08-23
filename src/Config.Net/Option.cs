@@ -10,7 +10,7 @@ namespace Config.Net
       /// <summary>
       /// Gets configuration option name
       /// </summary>
-      public string Name { get; protected set; }
+      public string Name { get; internal set; }
 
       /// <summary>
       /// Gets type of configuration value
@@ -22,11 +22,7 @@ namespace Config.Net
       /// </summary>
       public object DefaultValue { get; private set; }
 
-      /// <summary>
-      /// Aliases for this property. Useful when renaming property to something else to support
-      /// backward compatibility.
-      /// </summary>
-      public string[] AlsoKnownAs { get; set; }
+      internal SettingsContainer _parent;
 
       /// <summary>
       /// Returns option name
