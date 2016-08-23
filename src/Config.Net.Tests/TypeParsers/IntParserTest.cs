@@ -5,7 +5,7 @@ namespace Config.Net.Tests.TypeParsers
    [TestFixture]
    class IntParserTest
    {
-      private static readonly ITypeParser<int> TypeParser = Cfg.Configuration.GetParser<int>();
+      private static readonly ITypeParser TypeParser = Cfg.Configuration.GetParser(typeof(int));
 
       [Test]
       [TestCase("1234567890")]
@@ -14,9 +14,11 @@ namespace Config.Net.Tests.TypeParsers
       [TestCase("-2147483648")]
       public void ToRawString_WhenInputIsValid_ReturnValidString(string rawValue)
       {
+         object outValObj;
          int outVal;
 
-         Assert.IsTrue(TypeParser.TryParse(rawValue, out outVal));
+         Assert.IsTrue(TypeParser.TryParse(rawValue, typeof(int), out outValObj));
+         outVal = (int)outValObj;
 
          Assert.AreEqual(rawValue, TypeParser.ToRawString(outVal));
       }

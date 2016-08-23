@@ -5,7 +5,7 @@ namespace Config.Net.Tests.TypeParsers
    [TestFixture]
    class StringParserTest
    {
-      private static readonly ITypeParser<string> TypeParser = Cfg.Configuration.GetParser<string>();
+      private static readonly ITypeParser TypeParser = Cfg.Configuration.GetParser(typeof(string));
 
       [Test]
       [TestCase("Aloneguid")]
@@ -14,12 +14,12 @@ namespace Config.Net.Tests.TypeParsers
       [TestCase(null)]
       public void ToRawString_WhenInputIsValid_ReturnValidString(string rawValue)
       {
-         string outVal;
+         object outVal;
 
          if(rawValue != null) 
-            Assert.IsTrue(TypeParser.TryParse(rawValue, out outVal));
+            Assert.IsTrue(TypeParser.TryParse(rawValue, typeof(string), out outVal));
          else
-            Assert.IsFalse(TypeParser.TryParse(null, out outVal));
+            Assert.IsFalse(TypeParser.TryParse(null, typeof(string), out outVal));
          
          Assert.AreEqual(rawValue, TypeParser.ToRawString(outVal));
       }

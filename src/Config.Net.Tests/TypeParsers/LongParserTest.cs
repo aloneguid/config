@@ -5,7 +5,7 @@ namespace Config.Net.Tests.TypeParsers
    [TestFixture]
    class LongParserTest
    {
-      private static readonly ITypeParser<long> TypeParser = Cfg.Configuration.GetParser<long>();
+      private static readonly ITypeParser TypeParser = Cfg.Configuration.GetParser(typeof(long));
 
       [Test]
       [TestCase("12345")]
@@ -14,9 +14,11 @@ namespace Config.Net.Tests.TypeParsers
       [TestCase("-9223372036854775808")]
       public void ToRawString_WhenInputIsValid_ReturnValidString(string rawValue)
       {
+         object outValObj;
          long outVal;
 
-         Assert.IsTrue(TypeParser.TryParse(rawValue, out outVal));
+         Assert.IsTrue(TypeParser.TryParse(rawValue, typeof(JiraTime), out outValObj));
+         outVal = (long)outValObj;
 
          Assert.AreEqual(rawValue, TypeParser.ToRawString(outVal));
       }

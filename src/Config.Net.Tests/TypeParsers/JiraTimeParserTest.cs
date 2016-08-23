@@ -5,7 +5,7 @@ namespace Config.Net.Tests.TypeParsers
    [TestFixture]
    class JiraTimeParserTest
    {
-      private static readonly ITypeParser<JiraTime> TypeParser = Cfg.Configuration.GetParser<JiraTime>();
+      private static readonly ITypeParser TypeParser = Cfg.Configuration.GetParser(typeof(JiraTime));
 
       [Test]
       [TestCase("3d")]
@@ -17,14 +17,14 @@ namespace Config.Net.Tests.TypeParsers
       [TestCase(null)]
       public void ToRawString_WhenInputIsValid_ReturnValidString(string rawValue)
       {
-         JiraTime outVal;
+         object outValObj;
 
          if (rawValue != null)
-            Assert.IsTrue(TypeParser.TryParse(rawValue, out outVal));
+            Assert.IsTrue(TypeParser.TryParse(rawValue, typeof(JiraTime), out outValObj));
          else
-            Assert.IsFalse(TypeParser.TryParse(null, out outVal));
+            Assert.IsFalse(TypeParser.TryParse(null, typeof(JiraTime), out outValObj));
 
-         Assert.AreEqual(rawValue, TypeParser.ToRawString(outVal));
+         Assert.AreEqual(rawValue, TypeParser.ToRawString(outValObj));
       }
 
       [Test]
@@ -46,8 +46,10 @@ namespace Config.Net.Tests.TypeParsers
       [TestCase("")]
       public void TryParse_ValidValue_ReturnsTrue(string rawValue)
       {
+         object outValObj;
          JiraTime outVal;
-         bool result = TypeParser.TryParse(rawValue, out outVal);
+         bool result = TypeParser.TryParse(rawValue, typeof(JiraTime), out outValObj);
+         outVal = (JiraTime)outValObj;
 
          Assert.IsTrue(result);
       }
@@ -90,8 +92,8 @@ namespace Config.Net.Tests.TypeParsers
       [TestCase(null)]
       public void TryParse_InValidValue_ReturnsFalse(string rawValue)
       {
-         JiraTime outVal;
-         bool result = TypeParser.TryParse(rawValue, out outVal);
+         object outValObj;
+         bool result = TypeParser.TryParse(rawValue, typeof(JiraTime), out outValObj);
 
          Assert.IsFalse(result);
       }
