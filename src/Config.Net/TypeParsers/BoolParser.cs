@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Config.Net.TypeParsers
 {
-   class BoolParser : ITypeParser<bool>
+   class BoolParser : ITypeParser
    {
       private static readonly Dictionary<string, bool> AllowedValues =
          new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase)
@@ -16,7 +16,7 @@ namespace Config.Net.TypeParsers
                {"0", false}
             };
 
-      public bool TryParse(string value, out bool result)
+      public bool TryParse(string value, Type t, out object result)
       {
          if (value == null || !AllowedValues.ContainsKey(value))
          {
@@ -35,7 +35,7 @@ namespace Config.Net.TypeParsers
       /// </summary>
       /// <param name="value">Non-Nullable bool value</param>
       /// <returns>String equivalent of boolean in lower case. eg. true/false</returns>
-      public string ToRawString(bool value)
+      public string ToRawString(object value)
       {
          return value.ToString().ToLowerInvariant();
       }

@@ -1,17 +1,21 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 
 namespace Config.Net.TypeParsers
 {
-   class IntParser : ITypeParser<int>
+   class IntParser : ITypeParser
    {
-      public bool TryParse(string value, out int result)
+      public bool TryParse(string value, Type t, out object result)
       {
-         return int.TryParse(value, out result);
+         int ir;
+         bool parsed = int.TryParse(value, out ir);
+         result = ir;
+         return parsed;
       }
 
-      public string ToRawString(int value)
+      public string ToRawString(object value)
       {
-         return value.ToString(TypeParserSettings.DefaultNumericFormat, CultureInfo.InvariantCulture);
+         return ((int)value).ToString(TypeParserSettings.DefaultNumericFormat, CultureInfo.InvariantCulture);
       }
    }
 }

@@ -1,17 +1,22 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 
 namespace Config.Net.TypeParsers
 {
-   class DoubleParser : ITypeParser<double>
+   class DoubleParser : ITypeParser
    {
-      public bool TryParse(string value, out double result)
+      public bool TryParse(string value, Type t, out object result)
       {
-         return double.TryParse(value, out result);
+         double dr;
+         bool parsed = double.TryParse(value, out dr);
+         result = dr;
+         return parsed;
+         
       }
 
-      public string ToRawString(double value)
+      public string ToRawString(object value)
       {
-         return value.ToString(TypeParserSettings.DefaultNumericFormat, CultureInfo.InvariantCulture);
+         return ((double)value).ToString(TypeParserSettings.DefaultNumericFormat, CultureInfo.InvariantCulture);
       }
    }
 }

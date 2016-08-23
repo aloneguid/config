@@ -32,12 +32,11 @@ namespace Config.Net
          }
       }
 
-      public ITypeParser<T> GetParser<T>()
+      public ITypeParser GetParser(Type t)
       {
          ITypeParser result;
-         if (!_parsers.TryGetValue(typeof(T), out result)) return null;
-
-         return (ITypeParser<T>)result;
+         _parsers.TryGetValue(t, out result);
+         return result;
       }
 
       public bool HasParser(Type t)
@@ -67,6 +66,5 @@ namespace Config.Net
             {typeof(DateTime), new DateTimeParser()}
          };
       }
-
    }
 }

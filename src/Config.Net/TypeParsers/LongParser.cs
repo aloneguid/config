@@ -1,17 +1,21 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 
 namespace Config.Net.TypeParsers
 {
-   class LongParser : ITypeParser<long>
+   class LongParser : ITypeParser
    {
-      public bool TryParse(string value, out long result)
+      public bool TryParse(string value, Type t, out object result)
       {
-         return long.TryParse(value, out result);
+         long lr;
+         bool parsed = long.TryParse(value, out lr);
+         result = lr;
+         return parsed;
       }
 
-      public string ToRawString(long value)
+      public string ToRawString(object value)
       {
-         return value.ToString(TypeParserSettings.DefaultNumericFormat, CultureInfo.InvariantCulture);
+         return ((long)value).ToString(TypeParserSettings.DefaultNumericFormat, CultureInfo.InvariantCulture);
       }
    }
 }

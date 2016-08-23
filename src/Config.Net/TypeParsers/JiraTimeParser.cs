@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Config.Net.TypeParsers
 {
-   class JiraTimeParser : ITypeParser<JiraTime>
+   class JiraTimeParser : ITypeParser
    {
       private static readonly Regex TimeRegex = new Regex("^((?<days>\\d+)d){0,1}((?<hours>\\d+)h){0,1}((?<minutes>\\d+)m){0,1}((?<seconds>\\d+)s){0,1}((?<milliseconds>\\d+)ms){0,1}$");
 
@@ -17,7 +17,7 @@ namespace Config.Net.TypeParsers
          return r;
       }
 
-      public bool TryParse(string value, out JiraTime result)
+      public bool TryParse(string value, Type t, out object result)
       {
          if (value == null)
          {
@@ -50,11 +50,11 @@ namespace Config.Net.TypeParsers
       /// </summary>
       /// <param name="value">JiraTime value</param>
       /// <returns>Basic human readable string value. eg. 1d/2h/3m/4s/5ms/1d2h3m4s</returns>
-      public string ToRawString(JiraTime value)
+      public string ToRawString(object value)
       {
          if (value == null) return null;
 
-         return ToDetailedString(value.TimeSpan);
+         return ToDetailedString(((JiraTime)value).TimeSpan);
       }
 
       internal static string ToDetailedString(TimeSpan timeSpan)

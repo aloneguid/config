@@ -36,7 +36,7 @@ namespace Config.Net
       /// <summary>
       /// Gets parser implementaton by type, or returns null if there is no registered implementation
       /// </summary>
-      ITypeParser<T> GetParser<T>();
+      ITypeParser GetParser(Type t);
 
       /// <summary>
       /// Timeout when property cache will expire and the library will try to read it from the backend again.

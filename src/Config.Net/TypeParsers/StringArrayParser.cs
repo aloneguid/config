@@ -2,12 +2,12 @@
 
 namespace Config.Net.TypeParsers
 {
-   class StringArrayParser : ITypeParser<string[]>
+   class StringArrayParser : ITypeParser
    {
       private static readonly char[] SplitChars = {',', ' '};
       private static readonly string Delimiter = new string(SplitChars);
 
-      public bool TryParse(string value, out string[] result)
+      public bool TryParse(string value, Type t, out object result)
       {
          if (value == null)
          {
@@ -19,9 +19,11 @@ namespace Config.Net.TypeParsers
          return true;
       }
 
-      public string ToRawString(string[] value)
+      public string ToRawString(object value)
       {
-         if (value == null || value.Length == 0) return null;
+         string[] arv = (string[])value;
+
+         if (arv == null || arv.Length == 0) return null;
 
          return string.Join(Delimiter, value);
       }

@@ -121,15 +121,15 @@ namespace Config.Net
          }
       }
 
-      public ITypeParser<T> GetParser<T>()
+      public ITypeParser GetParser(Type t)
       {
          lock(_lock)
          {
-            return TypeParsers.ContainsKey(typeof(T)) ? (ITypeParser<T>) TypeParsers[typeof(T)] : null;
+            return TypeParsers.ContainsKey(t) ? TypeParsers[t] : null;
          }
       }
 
-      private void RegisterParser<T>(ITypeParser<T> parser)
+      private void RegisterParser<T>(ITypeParser parser)
       {
          if(parser == null) throw new ArgumentNullException("parser");
          lock(_lock)

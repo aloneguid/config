@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Collections.Concurrent;
+using Config.Net.TypeParsers;
 
 namespace Config.Net
 {
@@ -10,6 +11,8 @@ namespace Config.Net
 
       private readonly ConcurrentDictionary<string, OptionAttribute> _nameToOption =
          new ConcurrentDictionary<string, OptionAttribute>();
+
+      private static readonly DefaultParser DefaultParser = new DefaultParser();
 
       protected SettingsContainer(string namespaceName)
       {
@@ -42,6 +45,57 @@ namespace Config.Net
                _nameToOption[pi.Name] = new OptionAttribute { Name = pi.Name };
             }
          }
+      }
+
+      private bool CanParse(Type t)
+      {
+         return _config.HasParser(t) || DefaultParser.IsSupported(t);
+      }
+
+      private string ReadFirst(string key)
+      {
+         foreach (IConfigStore store in _config.Stores)
+         {
+            if (store.CanRead)
+            {
+               string value = store.Read(key);
+
+               if (value != null) return value;
+            }
+         }
+         return null;
+      }
+
+      private bool ReadValue(string keyName, Type valueType, out object result)
+      {
+         if (!CanParse(valueType))
+         {
+            throw new ArgumentException("value parser for " + valueType.FullName +
+                                        " is not registered and not supported by default parser");
+         }
+
+         string value = ReadFirst(keyName);
+         if (value == null)
+         {
+            result = null;
+            return false;
+         }
+
+         if (DefaultParser.IsSupported(valueType))
+         {
+            object resultObject;
+            if (DefaultParser.TryParse(value, valueType, out resultObject))
+            {
+               result = resultObject;
+               return true;
+            }
+
+            result = null;
+            return false;
+         }
+
+         ITypeParser typeParser = _config.GetParser(valueType);
+         return typeParser.TryParse(value, valueType, out result);
       }
    }
 }
