@@ -53,10 +53,13 @@
     <Compile Include="Cfg.cs" />
     <Compile Include="ConfigManager.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
+    <Compile Include="ContainerConfiguration.cs" />
     <Compile Include="GlobalConfiguration.cs" />
     <Compile Include="IConfigConfiguration.cs" />
     <Compile Include="IConfigStore.cs" />
     <Compile Include="JiraTime.cs" />
+    <Compile Include="OptionAttribute.cs" />
+    <Compile Include="SettingsContainer.cs" />
     <Compile Include="Stores\AppConfigStore.cs" />
     <Compile Include="Stores\AssemblyConfigStore.cs" />
     <Compile Include="Stores\EnvironmentVariablesStore.cs" />

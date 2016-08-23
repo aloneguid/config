@@ -584,7 +584,7 @@ namespace Config.Net.Tests
          Cfg.Configuration.AddStore(store);
          Assert.AreEqual("12345", Cfg.Read(setting).Value);
 
-         Cfg.Configuration.RemoveStore(store.Name);
+         Cfg.Configuration.RemoveAllStores();
          Assert.IsNull(Cfg.Read(setting).Value);
       }
    }

@@ -113,6 +113,7 @@
     <Compile Include="AllStoresTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="SettingsContainerTest.cs" />
     <Compile Include="SettingTest.cs" />
     <Compile Include="Stores\Formats\IniKeyValueTest.cs" />
     <Compile Include="Stores\IniFileConfigStoreTest.cs" />
