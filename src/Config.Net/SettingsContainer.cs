@@ -12,6 +12,9 @@ namespace Config.Net
       private readonly ConcurrentDictionary<string, Option> _nameToOption =
          new ConcurrentDictionary<string, Option>();
 
+      private readonly ConcurrentDictionary<string, object> _nameToOptionValue =
+         new ConcurrentDictionary<string, object>();
+
       private static readonly DefaultParser DefaultParser = new DefaultParser();
 
       private readonly string _namespace;
