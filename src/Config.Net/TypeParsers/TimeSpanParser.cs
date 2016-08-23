@@ -1,15 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Config.Net.TypeParsers
 {
-   class TimeSpanParser : ITypeParser<TimeSpan>
+   class TimeSpanParser : ITypeParser
    {
-      public bool TryParse(string value, out TimeSpan result)
+      public IEnumerable<Type> SupportedTypes => new[] { typeof(TimeSpan) };
+
+      public bool TryParse(string value, Type t, out object result)
       {
-         return TimeSpan.TryParse(value, out result);
+         TimeSpan ts;
+         bool parsed = TimeSpan.TryParse(value, out ts);
+         result = ts;
+         return parsed;
       }
 
-      public string ToRawString(TimeSpan value)
+      public string ToRawString(object value)
       {
          return value.ToString();
       }

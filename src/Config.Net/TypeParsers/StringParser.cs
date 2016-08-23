@@ -1,6 +1,6 @@
 ﻿namespace Config.Net.TypeParsers
 {
-   class StringParser : ITypeParser<string>
+   class StringParser : ITypeParser
    {
       public bool TryParse(string value, out string result)
       {

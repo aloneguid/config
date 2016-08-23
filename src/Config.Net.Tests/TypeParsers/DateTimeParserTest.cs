@@ -6,7 +6,7 @@ namespace Config.Net.Tests.TypeParsers
    [TestFixture]
    public class DateTimeParserTest
    {
-      private static readonly ITypeParser<DateTime> TypeParser = Cfg.Configuration.GetParser<DateTime>();
+      private static readonly ITypeParser TypeParser = Cfg.Configuration.GetParser(typeof(DateTime));
 
       [Test]
       public void ParseTwoWays_Variable_Variable()
@@ -15,8 +15,10 @@ namespace Config.Net.Tests.TypeParsers
 
          string s = TypeParser.ToRawString(date);
 
+         object date1Obj;
          DateTime date1;
-         bool parsed = TypeParser.TryParse(s, out date1);
+         bool parsed = TypeParser.TryParse(s, typeof(DateTime), out date1Obj);
+         date1 = (DateTime)date1Obj;
 
          Assert.IsTrue(parsed);
          Assert.AreEqual(date.RoundToDay(), date1.RoundToDay());

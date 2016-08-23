@@ -16,6 +16,8 @@ namespace Config.Net.TypeParsers
                {"0", false}
             };
 
+      public IEnumerable<Type> SupportedTypes => new[] { typeof(bool) };
+
       public bool TryParse(string value, Type t, out object result)
       {
          if (value == null || !AllowedValues.ContainsKey(value))

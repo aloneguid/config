@@ -30,9 +30,11 @@ namespace Config.Net
       {
          if (humanReadableExpression == null) throw new ArgumentNullException(nameof(humanReadableExpression));
 
+         object robj;
          JiraTime r;
-         if (!new JiraTimeParser().TryParse(humanReadableExpression, out r))
+         if (!new JiraTimeParser().TryParse(humanReadableExpression, typeof(JiraTime), out robj))
             throw new ArgumentException("unparseable expression: " + humanReadableExpression, nameof(humanReadableExpression));
+         r = (JiraTime)robj;
          TimeSpan = r.TimeSpan;
       }
 

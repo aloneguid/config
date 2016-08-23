@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -7,6 +8,8 @@ namespace Config.Net.TypeParsers
    class JiraTimeParser : ITypeParser
    {
       private static readonly Regex TimeRegex = new Regex("^((?<days>\\d+)d){0,1}((?<hours>\\d+)h){0,1}((?<minutes>\\d+)m){0,1}((?<seconds>\\d+)s){0,1}((?<milliseconds>\\d+)ms){0,1}$");
+
+      public IEnumerable<Type> SupportedTypes => new[] { typeof(JiraTime) };
 
       private static int GetValue(Match m, string groupName)
       {
