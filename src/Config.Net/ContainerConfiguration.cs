@@ -21,6 +21,11 @@ namespace Config.Net
          if (store == null) throw new ArgumentNullException(nameof(store));
 
          _stores.Add(store);
+
+         foreach(KeyValuePair<Type, ITypeParser> pc in GetBuiltInParsers())
+         {
+            _parsers.TryAdd(pc.Key, pc.Value);
+         }
       }
 
       public void RemoveAllStores()

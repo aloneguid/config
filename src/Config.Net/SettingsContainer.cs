@@ -14,17 +14,25 @@ namespace Config.Net
 
       private static readonly DefaultParser DefaultParser = new DefaultParser();
 
+      private readonly string _namespace;
+
       protected SettingsContainer(string namespaceName)
       {
+         _namespace = namespaceName;
+
          DiscoverProperties();
       }
 
-      public object Read(Type valueType, string name)
+      public object Read(Type valueType, string name, object defaultValue)
       {
          OnConfigure(_config);
 
          object result;
-         ReadValue(name, valueType, out result);
+         if(!ReadValue(name, valueType, out result))
+         {
+            return defaultValue;
+         }
+
          return result;
       }
 
@@ -39,9 +47,34 @@ namespace Config.Net
          {
             if(pi.FieldType.IsSubclassOf(typeof(Option)))
             {
-               //hit it
+               //check if it has the value
+               object objValue = pi.GetValue(this);
+
+               //if (objValue == null) throw new ApplicationException($"option '{pi.Name}' must be initialised.");
+               if(objValue == null)
+               {
+                  //create default instance if it doesn't exist
+                  var nt = typeof(Option<>);
+                  Type[] ntArgs = pi.FieldType.GetGenericArguments();
+                  Type ntGen = nt.MakeGenericType(ntArgs);
+                  objValue = Activator.CreateInstance(ntGen);
+               }
+
+               Option value = (Option)objValue;
+               if (string.IsNullOrEmpty(value.Name)) value.Name = pi.Name;
+               value.Name = GetFullKeyName(value.Name);
+               value._parent = this;
+
+               _nameToOption[value.Name] = value;
             }
          }
+      }
+
+      private string GetFullKeyName(string name)
+      {
+         if (string.IsNullOrEmpty(_namespace)) return name;
+
+         return _namespace + "." + name;
       }
 
       private bool CanParse(Type t)

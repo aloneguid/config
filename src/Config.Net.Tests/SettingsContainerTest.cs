@@ -49,6 +49,8 @@ namespace Config.Net.Tests
          var c = new MyContainer(_store);
 
          int timeout = c.Timeout;
+
+         Assert.AreEqual(2, timeout);
       }
    }
 }

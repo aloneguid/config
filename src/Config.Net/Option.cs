@@ -41,9 +41,16 @@ namespace Config.Net
    public sealed class Option<T> : Option
    {
       /// <summary>
+      /// Creates a new instance of configuration where all parameters are default
+      /// </summary>
+      public Option() : this(null, default(T))
+      {
+
+      }
+
+      /// <summary>
       /// Creates a new instance of configuration option default value only
       /// </summary>
-      /// <param name="defaultValue"></param>
       public Option(T defaultValue) : this(null, defaultValue)
       {
 
@@ -82,7 +89,11 @@ namespace Config.Net
       /// <param name="option"></param>
       public static implicit operator T(Option<T> option)
       {
-         object newValue = option._parent.Read(option.ValueType, option.Name);
+         if (option._parent != null)
+         {
+            object newValue = option._parent.Read(option.ValueType, option.Name, option.DefaultValue);
+            return (T)newValue;
+         }
 
          return Cfg.Read(option);
       }
