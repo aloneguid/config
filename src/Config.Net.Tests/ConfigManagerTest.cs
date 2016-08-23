@@ -18,16 +18,16 @@ namespace Config.Net.Tests
       }
       // ReSharper restore InconsistentNaming
 
-      private static readonly Setting<string> UnitTestName = new Setting<string>("UnitTestName", "not set");
-      private static readonly Setting<int> NumberOfMinutes = new Setting<int>("NumberOfMinutes", 10);
-      private static readonly Setting<string[]> Regions = new Setting<string[]>("Regions", new [] {"Japan", "Denmark", "Australia"});
-      private static readonly Setting<bool> LogXml = new Setting<bool>("log-xml", true);
-      private static readonly Setting<int?> NumberOfMinutesMaybe = new Setting<int?>("NumberOfMinutesMaybe", null); 
-      private static readonly Setting<TimeSpan> PingInterval = new Setting<TimeSpan>("ping-interval", TimeSpan.FromMinutes(1)); 
-      private static readonly Setting<JiraTime> IssueEstimate = new Setting<JiraTime>("estimate", JiraTime.FromHumanReadableString("1h2m")); 
-      private static readonly Setting<Grid> ActiveGrid = new Setting<Grid>("ActiveGrid", Grid.ZA);
-      private static readonly Setting<Grid?> ActiveGridMaybe = new Setting<Grid?>("ActiveGridMaybe", null);
-      private static readonly Setting<string> WithAlternativeKeyNames = new Setting<string>("Key1", null)
+      private static readonly Option<string> UnitTestName = new Option<string>("UnitTestName", "not set");
+      private static readonly Option<int> NumberOfMinutes = new Option<int>("NumberOfMinutes", 10);
+      private static readonly Option<string[]> Regions = new Option<string[]>("Regions", new [] {"Japan", "Denmark", "Australia"});
+      private static readonly Option<bool> LogXml = new Option<bool>("log-xml", true);
+      private static readonly Option<int?> NumberOfMinutesMaybe = new Option<int?>("NumberOfMinutesMaybe", null); 
+      private static readonly Option<TimeSpan> PingInterval = new Option<TimeSpan>("ping-interval", TimeSpan.FromMinutes(1)); 
+      private static readonly Option<JiraTime> IssueEstimate = new Option<JiraTime>("estimate", JiraTime.FromHumanReadableString("1h2m")); 
+      private static readonly Option<Grid> ActiveGrid = new Option<Grid>("ActiveGrid", Grid.ZA);
+      private static readonly Option<Grid?> ActiveGridMaybe = new Option<Grid?>("ActiveGridMaybe", null);
+      private static readonly Option<string> WithAlternativeKeyNames = new Option<string>("Key1", null)
       {
          AlsoKnownAs = new[] {"NewKey1", "OldKey1"}
       };
@@ -404,7 +404,7 @@ namespace Config.Net.Tests
       [Test]
       public void Write_WhenTypeNotSupported_ThrowsException()
       {
-         Setting<Guid> someGuidSetting = new Setting<Guid>("MseTestGUID", Guid.NewGuid());
+         Option<Guid> someGuidSetting = new Option<Guid>("MseTestGUID", Guid.NewGuid());
 
          Assert.Throws(typeof (ArgumentException), () => Cfg.Write(someGuidSetting, Guid.NewGuid()));
       }
@@ -418,7 +418,7 @@ namespace Config.Net.Tests
       [Test]
       public void Write_Nullable_WhenTypeNotSupported_ThrowsException()
       {
-         Setting<Guid?> someNullableGuidSetting = new Setting<Guid?>("MseTestNullableGUID", null);
+         Option<Guid?> someNullableGuidSetting = new Option<Guid?>("MseTestNullableGUID", null);
 
          Assert.Throws(typeof(ArgumentException), () => Cfg.Write(someNullableGuidSetting, Guid.NewGuid()));
       }
@@ -517,7 +517,7 @@ namespace Config.Net.Tests
       [Test]
       public void WriteNullableTimeSpanTest()
       {
-         Setting<TimeSpan?> someGuidSetting = new Setting<TimeSpan?>("MseTestNullableTimeSpan", new TimeSpan(3, 5, 58));
+         Option<TimeSpan?> someGuidSetting = new Option<TimeSpan?>("MseTestNullableTimeSpan", new TimeSpan(3, 5, 58));
 
          Cfg.Write(someGuidSetting, null);
 
@@ -576,7 +576,7 @@ namespace Config.Net.Tests
       {
          var store = new InMemoryConfigStore();
          string keyName = Guid.NewGuid().ToString();
-         var setting = new Setting<string>(keyName, null);
+         var setting = new Option<string>(keyName, null);
 
          Assert.IsNull(Cfg.Read(setting).Value);
 

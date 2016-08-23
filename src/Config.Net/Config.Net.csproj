@@ -73,7 +73,7 @@
     <Compile Include="ITypeParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Property.cs" />
-    <Compile Include="Setting.cs" />
+    <Compile Include="Option.cs" />
     <Compile Include="TypeParsers\BoolParser.cs" />
     <Compile Include="TypeParsers\DateTimeParser.cs" />
     <Compile Include="TypeParsers\DefaultParser.cs" />

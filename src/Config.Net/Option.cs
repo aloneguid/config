@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 
 namespace Config.Net
 {
    /// <summary>
-   /// Describes a configuration setting
+   /// Describes a configuration option
    /// </summary>
-   public abstract class Setting
+   public abstract class Option
    {
       /// <summary>
-      /// Gets configuration setting name
+      /// Gets configuration option name
       /// </summary>
       public string Name { get; protected set; }
 
@@ -32,7 +29,7 @@ namespace Config.Net
       public string[] AlsoKnownAs { get; set; }
 
       /// <summary>
-      /// Returns setting name
+      /// Returns option name
       /// </summary>
       public override string ToString()
       {
@@ -42,17 +39,26 @@ namespace Config.Net
 
 
    /// <summary>
-   /// Describes a configuration setting
+   /// Describes a configuration option
    /// </summary>
    /// <typeparam name="T"></typeparam>
-   public sealed class Setting<T> : Setting
+   public sealed class Option<T> : Option
    {
       /// <summary>
-      /// Creates a new instance of configuraton setting by name and default value
+      /// Creates a new instance of configuration option default value only
       /// </summary>
-      public Setting(string name, T defaultValue)
+      /// <param name="defaultValue"></param>
+      public Option(T defaultValue) : this(null, defaultValue)
       {
-         if(name == null) throw new ArgumentNullException(nameof(name));
+
+      }
+
+      /// <summary>
+      /// Creates a new instance of configuraton option by name and default value
+      /// </summary>
+      public Option(string name, T defaultValue)
+      {
+         //if(name == null) throw new ArgumentNullException(nameof(name));
          //if(!GlobalConfiguration.Instance.CanParse(typeof(T))) throw new TypeLoadException($"type {typeof(T).FullName} not supported");
 
          Name = name;
@@ -61,10 +67,10 @@ namespace Config.Net
       }
 
       /// <summary>
-      /// Creates a new instance of configuration setting by referencing an existing setting definition
+      /// Creates a new instance of configuration option by referencing an existing option definition
       /// </summary>
       /// <param name="referenceSetting"></param>
-      public Setting(Setting<T> referenceSetting) : this(referenceSetting.Name, referenceSetting.DefaultValue)
+      public Option(Option<T> referenceSetting) : this(referenceSetting.Name, referenceSetting.DefaultValue)
       {
 
       }
@@ -75,10 +81,10 @@ namespace Config.Net
       public new T DefaultValue { get; private set; }
 
       /// <summary>
-      /// Cast operator which reads the setting
+      /// Cast operator which reads the option
       /// </summary>
       /// <param name="property"></param>
-      public static implicit operator T(Setting<T> property)
+      public static implicit operator T(Option<T> property)
       {
          return Cfg.Read(property);
       }

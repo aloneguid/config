@@ -8,7 +8,7 @@ namespace Config.Net.Tests
    public class ConfigManagerPerformanceTest
    {
       private Mock<IConfigStore> _store;
-      private static readonly Setting<int> IntSetting = new Setting<int>("int", 4);
+      private static readonly Option<int> IntSetting = new Option<int>("int", 4);
 
       [SetUp]
       public void SetUp()

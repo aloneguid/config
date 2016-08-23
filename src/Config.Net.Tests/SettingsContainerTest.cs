@@ -29,10 +29,9 @@ namespace Config.Net.Tests
             _store = store;
          }
 
-         public int Timeout { get; set; }
+         public Option<TimeSpan> StrongSpan;
 
-         [Option(Name = "StrongestSpan")]
-         public TimeSpan StrongSpan { get; set; }
+         public Option<int> Timeout;
 
          protected override void OnConfigure(IConfigConfiguration configuration)
          {

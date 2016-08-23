@@ -46,7 +46,7 @@ namespace Config.Net
          _defaultParser = GlobalConfiguration.Instance.DefaultParser;
       }
 
-      public Property<T> Read<T>(Setting<T> key)
+      public Property<T> Read<T>(Option<T> key)
       {
          lock (_storeLock)
          {
@@ -63,7 +63,7 @@ namespace Config.Net
          }
       }
 
-      public Property<T?> Read<T>(Setting<T?> key) where T : struct
+      public Property<T?> Read<T>(Option<T?> key) where T : struct
       {
          lock(_storeLock)
          {
@@ -85,7 +85,7 @@ namespace Config.Net
          }
       }
 
-      private Property<T> GetCached<T>(Setting<T> key)
+      private Property<T> GetCached<T>(Option<T> key)
       {
          SettingTag tag;
          if (!_keyToTag.TryGetValue(key.Name, out tag)) return null;
@@ -99,7 +99,7 @@ namespace Config.Net
       /// Responsible for returning the Property for raw value.
       /// If values is changed it simply returns the cached Property and calls ChangeValue on it.
       /// </summary>
-      private Property<T> AsProperty<T>(Setting<T> key, T value)
+      private Property<T> AsProperty<T>(Option<T> key, T value)
       {
          if (!_keyToTag.ContainsKey(key.Name))
          {
@@ -189,7 +189,7 @@ namespace Config.Net
          return parsed;
       }
 
-      public void Write<T>(Setting<T> key, T value)
+      public void Write<T>(Option<T> key, T value)
       {
          if(key == null) throw new ArgumentNullException(nameof(key));
 
@@ -205,7 +205,7 @@ namespace Config.Net
          }
       }
 
-      public void Write<T>(Setting<T?> key, T? value) where T : struct
+      public void Write<T>(Option<T?> key, T? value) where T : struct
       {
          if(key == null) throw new ArgumentNullException(nameof(key));
 
@@ -216,7 +216,7 @@ namespace Config.Net
          }
          lock (_storeLock)
          {
-            var nonNullableKey = new Setting<T>(
+            var nonNullableKey = new Option<T>(
                key.Name,
                default(T));
 
@@ -250,7 +250,7 @@ namespace Config.Net
          return stringValue;
       }
 
-      private void WriteValue<T>(Setting<T> key, string value)
+      private void WriteValue<T>(Option<T> key, string value)
       {
          if(key == null) throw new ArgumentNullException(nameof(key));
 
