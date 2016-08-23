@@ -7,7 +7,7 @@ namespace Config.Net.TypeParsers
    {
       public IEnumerable<Type> SupportedTypes => new[] { typeof(DateTime) };
 
-      public bool TryParse(string value, out DateTime result)
+      public bool TryParse(string value, Type t, out object result)
       {
          if(value == null)
          {
@@ -15,22 +15,15 @@ namespace Config.Net.TypeParsers
             return false;
          }
 
-         return DateTime.TryParse(value, out result);
-      }
-
-      public string ToRawString(DateTime value)
-      {
-         return value.ToString("u");
-      }
-
-      public bool TryParse(string value, Type t, out object result)
-      {
-         throw new NotImplementedException();
+         DateTime dateResult;
+         bool parsed = DateTime.TryParse(value, out dateResult);
+         result = dateResult;
+         return parsed;
       }
 
       public string ToRawString(object value)
       {
-         throw new NotImplementedException();
+         return ((DateTime)value).ToString("u");
       }
    }
 }

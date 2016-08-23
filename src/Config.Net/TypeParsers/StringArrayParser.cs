@@ -28,7 +28,7 @@ namespace Config.Net.TypeParsers
 
          if (arv == null || arv.Length == 0) return null;
 
-         return string.Join(Delimiter, value);
+         return string.Join(Delimiter, arv);
       }
    }
 }
