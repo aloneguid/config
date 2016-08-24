@@ -40,6 +40,11 @@ namespace Config.Net
          return result ?? defaultValue;
       }
 
+      public void Write(string name, object value)
+      {
+
+      }
+
       protected abstract void OnConfigure(IConfigConfiguration configuration);
 
       private void CheckConfigured()

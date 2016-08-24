@@ -92,5 +92,10 @@ namespace Config.Net
          object newValue = option._parent.Read(option.ValueType, option.Name, option.DefaultValue);
          return (T)newValue;
       }
+
+      public void Write(T value)
+      {
+         _parent.
+      }
    }
 }
