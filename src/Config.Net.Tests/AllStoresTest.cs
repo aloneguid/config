@@ -15,6 +15,7 @@ namespace Config.Net.Tests
       private IConfigStore _store;
       private readonly string _storeName;
       private string _testFile;
+      private TestSettings _settings = new TestSettings();
 
       public AllStoresTest(string storeName)
       {
@@ -24,10 +25,6 @@ namespace Config.Net.Tests
       [SetUp]
       public void CreateStore()
       {
-         Cfg.Configuration.RemoveAllStores();
-         Cfg.Configuration.AddStore(new IniFileConfigStore("c:\\tmp\\integration-tests.ini"));
-         Cfg.Configuration.AddStore(new EnvironmentVariablesStore());
-
          switch (_storeName)
          {
             case "ini":
@@ -39,8 +36,8 @@ namespace Config.Net.Tests
                break;
             case "azTable":
                _store = new AzureTableConfigStore(
-                  Settings.AzureStorageName,
-                  Settings.AzureStorageKey,
+                  _settings.AzureStorageName,
+                  _settings.AzureStorageKey,
                   "configurationtest", "confignettests");
                break;
             case "inmemory":

@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Config.Net;
 using Config.Net.Stores;
 using NUnit.Framework;
 
@@ -44,7 +39,7 @@ namespace Config.Net.Tests
       }
 
       [Test]
-      public void Smoke()
+      public void Read_()
       {
          var c = new MyContainer(_store);
 

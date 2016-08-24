@@ -89,13 +89,8 @@ namespace Config.Net
       /// <param name="option"></param>
       public static implicit operator T(Option<T> option)
       {
-         if (option._parent != null)
-         {
-            object newValue = option._parent.Read(option.ValueType, option.Name, option.DefaultValue);
-            return (T)newValue;
-         }
-
-         return Cfg.Read(option);
+         object newValue = option._parent.Read(option.ValueType, option.Name, option.DefaultValue);
+         return (T)newValue;
       }
    }
 }

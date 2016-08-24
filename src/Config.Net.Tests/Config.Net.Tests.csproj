@@ -108,7 +108,6 @@
   <ItemGroup>
     <Compile Include="AbstractTestFixture.cs" />
     <Compile Include="AssemblyConfigStoreTest.cs" />
-    <Compile Include="ConfigManagerPerformanceTest.cs" />
     <Compile Include="ConfigManagerTest.cs" />
     <Compile Include="AllStoresTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

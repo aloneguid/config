@@ -12,12 +12,18 @@ namespace Config.Net
       private readonly ConcurrentDictionary<string, Option> _nameToOption =
          new ConcurrentDictionary<string, Option>();
 
-      private readonly ConcurrentDictionary<string, object> _nameToOptionValue =
-         new ConcurrentDictionary<string, object>();
+      private readonly ConcurrentDictionary<string, Value> _nameToOptionValue =
+         new ConcurrentDictionary<string, Value>();
 
       private static readonly DefaultParser DefaultParser = new DefaultParser();
 
       private readonly string _namespace;
+      private bool _isConfigured;
+
+      protected SettingsContainer() : this(null)
+      {
+
+      }
 
       protected SettingsContainer(string namespaceName)
       {
@@ -28,18 +34,22 @@ namespace Config.Net
 
       public object Read(Type valueType, string name, object defaultValue)
       {
-         OnConfigure(_config);
+         CheckConfigured();
 
-         object result;
-         if(!ReadValue(name, valueType, out result))
-         {
-            return defaultValue;
-         }
-
-         return result;
+         object result = ReadTypedValue(name, valueType);
+         return result ?? defaultValue;
       }
 
       protected abstract void OnConfigure(IConfigConfiguration configuration);
+
+      private void CheckConfigured()
+      {
+         if (_isConfigured) return;
+
+         OnConfigure(_config);
+
+         _isConfigured = true;
+      }
 
       private void DiscoverProperties()
       {
@@ -69,6 +79,7 @@ namespace Config.Net
                value._parent = this;
 
                _nameToOption[value.Name] = value;
+               _nameToOptionValue[value.Name] = new Value();
             }
          }
       }
@@ -85,7 +96,7 @@ namespace Config.Net
          return _config.HasParser(t) || DefaultParser.IsSupported(t);
       }
 
-      private string ReadFirst(string key)
+      private string ReadFirstValue(string key)
       {
          foreach (IConfigStore store in _config.Stores)
          {
@@ -99,7 +110,7 @@ namespace Config.Net
          return null;
       }
 
-      private bool ReadValue(string keyName, Type valueType, out object result)
+      private object ReadTypedValue(string keyName, Type valueType)
       {
          if (!CanParse(valueType))
          {
@@ -107,28 +118,41 @@ namespace Config.Net
                                         " is not registered and not supported by default parser");
          }
 
-         string value = ReadFirst(keyName);
-         if (value == null)
+         Value optionValue;
+         _nameToOptionValue.TryGetValue(keyName, out optionValue);
+
+         if(!optionValue.IsExpired(_config.CacheTimeout))
          {
-            result = null;
-            return false;
+            return optionValue.RawValue;
          }
 
-         if (DefaultParser.IsSupported(valueType))
+         string value = ReadFirstValue(keyName);
+         if (value == null)
+         {
+            optionValue.RawValue = null;
+         }
+         else if (DefaultParser.IsSupported(valueType))
          {
             object resultObject;
             if (DefaultParser.TryParse(value, valueType, out resultObject))
             {
-               result = resultObject;
-               return true;
+               optionValue.RawValue = resultObject;
             }
-
-            result = null;
-            return false;
+            else
+            {
+               optionValue.RawValue = null;
+            }
+         }
+         else
+         {
+            ITypeParser typeParser = _config.GetParser(valueType);
+            object result;
+            typeParser.TryParse(value, valueType, out result);
+            optionValue.RawValue = result;
          }
 
-         ITypeParser typeParser = _config.GetParser(valueType);
-         return typeParser.TryParse(value, valueType, out result);
+         optionValue.Update();
+         return optionValue.RawValue;
       }
    }
 }

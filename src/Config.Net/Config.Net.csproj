@@ -50,7 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cfg.cs" />
     <Compile Include="ConfigManager.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="ContainerConfiguration.cs" />
@@ -84,6 +83,7 @@
     <Compile Include="TypeParsers\StringParser.cs" />
     <Compile Include="TypeParsers\TimeSpanParser.cs" />
     <Compile Include="TypeParsers\TypeParserSettings.cs" />
+    <Compile Include="Value.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\config.snk">
