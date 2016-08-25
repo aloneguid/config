@@ -1,11 +1,12 @@
-﻿using NUnit.Framework;
+﻿using Config.Net.TypeParsers;
+using NUnit.Framework;
 
 namespace Config.Net.Tests.TypeParsers
 {
    [TestFixture]
    class IntParserTest
    {
-      private static readonly ITypeParser TypeParser = Cfg.Configuration.GetParser(typeof(int));
+      private static readonly ITypeParser TypeParser = new IntParser();
 
       [Test]
       [TestCase("1234567890")]

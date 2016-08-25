@@ -1,4 +1,5 @@
 ﻿using System;
+using Config.Net.TypeParsers;
 using NUnit.Framework;
 
 namespace Config.Net.Tests.TypeParsers
@@ -6,7 +7,7 @@ namespace Config.Net.Tests.TypeParsers
    [TestFixture]
    public class DateTimeParserTest
    {
-      private static readonly ITypeParser TypeParser = Cfg.Configuration.GetParser(typeof(DateTime));
+      private static readonly ITypeParser TypeParser = new DateTimeParser();
 
       [Test]
       public void ParseTwoWays_Variable_Variable()

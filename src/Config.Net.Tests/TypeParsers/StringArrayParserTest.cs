@@ -1,11 +1,12 @@
-﻿using NUnit.Framework;
+﻿using Config.Net.TypeParsers;
+using NUnit.Framework;
 
 namespace Config.Net.Tests.TypeParsers
 {
    [TestFixture]
    class StringArrayParserTest
    {
-      private static readonly ITypeParser TypeParser = Cfg.Configuration.GetParser(typeof(string[]));
+      private static readonly ITypeParser TypeParser = new StringArrayParser();
 
       [Test]
       [TestCase("UK")]

@@ -1,11 +1,12 @@
-﻿using NUnit.Framework;
+﻿using Config.Net.TypeParsers;
+using NUnit.Framework;
 
 namespace Config.Net.Tests.TypeParsers
 {
    [TestFixture]
    class JiraTimeParserTest
    {
-      private static readonly ITypeParser TypeParser = Cfg.Configuration.GetParser(typeof(JiraTime));
+      private static readonly ITypeParser TypeParser = new JiraTimeParser();
 
       [Test]
       [TestCase("3d")]

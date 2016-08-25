@@ -1,11 +1,12 @@
-﻿using NUnit.Framework;
+﻿using Config.Net.TypeParsers;
+using NUnit.Framework;
 
 namespace Config.Net.Tests.TypeParsers
 {
    [TestFixture]
    class DoubleParserTest
    {
-      private static readonly ITypeParser TypeParser = Cfg.Configuration.GetParser(typeof(double));
+      private static readonly ITypeParser TypeParser = new DoubleParser();
 
       [Test]
       [TestCase("12345")]

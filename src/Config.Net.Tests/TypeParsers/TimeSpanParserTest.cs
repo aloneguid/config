@@ -1,4 +1,5 @@
 ﻿using System;
+using Config.Net.TypeParsers;
 using NUnit.Framework;
 
 namespace Config.Net.Tests.TypeParsers
@@ -6,7 +7,7 @@ namespace Config.Net.Tests.TypeParsers
    [TestFixture]
    class TimeSpanParserTest
    {
-      private static readonly ITypeParser TypeParser = Cfg.Configuration.GetParser(typeof(TimeSpan));
+      private static readonly ITypeParser TypeParser = new TimeSpanParser();
 
       [Test]
       [TestCase("3.00:00:00")]

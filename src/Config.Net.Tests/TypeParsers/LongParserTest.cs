@@ -1,11 +1,12 @@
-﻿using NUnit.Framework;
+﻿using Config.Net.TypeParsers;
+using NUnit.Framework;
 
 namespace Config.Net.Tests.TypeParsers
 {
    [TestFixture]
    class LongParserTest
    {
-      private static readonly ITypeParser TypeParser = Cfg.Configuration.GetParser(typeof(long));
+      private static readonly ITypeParser TypeParser = new LongParser();
 
       [Test]
       [TestCase("12345")]
