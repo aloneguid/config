@@ -39,6 +39,7 @@ namespace Config.Net.Tests
          protected override void OnConfigure(IConfigConfiguration configuration)
          {
             configuration.AddStore(_store);
+            configuration.CacheTimeout = TimeSpan.Zero;
          }
       }
 
@@ -63,7 +64,7 @@ namespace Config.Net.Tests
       public void Read_ConfiguredValue_Returns()
       {
          _store.Map[_settings.UnitTestName.Name] = "configured value";
-         Assert.AreEqual("configured value", _settings.UnitTestName);
+         Assert.AreEqual("configured value", (string)_settings.UnitTestName);
       }
 
       [Test]
@@ -78,7 +79,7 @@ namespace Config.Net.Tests
       [Test]
       public void Read_DefaultInteger_Reads()
       {
-         Assert.AreEqual(10, _settings.NumberOfMinutes);
+         Assert.AreEqual(10, (int)_settings.NumberOfMinutes);
       }
 
       [Test]
