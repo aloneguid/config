@@ -30,9 +30,11 @@ namespace Config.Net.Tests
          public Option<bool> LogXml = new Option<bool>("log-xml", true);
          public Option<int?> NumberOfMinutesMaybe = new Option<int?>("NumberOfMinutesMaybe", null);
          public Option<TimeSpan> PingInterval = new Option<TimeSpan>("ping-interval", TimeSpan.FromMinutes(1));
+         public Option<TimeSpan?> NullablePingInterval = new Option<TimeSpan?>("ping-interval-nullable", null);
          public Option<JiraTime> IssueEstimate = new Option<JiraTime>("estimate", JiraTime.FromHumanReadableString("1h2m"));
          public Option<Grid> ActiveGrid = new Option<Grid>("ActiveGrid", Grid.ZA);
          public Option<Grid?> ActiveGridMaybe = new Option<Grid?>("ActiveGridMaybe", null);
+         public Option<Guid> GuidNotSupported = new Option<Guid>("GuidSetting", Guid.Empty);
 
          protected override void OnConfigure(IConfigConfiguration configuration)
          {
@@ -252,30 +254,26 @@ namespace Config.Net.Tests
       [Test]
       public void Write_WhenTypeNotSupported_ThrowsException()
       {
-         Option<Guid> someGuidSetting = new Option<Guid>("MseTestGUID", Guid.NewGuid());
-
-         Assert.Throws(typeof (ArgumentException), () => Cfg.Write(someGuidSetting, Guid.NewGuid()));
+         Assert.Throws(typeof (ArgumentException), () => _settings.GuidNotSupported.Write(Guid.NewGuid()));
       }
 
       [Test]
       public void Write_WhenKeyNull_ThrowsException()
       {
-         Assert.Throws(typeof(ArgumentNullException), () => Cfg.Write(null, "KeyIsNull"));
+         Assert.Throws(typeof(ArgumentNullException), () => _settings.NullablePingInterval.Write(TimeSpan.FromDays(1)));
       }
 
       [Test]
       public void Write_Nullable_WhenTypeNotSupported_ThrowsException()
       {
-         Option<Guid?> someNullableGuidSetting = new Option<Guid?>("MseTestNullableGUID", null);
-
-         Assert.Throws(typeof(ArgumentException), () => Cfg.Write(someNullableGuidSetting, Guid.NewGuid()));
+         Assert.Throws(typeof(ArgumentException), () => _settings.GuidNotSupported.Write(Guid.NewGuid()));
       }
 
       [Test]
       public void WriteStringTest()
       {
          const string writeValue = "SomeValue";
-         Cfg.Write(UnitTestName, writeValue);
+         _settings.UnitTestName.Write(writeValue);
          
          Assert.AreEqual(writeValue, _settings.UnitTestName);
       }
@@ -284,7 +282,7 @@ namespace Config.Net.Tests
       public void WriteStringArrayTest()
       {
          string[] writeValue = {"Japan", "Denmark", "Australia"};
-         Cfg.Write(Regions, writeValue);
+         _settings.Regions.Write(writeValue);
          
          Assert.AreEqual(writeValue, _settings.Regions);
       }
@@ -293,7 +291,7 @@ namespace Config.Net.Tests
       public void WriteIntTest()
       {
          const int writeValue = 23;
-         Cfg.Write(NumberOfMinutes, writeValue);
+         _settings.NumberOfMinutes.Write(writeValue);
 
          Assert.AreEqual(writeValue, _settings.NumberOfMinutes);
       }
@@ -302,7 +300,7 @@ namespace Config.Net.Tests
       public void WriteBoolTest()
       {
          const bool writeValue = false;
-         Cfg.Write(LogXml, writeValue);
+         _settings.LogXml.Write(writeValue);
 
          Assert.AreEqual(writeValue, _settings.LogXml);
       }
@@ -311,7 +309,7 @@ namespace Config.Net.Tests
       public void WriteTimeSpanTest()
       {
          TimeSpan writeValue = TimeSpan.FromDays(23);
-         Cfg.Write(PingInterval, writeValue);
+         _settings.PingInterval.Write(writeValue);
 
          Assert.AreEqual(writeValue, _settings.PingInterval);
       }
@@ -320,7 +318,7 @@ namespace Config.Net.Tests
       public void WriteJiraTimeTest()
       {
          var writeValue = new JiraTime(TimeSpan.FromDays(17));
-         Cfg.Write(IssueEstimate, writeValue);
+         _settings.IssueEstimate.Write(writeValue);
 
          Assert.AreEqual(writeValue.ToString(), _settings.IssueEstimate.ToString());
       }
@@ -329,7 +327,7 @@ namespace Config.Net.Tests
       public void WriteEnumTest()
       {
          const Grid writeValue = Grid.UK;
-         Cfg.Write(ActiveGrid, writeValue);
+         _settings.ActiveGrid.Write(writeValue);
 
          Assert.AreEqual(writeValue, _settings.ActiveGrid);
       }
@@ -337,13 +335,13 @@ namespace Config.Net.Tests
       [Test]
       public void WriteNullableIntTest()
       {
-         Cfg.Write(NumberOfMinutesMaybe, null);
+         _settings.NumberOfMinutesMaybe.Write(null);
          
          Assert.AreEqual(null, _settings.NumberOfMinutesMaybe);
          _store.Map["NumberOfMinutesMaybe"] = "34";
          int? newWriteValue = 34;
 
-         Cfg.Write(NumberOfMinutesMaybe, newWriteValue);
+         _settings.NumberOfMinutesMaybe.Write(newWriteValue);
 
          Assert.AreEqual(newWriteValue, _settings.NumberOfMinutesMaybe);
       }
@@ -351,13 +349,13 @@ namespace Config.Net.Tests
       [Test]
       public void WriteNullableEnumTest()
       {
-         Cfg.Write(ActiveGridMaybe, null);
+         _settings.ActiveGridMaybe.Write(null);
 
          Assert.AreEqual(null, _settings.ActiveGridMaybe);
          
          Grid? newWriteValue = Grid.AC;
 
-         Cfg.Write(ActiveGridMaybe, newWriteValue);
+         _settings.ActiveGridMaybe.Write(newWriteValue);
 
          Assert.AreEqual(newWriteValue, _settings.ActiveGridMaybe);
       }
@@ -365,11 +363,9 @@ namespace Config.Net.Tests
       [Test]
       public void WriteNullableTimeSpanTest()
       {
-         Option<TimeSpan?> someGuidSetting = new Option<TimeSpan?>("MseTestNullableTimeSpan", new TimeSpan(3, 5, 58));
+         _settings.NullablePingInterval.Write(null);
 
-         Cfg.Write(someGuidSetting, null);
-
-         Assert.AreEqual(null, _settings.someGuidSetting);
+         Assert.AreEqual(null, _settings.NullablePingInterval);
       }
 
       [Test]
@@ -379,8 +375,8 @@ namespace Config.Net.Tests
          string[] newValue = {"UK", "US"};
 
          //Arrange
-         Cfg.Write(Regions, newValue); //This is the first step so we write a non-default value
-         Cfg.Write(Regions, Regions.DefaultValue);
+         _settings.Regions.Write(newValue); //This is the first step so we write a non-default value
+         _settings.Regions.Write(_settings.Regions.DefaultValue);
 
          //Assert
          Assert.IsNull(_store.Read("Regions"));
@@ -391,8 +387,8 @@ namespace Config.Net.Tests
       {
          int newValue = 12;
 
-         Cfg.Write(_settings.NumberOfMinutes, newValue); //This is the first step so we write a non-default value
-         Cfg.Write(_settings.NumberOfMinutes, NumberOfMinutes.DefaultValue);
+         _settings.NumberOfMinutes.Write(newValue); //This is the first step so we write a non-default value
+         _settings.NumberOfMinutes.Write(_settings.NumberOfMinutes.DefaultValue);
 
          Assert.IsNull(_store.Read("NumberOfMinutes"));
       }
@@ -402,8 +398,8 @@ namespace Config.Net.Tests
       {
          Grid newValue = Grid.IT;
 
-         Cfg.Write(ActiveGrid, newValue); //This is the first step so we write a non-default value
-         Cfg.Write(ActiveGrid, ActiveGrid.DefaultValue);
+         _settings.ActiveGrid.Write(newValue); //This is the first step so we write a non-default value
+         _settings.ActiveGrid.Write(_settings.ActiveGrid.DefaultValue);
 
          Assert.IsNull(_store.Read("ActiveGrid"));
       }
@@ -413,27 +409,10 @@ namespace Config.Net.Tests
       {
          TimeSpan newValue = new TimeSpan(1, 1, 1);
 
-         Cfg.Write(PingInterval, newValue); //This is the first step so we write a non-default value
-         Cfg.Write(PingInterval, PingInterval.DefaultValue);
+         _settings.PingInterval.Write(newValue); //This is the first step so we write a non-default value
+         _settings.PingInterval.Write(_settings.PingInterval.DefaultValue);
 
          Assert.IsNull(_store.Read("ping-interval"));
-      }
-
-      [Test]
-      public void RemoveStores_AddOneStoreReadsKey_RemoveStoreKeyWontRead()
-      {
-         var store = new InMemoryConfigStore();
-         string keyName = Guid.NewGuid().ToString();
-         var setting = new Option<string>(keyName, null);
-
-         Assert.IsNull(_settings.setting);
-
-         store.Write(keyName, "12345");
-         Cfg.Configuration.AddStore(store);
-         Assert.AreEqual("12345", _settings.setting);
-
-         Cfg.Configuration.RemoveAllStores();
-         Assert.IsNull(_settings.setting);
       }
    }
 }

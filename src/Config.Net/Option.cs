@@ -95,7 +95,7 @@ namespace Config.Net
 
       public void Write(T value)
       {
-         _parent.
+         _parent.Write(Name, value);
       }
    }
 }

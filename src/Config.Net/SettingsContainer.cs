@@ -61,15 +61,15 @@ namespace Config.Net
          Type t = this.GetType();
 
          FieldInfo[] properties = t.GetFields();
-         foreach(FieldInfo pi in properties)
+         foreach (FieldInfo pi in properties)
          {
-            if(pi.FieldType.IsSubclassOf(typeof(Option)))
+            if (pi.FieldType.IsSubclassOf(typeof(Option)))
             {
                //check if it has the value
                object objValue = pi.GetValue(this);
 
                //if (objValue == null) throw new ApplicationException($"option '{pi.Name}' must be initialised.");
-               if(objValue == null)
+               if (objValue == null)
                {
                   //create default instance if it doesn't exist
                   var nt = typeof(Option<>);
@@ -126,7 +126,7 @@ namespace Config.Net
          Value optionValue;
          _nameToOptionValue.TryGetValue(keyName, out optionValue);
 
-         if(!optionValue.IsExpired(_config.CacheTimeout))
+         if (!optionValue.IsExpired(_config.CacheTimeout))
          {
             return optionValue.RawValue;
          }
