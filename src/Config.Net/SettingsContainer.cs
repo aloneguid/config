@@ -44,19 +44,76 @@ namespace Config.Net
       {
          CheckConfigured();
 
-         return ReadTypedValue(option);
+         CheckCanParse(option.NonNullableType);
+
+         Value optionValue;
+         _nameToOptionValue.TryGetValue(option.Name, out optionValue);
+
+         if (!optionValue.IsExpired(_config.CacheTimeout))
+         {
+            return (T)optionValue.RawValue;
+         }
+
+         string value = ReadFirstValue(option.Name);
+         if (value == null)
+         {
+            optionValue.RawValue = option.DefaultValue;
+         }
+         else if (DefaultParser.IsSupported(option.NonNullableType))
+         {
+            object resultObject;
+            if (DefaultParser.TryParse(value, option.NonNullableType, out resultObject))
+            {
+               optionValue.Update<T>((T)resultObject);
+            }
+            else
+            {
+               optionValue.Update(option.DefaultValue);
+            }
+         }
+         else
+         {
+            ITypeParser typeParser = _config.GetParser(option.NonNullableType);
+            object result;
+            typeParser.TryParse(value, option.NonNullableType, out result);
+            optionValue.Update<T>((T)result);
+         }
+
+         return (T)optionValue.RawValue;
       }
 
       public T? Read<T>(Option<T?> option) where T : struct
       {
          CheckConfigured();
 
-         return ReadTypedValue(option);
+         throw new NotImplementedException();
       }
 
-      public void Write<T>(Option<T> option, object value)
+      public void Write<T>(Option<T> option, T value)
       {
-         //
+         CheckConfigured();
+
+         Value optionValue;
+         _nameToOptionValue.TryGetValue(option.Name, out optionValue);
+
+         foreach(IConfigStore store in _config.Stores)
+         {
+            if(store.CanWrite)
+            {
+               string rawValue = AreEqual(value, option.DefaultValue) ? null : GetRawStringValue(value);
+               store.Write(option.Name, rawValue);
+               break;
+            }
+         }
+
+         optionValue.Update(value);
+      }
+
+      public void Write<T>(Option<T?> option, T? value) where T : struct
+      {
+         CheckConfigured();
+
+         throw new NotImplementedException();
       }
 
       protected abstract void OnConfigure(IConfigConfiguration configuration);
@@ -132,44 +189,67 @@ namespace Config.Net
          return null;
       }
 
-      private T ReadTypedValue<T>(Option<T> option)
+      private void CheckCanParse(Type t)
       {
-         if (!CanParse(option.NonNullableType))
+         if (!CanParse(t))
          {
-            throw new ArgumentException("value parser for " + option.NonNullableType.FullName +
+            throw new ArgumentException("value parser for " + t.FullName +
                                         " is not registered and not supported by default parser");
          }
+      }
 
-         Value optionValue;
-         _nameToOptionValue.TryGetValue(option.Name, out optionValue);
-
-         if (!optionValue.IsExpired(_config.CacheTimeout))
+      private bool AreEqual(object value1, object value2)
+      {
+         if (value1 != null && value2 != null)
          {
-            return (T)optionValue.RawValue;
+            Type t1 = value1.GetType();
+            Type t2 = value2.GetType();
+
+            if (t1.IsArray && t2.IsArray)
+            {
+               return AreEqual((Array)value1, (Array)value2);
+            }
          }
 
-         string value = ReadFirstValue(option.Name);
-         if (value == null)
+         return value1 != null && value1.Equals(value2);
+      }
+
+      private bool AreEqual(Array a, Array b)
+      {
+         if (a == null && b == null) return true;
+
+         if (a == null || b == null) return false;
+
+         if (a.Length != b.Length) return false;
+
+         for (int i = 0; i < a.Length; i++)
          {
-            optionValue.RawValue = option.DefaultValue;
+            object obj1 = a.GetValue(i);
+            object obj2 = b.GetValue(i);
+
+            if (!AreEqual(obj1, obj2)) return false;
          }
-         else if (DefaultParser.IsSupported(option.NonNullableType))
+
+         return true;
+      }
+
+      private string GetRawStringValue<T>(T value)
+      {
+         string stringValue = null;
+         ITypeParser typeParser = _config.GetParser(typeof(T));
+         if (typeParser != null)
          {
-            object resultObject;
-            DefaultParser.TryParse(value, option.NonNullableType, out resultObject);
-            T sv = resultObject as T;
-            optionValue.Update<T>(option.NonNullableType, resultObject ?? option.DefaultValue, option.IsNullable);
+            stringValue = typeParser.ToRawString(value);
          }
          else
          {
-            ITypeParser typeParser = _config.GetParser(option.NonNullableType);
-            object result;
-            typeParser.TryParse(value, option.NonNullableType, out result);
-            optionValue.Update(option.NonNullableType, result ?? option.DefaultValue, option.IsNullable);
-            optionValue.RawValue = result;
+            if (DefaultParser.IsSupported(typeof(T)))
+            {
+               stringValue = DefaultParser.ToRawString(value);
+            }
          }
-
-         return (T)optionValue.RawValue;
+         return stringValue;
       }
+
    }
 }

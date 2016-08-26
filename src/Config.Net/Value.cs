@@ -15,22 +15,14 @@ namespace Config.Net
          return (DateTime.UtcNow - Updated) > ttl;
       }
 
-      public void Update<T>(Type valueType, object value, bool isNullable)
+      public void Update<T>(T? value) where T : struct
       {
-
+         throw new NotImplementedException();
       }
 
-      public void Update<T>(Type valueType, object value, bool isNullable)
+      public void Update<T>(T value)
       {
-         if(isNullable)
-         {
-            RawValue = new Nullable<T>((T)value);
-         }
-         else
-         {
-            RawValue = value;
-         }
-
+         RawValue = value;
          Updated = DateTime.UtcNow;
       }
    }

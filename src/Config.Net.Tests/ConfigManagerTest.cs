@@ -303,7 +303,7 @@ namespace Config.Net.Tests
          const bool writeValue = false;
          _settings.LogXml.Write(writeValue);
 
-         Assert.AreEqual(writeValue, _settings.LogXml);
+         Assert.AreEqual(writeValue, (bool)_settings.LogXml);
       }
 
       [Test]
