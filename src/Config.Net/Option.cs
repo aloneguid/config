@@ -17,6 +17,10 @@ namespace Config.Net
       /// </summary>
       public Type ValueType { get; protected set; }
 
+      internal Type NonNullableType;
+
+      internal bool IsNullable;
+
       /// <summary>
       /// Gets default value used when nothing can be fetches from any configuration stores or they are not configured
       /// </summary>
@@ -89,13 +93,12 @@ namespace Config.Net
       /// <param name="option"></param>
       public static implicit operator T(Option<T> option)
       {
-         object newValue = option._parent.Read(option.ValueType, option.Name, option.DefaultValue);
-         return (T)newValue;
+         return option._parent.Read(option);
       }
 
       public void Write(T value)
       {
-         _parent.Write(Name, value);
+         _parent.Write(this, value);
       }
    }
 }

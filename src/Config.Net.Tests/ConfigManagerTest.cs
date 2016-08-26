@@ -201,14 +201,14 @@ namespace Config.Net.Tests
       public void ReadNullableEnum_NotNull_CorrectValue()
       {
          _store.Map[_settings.ActiveGridMaybe.Name] = Grid.ZA.ToString();
-         Assert.AreEqual(Grid.ZA, _settings.ActiveGridMaybe);
+         Assert.AreEqual(Grid.ZA, (Grid)_settings.ActiveGridMaybe);
       }
 
       [Test]
       public void ReadNullableEnum_OutOfRange_Null()
       {
          _store.Map[_settings.ActiveGridMaybe.Name] = "Out Of Range";
-         Assert.IsNull(_settings.ActiveGridMaybe);
+         Assert.IsNull((Grid?)_settings.ActiveGridMaybe);
       }
 
       [Test]
@@ -222,7 +222,7 @@ namespace Config.Net.Tests
       public void ReadNullableInt_NotNull_CorrectValue()
       {
          _store.Map[_settings.NumberOfMinutesMaybe.Name] = "9";
-         Assert.AreEqual(9, _settings.NumberOfMinutesMaybe);
+         Assert.AreEqual(9, (int)_settings.NumberOfMinutesMaybe);
       }
 
       [Test]
@@ -276,7 +276,7 @@ namespace Config.Net.Tests
          const string writeValue = "SomeValue";
          _settings.UnitTestName.Write(writeValue);
          
-         Assert.AreEqual(writeValue, _settings.UnitTestName);
+         Assert.AreEqual(writeValue, (string)_settings.UnitTestName);
       }
 
       [Test]
@@ -294,7 +294,7 @@ namespace Config.Net.Tests
          const int writeValue = 23;
          _settings.NumberOfMinutes.Write(writeValue);
 
-         Assert.AreEqual(writeValue, _settings.NumberOfMinutes);
+         Assert.AreEqual(writeValue, (int)_settings.NumberOfMinutes);
       }
 
       [Test]
@@ -312,7 +312,7 @@ namespace Config.Net.Tests
          TimeSpan writeValue = TimeSpan.FromDays(23);
          _settings.PingInterval.Write(writeValue);
 
-         Assert.AreEqual(writeValue, _settings.PingInterval);
+         Assert.AreEqual(writeValue, (TimeSpan)_settings.PingInterval);
       }
 
       [Test]
@@ -330,7 +330,7 @@ namespace Config.Net.Tests
          const Grid writeValue = Grid.UK;
          _settings.ActiveGrid.Write(writeValue);
 
-         Assert.AreEqual(writeValue, _settings.ActiveGrid);
+         Assert.AreEqual(writeValue, (Grid)_settings.ActiveGrid);
       }
 
       [Test]

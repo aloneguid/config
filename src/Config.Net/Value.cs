@@ -15,8 +15,22 @@ namespace Config.Net
          return (DateTime.UtcNow - Updated) > ttl;
       }
 
-      public void Update()
+      public void Update<T>(Type valueType, object value, bool isNullable)
       {
+
+      }
+
+      public void Update<T>(Type valueType, object value, bool isNullable)
+      {
+         if(isNullable)
+         {
+            RawValue = new Nullable<T>((T)value);
+         }
+         else
+         {
+            RawValue = value;
+         }
+
          Updated = DateTime.UtcNow;
       }
    }

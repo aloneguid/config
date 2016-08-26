@@ -32,17 +32,31 @@ namespace Config.Net
          DiscoverProperties();
       }
 
-      public object Read(Type valueType, string name, object defaultValue)
+      /*public object Read(Type valueType, string name, object defaultValue)
       {
          CheckConfigured();
 
          object result = ReadTypedValue(name, valueType);
          return result ?? defaultValue;
+      }*/
+
+      public T Read<T>(Option<T> option)
+      {
+         CheckConfigured();
+
+         return ReadTypedValue(option);
       }
 
-      public void Write(string name, object value)
+      public T? Read<T>(Option<T?> option) where T : struct
       {
+         CheckConfigured();
 
+         return ReadTypedValue(option);
+      }
+
+      public void Write<T>(Option<T> option, object value)
+      {
+         //
       }
 
       protected abstract void OnConfigure(IConfigConfiguration configuration);
@@ -82,6 +96,9 @@ namespace Config.Net
                if (string.IsNullOrEmpty(value.Name)) value.Name = pi.Name;
                value.Name = GetFullKeyName(value.Name);
                value._parent = this;
+               value.NonNullableType = Nullable.GetUnderlyingType(value.ValueType);
+               value.IsNullable = value.NonNullableType != null;
+               if (value.NonNullableType == null) value.NonNullableType = value.ValueType;
 
                _nameToOption[value.Name] = value;
                _nameToOptionValue[value.Name] = new Value();
@@ -115,49 +132,44 @@ namespace Config.Net
          return null;
       }
 
-      private object ReadTypedValue(string keyName, Type valueType)
+      private T ReadTypedValue<T>(Option<T> option)
       {
-         if (!CanParse(valueType))
+         if (!CanParse(option.NonNullableType))
          {
-            throw new ArgumentException("value parser for " + valueType.FullName +
+            throw new ArgumentException("value parser for " + option.NonNullableType.FullName +
                                         " is not registered and not supported by default parser");
          }
 
          Value optionValue;
-         _nameToOptionValue.TryGetValue(keyName, out optionValue);
+         _nameToOptionValue.TryGetValue(option.Name, out optionValue);
 
          if (!optionValue.IsExpired(_config.CacheTimeout))
          {
-            return optionValue.RawValue;
+            return (T)optionValue.RawValue;
          }
 
-         string value = ReadFirstValue(keyName);
+         string value = ReadFirstValue(option.Name);
          if (value == null)
          {
-            optionValue.RawValue = null;
+            optionValue.RawValue = option.DefaultValue;
          }
-         else if (DefaultParser.IsSupported(valueType))
+         else if (DefaultParser.IsSupported(option.NonNullableType))
          {
             object resultObject;
-            if (DefaultParser.TryParse(value, valueType, out resultObject))
-            {
-               optionValue.RawValue = resultObject;
-            }
-            else
-            {
-               optionValue.RawValue = null;
-            }
+            DefaultParser.TryParse(value, option.NonNullableType, out resultObject);
+            T sv = resultObject as T;
+            optionValue.Update<T>(option.NonNullableType, resultObject ?? option.DefaultValue, option.IsNullable);
          }
          else
          {
-            ITypeParser typeParser = _config.GetParser(valueType);
+            ITypeParser typeParser = _config.GetParser(option.NonNullableType);
             object result;
-            typeParser.TryParse(value, valueType, out result);
+            typeParser.TryParse(value, option.NonNullableType, out result);
+            optionValue.Update(option.NonNullableType, result ?? option.DefaultValue, option.IsNullable);
             optionValue.RawValue = result;
          }
 
-         optionValue.Update();
-         return optionValue.RawValue;
+         return (T)optionValue.RawValue;
       }
    }
 }
