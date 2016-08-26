@@ -225,20 +225,6 @@ namespace Config.Net.Tests
          Assert.AreEqual(9, (int)_settings.NumberOfMinutesMaybe);
       }
 
-      [Test]
-      public void ReadProperty_TwoInsances_BothUpdateValue()
-      {
-         _store.Map["NumberOfMinutes"] = "78";
-         int minutes1 = _settings.NumberOfMinutes;
-         Assert.AreEqual(78, minutes1);
-
-         //now change property value and check it's updated in first and second instance
-         _store.Map["NumberOfMinutes"] = "79";
-         int minutes2 = _settings.NumberOfMinutes;
-         Assert.AreEqual(79, (int)minutes2);
-         Assert.AreEqual(79, (int)minutes1);
-      }
-
       /// <summary>
       /// Previously this operation would fail because ConfigManager would compare the cached value to
       /// a newly read one and fail because string arrays don't implement IComparable
@@ -321,7 +307,7 @@ namespace Config.Net.Tests
          var writeValue = new JiraTime(TimeSpan.FromDays(17));
          _settings.IssueEstimate.Write(writeValue);
 
-         Assert.AreEqual(writeValue.ToString(), _settings.IssueEstimate.ToString());
+         Assert.AreEqual(writeValue.ToString(), ((JiraTime)_settings.IssueEstimate).ToString());
       }
 
       [Test]
