@@ -19,8 +19,10 @@ namespace Config.Net.Tests.TypeParsers
          object date1Obj;
          DateTime date1;
          bool parsed = TypeParser.TryParse(s, typeof(DateTime), out date1Obj);
-         date1 = (DateTime)date1Obj;
+         Assert.IsTrue(parsed);
+         Assert.IsNotNull(date1Obj);
 
+         date1 = (DateTime)date1Obj;
          Assert.IsTrue(parsed);
          Assert.AreEqual(date.RoundToDay(), date1.RoundToDay());
       }
