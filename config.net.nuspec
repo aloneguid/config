@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
    <metadata>
       <id>Config.Net</id>
-      <version>1.2.0</version>
+      <version>$buildNumber$-alpha</version>
       <authors>Ivan Gavryliuk</authors>
       <iconUrl>https://alonestore.blob.core.windows.net/nuget/config.net.png</iconUrl>
       <owners>Ivan Gavryliuk</owners>
