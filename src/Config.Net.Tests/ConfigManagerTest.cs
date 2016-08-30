@@ -26,17 +26,17 @@ namespace Config.Net.Tests
             _store = store;
          }
 
-         public Option<string> UnitTestName = new Option<string>("UnitTestName", "not set");
-         public Option<int> NumberOfMinutes = new Option<int>("NumberOfMinutes", 10);
-         public Option<string[]> Regions = new Option<string[]>("Regions", new[] { "Japan", "Denmark", "Australia" });
-         public Option<bool> LogXml = new Option<bool>("log-xml", true);
-         public Option<int?> NumberOfMinutesMaybe = new Option<int?>("NumberOfMinutesMaybe", null);
-         public Option<TimeSpan> PingInterval = new Option<TimeSpan>("ping-interval", TimeSpan.FromMinutes(1));
-         public Option<TimeSpan?> NullablePingInterval = new Option<TimeSpan?>("ping-interval-nullable", null);
-         public Option<JiraTime> IssueEstimate = new Option<JiraTime>("estimate", JiraTime.FromHumanReadableString("1h2m"));
-         public Option<Grid> ActiveGrid = new Option<Grid>("ActiveGrid", Grid.ZA);
-         public Option<Grid?> ActiveGridNullable = new Option<Grid?>("ActiveGridMaybe", null);
-         public Option<Guid> GuidNotSupported = new Option<Guid>("GuidSetting", Guid.Empty);
+         public readonly Option<string> UnitTestName = new Option<string>("UnitTestName", "not set");
+         public readonly Option<int> NumberOfMinutes = new Option<int>("NumberOfMinutes", 10);
+         public readonly Option<string[]> Regions = new Option<string[]>("Regions", new[] { "Japan", "Denmark", "Australia" });
+         public readonly Option<bool> LogXml = new Option<bool>("log-xml", true);
+         public readonly Option<int?> NumberOfMinutesMaybe = new Option<int?>("NumberOfMinutesMaybe", null);
+         public readonly Option<TimeSpan> PingInterval = new Option<TimeSpan>("ping-interval", TimeSpan.FromMinutes(1));
+         public readonly Option<TimeSpan?> NullablePingInterval = new Option<TimeSpan?>("ping-interval-nullable", null);
+         public readonly Option<JiraTime> IssueEstimate = new Option<JiraTime>("estimate", JiraTime.FromHumanReadableString("1h2m"));
+         public readonly Option<Grid> ActiveGrid = new Option<Grid>("ActiveGrid", Grid.ZA);
+         public readonly Option<Grid?> ActiveGridNullable = new Option<Grid?>("ActiveGridMaybe", null);
+         public readonly Option<Guid> GuidNotSupported = new Option<Guid>("GuidSetting", Guid.Empty);
 
          protected override void OnConfigure(IConfigConfiguration configuration)
          {

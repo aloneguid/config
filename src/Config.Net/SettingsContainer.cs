@@ -164,6 +164,11 @@ namespace Config.Net
          {
             if (pi.FieldType.IsSubclassOf(typeof(Option)))
             {
+               if((pi.Attributes & FieldAttributes.InitOnly) == 0)
+               {
+                  throw new ArgumentException($"field {pi.Name} must be declared as read-only");
+               }
+
                //check if it has the value
                object objValue = pi.GetValue(this);
 
@@ -175,6 +180,9 @@ namespace Config.Net
                   Type[] ntArgs = pi.FieldType.GetGenericArguments();
                   Type ntGen = nt.MakeGenericType(ntArgs);
                   objValue = Activator.CreateInstance(ntGen);
+
+                  //set the instance value back to the container
+                  pi.SetValue(this, objValue);
                }
 
                Option value = (Option)objValue;

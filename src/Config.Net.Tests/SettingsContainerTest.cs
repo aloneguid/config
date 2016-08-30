@@ -15,6 +15,15 @@ namespace Config.Net.Tests
          _store = new InMemoryConfigStore();
       }
 
+      /*class MySection : SettingsSection
+      {
+         public MySection() : base("MySection1")
+         {
+         }
+
+         public Option<int> IntOption = new Option<int>()
+      }*/
+
       class MyContainer : SettingsContainer
       {
          #region crap
@@ -26,9 +35,11 @@ namespace Config.Net.Tests
          }
          #endregion
 
-         public Option<TimeSpan> StrongSpan = new Option<TimeSpan>(TimeSpan.FromDays(1));
+         public readonly Option<TimeSpan> StrongSpan = new Option<TimeSpan>(TimeSpan.FromDays(1));
 
-         public Option<int> Timeout = new Option<int>(2);
+         public readonly Option<int> Timeout = new Option<int>(2);
+
+         public readonly Option<int> ReadOnlyTimeout;
 
          protected override void OnConfigure(IConfigConfiguration configuration)
          {
@@ -44,6 +55,11 @@ namespace Config.Net.Tests
          int timeout = c.Timeout;
 
          Assert.AreEqual(2, timeout);
+      }
+
+      private class LambdaModule
+      {
+         
       }
    }
 }
