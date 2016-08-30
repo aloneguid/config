@@ -37,7 +37,7 @@ namespace Config.Net.Tests
       }
 
       [Test]
-      public void Read_()
+      public void Read_IntegerTimeout_Reads()
       {
          var c = new MyContainer(_store);
 
