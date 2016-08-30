@@ -82,16 +82,11 @@ namespace Config.Net
          return (T)optionValue.RawValue;
       }
 
-      public T? Read<T>(Option<T?> option) where T : struct
-      {
-         CheckConfigured();
-
-         throw new NotImplementedException();
-      }
-
       public void Write<T>(Option<T> option, T value)
       {
          CheckConfigured();
+
+         CheckCanParse(option.NonNullableType);
 
          Value optionValue;
          _nameToOptionValue.TryGetValue(option.Name, out optionValue);
@@ -100,20 +95,13 @@ namespace Config.Net
          {
             if(store.CanWrite)
             {
-               string rawValue = AreEqual(value, option.DefaultValue) ? null : GetRawStringValue(value);
+               string rawValue = AreEqual(value, option.DefaultValue) ? null : GetRawStringValue(option, value);
                store.Write(option.Name, rawValue);
                break;
             }
          }
 
          optionValue.Update(value);
-      }
-
-      public void Write<T>(Option<T?> option, T? value) where T : struct
-      {
-         CheckConfigured();
-
-         throw new NotImplementedException();
       }
 
       protected abstract void OnConfigure(IConfigConfiguration configuration);
@@ -200,6 +188,8 @@ namespace Config.Net
 
       private bool AreEqual(object value1, object value2)
       {
+         if (value1 == null && value2 == null) return true;
+
          if (value1 != null && value2 != null)
          {
             Type t1 = value1.GetType();
@@ -233,10 +223,10 @@ namespace Config.Net
          return true;
       }
 
-      private string GetRawStringValue<T>(T value)
+      private string GetRawStringValue<T>(Option<T> option, T value)
       {
          string stringValue = null;
-         ITypeParser typeParser = _config.GetParser(typeof(T));
+         ITypeParser typeParser = _config.GetParser(option.NonNullableType);
          if (typeParser != null)
          {
             stringValue = typeParser.ToRawString(value);

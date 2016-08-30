@@ -33,7 +33,7 @@ namespace Config.Net.Tests
          public Option<TimeSpan?> NullablePingInterval = new Option<TimeSpan?>("ping-interval-nullable", null);
          public Option<JiraTime> IssueEstimate = new Option<JiraTime>("estimate", JiraTime.FromHumanReadableString("1h2m"));
          public Option<Grid> ActiveGrid = new Option<Grid>("ActiveGrid", Grid.ZA);
-         public Option<Grid?> ActiveGridMaybe = new Option<Grid?>("ActiveGridMaybe", null);
+         public Option<Grid?> ActiveGridNullable = new Option<Grid?>("ActiveGridMaybe", null);
          public Option<Guid> GuidNotSupported = new Option<Guid>("GuidSetting", Guid.Empty);
 
          protected override void OnConfigure(IConfigConfiguration configuration)
@@ -193,22 +193,22 @@ namespace Config.Net.Tests
       [Test]
       public void ReadNullableEnum_Null_Null()
       {
-         Grid? grid = _settings.ActiveGridMaybe;
+         Grid? grid = _settings.ActiveGridNullable;
          Assert.IsNull(grid);
       }
 
       [Test]
       public void ReadNullableEnum_NotNull_CorrectValue()
       {
-         _store.Map[_settings.ActiveGridMaybe.Name] = Grid.ZA.ToString();
-         Assert.AreEqual(Grid.ZA, (Grid)_settings.ActiveGridMaybe);
+         _store.Map[_settings.ActiveGridNullable.Name] = Grid.ZA.ToString();
+         Assert.AreEqual(Grid.ZA, (Grid)_settings.ActiveGridNullable);
       }
 
       [Test]
       public void ReadNullableEnum_OutOfRange_Null()
       {
-         _store.Map[_settings.ActiveGridMaybe.Name] = "Out Of Range";
-         Assert.IsNull((Grid?)_settings.ActiveGridMaybe);
+         _store.Map[_settings.ActiveGridNullable.Name] = "Out Of Range";
+         Assert.IsNull((Grid?)_settings.ActiveGridNullable);
       }
 
       [Test]
@@ -245,12 +245,6 @@ namespace Config.Net.Tests
       }
 
       [Test]
-      public void Write_WhenKeyNull_ThrowsException()
-      {
-         Assert.Throws(typeof(ArgumentNullException), () => _settings.NullablePingInterval.Write(TimeSpan.FromDays(1)));
-      }
-
-      [Test]
       public void Write_Nullable_WhenTypeNotSupported_ThrowsException()
       {
          Assert.Throws(typeof(ArgumentException), () => _settings.GuidNotSupported.Write(Guid.NewGuid()));
@@ -271,7 +265,7 @@ namespace Config.Net.Tests
          string[] writeValue = {"Japan", "Denmark", "Australia"};
          _settings.Regions.Write(writeValue);
          
-         Assert.AreEqual(writeValue, _settings.Regions);
+         Assert.AreEqual(writeValue, (string[])_settings.Regions);
       }
 
       [Test]
@@ -324,27 +318,28 @@ namespace Config.Net.Tests
       {
          _settings.NumberOfMinutesMaybe.Write(null);
          
-         Assert.AreEqual(null, _settings.NumberOfMinutesMaybe);
+         Assert.AreEqual(null, (int?)_settings.NumberOfMinutesMaybe);
          _store.Map["NumberOfMinutesMaybe"] = "34";
          int? newWriteValue = 34;
 
          _settings.NumberOfMinutesMaybe.Write(newWriteValue);
 
-         Assert.AreEqual(newWriteValue, _settings.NumberOfMinutesMaybe);
+         Assert.AreEqual(newWriteValue, (int?)_settings.NumberOfMinutesMaybe);
       }
 
       [Test]
       public void WriteNullableEnumTest()
       {
-         _settings.ActiveGridMaybe.Write(null);
+         _settings.ActiveGridNullable.Write(null);
+         Grid? value = _settings.ActiveGridNullable;
 
-         Assert.AreEqual(null, _settings.ActiveGridMaybe);
+         Assert.AreEqual(null, (Grid?)_settings.ActiveGridNullable);
          
          Grid? newWriteValue = Grid.AC;
 
-         _settings.ActiveGridMaybe.Write(newWriteValue);
+         _settings.ActiveGridNullable.Write(newWriteValue);
 
-         Assert.AreEqual(newWriteValue, _settings.ActiveGridMaybe);
+         Assert.AreEqual(newWriteValue, (Grid?)_settings.ActiveGridNullable);
       }
 
       [Test]
@@ -352,7 +347,7 @@ namespace Config.Net.Tests
       {
          _settings.NullablePingInterval.Write(null);
 
-         Assert.AreEqual(null, _settings.NullablePingInterval);
+         Assert.AreEqual(null, (TimeSpan?)_settings.NullablePingInterval);
       }
 
       [Test]
