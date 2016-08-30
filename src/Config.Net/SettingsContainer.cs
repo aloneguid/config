@@ -12,8 +12,8 @@ namespace Config.Net
       private readonly ConcurrentDictionary<string, Option> _nameToOption =
          new ConcurrentDictionary<string, Option>();
 
-      private readonly ConcurrentDictionary<string, Value> _nameToOptionValue =
-         new ConcurrentDictionary<string, Value>();
+      private readonly ConcurrentDictionary<string, OptionValue> _nameToOptionValue =
+         new ConcurrentDictionary<string, OptionValue>();
 
       private static readonly DefaultParser DefaultParser = new DefaultParser();
 
@@ -46,7 +46,7 @@ namespace Config.Net
 
          CheckCanParse(option.NonNullableType);
 
-         Value optionValue;
+         OptionValue optionValue;
          _nameToOptionValue.TryGetValue(option.Name, out optionValue);
 
          if (!optionValue.IsExpired(_config.CacheTimeout))
@@ -88,7 +88,7 @@ namespace Config.Net
 
          CheckCanParse(option.NonNullableType);
 
-         Value optionValue;
+         OptionValue optionValue;
          _nameToOptionValue.TryGetValue(option.Name, out optionValue);
 
          foreach(IConfigStore store in _config.Stores)
@@ -146,7 +146,7 @@ namespace Config.Net
                if (value.NonNullableType == null) value.NonNullableType = value.ValueType;
 
                _nameToOption[value.Name] = value;
-               _nameToOptionValue[value.Name] = new Value();
+               _nameToOptionValue[value.Name] = new OptionValue();
             }
          }
       }

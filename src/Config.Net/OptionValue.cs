@@ -2,92 +2,23 @@
 
 namespace Config.Net
 {
-   /// <summary>
-   /// Property definition
-   /// </summary>
-   /// <typeparam name="T"></typeparam>
-   public class OptionValue<T>
+   class OptionValue
    {
-      private readonly object _sync = new object();
-      private T _value;
-      private string _rawValue;
-      private bool _isDefaultValue;
-      private DateTime _updated;
+      public object RawValue;
 
-      /// <summary>
-      /// Triggered when value is changed
-      /// </summary>
-      public event Action<T> ValueChanged;
+      public DateTime Updated;
 
-      /// <summary>
-      /// Constructs an instance
-      /// </summary>
-      /// <param name="value"></param>
-      /// <param name="rawValue"></param>
-      /// <param name="isDefaultValue"></param>
-      public OptionValue(T value, string rawValue, bool isDefaultValue)
+      public bool IsExpired(TimeSpan ttl)
       {
-         _value = value;
-         _rawValue = rawValue;
-         _isDefaultValue = isDefaultValue;
-         _updated = DateTime.UtcNow;
+         if (ttl == TimeSpan.Zero) return true;
+
+         return (DateTime.UtcNow - Updated) > ttl;
       }
 
-      /// <summary>
-      /// Strong typed value
-      /// </summary>
-      public T Value
+      public void Update<T>(T value)
       {
-         get
-         {
-            lock (_sync)
-            {
-               return _value;
-            }
-         }
-      }
-
-      /// <summary>
-      /// Returns true if current value is the same as default value
-      /// </summary>
-      public bool IsDefaultValue
-      {
-         get
-         {
-            lock (_sync)
-            {
-               return _isDefaultValue;
-            }
-         }
-      }
-
-      /// <summary>
-      /// Converts to string
-      /// </summary>
-      public override string ToString()
-      {
-         return _rawValue;
-      }
-
-      internal void ChangeValue(T newValue, string rawValue, bool isDefault)
-      {
-         lock (_sync)
-         {
-            _value = newValue;
-            _isDefaultValue = isDefault;
-            _rawValue = rawValue;
-            _updated = DateTime.UtcNow;
-         }
-
-         ValueChanged?.Invoke(Value);
-      }
-
-      /// <summary>
-      /// Implicit conversion to strong typed value
-      /// </summary>
-      public static implicit operator T(OptionValue<T> property)
-      {
-         return property.Value;
+         RawValue = value;
+         Updated = DateTime.UtcNow;
       }
    }
 }
