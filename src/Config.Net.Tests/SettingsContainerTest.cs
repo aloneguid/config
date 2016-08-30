@@ -30,8 +30,6 @@ namespace Config.Net.Tests
 
          public Option<int> Timeout = new Option<int>(2);
 
-         public Option<long> LongValue;
-
          protected override void OnConfigure(IConfigConfiguration configuration)
          {
             configuration.AddStore(_store);

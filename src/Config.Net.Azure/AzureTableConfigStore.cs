@@ -8,7 +8,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Config.Net.Azure
 {
-   public class AzureTableConfigStore : IConfigStore
+   class AzureTableConfigStore : IConfigStore
    {
       private readonly CloudTable _table;
       private readonly string _appName;

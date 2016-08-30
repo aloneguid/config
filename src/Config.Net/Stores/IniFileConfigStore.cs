@@ -7,7 +7,7 @@ namespace Config.Net.Stores
    /// <summary>
    /// Simple INI storage.
    /// </summary>
-   public class IniFileConfigStore : IConfigStore
+   class IniFileConfigStore : IConfigStore
    {
       private readonly string _fullName;
       private readonly string _fileName;

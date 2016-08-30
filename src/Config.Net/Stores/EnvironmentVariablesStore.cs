@@ -6,7 +6,7 @@ namespace Config.Net.Stores
    /// <summary>
    /// Uses system environment variables
    /// </summary>
-   public class EnvironmentVariablesStore : IConfigStore
+   class EnvironmentVariablesStore : IConfigStore
    {
       /// <summary>
       /// Readable
