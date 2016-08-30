@@ -56,7 +56,6 @@
     <Compile Include="IConfigStore.cs" />
     <Compile Include="JiraTime.cs" />
     <Compile Include="SettingsContainer.cs" />
-    <Compile Include="SettingsSection.cs" />
     <Compile Include="Stores\AppConfigStore.cs" />
     <Compile Include="Stores\AssemblyConfigStore.cs" />
     <Compile Include="Stores\EnvironmentVariablesStore.cs" />
