@@ -166,7 +166,12 @@ namespace Config.Net
             {
                if((pi.Attributes & FieldAttributes.InitOnly) == 0)
                {
-                  throw new ArgumentException($"field {pi.Name} must be declared as read-only");
+                  throw new ArgumentException($"field '{pi.Name}' must be declared as read-only");
+               }
+
+               if((pi.Attributes & FieldAttributes.Static) != 0)
+               {
+                  throw new ArgumentException($"field '{pi.Name}' cannot be static");
                }
 
                //check if it has the value

@@ -39,7 +39,7 @@ namespace Config.Net.Tests
 
          public readonly Option<int> Timeout = new Option<int>(2);
 
-         public readonly Option<int> ReadOnlyTimeout;
+         //public static readonly Option<int> StaticTimeout = new Option<int>(1);
 
          protected override void OnConfigure(IConfigConfiguration configuration)
          {
