@@ -87,6 +87,8 @@ namespace Config.Net
             optionValue.Update<T>((T)result);
          }
 
+         OnReadOption(option, optionValue.RawValue);
+
          return (T)optionValue.RawValue;
       }
 
@@ -116,6 +118,7 @@ namespace Config.Net
          }
 
          optionValue.Update(value);
+         OnWriteOption(option, value);
       }
 
       /// <summary>
@@ -124,6 +127,24 @@ namespace Config.Net
       /// </summary>
       /// <param name="configuration"></param>
       protected abstract void OnConfigure(IConfigConfiguration configuration);
+
+      /// <summary>
+      /// Called after any value is read
+      /// </summary>
+      /// <param name="option">Optiond that is read</param>
+      /// <param name="value">Option value read from a store</param>
+      protected virtual void OnReadOption(Option option, object value)
+      {
+      }
+
+      /// <summary>
+      /// Called before any value is written
+      /// </summary>
+      /// <param name="option">Option that is written</param>
+      /// <param name="value">Option value to write</param>
+      protected virtual void OnWriteOption(Option option, object value)
+      {
+      }
 
       private void CheckConfigured()
       {
