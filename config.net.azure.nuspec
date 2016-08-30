@@ -14,7 +14,7 @@
       <releaseNotes>
          Sign the assembly
       </releaseNotes>
-      <copyright>Copyright (c) 2015 by Ivan Gavryliuk</copyright>
+      <copyright>Copyright (c) 2015-2016 by Ivan Gavryliuk</copyright>
       <tags>Configuration, Azure</tags>
       <dependencies>
          <dependency id="Config.Net" version="1.2"/>
