@@ -5,6 +5,9 @@ using Config.Net.TypeParsers;
 
 namespace Config.Net
 {
+   /// <summary>
+   /// Generic container for test settings
+   /// </summary>
    public abstract class SettingsContainer
    {
       private readonly IConfigConfiguration _config = new ContainerConfiguration();
@@ -20,11 +23,18 @@ namespace Config.Net
       private readonly string _namespace;
       private bool _isConfigured;
 
+      /// <summary>
+      /// Constructs the container in default namespace
+      /// </summary>
       protected SettingsContainer() : this(null)
       {
 
       }
 
+      /// <summary>
+      /// Constructs the container allowing to specify a custom namespace
+      /// </summary>
+      /// <param name="namespaceName"></param>
       protected SettingsContainer(string namespaceName)
       {
          _namespace = namespaceName;
@@ -32,14 +42,12 @@ namespace Config.Net
          DiscoverProperties();
       }
 
-      /*public object Read(Type valueType, string name, object defaultValue)
-      {
-         CheckConfigured();
-
-         object result = ReadTypedValue(name, valueType);
-         return result ?? defaultValue;
-      }*/
-
+      /// <summary>
+      /// Reads the option value
+      /// </summary>
+      /// <typeparam name="T">Option type</typeparam>
+      /// <param name="option">Option reference</param>
+      /// <returns>Option value</returns>
       public T Read<T>(Option<T> option)
       {
          CheckConfigured();
@@ -82,6 +90,12 @@ namespace Config.Net
          return (T)optionValue.RawValue;
       }
 
+      /// <summary>
+      /// Writes a new value to the option
+      /// </summary>
+      /// <typeparam name="T">Option type</typeparam>
+      /// <param name="option">Option reference</param>
+      /// <param name="value">New value</param>
       public void Write<T>(Option<T> option, T value)
       {
          CheckConfigured();
@@ -104,6 +118,11 @@ namespace Config.Net
          optionValue.Update(value);
       }
 
+      /// <summary>
+      /// This method is called internally before containers is ready for use. You can specify
+      /// configuration stores or any other options here.
+      /// </summary>
+      /// <param name="configuration"></param>
       protected abstract void OnConfigure(IConfigConfiguration configuration);
 
       private void CheckConfigured()

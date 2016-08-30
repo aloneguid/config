@@ -1,9 +1,11 @@
 ﻿using System;
-using Config.Net.Stores;
 using NUnit.Framework;
 
 namespace Config.Net.Tests
 {
+   /// <summary>
+   /// These are the old tests from v1, still valuable!
+   /// </summary>
    [TestFixture]
    class ConfigManagerTest
    {

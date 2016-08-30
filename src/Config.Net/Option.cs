@@ -96,6 +96,11 @@ namespace Config.Net
          return option._parent.Read(option);
       }
 
+      /// <summary>
+      /// Writes a new value to this option. The value is written to the first available store which is writeable.
+      /// If none of the stores are writeable no errors are thrown.
+      /// </summary>
+      /// <param name="value"></param>
       public void Write(T value)
       {
          _parent.Write(this, value);
