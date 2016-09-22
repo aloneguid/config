@@ -398,5 +398,15 @@ namespace Config.Net.Tests
 
          Assert.IsNull(_store.Read("ping-interval"));
       }
+
+      [Test]
+      public void Read_StoreContainsEmptyString_ReadsDefaultValue()
+      {
+         _store.Write("key1", string.Empty);
+
+         string value = _settings.UnitTestName;
+
+         Assert.AreEqual(_settings.UnitTestName.DefaultValue, value);
+      }
    }
 }
