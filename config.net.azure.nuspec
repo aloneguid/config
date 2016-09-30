@@ -17,9 +17,10 @@
       <copyright>Copyright (c) 2015-2016 by Ivan Gavryliuk</copyright>
       <tags>Configuration, Azure</tags>
       <dependencies>
-         <dependency id="Config.Net" version="1.2"/>
+         <dependency id="Config.Net" version="2.0"/>
          <dependency id="Microsoft.WindowsAzure.ConfigurationManager" version="3.2"/>
-         <dependency id="WindowsAzure.Storage" version="6.2"/>
+         <dependency id="WindowsAzure.Storage" version="7.0"/>
+         <dependency id="Microsoft.Azure.KeyVault" version="1.0"/>
       </dependencies>
    </metadata>
    <files>
