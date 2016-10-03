@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Azure.KeyVault;
@@ -49,7 +50,7 @@ namespace Config.Net.Azure
       {
          get
          {
-            throw new NotImplementedException();
+            return true;
          }
       }
 
@@ -57,7 +58,7 @@ namespace Config.Net.Azure
       {
          get
          {
-            throw new NotImplementedException();
+            return true;
          }
       }
 
@@ -69,13 +70,39 @@ namespace Config.Net.Azure
 
       public string Read(string key)
       {
-         Secret secret = _vaultClient.GetSecretAsync(_vaultUri, key).Result;
-         return secret.Value;
+         Secret secret;
+
+         try
+         {
+            secret = _vaultClient.GetSecretAsync(_vaultUri, key).Result;
+         }
+         catch(AggregateException ex)
+         {
+            KeyVaultClientException ex1 = ex.InnerException as KeyVaultClientException;
+            if (ex1 != null && ex1.Status == HttpStatusCode.NotFound)
+            {
+               secret = null;
+            }
+            else
+            {
+               throw;
+            }
+         }
+
+         return secret == null ? null : secret.Value;
       }
 
       public void Write(string key, string value)
       {
-         throw new NotImplementedException();
+         if (value == null)
+         {
+            _vaultClient.DeleteSecretAsync(_vaultUri, key);
+         }
+         else
+         {
+            _vaultClient.SetSecretAsync(_vaultUri, key, value).Wait();
+         }
       }
+
    }
 }

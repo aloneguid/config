@@ -57,8 +57,10 @@ namespace Config.Net
       /// <returns></returns>
       private static Dictionary<Type, ITypeParser> GetBuiltInParsers()
       {
+         var core = new CoreParsers();
+
          //initialise dictionary manually intead of reflection for performance
-         return new Dictionary<Type, ITypeParser>
+         var result = new Dictionary<Type, ITypeParser>
          {
             {typeof(bool), new BoolParser()},
             {typeof(double), new DoubleParser()},
@@ -70,6 +72,13 @@ namespace Config.Net
             {typeof(TimeSpan), new TimeSpanParser()},
             {typeof(DateTime), new DateTimeParser()}
          };
+
+         foreach(Type t in core.SupportedTypes)
+         {
+            result[t] = core;
+         }
+
+         return result;
       }
    }
 }

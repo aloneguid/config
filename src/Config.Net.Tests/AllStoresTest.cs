@@ -62,6 +62,12 @@ namespace Config.Net.Tests
                   _settings.AzureStorageKey,
                   "configurationtest", "confignettests");
                break;
+            case "azKeyVault":
+               _store = new AzureKeyVaultConfigStore(
+                  _settings.AzureKeyVaultUri,
+                  _settings.AzureKeyVaultClientId,
+                  _settings.AzureKeyVaultSecret);
+               break;
             case "inmemory":
                _store = new InMemoryConfigStore();
                break;
@@ -109,6 +115,16 @@ namespace Config.Net.Tests
          _store.Write("key9", "value=9");
 
          Assert.Equal("value=9", _store.Read("key9"));
+      }
+
+      [Fact]
+      public void Read_NonExistingKey_ReturnsNull()
+      {
+         if (!_store.CanRead) return;
+
+         string value = _store.Read(Guid.NewGuid().ToString());
+
+         Assert.Null(value);
       }
 
       public void Dispose()

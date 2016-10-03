@@ -70,6 +70,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Option.cs" />
     <Compile Include="TypeParsers\BoolParser.cs" />
+    <Compile Include="TypeParsers\CoreParsers.cs" />
     <Compile Include="TypeParsers\DateTimeParser.cs" />
     <Compile Include="TypeParsers\DefaultParser.cs" />
     <Compile Include="TypeParsers\DoubleParser.cs" />
