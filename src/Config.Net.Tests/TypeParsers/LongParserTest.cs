@@ -1,27 +1,26 @@
 ﻿using Config.Net.TypeParsers;
-using NUnit.Framework;
+using Xunit;
 
 namespace Config.Net.Tests.TypeParsers
 {
-   [TestFixture]
-   class LongParserTest
+   public class LongParserTest
    {
       private static readonly ITypeParser TypeParser = new LongParser();
 
-      [Test]
-      [TestCase("12345")]
-      [TestCase("-105479")]
-      [TestCase("9223372036854775807")]
-      [TestCase("-9223372036854775808")]
+      [Fact]
+      [InlineData("12345")]
+      [InlineData("-105479")]
+      [InlineData("9223372036854775807")]
+      [InlineData("-9223372036854775808")]
       public void ToRawString_WhenInputIsValid_ReturnValidString(string rawValue)
       {
          object outValObj;
          long outVal;
 
-         Assert.IsTrue(TypeParser.TryParse(rawValue, typeof(JiraTime), out outValObj));
+         Assert.True(TypeParser.TryParse(rawValue, typeof(JiraTime), out outValObj));
          outVal = (long)outValObj;
 
-         Assert.AreEqual(rawValue, TypeParser.ToRawString(outVal));
+         Assert.Equal(rawValue, TypeParser.ToRawString(outVal));
       }
    }
 }

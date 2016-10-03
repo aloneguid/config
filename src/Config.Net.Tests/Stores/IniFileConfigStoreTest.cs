@@ -2,18 +2,16 @@
 using System.IO;
 using System.Threading;
 using Config.Net.Stores;
-using NUnit.Framework;
+using Xunit;
 
 namespace Config.Net.Tests.Stores
 {
-   [TestFixture]
-   public class IniFileConfigStoreTest : AbstractTestFixture
+   public class IniFileConfigStoreTest : AbstractTestFixture, IDisposable
    {
       private string _testFilePath;
       private IniFileConfigStore _store;
 
-      [SetUp]
-      public void SetUp()
+      public IniFileConfigStoreTest()
       {
          //get back clean file
          string src = Path.Combine(BuildDir.FullName, "TestData", "example.ini");
@@ -24,49 +22,48 @@ namespace Config.Net.Tests.Stores
          _store = new IniFileConfigStore(_testFilePath);
       }
 
-      [TearDown]
-      public void TearDown()
+      public void Dispose()
       {
          _store.Dispose();
       }
 
-      [Test]
+      [Fact]
       public void Read_Sectionless_CorrectValue()
       {
-         Assert.AreEqual("svalue0", _store.Read("skey0"));
+         Assert.Equal("svalue0", _store.Read("skey0"));
       }
 
-      [Test]
+      [Fact]
       public void Read_SectionOne_CorrectValue()
       {
-         Assert.AreEqual("s1value0", _store.Read("SectionOne.key0"));
+         Assert.Equal("s1value0", _store.Read("SectionOne.key0"));
       }
 
-      [Test]
+      [Fact]
       public void Read_KeyWithComment_CorrectValue()
       {
-         Assert.AreEqual("s1value1", _store.Read("SectionOne.key1"));
+         Assert.Equal("s1value1", _store.Read("SectionOne.key1"));
       }
 
-      [Test]
+      [Fact]
       public void Read_FileDoesNotExist_DoesNotFail()
       {
          var store = new IniFileConfigStore($"c:\\{Guid.NewGuid()}.ini");
       }
 
-      [Test]
+      [Fact]
       public void ValuesChange_RewriteFileWithNewValues_ReadsNewValues()
       {
          File.WriteAllText(_testFilePath, "keyV=valueV");
 
-         //Assert.AreEqual("valueV", _store.Read("keyV")); //this may fail immediately because it takes time for FSW to pick up the changes
+         //Assert.Equal("valueV", _store.Read("keyV")); //this may fail immediately because it takes time for FSW to pick up the changes
 
          Thread.Sleep(TimeSpan.FromSeconds(1));
 
-         Assert.AreEqual("valueV", _store.Read("keyV"));
+         Assert.Equal("valueV", _store.Read("keyV"));
       }
 
-      [Test]
+      [Fact]
       public void Write_NewFileWithNewValues_WritesCorrectText()
       {
          string fullPath = Path.Combine(TestDir.FullName, Guid.NewGuid() + ".ini");
@@ -78,7 +75,7 @@ namespace Config.Net.Tests.Stores
 
          string resultText = File.ReadAllText(fullPath);
 
-         Assert.AreEqual(
+         Assert.Equal(
             @"key0=value0
 
 [S1]

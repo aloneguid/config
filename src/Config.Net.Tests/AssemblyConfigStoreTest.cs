@@ -2,17 +2,15 @@ using System;
 using System.IO;
 using System.Reflection;
 using Config.Net.Stores;
-using NUnit.Framework;
+using Xunit;
 
 namespace Config.Net.Tests
 {
-   [TestFixture]
    public class AssemblyConfigStoreTest
    {
       private string _shadowCopyFile;
 
-      [SetUp]
-      public void EnsureConfigFile()
+      public AssemblyConfigStoreTest()
       {
          Assembly asm = Assembly.GetExecutingAssembly();
 
@@ -29,15 +27,14 @@ namespace Config.Net.Tests
          }
       }
 
-      [Test]
+      [Fact]
       public void ReadSettingTest()
       {
          IConfigStore store = new AssemblyConfigStore(Assembly.GetExecutingAssembly());
-         Assert.IsNull(store.Read("AnyKeyYouWant"));
+         Assert.Null(store.Read("AnyKeyYouWant"));
       }
 
-      [TearDown]
-      public void DeleteShadowCopyFile()
+      public void Dispose()
       {
          if (!string.IsNullOrEmpty(_shadowCopyFile))
             File.Delete(_shadowCopyFile);

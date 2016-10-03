@@ -1,13 +1,12 @@
 ﻿using System;
-using NUnit.Framework;
+using Xunit;
 
 namespace Config.Net.Tests
 {
    /// <summary>
    /// These are the old tests from v1, still valuable!
    /// </summary>
-   [TestFixture]
-   class ConfigManagerTest
+   public class ConfigManagerTest
    {
       enum Grid
       {
@@ -48,190 +47,189 @@ namespace Config.Net.Tests
       private TestStore _store;
       private FixtureSettings _settings;
 
-      [SetUp]
-      public void SetUp()
+      public ConfigManagerTest()
       {
          _store = new TestStore();
          _settings = new FixtureSettings(_store);
       }
 
-      [Test]
+      [Fact]
       public void Read_DefaultValue_Returns()
       {
          string v = _settings.UnitTestName;
-         Assert.AreEqual(_settings.UnitTestName.DefaultValue, v);
+         Assert.Equal(_settings.UnitTestName.DefaultValue, v);
       }
 
-      [Test]
+      [Fact]
       public void Read_ConfiguredValue_Returns()
       {
          _store.Map[_settings.UnitTestName.Name] = "configured value";
-         Assert.AreEqual("configured value", (string)_settings.UnitTestName);
+         Assert.Equal("configured value", (string)_settings.UnitTestName);
       }
 
-      [Test]
+      [Fact]
       public void Read_Integer_Reads()
       {
          _store.Map["NumberOfMinutes"] = "78";
 
          int minutes = _settings.NumberOfMinutes;
-         Assert.AreEqual(78, minutes);
+         Assert.Equal(78, minutes);
       }
 
-      [Test]
+      [Fact]
       public void Read_DefaultInteger_Reads()
       {
-         Assert.AreEqual(10, (int)_settings.NumberOfMinutes);
+         Assert.Equal(10, (int)_settings.NumberOfMinutes);
       }
 
-      [Test]
+      [Fact]
       public void Read_StringArray_Reads()
       {
          _store.Map["Regions"] = "IT, UK, US";
 
          string[] regions = _settings.Regions;
 
-         Assert.AreEqual(3, regions.Length);
+         Assert.Equal(3, regions.Length);
       }
 
-      [Test]
+      [Fact]
       public void ReadBooleanTrueFalseTest()
       {
          _store.Map["log-xml"] = "true";
-         Assert.IsTrue(_settings.LogXml);
+         Assert.True(_settings.LogXml);
 
          _store.Map["log-xml"] = "false";
-         Assert.IsFalse(_settings.LogXml);
+         Assert.False(_settings.LogXml);
       }
 
-      [Test]
+      [Fact]
       public void ReadBooleanYesNoTest()
       {
          _store.Map["log-xml"] = "yes";
-         Assert.IsTrue(_settings.LogXml);
+         Assert.True(_settings.LogXml);
 
          _store.Map["log-xml"] = "no";
-         Assert.IsFalse(_settings.LogXml);         
+         Assert.False(_settings.LogXml);         
       }
 
-      [Test]
+      [Fact]
       public void Read_PropertySyntax_Reads()
       {
          _store.Map["log-xml"] = "no";
-         Assert.IsFalse(_settings.LogXml);
+         Assert.False(_settings.LogXml);
       }
 
-      [Test]
+      [Fact]
       public void ReadBoolean10Test()
       {
          _store.Map["log-xml"] = "1";
-         Assert.IsTrue(_settings.LogXml);
+         Assert.True(_settings.LogXml);
 
          _store.Map["log-xml"] = "0";
-         Assert.IsFalse(_settings.LogXml);
+         Assert.False(_settings.LogXml);
       }
 
-      [Test]
+      [Fact]
       public void TimeSpanParserTest()
       {
          _store.Map["ping-interval"] = "01:02:03";
          TimeSpan v = _settings.PingInterval;
-         Assert.AreEqual(1, v.Hours);
-         Assert.AreEqual(2, v.Minutes);
-         Assert.AreEqual(3, v.Seconds);
+         Assert.Equal(1, v.Hours);
+         Assert.Equal(2, v.Minutes);
+         Assert.Equal(3, v.Seconds);
       }
 
-      [Test]
+      [Fact]
       public void JiraTimeParserTest()
       {
          _store.Map["estimate"] = "1d4h";
          JiraTime time = _settings.IssueEstimate;
-         Assert.AreEqual(1, time.TimeSpan.Days);
-         Assert.AreEqual(4, time.TimeSpan.Hours);
-         Assert.AreEqual(0, time.TimeSpan.Minutes);
-         Assert.AreEqual(0, time.TimeSpan.Seconds);
-         Assert.AreEqual(0, time.TimeSpan.Milliseconds);
+         Assert.Equal(1, time.TimeSpan.Days);
+         Assert.Equal(4, time.TimeSpan.Hours);
+         Assert.Equal(0, time.TimeSpan.Minutes);
+         Assert.Equal(0, time.TimeSpan.Seconds);
+         Assert.Equal(0, time.TimeSpan.Milliseconds);
       }
 
-      [Test]
+      [Fact]
       public void ReadEnum_NotInConfig_DefaultValue()
       {
          Grid grid = _settings.ActiveGrid;
-         Assert.AreEqual(Grid.ZA, grid);
+         Assert.Equal(Grid.ZA, grid);
       }
 
-      [Test]
+      [Fact]
       public void ReadEnum_InConfig_ConfigValue()
       {
          _store.Map["ActiveGrid"] = "UK";
          Grid grid = _settings.ActiveGrid;
-         Assert.AreEqual(Grid.UK, grid);
+         Assert.Equal(Grid.UK, grid);
       }
 
-      [Test]
+      [Fact]
       public void ReadEnum_InConfigInWrongCase_ConfigValue()
       {
          _store.Map["ActiveGrid"] = "uK";
          Grid grid = _settings.ActiveGrid;
-         Assert.AreEqual(Grid.UK, grid);
+         Assert.Equal(Grid.UK, grid);
       }
 
-      [Test]
+      [Fact]
       public void ReadEnum_OutOfRange_DefaultValue()
       {
          _store.Map["ActiveGrid"] = "dfdsfdsfdsf";
          Grid grid = _settings.ActiveGrid;
-         Assert.AreEqual(Grid.ZA, grid);
+         Assert.Equal(Grid.ZA, grid);
       }
 
-      [Test]
+      [Fact]
       public void ReadEnum_Null_DefaultValue()
       {
          _store.Map["ActiveGrid"] = null;
          Grid grid = _settings.ActiveGrid;
-         Assert.AreEqual(Grid.ZA, grid);
+         Assert.Equal(Grid.ZA, grid);
       }
 
-      [Test]
+      [Fact]
       public void ReadNullableEnum_Null_Null()
       {
          Grid? grid = _settings.ActiveGridNullable;
-         Assert.IsNull(grid);
+         Assert.Null(grid);
       }
 
-      [Test]
+      [Fact]
       public void ReadNullableEnum_NotNull_CorrectValue()
       {
          _store.Map[_settings.ActiveGridNullable.Name] = Grid.ZA.ToString();
-         Assert.AreEqual(Grid.ZA, (Grid)_settings.ActiveGridNullable);
+         Assert.Equal(Grid.ZA, (Grid)_settings.ActiveGridNullable);
       }
 
-      [Test]
+      [Fact]
       public void ReadNullableEnum_OutOfRange_Null()
       {
          _store.Map[_settings.ActiveGridNullable.Name] = "Out Of Range";
-         Assert.IsNull((Grid?)_settings.ActiveGridNullable);
+         Assert.Null((Grid?)_settings.ActiveGridNullable);
       }
 
-      [Test]
+      [Fact]
       public void ReadNullableInt_Null_Null()
       {
          int? value = _settings.NumberOfMinutesMaybe;
-         Assert.IsNull(value);
+         Assert.Null(value);
       }
 
-      [Test]
+      [Fact]
       public void ReadNullableInt_NotNull_CorrectValue()
       {
          _store.Map[_settings.NumberOfMinutesMaybe.Name] = "9";
-         Assert.AreEqual(9, (int)_settings.NumberOfMinutesMaybe);
+         Assert.Equal(9, (int)_settings.NumberOfMinutesMaybe);
       }
 
       /// <summary>
       /// Previously this operation would fail because ConfigManager would compare the cached value to
       /// a newly read one and fail because string arrays don't implement IComparable
       /// </summary>
-      [Test]
+      [Fact]
       public void ReadStringArray_Twice_DoesntFail()
       {
          _store.Map["Regions"] = "IT, UK, US";
@@ -240,119 +238,119 @@ namespace Config.Net.Tests
          v = _settings.Regions;
       }
 
-      [Test]
+      [Fact]
       public void Write_WhenTypeNotSupported_ThrowsException()
       {
          Assert.Throws(typeof (ArgumentException), () => _settings.GuidNotSupported.Write(Guid.NewGuid()));
       }
 
-      [Test]
+      [Fact]
       public void Write_Nullable_WhenTypeNotSupported_ThrowsException()
       {
          Assert.Throws(typeof(ArgumentException), () => _settings.GuidNotSupported.Write(Guid.NewGuid()));
       }
 
-      [Test]
+      [Fact]
       public void WriteStringTest()
       {
          const string writeValue = "SomeValue";
          _settings.UnitTestName.Write(writeValue);
          
-         Assert.AreEqual(writeValue, (string)_settings.UnitTestName);
+         Assert.Equal(writeValue, (string)_settings.UnitTestName);
       }
 
-      [Test]
+      [Fact]
       public void WriteStringArrayTest()
       {
          string[] writeValue = {"Japan", "Denmark", "Australia"};
          _settings.Regions.Write(writeValue);
          
-         Assert.AreEqual(writeValue, (string[])_settings.Regions);
+         Assert.Equal(writeValue, (string[])_settings.Regions);
       }
 
-      [Test]
+      [Fact]
       public void WriteIntTest()
       {
          const int writeValue = 23;
          _settings.NumberOfMinutes.Write(writeValue);
 
-         Assert.AreEqual(writeValue, (int)_settings.NumberOfMinutes);
+         Assert.Equal(writeValue, (int)_settings.NumberOfMinutes);
       }
 
-      [Test]
+      [Fact]
       public void WriteBoolTest()
       {
          const bool writeValue = false;
          _settings.LogXml.Write(writeValue);
 
-         Assert.AreEqual(writeValue, (bool)_settings.LogXml);
+         Assert.Equal(writeValue, (bool)_settings.LogXml);
       }
 
-      [Test]
+      [Fact]
       public void WriteTimeSpanTest()
       {
          TimeSpan writeValue = TimeSpan.FromDays(23);
          _settings.PingInterval.Write(writeValue);
 
-         Assert.AreEqual(writeValue, (TimeSpan)_settings.PingInterval);
+         Assert.Equal(writeValue, (TimeSpan)_settings.PingInterval);
       }
 
-      [Test]
+      [Fact]
       public void WriteJiraTimeTest()
       {
          var writeValue = new JiraTime(TimeSpan.FromDays(17));
          _settings.IssueEstimate.Write(writeValue);
 
-         Assert.AreEqual(writeValue.ToString(), ((JiraTime)_settings.IssueEstimate).ToString());
+         Assert.Equal(writeValue.ToString(), ((JiraTime)_settings.IssueEstimate).ToString());
       }
 
-      [Test]
+      [Fact]
       public void WriteEnumTest()
       {
          const Grid writeValue = Grid.UK;
          _settings.ActiveGrid.Write(writeValue);
 
-         Assert.AreEqual(writeValue, (Grid)_settings.ActiveGrid);
+         Assert.Equal(writeValue, (Grid)_settings.ActiveGrid);
       }
 
-      [Test]
+      [Fact]
       public void WriteNullableIntTest()
       {
          _settings.NumberOfMinutesMaybe.Write(null);
          
-         Assert.AreEqual(null, (int?)_settings.NumberOfMinutesMaybe);
+         Assert.Equal(null, (int?)_settings.NumberOfMinutesMaybe);
          _store.Map["NumberOfMinutesMaybe"] = "34";
          int? newWriteValue = 34;
 
          _settings.NumberOfMinutesMaybe.Write(newWriteValue);
 
-         Assert.AreEqual(newWriteValue, (int?)_settings.NumberOfMinutesMaybe);
+         Assert.Equal(newWriteValue, (int?)_settings.NumberOfMinutesMaybe);
       }
 
-      [Test]
+      [Fact]
       public void WriteNullableEnumTest()
       {
          _settings.ActiveGridNullable.Write(null);
          Grid? value = _settings.ActiveGridNullable;
 
-         Assert.AreEqual(null, (Grid?)_settings.ActiveGridNullable);
+         Assert.Equal(null, (Grid?)_settings.ActiveGridNullable);
          
          Grid? newWriteValue = Grid.AC;
 
          _settings.ActiveGridNullable.Write(newWriteValue);
 
-         Assert.AreEqual(newWriteValue, (Grid?)_settings.ActiveGridNullable);
+         Assert.Equal(newWriteValue, (Grid?)_settings.ActiveGridNullable);
       }
 
-      [Test]
+      [Fact]
       public void WriteNullableTimeSpanTest()
       {
          _settings.NullablePingInterval.Write(null);
 
-         Assert.AreEqual(null, (TimeSpan?)_settings.NullablePingInterval);
+         Assert.Equal(null, (TimeSpan?)_settings.NullablePingInterval);
       }
 
-      [Test]
+      [Fact]
       public void Write_SetSomeArrayValueAndThenSetToDefault_ReadsNull()
       {
          //Act
@@ -363,10 +361,10 @@ namespace Config.Net.Tests
          _settings.Regions.Write(_settings.Regions.DefaultValue);
 
          //Assert
-         Assert.IsNull(_store.Read("Regions"));
+         Assert.Null(_store.Read("Regions"));
       }
 
-      [Test]
+      [Fact]
       public void Write_SetSomeIntValueAndThenSetToDefault_ReadsNull()
       {
          int newValue = 12;
@@ -374,10 +372,10 @@ namespace Config.Net.Tests
          _settings.NumberOfMinutes.Write(newValue); //This is the first step so we write a non-default value
          _settings.NumberOfMinutes.Write(_settings.NumberOfMinutes.DefaultValue);
 
-         Assert.IsNull(_store.Read("NumberOfMinutes"));
+         Assert.Null(_store.Read("NumberOfMinutes"));
       }
 
-      [Test]
+      [Fact]
       public void Write_SetSomeEnumValueAndThenSetToDefault_ReadsNull()
       {
          Grid newValue = Grid.IT;
@@ -385,10 +383,10 @@ namespace Config.Net.Tests
          _settings.ActiveGrid.Write(newValue); //This is the first step so we write a non-default value
          _settings.ActiveGrid.Write(_settings.ActiveGrid.DefaultValue);
 
-         Assert.IsNull(_store.Read("ActiveGrid"));
+         Assert.Null(_store.Read("ActiveGrid"));
       }
 
-      [Test]
+      [Fact]
       public void Write_SetSomeTimeSpanValueAndThenSetToDefault_ReadsNull()
       {
          TimeSpan newValue = new TimeSpan(1, 1, 1);
@@ -396,17 +394,17 @@ namespace Config.Net.Tests
          _settings.PingInterval.Write(newValue); //This is the first step so we write a non-default value
          _settings.PingInterval.Write(_settings.PingInterval.DefaultValue);
 
-         Assert.IsNull(_store.Read("ping-interval"));
+         Assert.Null(_store.Read("ping-interval"));
       }
 
-      [Test]
+      [Fact]
       public void Read_StoreContainsEmptyString_ReadsDefaultValue()
       {
          _store.Write("key1", string.Empty);
 
          string value = _settings.UnitTestName;
 
-         Assert.AreEqual(_settings.UnitTestName.DefaultValue, value);
+         Assert.Equal(_settings.UnitTestName.DefaultValue, value);
       }
    }
 }

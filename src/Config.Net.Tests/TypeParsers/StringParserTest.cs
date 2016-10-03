@@ -1,28 +1,27 @@
 ﻿using Config.Net.TypeParsers;
-using NUnit.Framework;
+using Xunit;
 
 namespace Config.Net.Tests.TypeParsers
 {
-   [TestFixture]
-   class StringParserTest
+   public class StringParserTest
    {
       private static readonly ITypeParser TypeParser = new StringParser();
 
-      [Test]
-      [TestCase("Aloneguid")]
-      [TestCase("")]
-      [TestCase(" ")]
-      [TestCase(null)]
+      [Fact]
+      [InlineData("Aloneguid")]
+      [InlineData("")]
+      [InlineData(" ")]
+      [InlineData(null)]
       public void ToRawString_WhenInputIsValid_ReturnValidString(string rawValue)
       {
          object outVal;
 
          if(rawValue != null) 
-            Assert.IsTrue(TypeParser.TryParse(rawValue, typeof(string), out outVal));
+            Assert.True(TypeParser.TryParse(rawValue, typeof(string), out outVal));
          else
-            Assert.IsFalse(TypeParser.TryParse(null, typeof(string), out outVal));
+            Assert.False(TypeParser.TryParse(null, typeof(string), out outVal));
          
-         Assert.AreEqual(rawValue, TypeParser.ToRawString(outVal));
+         Assert.Equal(rawValue, TypeParser.ToRawString(outVal));
       }
    }
 }

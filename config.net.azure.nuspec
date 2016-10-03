@@ -21,6 +21,7 @@
          <dependency id="Microsoft.WindowsAzure.ConfigurationManager" version="3.2"/>
          <dependency id="WindowsAzure.Storage" version="7.0"/>
          <dependency id="Microsoft.Azure.KeyVault" version="1.0"/>
+         <dependency id="Microsoft.IdentityModel.Clients.ActiveDirectory" version="2.0"/>
       </dependencies>
    </metadata>
    <files>

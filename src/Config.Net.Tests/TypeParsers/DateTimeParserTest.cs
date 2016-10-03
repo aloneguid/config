@@ -1,15 +1,14 @@
 ﻿using System;
 using Config.Net.TypeParsers;
-using NUnit.Framework;
+using Xunit;
 
 namespace Config.Net.Tests.TypeParsers
 {
-   [TestFixture]
    public class DateTimeParserTest
    {
       private static readonly ITypeParser TypeParser = new DateTimeParser();
 
-      [Test]
+      [Fact]
       public void ParseTwoWays_Variable_Variable()
       {
          var date = DateTime.UtcNow;
@@ -19,12 +18,12 @@ namespace Config.Net.Tests.TypeParsers
          object date1Obj;
          DateTime date1;
          bool parsed = TypeParser.TryParse(s, typeof(DateTime), out date1Obj);
-         Assert.IsTrue(parsed);
-         Assert.IsNotNull(date1Obj);
+         Assert.True(parsed);
+         Assert.NotNull(date1Obj);
 
          date1 = (DateTime)date1Obj;
-         Assert.IsTrue(parsed);
-         Assert.AreEqual(date.RoundToDay(), date1.RoundToDay());
+         Assert.True(parsed);
+         Assert.Equal(date.RoundToDay(), date1.RoundToDay());
       }
    }
 }

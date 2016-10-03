@@ -1,31 +1,30 @@
 ﻿using System;
 using Config.Net.TypeParsers;
-using NUnit.Framework;
+using Xunit;
 
 namespace Config.Net.Tests.TypeParsers
 {
-   [TestFixture]
-   class TimeSpanParserTest
+   public class TimeSpanParserTest
    {
       private static readonly ITypeParser TypeParser = new TimeSpanParser();
 
-      [Test]
-      [TestCase("3.00:00:00")]
-      [TestCase("00:00:00")]
-      [TestCase("23:00:00")]
-      [TestCase("00:53:00")]
-      [TestCase("00:00:24")]
-      [TestCase("01:02:03")]
-      [TestCase("00:00:00.1130000")]
+      [Fact]
+      [InlineData("3.00:00:00")]
+      [InlineData("00:00:00")]
+      [InlineData("23:00:00")]
+      [InlineData("00:53:00")]
+      [InlineData("00:00:24")]
+      [InlineData("01:02:03")]
+      [InlineData("00:00:00.1130000")]
       public void ToRawString_WhenInputIsValid_ReturnValidString(string rawValue)
       {
          object outValObj;
          TimeSpan outVal;
 
-         Assert.IsTrue(TypeParser.TryParse(rawValue, typeof(TimeSpan), out outValObj));
+         Assert.True(TypeParser.TryParse(rawValue, typeof(TimeSpan), out outValObj));
          outVal = (TimeSpan)outValObj;
 
-         Assert.AreEqual(rawValue, TypeParser.ToRawString(outVal));
+         Assert.Equal(rawValue, TypeParser.ToRawString(outVal));
       }
    }
 }

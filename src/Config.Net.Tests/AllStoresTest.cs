@@ -1,16 +1,42 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Config.Net.Azure;
 using Config.Net.Stores;
-using NUnit.Framework;
+using Xunit;
 
 namespace Config.Net.Tests
 {
-   [TestFixture("ini")]
-   [TestFixture("azTable")]
-   [TestFixture("inmemory")]
-   [TestFixture("appconfig")]
-   [TestFixture("env")]
-   public class AllStoresTest : AbstractTestFixture
+   public class IniFileTest : AllStoresTest
+   {
+      public IniFileTest() : base("ini") { }
+   }
+
+   public class AzureTablesTest : AllStoresTest
+   {
+      public AzureTablesTest() : base("azTable") { }
+   }
+
+   public class InMemoryTest : AllStoresTest
+   {
+      public InMemoryTest() : base("inmemory") { }
+   }
+
+   public class AppConfigTest : AllStoresTest
+   {
+      public AppConfigTest() : base("appconfig") { }
+   }
+
+   public class EnvironmentVariablesTest : AllStoresTest
+   {
+      public EnvironmentVariablesTest() : base("env") { }
+   }
+
+   public class AzureKeyVaultTest : AllStoresTest
+   {
+      public AzureKeyVaultTest() : base("azKeyVault") { }
+   }
+
+   public abstract class AllStoresTest : AbstractTestFixture, IDisposable
    {
       private IConfigStore _store;
       private readonly string _storeName;
@@ -20,11 +46,7 @@ namespace Config.Net.Tests
       public AllStoresTest(string storeName)
       {
          _storeName = storeName;
-      }
-
-      [SetUp]
-      public void CreateStore()
-      {
+     
          switch (_storeName)
          {
             case "ini":
@@ -52,65 +74,46 @@ namespace Config.Net.Tests
          }
       }
 
-      [TearDown]
-      public void DisposeStore()
-      {
-         _store.Dispose();
-      }
-
-      [Test]
-      [TestCase("testkey", "testvalue")]
-      [TestCase("testkey1", "34567")]
-      [TestCase("testkey2", "HOMER,BART,LISA,MARGE,MAGGI")]
-      [TestCase("testkey3", null)]
+      [Theory]
+      [InlineData("testkey", "testvalue")]
+      [InlineData("testkey1", "34567")]
+      [InlineData("testkey2", "HOMER,BART,LISA,MARGE,MAGGI")]
+      [InlineData("testkey3", null)]
       public void Write_WritesKeyValue_ReadsBackCorrectly(string key, string value)
       {
-         IgnoreNonWriteable();
+         if(!_store.CanWrite) return;
 
          _store.Write(key, value);
 
-         Assert.AreEqual(value, _store.Read(key));
+         Assert.Equal(value, _store.Read(key));
       }
 
-      [Test]
+      [Fact]
       public void Write_ReplacesValue_ReadsBackCorrectly()
       {
-         IgnoreNonWriteable();
+         if(!_store.CanWrite) return;
 
          const string key = "key7";
          const string value = "changedvalue7";
 
          _store.Write(key, value);
 
-         Assert.AreEqual(value, _store.Read(key));
+         Assert.Equal(value, _store.Read(key));
       }
 
-      [Test]
+      [Fact]
       public void Write_AddValueWithEqualToSignDelimiter_ShouldWriteAndReadCorrectly()
       {
-         IgnoreNonWriteable();
+         if (!_store.CanWrite) return;
 
          _store.Write("key9", "value=9");
 
-         Assert.AreEqual("value=9", _store.Read("key9"));
+         Assert.Equal("value=9", _store.Read("key9"));
       }
 
-      [Test, Ignore("this needs extra escaping support")]
-      public void Write_AddKeyAndValueWithEqualToSignDelimiter_ShouldWriteAndReadCorrectly()
+      public void Dispose()
       {
-         IgnoreNonWriteable();
-
-         _store.Write("key=10", "value=10");
-
-         //re-initialise the store
-         CreateStore();
-
-         Assert.AreEqual("value=10", _store.Read("key=10"));
-      }
-
-      private void IgnoreNonWriteable()
-      {
-         if(!_store.CanWrite) Assert.Ignore("ignored as store is not writeable");
+         _store.Dispose();
       }
    }
 }

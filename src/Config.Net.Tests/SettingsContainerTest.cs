@@ -1,28 +1,17 @@
 ﻿using System;
 using Config.Net.Stores;
-using NUnit.Framework;
+using Xunit;
 
 namespace Config.Net.Tests
 {
-   [TestFixture]
    public class SettingsContainerTest
    {
       private IConfigStore _store;
 
-      [SetUp]
-      public void SetUp()
+      public SettingsContainerTest()
       {
          _store = new InMemoryConfigStore();
       }
-
-      /*class MySection : SettingsSection
-      {
-         public MySection() : base("MySection1")
-         {
-         }
-
-         public Option<int> IntOption = new Option<int>()
-      }*/
 
       class MyContainer : SettingsContainer
       {
@@ -47,14 +36,14 @@ namespace Config.Net.Tests
          }
       }
 
-      [Test]
+      [Fact]
       public void Read_IntegerTimeout_Reads()
       {
          var c = new MyContainer(_store);
 
          int timeout = c.Timeout;
 
-         Assert.AreEqual(2, timeout);
+         Assert.Equal(2, timeout);
       }
 
       private class LambdaModule
