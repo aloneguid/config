@@ -28,6 +28,8 @@ namespace Config.Net.Stores
       /// </summary>
       public string Read(string key)
       {
+         if (key == null) return null;
+
          foreach(string variant in GetAllKeyVariants(key))
          {
             string value = Environment.GetEnvironmentVariable(variant);

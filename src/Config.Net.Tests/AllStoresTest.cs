@@ -36,6 +36,9 @@ namespace Config.Net.Tests
       public AzureKeyVaultTest() : base("azKeyVault") { }
    }
 
+   /// <summary>
+   /// Tests all stores for consistent behavior
+   /// </summary>
    public abstract class AllStoresTest : AbstractTestFixture, IDisposable
    {
       private IConfigStore _store;
@@ -123,6 +126,16 @@ namespace Config.Net.Tests
          if (!_store.CanRead) return;
 
          string value = _store.Read(Guid.NewGuid().ToString());
+
+         Assert.Null(value);
+      }
+
+      [Fact]
+      public void Read_Null_Null()
+      {
+         if (!_store.CanRead) return;
+
+         string value = _store.Read(null);
 
          Assert.Null(value);
       }

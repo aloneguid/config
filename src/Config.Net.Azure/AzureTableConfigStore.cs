@@ -35,7 +35,7 @@ namespace Config.Net.Azure
 
       public string Read(string key)
       {
-         if(key == null) throw new ArgumentNullException(nameof(key));
+         if (key == null) return null;
 
          var filter = TableQuery.CombineFilters(
             TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, _appName),

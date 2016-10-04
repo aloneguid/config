@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
    <metadata>
       <id>Config.Net.Azure</id>
-      <version>$buildNumber$-alpha</version>
+      <version>$buildNumber$</version>
       <authors>Ivan Gavryliuk</authors>
       <owners>Ivan Gavryliuk</owners>
       <iconUrl>https://alonestore.blob.core.windows.net/nuget/config.net.png</iconUrl>

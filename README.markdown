@@ -1,4 +1,4 @@
-# Config.Net ![](https://aloneguid.visualstudio.com/DefaultCollection/_apis/public/build/definitions/323c5f4c-c814-452d-9eaf-1006c83fd44c/4/badge) [![Gitter](https://badges.gitter.im/aloneguid/config.svg)](https://gitter.im/aloneguid/config?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![NuGet](https://img.shields.io/nuget/v/Config.Net.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/Config.Net/)
+# Config.Net ![](https://aloneguid.visualstudio.com/DefaultCollection/_apis/public/build/definitions/323c5f4c-c814-452d-9eaf-1006c83fd44c/4/badge) [![NuGet](https://img.shields.io/nuget/v/Config.Net.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/Config.Net/)
 
 A comprehensive easy to use and powerful .NET configuration library, fully covered with unit tests and tested in the wild on thousands of servers and applications.
 
@@ -121,16 +121,6 @@ The list of available built-in and external stores is maintained on this page:
 | EnvironmentVariables | v        | v         | internal | OS environment variables |
 | IniFile              | v        | v         | internal | INI files |
 | InMemory             | v        | v         | internal | In-memory storage |
-
-
-
-## Microsoft Azure Configuration
-
-[AzureConfigStore](https://github.com/aloneguid/config/blob/master/src/Config.Net.Azure/AzureConfigStore.cs)  is a simple wrapper around [CloudConfigurationManager](https://msdn.microsoft.com/en-us/library/azure/mt634650.aspx). It allows you to read configuration settings from Azure Websites, Cloud Services and other Microsoft Azure PaaS services which are compatible with this class.
-
-In addition to that another implementation [AzureTableConfigStore](https://github.com/aloneguid/config/blob/master/src/Config.Net.Azure/AzureTableConfigStore.cs) allows to read/write configuration from a table in Azure Storage which is the cheapest storage machanism in Azure world. in order to use it you have to initialise it with storage account name, give it storage key and desired table name. The resulting table in the storage will look like this:
-
-| Partition Key |     Row Key    |  Value    |
-|---------------|----------------|-----------|
-|  App name     |  config key    | key value |
-
+| Azure                | v        | x         | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure's ConfigurationManager |
+| AzureTable           | v        | v         | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure Table Storage |
+| AzureKeyVault        | v        |           | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure Key Vault Secrets |

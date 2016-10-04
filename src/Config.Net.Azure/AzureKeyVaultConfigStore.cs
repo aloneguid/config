@@ -70,6 +70,8 @@ namespace Config.Net.Azure
 
       public string Read(string key)
       {
+         if (key == null) return null;
+
          Secret secret;
 
          try
