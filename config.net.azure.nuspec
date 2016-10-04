@@ -5,7 +5,7 @@
       <version>$buildNumber$</version>
       <authors>Ivan Gavryliuk</authors>
       <owners>Ivan Gavryliuk</owners>
-      <iconUrl>https://alonestore.blob.core.windows.net/nuget/config.net.png</iconUrl>
+      <iconUrl>http://images.gavryli.uk/nuget/config.net.png</iconUrl>
       <projectUrl>https://github.com/aloneguid/config</projectUrl>
       <requireLicenseAcceptance>false</requireLicenseAcceptance>
       <description>
