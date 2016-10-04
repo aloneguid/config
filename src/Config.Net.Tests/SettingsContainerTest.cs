@@ -12,7 +12,10 @@ namespace Config.Net.Tests
 
       protected override void OnConfigure(IConfigConfiguration configuration)
       {
+         configuration.CacheTimeout = TimeSpan.FromMinutes(1);
+
          configuration.UseAppConfig();
+         configuration.UseEnvironmentVariables();
       }
    }
 
@@ -72,6 +75,8 @@ namespace Config.Net.Tests
 
          string clientId = c.AuthClientId;
          string clientSecret = c.AuthClientSecret;
+
+         c.AuthClientId.Write("new value");
       }
 
       private class LambdaModule

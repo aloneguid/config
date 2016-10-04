@@ -25,5 +25,12 @@ namespace Config.Net
          configuration.AddStore(new AzureTableConfigStore(accountName, storageKey, tableName, appName));
          return configuration;
       }
+
+      public static IConfigConfiguration UseAzureKeyVault(this IConfigConfiguration configuration)
+      {
+
+
+         return configuration;
+      }
    }
 }

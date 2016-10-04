@@ -4,6 +4,8 @@ A comprehensive easy to use and powerful .NET configuration library, fully cover
 
 This library eliminates the problem of having configuration in different places, having to convert types between different providers, hardcoding configuration keys accross the solution, depending on specific configuration source implementation. It's doing that by exposing an abstract configuration interface and providing most common implementation for configuration sources like app.config, environment variables etc.
 
+> **Note:** Current version (v2) is not compatible with v1. If you need to come back to v1 documentation please follow [this link.](https://github.com/aloneguid/config/blob/master/README.v1.markdown)
+
 ## Quick Start
 
 Usually developers will hardcode reading cofiguration values from different sources like app.config, local json file etc. For instance, consider this code example:
@@ -62,69 +64,65 @@ Two things worth to note in this snippet:
 * An instance of `AllSettings` container was created. Normally you would create an instance of a settings container per application instance for performance reasons.
 * The settings were read from the settings container. Note the syntax and that for example `AuthClientId` is defined as an `Option<string>` but casted to `string`. This is because `Option<T>` class has implicit casting operator to `T` defined.
 
+
+### Using Multiple Sources
+
+`OnConfigure` method is used to prepare settings container for use. You can use it to add multiple configuration sources. To get the list of sources use IntelliSense (type dot-Use after `configuration`). For instance this method implementation:
+
+```csharp
+protected override void OnConfigure(IConfigConfiguration configuration)
+{
+    configuration.UseAppConfig();
+    configuration.UseEnvironmentVariables();
+}
+
+```
+
+causes the container to use both app.config and environment variables as configuration source.
+
+The order in which sources are added is important - Config.Net will try to read the source in the configured order and return the value from the first store where it exists.
+
 ### Writing Settings
 
-todo
+Some configuration stores support writing values. You can write the value back by calling the `.Write()` method on an option definition:
 
-### 
+```csharp
+c.AuthClientId.Write("new value");
+```
 
-
---- old docs below ---
+Config.Net will write the value to the first store which supports writing. If none of the stores support writing the call will be ignored.
 
 
 ## Caching
 
-By defalut config.net caches configuration values for 1 hour. After that it will read it again from the list of configured stores. If you want to change it to something else set the following variable:
+By defalut config.net caches configuration values for 1 hour. After that it will read it again from the list of configured stores. If you want to change it to something else set the variable in the `OnConfigure` method:
 
 ```csharp
-Cfg.Configuration.CacheTimeout = TimeSpan.FromHours(1);
+protected override void OnConfigure(IConfigConfiguration configuration)
+{
+    configuration.CacheTimeout = TimeSpan.FromMinutes(1);	//sets caching to 1 minute
+
+    configuration.UseAppConfig();
+    configuration.UseEnvironmentVariables();
+}
 ```
 
 setting it to `TimeSpan.Zero` disables caching completely.
 
-## Best practices for declaring settings
-
-Usually you would declare settings used in your application either in the application itself or a shared library in a file like Settings.cs:
-
-```csharp
-   static class Settings
-   {
-      public static readonly Setting<string> AzureStorageName = new Setting<string>("Azure.Storage.Name", null);
-
-      public static readonly Setting<string> AzureStorageKey = new Setting<string>("Azure.Storage.Key", null);
-   }
-```
-
-It's recommended to declared them as `public static readonly` fields.
 
 # Available Stores
 
-## App.Config
+The list of available built-in and external stores is maintained on this page:
 
-[AppConfigStore](https://github.com/aloneguid/config/blob/master/src/Config.Net/Stores/AppConfigStore.cs) simply reads keys from the default ConfigurationManager and has one parameterless constructor.
 
-## Assembly Config
+| Name                 | Readable | Writeable | Package  | Purpose                  |
+|----------------------|----------|-----------|----------|--------------------------|
+| AppConfig            | v        | x         | internal | .NET app.config files    |
+| EnvironmentVariables | v        | v         | internal | OS environment variables |
+| IniFile              | v        | v         | internal | INI files |
+| InMemory             | v        | v         | internal | In-memory storage |
 
-[AssemblyConfigStore](https://github.com/aloneguid/config/blob/master/src/Config.Net/Stores/AssemblyConfigStore.cs) reads those .dll.config files rarely used by anyone. You need to pass `Assembly` reference to read from.
 
-## System Environment variables
-
-[EnvironmentVariablesStore](https://github.com/aloneguid/config/blob/master/src/Config.Net/Stores/EnvironmentVariablesStore.cs) operates on system environment variables. Reads and writes are supported.
-
-## INI Files
-
-[IniFileConfigStore](https://github.com/aloneguid/config/blob/master/src/Config.Net/Stores/IniFileConfigStore.cs) works with INI files. Both reads and writes are supported. INI sections are supported too. This store will treat the first dot in the key name as a section separator, for example if you key is defined as `Azure.StorageKey` this store will expect to see the following in the INI file:
-
-```
-[Azure]
-StorageKey=value
-```
-
-Both multiline and single line comments are preserved when writing to the file.
-
-## In-Memory configuration
-
-[InMemoryConfigStore](https://github.com/aloneguid/config/blob/master/src/Config.Net/Stores/InMemoryConfigStore.cs) simply stores configuration in memory.
 
 ## Microsoft Azure Configuration
 
