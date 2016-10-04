@@ -1,51 +1,23 @@
-# Config.Net ![](https://aloneguid.visualstudio.com/DefaultCollection/_apis/public/build/definitions/323c5f4c-c814-452d-9eaf-1006c83fd44c/4/badge) [![Gitter](https://badges.gitter.im/aloneguid/config.svg)](https://gitter.im/aloneguid/config?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![NuGet](https://img.shields.io/nuget/v/Config.Net.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/Config.Net/)
+# Config.Net ![](https://aloneguid.visualstudio.com/DefaultCollection/_apis/public/build/definitions/323c5f4c-c814-452d-9eaf-1006c83fd44c/4/badge) [![Gitter](https://badges.gitter.im/aloneguid/config.svg)](https://gitter.im/aloneguid/config?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
+The library is available as a [NuGet package](https://www.nuget.org/packages/Config.Net)
 
 A comprehensive easy to use and powerful .NET configuration library, fully covered with unit tests and tested in the wild on thousands of servers and applications.
 
-This library eliminates the problem of having configuration in different places, having to convert types between different providers, hardcoding configuration keys accross the solution, depending on specific configuration source implementation. It's doing that by exposing an abstract configuration interface and providing most common implementation for configuration sources like app.config, environment variables etc.
+This library eliminates the problem of having configuration in different places, having to convert types between different providers, hardcoding configuration keys accross the solution etc.
+
+## Configuration sources
+
+Config.Net supports the following configuration sources out of the box:
+
+* Standard .NET app.config file
+* Standard .NET assembly config (.dll.config)
+* INI files
+* System environment variables
+* In memory configuration store
+* Microsoft Azure Configuration source (Web Apps, API Apps, Cloud Services etc.) - available as a separate [NuGet Package](https://www.nuget.org/packages/Config.Net.Azure)
 
 ## Quick Start
-
-Usually developers will hardcode reading cofiguration values from different sources like app.config, local json file etc. For instance, consider this code example:
-
-```csharp
-var clientId = ConfigurationManager.AppSettings["AuthClientId"];
-var clientSecret = ConfigurationManager.AppSettings["AuthClientSecret"];
-
-```
-
-You would guess that this code is trying to read a configuration setting from the local app.config file by name and that might be true, however there are numerous problems with this approach:
-
-* settings are referenced by a hardcoded string name which is prone to typos and therefore crashes in runtime.
-* there is no easy way to find out where a particular setting is used in code, except for performing a fulltext search (provided that the string was not mistyped)
-* if you decide to store configuration in a different place the code must be rewritten.
-
-Welcome to Config.Net which solves most of those problems. Let's rewrite this abomination using Config.Net approach. First, we need to define a configuration container which describes which settings are used in your application or a library:
-
-
-```csharp
-using Config.Net;
-
-public class AllSettings : SettingsContainer
-{
-    public readonly Option<string> AuthClientId = new Option<string>();
-
-    public readonly Option<string> AuthClientSecret = new Option<string>();
-
-    protected override void OnConfigure(IConfigConfiguration configuration)
-    {
-    }
-}
-```
-
-Let's go through this code snippet:
-* We have declared `AllSettings` class which will store configuration for oru application. All configuration classes must derive from `SettingsContainer`.
-* Two strong-typed configuration options were declared. Note they are both `readonly` which is another plus towards code quality.
-* `Option<T>` is a configuration option definition in Config.Net where generic parameter specifies the type.
-* A constructor of `Option<T>` was initialised with two parameters. The first one is a human readable string which helps the library to 
-
-
-
 
 All configuration settings are strong typed and the library takes care of making sure types are converted, stored and retreived properly.
 
@@ -61,7 +33,6 @@ public static class AppSettings
   //more setting definitions
 }
 ```
-
 
 This definition has a few important points.
 
@@ -88,17 +59,6 @@ int value = AppSettings.MyIntegerSetting;
 ```
 
 Under the hood config.net calls to default configuration manager and tries to read the value from the list of configuration stores. The first store that returns the value will be used as the result, otherwise default value is returned (in your case it's `5`).
-
-## Configuration sources
-
-Config.Net supports the following configuration sources out of the box:
-
-* Standard .NET app.config file
-* Standard .NET assembly config (.dll.config)
-* INI files
-* System environment variables
-* In memory configuration store
-* Microsoft Azure Configuration source (Web Apps, API Apps, Cloud Services etc.) - available as a separate [NuGet Package](https://www.nuget.org/packages/Config.Net.Azure).
 
 ## Caching
 

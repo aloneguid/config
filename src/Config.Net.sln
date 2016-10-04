@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Config.Net", "Config.Net\Config.Net.csproj", "{F2E2B471-05C9-45AC-8493-55119D1C2D10}"
 EndProject
@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\config.net.nuspec = ..\config.net.nuspec
 		..\pack.cmd = ..\pack.cmd
 		..\README.markdown = ..\README.markdown
+		..\README.v1.markdown = ..\README.v1.markdown
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Config.Net.Tests", "Config.Net.Tests\Config.Net.Tests.csproj", "{235C1C44-8D19-41E8-9A84-F39AED818A0D}"
