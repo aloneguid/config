@@ -1,0 +1,58 @@
+# INI File Store
+
+To configure the store:
+
+```csharp
+protected override void OnConfigure(IConfigConfiguration configuration)
+{
+    configuration.UseIniFile("full path to file.ini");
+}
+```
+
+The store supports reading and writing, as well as INI file sections.
+
+In the simplest form every key in the INI file corresponds to the name of an option. For instance a definition
+
+```csharp
+Option<string> MyOption;
+```
+
+will correspond to a line in an INI file:
+
+```
+MyOption=my fancy value
+```
+
+## Using Sections
+
+A section corresponds to a part of option name before the first dot (.), for instance
+
+```
+[SectionOne]
+MyOption=my fancy value
+```
+
+should use the definition
+
+```csharp
+Option<string> MyOption = new Option<string>("SectionOne.MyOption", null);
+```
+
+### Writing
+
+Writing is straightforward, however note that if an option has a dot in the name a section will be created by default.
+
+Both inline and newline comments are preserved on write:
+
+```
+key1=value1 ;this comment is preserved
+;this comments is preserved too
+```
+
+### Edge Cases
+
+There are a few edge cases when working with INI files you should know about:
+
+* A value can have an equal sign (`=`) and it will be considered a part of the value, because only the first equal sign is considered as a key-value separator.
+* Apparently key names cannot contain `=`
+* If a value contains semicolon (`;`) which is a comment separator in INI files you should add it also as a last character in the value, because the parser considers only last `;` as a comment separator. For example `key=val;ue` wil be read as `val`, however `key=val;ue;` will be read as `val;ue`.

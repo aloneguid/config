@@ -16,6 +16,7 @@ namespace Config.Net.Tests
 
          configuration.UseAppConfig();
          configuration.UseEnvironmentVariables();
+         configuration.UseIniFile("full path to file.ini");
       }
    }
 
