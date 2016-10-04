@@ -7,7 +7,7 @@ namespace Config.Net.Tests.TypeParsers
    {
       private static readonly ITypeParser TypeParser = new DoubleParser();
 
-      [Fact]
+      [Theory]
       [InlineData("12345")]
       [InlineData("1054.32179")]
       [InlineData("1.797693")]

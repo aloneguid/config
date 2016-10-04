@@ -7,7 +7,7 @@ namespace Config.Net.Tests.TypeParsers
    {
       private static readonly ITypeParser TypeParser = new StringParser();
 
-      [Fact]
+      [Theory]
       [InlineData("Aloneguid")]
       [InlineData("")]
       [InlineData(" ")]

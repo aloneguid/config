@@ -7,7 +7,7 @@ namespace Config.Net.Tests.TypeParsers
    {
       private static readonly ITypeParser TypeParser = new JiraTimeParser();
 
-      [Fact]
+      [Theory]
       [InlineData("3d")]
       [InlineData("23h")]
       [InlineData("53m")]
@@ -27,7 +27,7 @@ namespace Config.Net.Tests.TypeParsers
          Assert.Equal(rawValue, TypeParser.ToRawString(outValObj));
       }
 
-      [Fact]
+      [Theory]
       [InlineData("8d")]
       [InlineData("3h")]
       [InlineData("4m")]
@@ -54,7 +54,7 @@ namespace Config.Net.Tests.TypeParsers
          Assert.True(result);
       }
 
-      [Fact]
+      [Theory]
       [InlineData("8dg")]
       [InlineData("5ms3d")]
       [InlineData("3hg")]

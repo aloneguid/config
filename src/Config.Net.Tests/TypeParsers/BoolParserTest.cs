@@ -7,7 +7,7 @@ namespace Config.Net.Tests.TypeParsers
    {
       private static readonly ITypeParser TypeParser = new BoolParser();
 
-      [Fact]
+      [Theory]
       [InlineData("true")]
       [InlineData("false")]
       [InlineData("yes")]

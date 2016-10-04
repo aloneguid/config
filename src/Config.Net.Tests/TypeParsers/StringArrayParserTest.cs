@@ -7,7 +7,7 @@ namespace Config.Net.Tests.TypeParsers
    {
       private static readonly ITypeParser TypeParser = new StringArrayParser();
 
-      [Fact]
+      [Theory]
       [InlineData("UK")]
       [InlineData("US")]
       [InlineData("Germany")]

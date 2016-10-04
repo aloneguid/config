@@ -7,7 +7,7 @@ namespace Config.Net.Tests.TypeParsers
    {
       private static readonly ITypeParser TypeParser = new LongParser();
 
-      [Fact]
+      [Theory]
       [InlineData("12345")]
       [InlineData("-105479")]
       [InlineData("9223372036854775807")]

@@ -8,7 +8,7 @@ namespace Config.Net.Tests.TypeParsers
    {
       private static readonly ITypeParser TypeParser = new TimeSpanParser();
 
-      [Fact]
+      [Theory]
       [InlineData("3.00:00:00")]
       [InlineData("00:00:00")]
       [InlineData("23:00:00")]
