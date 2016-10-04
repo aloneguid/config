@@ -23,17 +23,20 @@ You would guess that this code is trying to read a configuration setting from th
 Welcome to Config.Net which solves most of those problems. Let's rewrite this abomination using Config.Net approach. First, we need to define a configuration container which describes which settings are used in your application or a library:
 
 
+### Declare Settings Container
+
 ```csharp
 using Config.Net;
 
 public class AllSettings : SettingsContainer
 {
-    public readonly Option<string> AuthClientId = new Option<string>();
+    public readonly Option<string> AuthClientId;
 
-    public readonly Option<string> AuthClientSecret = new Option<string>();
+    public readonly Option<string> AuthClientSecret;
 
     protected override void OnConfigure(IConfigConfiguration configuration)
     {
+         configuration.UseAppConfig();
     }
 }
 ```
@@ -42,63 +45,32 @@ Let's go through this code snippet:
 * We have declared `AllSettings` class which will store configuration for oru application. All configuration classes must derive from `SettingsContainer`.
 * Two strong-typed configuration options were declared. Note they are both `readonly` which is another plus towards code quality.
 * `Option<T>` is a configuration option definition in Config.Net where generic parameter specifies the type.
-* A constructor of `Option<T>` was initialised with two parameters. The first one is a human readable string which helps the library to 
+* `OnConfigure` mehtod implementation specifies that app.config should be used as a configuration store.
 
+### Use Settings
 
-
-
-All configuration settings are strong typed and the library takes care of making sure types are converted, stored and retreived properly.
-
-Each configuration setting is described by a strong typed `Setting<T>` class. Let's assume your app needs to store an integer value (many types are supported), then you would normally create an AppSettings.cs class shared between the modules which has the following definition:
-
-### Add Setting definitions
+Once container has been defined start using the settings, for instance:
 
 ```csharp
-public static class AppSettings
-{
-  public static readonly Setting<int> MyIntegerSetting = new Setting<int>("Namespace.App.MyIntegerSetting", 5);
+var c = new AllSettings();
 
-  //more setting definitions
-}
+string clientId = c.AuthClientId;
+string clientSecret = c.AuthClientSecret;
 ```
 
+Two things worth to note in this snippet:
+* An instance of `AllSettings` container was created. Normally you would create an instance of a settings container per application instance for performance reasons.
+* The settings were read from the settings container. Note the syntax and that for example `AuthClientId` is defined as an `Option<string>` but casted to `string`. This is because `Option<T>` class has implicit casting operator to `T` defined.
 
-This definition has a few important points.
+### Writing Settings
 
-* It has a type of `int` as `Setting<T>` is strong typed.
-* The first constructor parameter sets the setting name which has to be unique. This key is used in a store implementation to save and retreive the value.
-* Second constructor parameter is a default value. It's strongly typed and in this case is _int_. Default values are very  useful. If your store does not contain a setting with specified key or you simply don't have any stores configured the library will return the default value. In addition to that if you try to save default value to a setting it will be deleted on the target store to save spece, but more about this later.
+todo
 
-### Configure configuration source(s)
+### 
 
-In order for application to know where the configuration is stored you need to configure one or more stores on app initialisation. If you don't add any of the stores the library will still work as expected, however only the default values will be returned (still very useful in many cases). In fact you may want some values not to be in a store at all, and use the setting definition to almost define constants which you can potentially change in future at any time by setting the value in one of the stores and magic happens - application uses a changed value!
 
-As an example, if your settings are stored in the standard app.config file add this on application init:
+--- old docs below ---
 
-```csharp
-Cfg.Configuration.AddStore(new AppConfigStore());
-```
-
-### Read the value from code
-
-The easiest way to get the value is call to the definition itself:
-
-```csharp
-int value = AppSettings.MyIntegerSetting;
-```
-
-Under the hood config.net calls to default configuration manager and tries to read the value from the list of configuration stores. The first store that returns the value will be used as the result, otherwise default value is returned (in your case it's `5`).
-
-## Configuration sources
-
-Config.Net supports the following configuration sources out of the box:
-
-* Standard .NET app.config file
-* Standard .NET assembly config (.dll.config)
-* INI files
-* System environment variables
-* In memory configuration store
-* Microsoft Azure Configuration source (Web Apps, API Apps, Cloud Services etc.) - available as a separate [NuGet Package](https://www.nuget.org/packages/Config.Net.Azure).
 
 ## Caching
 

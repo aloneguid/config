@@ -12,6 +12,7 @@ namespace Config.Net.Tests
 
       protected override void OnConfigure(IConfigConfiguration configuration)
       {
+         configuration.UseAppConfig();
       }
    }
 
@@ -63,6 +64,14 @@ namespace Config.Net.Tests
          var c = new MyContainer(_store);
 
          Assert.Equal("MyApp.NoInitTimeout", c.NoInitTimeout.Name);
+      }
+
+      public void Demo()
+      {
+         var c = new AllSettings();
+
+         string clientId = c.AuthClientId;
+         string clientSecret = c.AuthClientSecret;
       }
 
       private class LambdaModule
