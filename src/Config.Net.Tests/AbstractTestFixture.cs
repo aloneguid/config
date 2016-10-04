@@ -44,7 +44,7 @@ namespace Config.Net.Tests
          {
             if(_testDir == null)
             {
-               Cleanup();
+               //Cleanup();
 
                string testDir = Path.Combine(BuildDir.FullName, TestDirPrefix + Guid.NewGuid());
                Directory.CreateDirectory(testDir);
@@ -54,7 +54,7 @@ namespace Config.Net.Tests
          }
       }
 
-      protected void Cleanup()
+      private void Cleanup()
       {
          //FS cleanup
          foreach(DirectoryInfo oldDir in BuildDir.GetDirectories(TestDirPrefix + "*", SearchOption.TopDirectoryOnly))
