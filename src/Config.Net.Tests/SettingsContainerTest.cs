@@ -14,6 +14,7 @@ namespace Config.Net.Tests
       {
          configuration.CacheTimeout = TimeSpan.FromMinutes(1);
 
+         configuration.UseInMemoryConfig();
          configuration.UseAppConfig();
          configuration.UseEnvironmentVariables();
          configuration.UseIniFile("full path to file.ini");
