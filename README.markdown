@@ -121,6 +121,6 @@ The list of available built-in and external stores is maintained on this page:
 | [EnvironmentVariables](doc/Stores_EnvironmentVariables.md) | v        | v         | internal | OS environment variables |
 | [IniFile](doc/Stores_IniFile.md)              | v        | v         | internal | INI files |
 | [InMemory](doc/Stores_InMemory.md)             | v        | v         | internal | In-memory storage |
-| Azure                | v        | x         | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure's ConfigurationManager |
-| AzureTable           | v        | v         | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure Table Storage |
-| AzureKeyVault        | v        | v          | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure Key Vault Secrets |
+| [Azure](doc/Stores_Azure.md)                | v        | x         | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure's ConfigurationManager |
+| [AzureTable](doc/Stores_AzureTable.md)           | v        | v         | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure Table Storage |
+| [AzureKeyVault](doc/Stores_AzureKeyVault.md)        | v        | v          | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure Key Vault Secrets |

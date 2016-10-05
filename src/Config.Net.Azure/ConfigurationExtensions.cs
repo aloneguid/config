@@ -1,4 +1,5 @@
-﻿using Config.Net.Azure;
+﻿using System;
+using Config.Net.Azure;
 
 namespace Config.Net
 {
@@ -26,9 +27,18 @@ namespace Config.Net
          return configuration;
       }
 
-      public static IConfigConfiguration UseAzureKeyVault(this IConfigConfiguration configuration)
+      /// <summary>
+      /// Use Azure Key Vault
+      /// </summary>
+      /// <param name="configuration"></param>
+      /// <param name="vaultUri"></param>
+      /// <param name="azureAadClientId"></param>
+      /// <param name="azureAadClientSecret"></param>
+      /// <returns></returns>
+      public static IConfigConfiguration UseAzureKeyVault(this IConfigConfiguration configuration,
+         Uri vaultUri, string azureAadClientId, string azureAadClientSecret)
       {
-
+         configuration.AddStore(new AzureKeyVaultConfigStore(vaultUri, azureAadClientId, azureAadClientSecret));
 
          return configuration;
       }
