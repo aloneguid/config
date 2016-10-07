@@ -109,6 +109,54 @@ protected override void OnConfigure(IConfigConfiguration configuration)
 
 setting it to `TimeSpan.Zero` disables caching completely.
 
+# Ways to declare settings
+
+There are a few requirements to declaring a setting a s member of derived `SettingsContainer` class:
+
+* The field must be read-only
+* It cannot be static
+
+A setting has a few basic properties:
+
+* **Name** which by default is the same as a variable name. Config.Net uses reflection to get the variable name. Variable name is important as it's used to read the option from a specific store.
+* **Default Value** which is defaulted to the default value of the type i.e. `0` for `int`, `null` for classes etc.
+
+The simplest form of declaring an option is:
+
+```csharp
+public readonly Option<string> AuthClientId = new Option<string>();
+```
+
+This sets option name to `AuthClientId` and default value to `null`. However if you need to specify the name explicitly change it to the following:
+
+```csharp
+public readonly Option<string> AuthClientId = new Option<string>("AuthenticationClientId", null);
+```
+
+This sets option name to `AuthenticationClientId` whereas local variable name is still `AuthClientId`. It is recommended that you set option name explicitly anyway, even if it matches the variable name. It saves from potential refactoring problems as when you rename the variable but config files still hold the old name.
+
+## Default Value
+
+Default value is returned in case an option cannot be found in any of the stores. This is useful in situations when you want to introduce a configurable option, but don't want to store it in an external configuration store yet. In fact you can use options to declare constants in your code that way.
+
+To change the default value pass it as a constructor argument in option initialisation:
+
+```csharp
+public readonly Option<string> AuthClientId = new Option<string>("AuthenticationClientId", "default id");
+```
+
+This always returns `"defualt id"` when `AuthenticationClientId` is not found in any of the configured stores.
+
+# Supported Data Types
+
+`Option<T>` supports basic data types, however it's extensible. You can write your own `ITypeParser` to implement custom type handling. All of the types support nullables as well i.e. `Option<T?>`. List of types supported in the latest version:
+
+* `bool`, `double`, `int`, `long`, `string`, `TimeSpan`, `DateTime`.
+* `Uri`
+* `string[]` - string value separated by `,` or ` `(space).
+* special type `JiraTime` allowing to write expressions like `1h 5m 3s` etc.
+
+
 
 # Available Stores
 
