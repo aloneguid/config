@@ -1,3 +1,4 @@
+#if NETFULL
 using System;
 using System.IO;
 using System.Reflection;
@@ -41,3 +42,4 @@ namespace Config.Net.Tests
       }
    }
 }
+#endif

@@ -13,7 +13,6 @@ namespace Config.Net.Tests
       private const string TestDirPrefix = "UNIT-TEST-";
       private const string TestStorageDirName = "TEST-STATE";
       private DirectoryInfo _testDir;
-      private DirectoryInfo _buildDir;
 
 #if NETFULL
       static AbstractTestFixture()
@@ -69,8 +68,7 @@ namespace Config.Net.Tests
       {
          get
          {
-            return _buildDir ??
-                   (_buildDir = new FileInfo(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath).Directory);
+            return NetPath.ExecDirInfo;
          }
       }
    }

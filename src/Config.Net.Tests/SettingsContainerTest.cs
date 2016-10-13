@@ -14,7 +14,7 @@ namespace Config.Net.Tests
       {
          configuration.CacheTimeout = TimeSpan.FromMinutes(1);
 
-         configuration.UseAzureTable("storage_account_name", "storage_key", "table_name", "application_name");
+         //configuration.UseAzureTable("storage_account_name", "storage_key", "table_name", "application_name");
       }
    }
 
