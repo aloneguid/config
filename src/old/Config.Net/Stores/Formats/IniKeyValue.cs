@@ -22,13 +22,13 @@ namespace Config.Net.Stores.Formats
 
       public static IniKeyValue FromLine(string line)
       {
-         int idx = line.IndexOf(KeyValueSeparator, StringComparison.CurrentCulture);
+         int idx = line.IndexOf(KeyValueSeparator, StringComparison.InvariantCulture);
          if(idx == -1) return null;
 
          string key = line.Substring(0, idx).Trim();
          string value = line.Substring(idx + 1).Trim();
          string comment;
-         idx = value.LastIndexOf(IniComment.CommentSeparator, StringComparison.CurrentCulture);
+         idx = value.LastIndexOf(IniComment.CommentSeparator, StringComparison.InvariantCulture);
          if(idx != -1)
          {
             comment = value.Substring(idx + 1).Trim();

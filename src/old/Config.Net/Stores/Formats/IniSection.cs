@@ -66,7 +66,7 @@ namespace Config.Net.Stores.Formats
 
       public static void SplitKey(string fullKey, out string sectionName, out string keyName)
       {
-         int idx = fullKey.IndexOf(SectionKeySeparator, StringComparison.CurrentCulture);
+         int idx = fullKey.IndexOf(SectionKeySeparator, StringComparison.InvariantCulture);
 
          if(idx == -1)
          {

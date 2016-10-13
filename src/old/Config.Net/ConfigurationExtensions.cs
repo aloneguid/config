@@ -8,7 +8,6 @@ namespace Config.Net
    /// </summary>
    public static class ConfigurationExtensions
    {
-#if NETFULL
       /// <summary>
       /// Standard app.config (web.config) configuration store. Read-only.
       /// </summary>
@@ -29,7 +28,6 @@ namespace Config.Net
          configuration.AddStore(new AssemblyConfigStore(assembly));
          return configuration;
       }
-#endif
 
       /// <summary>
       /// Uses system environment variables

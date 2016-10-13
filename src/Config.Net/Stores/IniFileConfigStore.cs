@@ -13,12 +13,6 @@ namespace Config.Net.Stores
       private readonly string _fileName;
       private StructuredIniFile _iniFile;
 
-      //FileSystemWatcher is not perfect and has lots of issues around it, more info : http://weblogs.asp.net/ashben/archive/2003/10/14/31773.aspx
-      private readonly FileSystemWatcher _systemWatcher;
-      private readonly object _watcherAndAccessLock = new object();
-
-      public event Action ChangesDetected;
-
       /// <summary>
       /// 
       /// </summary>
@@ -38,35 +32,7 @@ namespace Config.Net.Stores
             Directory.CreateDirectory(parentDirPath);
          }
 
-         _systemWatcher = new FileSystemWatcher();
-         _systemWatcher.Changed += SystemWatcherOnChanged;
-         _systemWatcher.Filter = _fileName;
-         _systemWatcher.IncludeSubdirectories = false;
-         _systemWatcher.NotifyFilter = NotifyFilters.LastWrite;
-
          ReadIniFile();
-
-         _systemWatcher.Path = parentDirPath; //this requires an existing directory that's why its created above if it does not exist
-         _systemWatcher.EnableRaisingEvents = true;
-      }
-
-      private void SystemWatcherOnChanged(object sender, FileSystemEventArgs fileSystemEventArgs)
-      {
-         lock (_watcherAndAccessLock)
-         {
-            _systemWatcher.EnableRaisingEvents = false;
-            try
-            {
-               ReadIniFile();
-
-               ChangesDetected?.Invoke();
-            }
-            finally
-            {
-               //this prevents file watcher from raising multiple events for the same change 
-               _systemWatcher.EnableRaisingEvents = true;
-            }
-         }
       }
 
       public string Name => "ini: " + _fileName;
@@ -77,24 +43,16 @@ namespace Config.Net.Stores
 
       public string Read(string fullKey)
       {
-         //todo : changing to .Net 4.0 and having a ConcurrentDictictionary would increase performance a lot
-         lock (_watcherAndAccessLock) //this will make reading slower but we can't read at the same time that someone is changing the file manually and saving it
-         {
-            return _iniFile[fullKey];
-         }
+         ReadIniFile();
+
+         return _iniFile[fullKey];
       }
 
       public void Write(string key, string value)
       {
-         lock (_watcherAndAccessLock)
-         {
-            _iniFile[key] = value;
+         _iniFile[key] = value;
 
-            //disables filewatcher because we are updating the file in code and not manually no point getting the file changed event
-            _systemWatcher.EnableRaisingEvents = false;
-            WriteIniFile();
-            _systemWatcher.EnableRaisingEvents = true;
-         }
+         WriteIniFile();
       }
 
       private void ReadIniFile()
@@ -123,12 +81,7 @@ namespace Config.Net.Stores
 
       public void Dispose()
       {
-         if (_systemWatcher != null)
-         {
-            _systemWatcher.Changed -= SystemWatcherOnChanged;
-            _systemWatcher.EnableRaisingEvents = false;
-            _systemWatcher.Dispose();
-         }
+         //nothing to dispose
       }
    }
 }

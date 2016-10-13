@@ -6,7 +6,7 @@ namespace Config.Net.Tests
 {
    public class AllSettings : SettingsContainer
    {
-      public readonly Option<string> AuthClientId = new Option<string>();
+      public readonly Option<string> AuthClientId = new Option<string>("AuthenticationClientId", "default id");
 
       public readonly Option<string> AuthClientSecret = new Option<string>();
 

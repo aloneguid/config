@@ -157,9 +157,7 @@ namespace Config.Net
 
       private void DiscoverProperties()
       {
-         throw new NotImplementedException();
-
-         /*Type t = this.GetType();
+         Type t = this.GetType();
 
          FieldInfo[] properties = t.GetFields();
          foreach (FieldInfo pi in properties)
@@ -203,7 +201,7 @@ namespace Config.Net
                _nameToOption[value.Name] = value;
                _nameToOptionValue[value.Name] = new OptionValue();
             }
-         }*/
+         }
       }
 
       private string GetFullKeyName(string name)

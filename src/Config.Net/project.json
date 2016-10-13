@@ -1,0 +1,39 @@
+﻿{
+   "version": "3.0.0-alpha-*",
+
+   "authors": [ "Ivan Gavryliuk" ],
+
+   "title": "Config.Net",
+
+   "copyright": "Copyright (c) 2015-2016 by Ivan Gavryliuk",
+
+   "packOptions": {
+
+      "iconUrl": "https://alonestore.blob.core.windows.net/nuget/support.png",
+
+      "projectUrl": "https://github.com/aloneguid/support",
+
+      "summary": ".NET configuration library"
+   },
+
+   "dependencies": {
+      "NETStandard.Library": "1.6.0"
+   },
+
+   "frameworks": {
+      "netstandard1.6": {
+         "imports": "dnxcore50",
+         "buildOptions": {
+            "define": [ "NETSTANDARD" ]
+         }
+      },
+      "net45": {
+         "buildOptions": {
+            "define": [ "NETFULL" ]
+         },
+         "frameworkAssemblies": {
+            "System.Configuration": "4.0.0.0"
+         }
+      }
+   }
+}

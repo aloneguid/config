@@ -1,5 +1,4 @@
-﻿#if NETFULL
-using System;
+﻿using System;
 using System.Configuration;
 
 namespace Config.Net.Stores
@@ -32,4 +31,3 @@ namespace Config.Net.Stores
       }
    }
 }
-#endif
