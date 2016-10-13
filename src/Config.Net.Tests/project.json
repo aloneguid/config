@@ -1,0 +1,26 @@
+﻿{
+   "version": "1.0.0-*",
+
+   "testRunner": "xunit",
+
+   "dependencies": {
+      "xunit": "2.2.0-beta3-build3402",
+      "Config.Net": "3.0.0-*",
+      "dotnet-test-xunit": "2.2.0-preview2-build1029"
+   },
+
+   "buildOptions": {
+      "keyFile": "../config.snk"
+   },
+
+   "frameworks": {
+      "netcoreapp1.0": {
+         "dependencies": {
+            "Microsoft.NETCore.App": {
+               "type": "platform",
+               "version": "1.0.1"
+            }
+         }
+      }
+   }
+}
