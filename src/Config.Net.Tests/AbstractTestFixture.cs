@@ -14,7 +14,6 @@ namespace Config.Net.Tests
       private const string TestStorageDirName = "TEST-STATE";
       private DirectoryInfo _testDir;
       private DirectoryInfo _buildDir;
-      private DirectoryInfo _testStorageDir;
 
 #if NETFULL
       static AbstractTestFixture()
