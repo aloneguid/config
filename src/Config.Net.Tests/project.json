@@ -6,7 +6,6 @@
    "dependencies": {
       "xunit": "2.2.0-beta3-build3402",
       "Config.Net": "3.0.0-*",
-      "dotnet-test-xunit": "2.2.0-preview2-build1029",
       "netbox": "1.0.0"
    },
 
@@ -20,7 +19,19 @@
             "Microsoft.NETCore.App": {
                "type": "platform",
                "version": "1.0.1"
-            }
+            },
+            "dotnet-test-xunit": "2.2.0-preview2-build1029"
+         },
+         "buildOptions": {
+            "define": [ "NETSTANDARD" ]
+         }
+      },
+      "net45": {
+         "dependencies": {
+            "xunit.runner.visualstudio": "2.2.0-beta3-build1187"
+         },
+         "buildOptions": {
+            "define": [ "NETFULL" ]
          }
       }
    }

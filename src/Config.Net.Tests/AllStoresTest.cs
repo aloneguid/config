@@ -50,7 +50,7 @@ namespace Config.Net.Tests
       {
          _storeName = storeName;
      
-         /*switch (_storeName)
+         switch (_storeName)
          {
             case "ini":
                string dir = BuildDir.FullName;
@@ -59,7 +59,7 @@ namespace Config.Net.Tests
                File.Copy(src, _testFile, true);
                _store = new IniFileConfigStore(_testFile);
                break;
-            case "azTable":
+            /*case "azTable":
                _store = new AzureTableConfigStore(
                   _settings.AzureStorageName,
                   _settings.AzureStorageKey,
@@ -70,17 +70,17 @@ namespace Config.Net.Tests
                   _settings.AzureKeyVaultUri,
                   _settings.AzureKeyVaultClientId,
                   _settings.AzureKeyVaultSecret);
-               break;
+               break;*/
             case "inmemory":
                _store = new InMemoryConfigStore();
                break;
-            case "appconfig":
+            /*case "appconfig":
                _store = new AppConfigStore();
-               break;
+               break;*/
             case "env":
                _store = new EnvironmentVariablesStore();
                break;
-         }*/
+         }
       }
 
       [Theory]
