@@ -1,5 +1,5 @@
 {
-   "version": "3.0.0",
+   "version": "3.0.1",
 
    "authors": [ "Ivan Gavryliuk" ],
 
@@ -9,9 +9,9 @@
 
    "packOptions": {
 
-      "iconUrl": "https://alonestore.blob.core.windows.net/nuget/support.png",
+      "iconUrl": "http://images.gavryli.uk/nuget/config.net.png",
 
-      "projectUrl": "https://github.com/aloneguid/support",
+      "projectUrl": "https://github.com/aloneguid/config",
 
       "summary": ".NET configuration library"
    },
