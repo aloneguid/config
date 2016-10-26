@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
-//using Config.Net.Azure;
+#if NETFULL
+using Config.Net.Azure;
+#endif
 using Config.Net.Stores;
 using Xunit;
 
@@ -8,33 +10,68 @@ namespace Config.Net.Tests
 {
    public class IniFileTest : AllStoresTest
    {
-      public IniFileTest() : base("ini") { }
+      protected override IConfigStore CreateStore()
+      {
+         string dir = BuildDir.FullName;
+         string src = Path.Combine(dir, "TestData", "example.ini");
+         string testFile = Path.Combine(dir, "test.ini");
+         File.Copy(src, testFile, true);
+         return new IniFileConfigStore(testFile);
+      }
    }
 
+#if NETFULL
    public class AzureTablesTest : AllStoresTest
    {
-      public AzureTablesTest() : base("azTable") { }
+      protected override IConfigStore CreateStore()
+      {
+         return new AzureTableConfigStore(
+            _settings.AzureStorageName,
+            _settings.AzureStorageKey,
+            "configurationtest", "confignettests");
+      }
    }
+#endif
 
    public class InMemoryTest : AllStoresTest
    {
-      public InMemoryTest() : base("inmemory") { }
+      protected override IConfigStore CreateStore()
+      {
+         return new InMemoryConfigStore();
+      }
    }
 
+#if NETFULL
    public class AppConfigTest : AllStoresTest
    {
-      public AppConfigTest() : base("appconfig") { }
+      protected override IConfigStore CreateStore()
+      {
+         return new AppConfigStore();
+      }
    }
+#endif
 
    public class EnvironmentVariablesTest : AllStoresTest
    {
-      public EnvironmentVariablesTest() : base("env") { }
+      protected override IConfigStore CreateStore()
+      {
+         return new EnvironmentVariablesStore();
+      }
    }
 
+
+#if NETFULL
    public class AzureKeyVaultTest : AllStoresTest
    {
-      public AzureKeyVaultTest() : base("azKeyVault") { }
+      protected override IConfigStore CreateStore()
+      {
+         return new AzureKeyVaultConfigStore(
+                  _settings.AzureKeyVaultUri,
+                  _settings.AzureKeyVaultClientId,
+                  _settings.AzureKeyVaultSecret);
+      }
    }
+#endif
 
    /// <summary>
    /// Tests all stores for consistent behavior
@@ -42,45 +79,14 @@ namespace Config.Net.Tests
    public abstract class AllStoresTest : AbstractTestFixture, IDisposable
    {
       private IConfigStore _store;
-      private readonly string _storeName;
+      //private readonly string _storeName;
       private string _testFile;
-      private TestSettings _settings = new TestSettings();
+      protected TestSettings _settings = new TestSettings();
 
-      public AllStoresTest(string storeName)
+      protected abstract IConfigStore CreateStore();
+      public AllStoresTest()
       {
-         _storeName = storeName;
-     
-         switch (_storeName)
-         {
-            case "ini":
-               string dir = BuildDir.FullName;
-               string src = Path.Combine(dir, "TestData", "example.ini");
-               _testFile = Path.Combine(dir, "test.ini");
-               File.Copy(src, _testFile, true);
-               _store = new IniFileConfigStore(_testFile);
-               break;
-            /*case "azTable":
-               _store = new AzureTableConfigStore(
-                  _settings.AzureStorageName,
-                  _settings.AzureStorageKey,
-                  "configurationtest", "confignettests");
-               break;
-            case "azKeyVault":
-               _store = new AzureKeyVaultConfigStore(
-                  _settings.AzureKeyVaultUri,
-                  _settings.AzureKeyVaultClientId,
-                  _settings.AzureKeyVaultSecret);
-               break;*/
-            case "inmemory":
-               _store = new InMemoryConfigStore();
-               break;
-            /*case "appconfig":
-               _store = new AppConfigStore();
-               break;*/
-            case "env":
-               _store = new EnvironmentVariablesStore();
-               break;
-         }
+         _store = CreateStore();
       }
 
       [Theory]

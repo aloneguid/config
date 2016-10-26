@@ -68,8 +68,31 @@ namespace Config.Net.Tests
       {
          get
          {
-            return NetPath.ExecDirInfo;
+            return new DirectoryInfo(Path.GetDirectoryName(ThisAssembly.Location));
          }
       }
+
+
+      private static Assembly _thisAsm;
+      internal static Assembly ThisAssembly
+      {
+         get
+         {
+            if (_thisAsm == null)
+            {
+#if NETFULL
+               _thisAsm = Assembly.GetExecutingAssembly();
+#endif
+
+#if NETSTANDARD
+               _thisAsm = Assembly.Load(new AssemblyName("Config.Net.Tests"));
+#endif
+            }
+
+            return _thisAsm;
+         }
+      }
+
+
    }
 }

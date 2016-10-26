@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Collections.Concurrent;
 using Config.Net.TypeParsers;
+using System.Collections.Generic;
 
 namespace Config.Net
 {
@@ -157,14 +158,15 @@ namespace Config.Net
 
       private void DiscoverProperties()
       {
-         throw new NotImplementedException();
+         Type t = this.GetType();
+         Type optionType = typeof(Option);
 
-         /*Type t = this.GetType();
-
-         FieldInfo[] properties = t.GetFields();
+         IEnumerable<FieldInfo> properties = t.GetRuntimeFields();
          foreach (FieldInfo pi in properties)
          {
-            if (pi.FieldType.IsSubclassOf(typeof(Option)))
+            TypeInfo propInfo = pi.FieldType.GetTypeInfo();
+
+            if (propInfo.IsSubclassOf(optionType))
             {
                if((pi.Attributes & FieldAttributes.InitOnly) == 0)
                {
@@ -184,7 +186,7 @@ namespace Config.Net
                {
                   //create default instance if it doesn't exist
                   var nt = typeof(Option<>);
-                  Type[] ntArgs = pi.FieldType.GetGenericArguments();
+                  Type[] ntArgs = propInfo.GetGenericArguments();
                   Type ntGen = nt.MakeGenericType(ntArgs);
                   objValue = Activator.CreateInstance(ntGen);
 
@@ -203,7 +205,7 @@ namespace Config.Net
                _nameToOption[value.Name] = value;
                _nameToOptionValue[value.Name] = new OptionValue();
             }
-         }*/
+         }
       }
 
       private string GetFullKeyName(string name)

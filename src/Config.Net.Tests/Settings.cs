@@ -2,7 +2,7 @@
 
 namespace Config.Net.Tests
 {
-   class TestSettings : SettingsContainer
+   public class TestSettings : SettingsContainer
    {
       public readonly Option<string> AzureStorageName = new Option<string>("Azure.Storage.Name", null);
 
@@ -21,7 +21,7 @@ namespace Config.Net.Tests
       }
    }
 
-   static class Settings
+   public static class Settings
    {
       private static TestSettings _settings = new TestSettings();
 
