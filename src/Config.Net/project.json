@@ -1,43 +1,42 @@
 ﻿{
-   "version": "3.0.1",
+    "version": "3.0.2",
 
-   "authors": [ "Ivan Gavryliuk" ],
+    "authors": [ "Ivan Gavryliuk" ],
 
-   "title": "Config.Net",
+    "title": "Config.Net",
 
-   "copyright": "Copyright (c) 2015-2016 by Ivan Gavryliuk",
+    "copyright": "Copyright (c) 2015-2016 by Ivan Gavryliuk",
 
-   "packOptions": {
+    "packOptions": {
 
-      "iconUrl": "http://images.gavryli.uk/nuget/config.net.png",
+        "iconUrl": "http://images.gavryli.uk/nuget/config.net.png",
 
-      "projectUrl": "https://github.com/aloneguid/config",
+        "projectUrl": "https://github.com/aloneguid/config",
 
-      "summary": ".NET configuration library"
-   },
+        "summary": ".NET configuration library"
+    },
 
-   "buildOptions": {
-      "keyFile": "../config.snk"
-   },
+    "buildOptions": {
+        "keyFile": "../config.snk"
+    },
 
-   "dependencies": {
-      "NETStandard.Library": "1.6.0"
-   },
-
-   "frameworks": {
-      "netstandard1.6": {
-         "imports": "dnxcore50",
-         "buildOptions": {
-            "define": [ "NETSTANDARD" ]
-         }
-      },
-      "net45": {
-         "buildOptions": {
-            "define": [ "NETFULL" ]
-         },
-         "frameworkAssemblies": {
-            "System.Configuration": "4.0.0.0"
-         }
-      }
-   }
+    "frameworks": {
+        "netstandard1.6": {
+            "imports": "dnxcore50",
+            "buildOptions": {
+                "define": [ "NETSTANDARD" ]
+            },
+            "dependencies": {
+                "NETStandard.Library": "1.6.0"
+            }
+        },
+        "net45": {
+            "buildOptions": {
+                "define": [ "NETFULL" ]
+            },
+            "frameworkAssemblies": {
+                "System.Configuration": "4.0.0.0"
+            }
+        }
+    }
 }

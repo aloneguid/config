@@ -5,8 +5,8 @@
 
    "dependencies": {
       "xunit": "2.2.0-beta3-build3402",
-      "Config.Net": "3.0.0",
-      "Config.Net.Azure": "3.0.0",
+      "Config.Net": "3.0.2",
+      "Config.Net.Azure": "3.0.2",
       "netbox": "1.0.0"
    },
 
