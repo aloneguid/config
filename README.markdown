@@ -149,7 +149,7 @@ This always returns `"defualt id"` when `AuthenticationClientId` is not found in
 
 # Supported Data Types
 
-`Option<T>` supports basic data types, however it's extensible. You can write your own `ITypeParser` to implement custom type handling. All of the types support nullables as well i.e. `Option<T?>`. List of types supported in the latest version:
+`Option<T>` supports basic data types, however it's extensible. You can [write your own `ITypeParser`](doc/CustomParsers.md) to implement custom type handling. All of the types support nullables as well i.e. `Option<T?>`. List of types supported in the latest version:
 
 * `bool`, `double`, `int`, `long`, `string`, `TimeSpan`, `DateTime`.
 * `Uri`

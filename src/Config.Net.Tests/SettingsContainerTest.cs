@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Config.Net.Stores;
 using Xunit;
 
@@ -20,7 +21,7 @@ namespace Config.Net.Tests
 
    public class SettingsContainerTest
    {
-      private IConfigStore _store;
+      private InMemoryConfigStore _store;
 
       public SettingsContainerTest()
       {
@@ -31,10 +32,12 @@ namespace Config.Net.Tests
       {
          #region crap
          private IConfigStore _store;
+         private ITypeParser _customParser;
 
-         public MyContainer(IConfigStore store) : base("MyApp")
+         public MyContainer(IConfigStore store, ITypeParser customParser = null) : base("MyApp")
          {
             _store = store;
+            _customParser = customParser;
          }
          #endregion
 
@@ -44,9 +47,13 @@ namespace Config.Net.Tests
 
          public readonly Option<int> NoInitTimeout;
 
+         public readonly Option<MyType> MyTypeField;
+
          protected override void OnConfigure(IConfigConfiguration configuration)
          {
             configuration.AddStore(_store);
+
+            if (_customParser != null) configuration.RegisterParser(_customParser);
          }
       }
 
@@ -66,6 +73,45 @@ namespace Config.Net.Tests
          var c = new MyContainer(_store);
 
          Assert.Equal("MyApp.NoInitTimeout", c.NoInitTimeout.Name);
+      }
+
+      [Fact]
+      public void CustomTypes_ForMyOwnClass_ParsesOut()
+      {
+         var c = new MyContainer(_store, new MyTypeParser());
+         _store.Write("MyApp.MyTypeField", "anything");  //add a value to framework doesn't return default value but invokes custom type parser
+
+         MyType mt = c.MyTypeField;
+
+         Assert.Equal("constant S", mt.S);
+      }
+
+      class MyType
+      {
+         public string S;
+      }
+
+      class MyTypeParser : ITypeParser
+      {
+         public IEnumerable<Type> SupportedTypes
+         {
+            get
+            {
+               return new[] { typeof(MyType) };
+            }
+         }
+
+         public string ToRawString(object value)
+         {
+            return null;
+         }
+
+         public bool TryParse(string value, Type t, out object result)
+         {
+            result = new MyType { S = "constant S" };
+
+            return true;
+         }
       }
 
       public void Demo()
