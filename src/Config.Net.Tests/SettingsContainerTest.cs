@@ -53,7 +53,7 @@ namespace Config.Net.Tests
          {
             configuration.AddStore(_store);
 
-            if (_customParser != null) configuration.RegisterParser(_customParser);
+            if (_customParser != null) configuration.AddParser(_customParser);
          }
       }
 

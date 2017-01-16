@@ -40,23 +40,6 @@ namespace Config.Net
          }
       }
 
-      public bool AddParser(ITypeParser parser)
-      {
-         if(parser == null)
-         {
-            throw new ArgumentNullException(nameof(parser));
-         }
-         
-         bool success = true;
-         
-         foreach (Type supportedType in parser.SupportedTypes)
-         {
-             success &= _parsers.TryAdd(supportedType, parser);
-         }
-
-         return success;
-      }
-
       public ITypeParser GetParser(Type t)
       {
          ITypeParser result;
@@ -69,7 +52,7 @@ namespace Config.Net
          return _parsers.ContainsKey(t);
       }
 
-      public void RegisterParser(ITypeParser parser)
+      public void AddParser(ITypeParser parser)
       {
          if (parser == null) throw new ArgumentNullException(nameof(parser));
 

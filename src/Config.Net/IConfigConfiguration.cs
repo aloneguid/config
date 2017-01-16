@@ -29,11 +29,11 @@ namespace Config.Net
       IEnumerable<ITypeParser> Parsers { get; }
 
       /// <summary>
-      /// Register a custom parser
+      /// Registers a custom type parser. If a parser redefines built-in types they will be overriden.
       /// </summary>
       /// <param name="parser">The parser to be added</param>
       /// <returns>True on success, false otherwise</returns>
-      bool AddParser(ITypeParser parser);
+      void AddParser(ITypeParser parser);
 
       /// <summary>
       /// Returns true if type can be parsed
@@ -44,12 +44,6 @@ namespace Config.Net
       /// Gets parser implementaton by type, or returns null if there is no registered implementation
       /// </summary>
       ITypeParser GetParser(Type t);
-
-      /// <summary>
-      /// Registers a custom type parser. If a parser redefines built-in types they will be overriden.
-      /// </summary>
-      /// <param name="parser">Parser implementation</param>
-      void RegisterParser(ITypeParser parser);
 
       /// <summary>
       /// Timeout when property cache will expire and the library will try to read it from the backend again.
