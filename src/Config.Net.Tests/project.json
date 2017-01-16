@@ -4,7 +4,7 @@
    "testRunner": "xunit",
 
    "dependencies": {
-      "xunit": "2.2.0-beta3-build3402",
+      "xunit": "2.2.0-beta4-build3444",
       "Config.Net": "3.0.2",
       "Config.Net.Azure": "3.0.2",
       "netbox": "1.0.0"
@@ -28,9 +28,9 @@
             "define": [ "NETSTANDARD" ]
          }
       },
-      "net45": {
+      "net451": {
          "dependencies": {
-            "xunit.runner.visualstudio": "2.2.0-beta3-build1187"
+            "xunit.runner.visualstudio": "2.2.0-beta4-build1194"
          },
          "buildOptions": {
             "define": [ "NETFULL" ]

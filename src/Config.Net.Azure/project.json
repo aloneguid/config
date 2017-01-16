@@ -22,7 +22,6 @@
 
 
    "dependencies": {
-      "NETStandard.Library": "1.6.0",
       "Config.Net": "3.0.2"
    },
 
@@ -32,15 +31,18 @@
          "buildOptions": {
             "define": [ "NETSTANDARD" ]
          },
-         "dependencies": {
-         }
+        "dependencies": {
+            "NETStandard.Library": "1.6.0"
+        }
       },
       "net45": {
          "buildOptions": {
             "define": [ "NETFULL" ]
          },
-         "frameworkAssemblies": {
-         },
+        "frameworkAssemblies": {
+            "System.Runtime": "4.0.0.0",
+            "System.Threading.Tasks": "4.0.0.0"
+        },
          "dependencies": {
             "WindowsAzure.Storage": "7.2.1",
             "Microsoft.IdentityModel.Clients.ActiveDirectory": "2.28.2",
