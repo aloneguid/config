@@ -39,6 +39,12 @@ namespace Config.Net
       ITypeParser GetParser(Type t);
 
       /// <summary>
+      /// Registers a custom type parser. If a parser redefines built-in types they will be overriden.
+      /// </summary>
+      /// <param name="parser">Parser implementation</param>
+      void RegisterParser(ITypeParser parser);
+
+      /// <summary>
       /// Timeout when property cache will expire and the library will try to read it from the backend again.
       /// Setting this value to <see cref="TimeSpan.Zero"/> will cause the library not to cache at all.
       /// </summary>

@@ -16,16 +16,19 @@ namespace Config.Net
 
       public IEnumerable<IConfigStore> Stores => _stores;
 
+      public ContainerConfiguration()
+      {
+         foreach (KeyValuePair<Type, ITypeParser> pc in GetBuiltInParsers())
+         {
+            _parsers.TryAdd(pc.Key, pc.Value);
+         }
+      }
+
       public void AddStore(IConfigStore store)
       {
          if (store == null) throw new ArgumentNullException(nameof(store));
 
          _stores.Add(store);
-
-         foreach(KeyValuePair<Type, ITypeParser> pc in GetBuiltInParsers())
-         {
-            _parsers.TryAdd(pc.Key, pc.Value);
-         }
       }
 
       public void RemoveAllStores()
@@ -47,6 +50,18 @@ namespace Config.Net
       public bool HasParser(Type t)
       {
          return _parsers.ContainsKey(t);
+      }
+
+      public void RegisterParser(ITypeParser parser)
+      {
+         if (parser == null) throw new ArgumentNullException(nameof(parser));
+
+         if (parser.SupportedTypes == null) return;
+
+         foreach (Type t in parser.SupportedTypes)
+         {
+            _parsers[t] = parser;
+         }
       }
 
       /// <summary>
