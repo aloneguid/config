@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Config.Net.TypeParsers
 {
+   /// <summary>
+   /// Container for core types. Eventually all simple parsers will merge into this class.
+   /// </summary>
    class CoreParsers : ITypeParser
    {
       public IEnumerable<Type> SupportedTypes => new[] { typeof(Uri) };

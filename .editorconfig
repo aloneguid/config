@@ -1,0 +1,9 @@
+root=true
+
+[*.cs]
+indent_style=space
+indent_size=3
+
+[*]
+indent_style=space
+indent_size=3
