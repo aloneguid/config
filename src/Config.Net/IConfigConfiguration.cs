@@ -29,6 +29,13 @@ namespace Config.Net
       IEnumerable<ITypeParser> Parsers { get; }
 
       /// <summary>
+      /// Register a custom parser
+      /// </summary>
+      /// <param name="parser">The parser to be added</param>
+      /// <returns>True on success, false otherwise</returns>
+      bool AddParser(ITypeParser parser);
+
+      /// <summary>
       /// Returns true if type can be parsed
       /// </summary>
       bool HasParser(Type t);
