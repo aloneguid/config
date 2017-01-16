@@ -8,13 +8,30 @@ namespace Config.Net.TypeParsers
    /// </summary>
    class CoreParsers : ITypeParser
    {
-      public IEnumerable<Type> SupportedTypes => new[] { typeof(Uri) };
+      public IEnumerable<Type> SupportedTypes => new[] { typeof(Uri), typeof(bool) };
+
+      private static readonly Dictionary<string, bool> BooleanTrueValues =
+         new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase)
+      {
+         {"true", true},
+         {"yes", true},
+         {"1", true},
+      };
+
 
       public string ToRawString(object value)
       {
          if (value == null) return null;
 
-         return value.ToString();
+         Type t = value.GetType();
+
+         if(t == typeof(Uri))
+            return value.ToString();
+
+         if(t == typeof(bool))
+            return value.ToString().ToLowerInvariant();
+
+         return null;
       }
 
       public bool TryParse(string value, Type t, out object result)
@@ -29,6 +46,18 @@ namespace Config.Net.TypeParsers
          {
             Uri uri = new Uri(value);
             result = uri;
+            return true;
+         }
+
+         if(t == typeof(bool))
+         {
+            if(BooleanTrueValues.ContainsKey(value))
+            {
+               result = true;
+               return true;
+            }
+
+            result = false;
             return true;
          }
 

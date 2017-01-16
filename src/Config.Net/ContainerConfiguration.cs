@@ -77,7 +77,6 @@ namespace Config.Net
          //initialise dictionary manually intead of reflection for performance
          var result = new Dictionary<Type, ITypeParser>
          {
-            {typeof(bool), new BoolParser()},
             {typeof(double), new DoubleParser()},
             {typeof(int), new IntParser()},
             {typeof(JiraTime), new JiraTimeParser()},
