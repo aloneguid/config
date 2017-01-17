@@ -59,6 +59,14 @@ namespace Config.Net.Tests
       }
    }
 
+   public class CommandLineStoreTest : AllStoresTest
+   {
+      protected override IConfigStore CreateStore()
+      {
+         return new CommandLineConfigStore(null);
+      }
+   }
+
 
 #if NETFULL
    public class AzureKeyVaultTest : AllStoresTest

@@ -62,5 +62,19 @@ namespace Config.Net
          configuration.AddStore(new InMemoryConfigStore());
          return configuration;
       }
+
+      /// <summary>
+      /// Accepts configuration from the command line arguments. This is not intended to replace a command line parsing framework but rather
+      /// complement it in a configuration like way.
+      /// </summary>
+      /// <param name="configuration">Configuration object</param>
+      /// <param name="args">Parameters usually passed to the Main method. This argument is optional and when set to null will get process
+      /// command line parameters automatically.</param>
+      /// <returns></returns>
+      public static IConfigConfiguration UseCommandLineArgs(this IConfigConfiguration configuration, string[] args)
+      {
+         configuration.AddStore(new CommandLineConfigStore(args));
+         return configuration;
+      }
    }
 }

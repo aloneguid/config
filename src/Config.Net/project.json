@@ -1,25 +1,16 @@
 ﻿{
     "version": "3.0.2",
-
     "authors": [ "Ivan Gavryliuk" ],
-
     "title": "Config.Net",
-
     "copyright": "Copyright (c) 2015-2016 by Ivan Gavryliuk",
-
     "packOptions": {
-
         "iconUrl": "http://images.gavryli.uk/nuget/config.net.png",
-
         "projectUrl": "https://github.com/aloneguid/config",
-
         "summary": ".NET configuration library"
     },
-
     "buildOptions": {
         "keyFile": "../config.snk"
     },
-
     "frameworks": {
         "netstandard1.6": {
             "imports": "dnxcore50",
@@ -27,7 +18,7 @@
                 "define": [ "NETSTANDARD" ]
             },
             "dependencies": {
-                "NETStandard.Library": "1.6.0"
+                "NETStandard.Library": "1.6.1"
             }
         },
         "net45": {
@@ -38,5 +29,8 @@
                 "System.Configuration": "4.0.0.0"
             }
         }
+    },
+    "dependencies": {
+        "netbox": "1.0.1701.1702"
     }
 }

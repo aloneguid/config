@@ -7,7 +7,7 @@
       "xunit": "2.2.0-beta4-build3444",
       "Config.Net": "3.0.2",
       "Config.Net.Azure": "3.0.2",
-      "netbox": "1.0.0"
+      "netbox": "1.0.1701.1702"
    },
 
    "buildOptions": {

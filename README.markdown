@@ -156,6 +156,12 @@ This always returns `"defualt id"` when `AuthenticationClientId` is not found in
 * `string[]` - string value separated by `,` or ` `(space).
 * special type `JiraTime` allowing to write expressions like `1h 5m 3s` etc.
 
+# How types are parsed
+
+## Boolean
+
+Boolean is considered to be `true` if it has one of these values: `true`, `yes`, `1`. Everything else is considered a false value.
+
 
 
 # Available Stores
@@ -165,10 +171,11 @@ The list of available built-in and external stores is maintained on this page:
 
 | Name                 | Readable | Writeable | Package  | Purpose                  |
 |----------------------|----------|-----------|----------|--------------------------|
-| [AppConfig](doc/Stores_AppConfig.md)            | v        | x         | internal | .NET app.config files    |
-| [EnvironmentVariables](doc/Stores_EnvironmentVariables.md) | v        | v         | internal | OS environment variables |
-| [IniFile](doc/Stores_IniFile.md)              | v        | v         | internal | INI files |
-| [InMemory](doc/Stores_InMemory.md)             | v        | v         | internal | In-memory storage |
-| [Azure](doc/Stores_Azure.md)                | v        | x         | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure's ConfigurationManager |
-| [AzureTable](doc/Stores_AzureTable.md)           | v        | v         | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure Table Storage |
-| [AzureKeyVault](doc/Stores_AzureKeyVault.md)        | v        | v          | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure Key Vault Secrets |
+|[AppConfig](doc/Stores_AppConfig.md)            | v        | x         | internal | .NET app.config files    |
+|[EnvironmentVariables](doc/Stores_EnvironmentVariables.md) | v        | v         | internal | OS environment variables |
+|[CommandLine](doc/Stores_CommandLine.md)|v|x|internal|Parsing command line as configuration source| 
+|[IniFile](doc/Stores_IniFile.md)              | v        | v         | internal | INI files |
+|[InMemory](doc/Stores_InMemory.md)             | v        | v         | internal | In-memory storage |
+|[Azure](doc/Stores_Azure.md)                | v        | x         | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure's ConfigurationManager |
+|[AzureTable](doc/Stores_AzureTable.md)           | v        | v         | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure Table Storage |
+|[AzureKeyVault](doc/Stores_AzureKeyVault.md)        | v        | v          | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure Key Vault Secrets |
