@@ -105,5 +105,15 @@ namespace Config.Net
       {
          _parent.Write(this, value);
       }
+
+      /// <summary>
+      /// This method reads the option value and calls .ToString() on it. This is due to the fact that it's easy to forget to
+      /// cast to a required type in string format operations etc. as it used to return just an option name.
+      /// </summary>
+      /// <returns></returns>
+      public override string ToString()
+      {
+         return _parent?.Read(this)?.ToString();
+      }
    }
 }
