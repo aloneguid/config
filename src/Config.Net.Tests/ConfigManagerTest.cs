@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Xunit;
 
 namespace Config.Net.Tests
@@ -36,6 +37,7 @@ namespace Config.Net.Tests
          public readonly Option<Grid> ActiveGrid = new Option<Grid>("ActiveGrid", Grid.ZA);
          public readonly Option<Grid?> ActiveGridNullable = new Option<Grid?>("ActiveGridMaybe", null);
          public readonly Option<Guid> GuidNotSupported = new Option<Guid>("GuidSetting", Guid.Empty);
+         public readonly Option<NetworkCredential> SomeCreds = new Option<NetworkCredential>(new NetworkCredential("ivan", "pass32"));
 
          protected override void OnConfigure(IConfigConfiguration configuration)
          {

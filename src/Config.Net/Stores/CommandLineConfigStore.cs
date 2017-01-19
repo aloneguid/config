@@ -46,8 +46,10 @@ namespace Config.Net.Stores
          var pairs = args
             .Where(a => a != null)
             .Select(a => a.SplitByDelimiter(ArgDelimiters))
+            .Select(a => new Tuple<string, string>(a.Item1.TrimStart(ArgPrefixes), a.Item2))
             .Where(kv => !string.IsNullOrEmpty(kv.Item2))
-            .ToDictionary(kv => kv.Item1.TrimStart(ArgPrefixes), kv => kv.Item2);
+            .GroupBy(p => p.Item1, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(kv => kv.Key, kv => kv.First().Item2);
 
          _nameToValue.AddRange(pairs);
       }

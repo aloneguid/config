@@ -1,4 +1,4 @@
-﻿{
+{
     "version": "3.0.2",
     "authors": [ "Ivan Gavryliuk" ],
     "title": "Config.Net",
@@ -31,6 +31,6 @@
         }
     },
     "dependencies": {
-        "netbox": "1.0.1701.1702"
+        "netbox": "1.0.1701.1901"
     }
 }

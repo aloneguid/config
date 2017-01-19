@@ -46,7 +46,7 @@ public class AllSettings : SettingsContainer
 Let's go through this code snippet:
 * We have declared `AllSettings` class which will store configuration for oru application. All configuration classes must derive from `SettingsContainer`.
 * Two strong-typed configuration options were declared. Note they are both `readonly` which is another plus towards code quality.
-* `Option<T>` is a configuration option definition in Config.Net where generic parameter specifies the type.
+* `Option<T>` is a configuration option definition in Config.Net where generic parameter specifies the type. There is a limited set of [supported types](doc/SupportedTypes.md) and you can [create your own](doc/CustomParsers.md)
 * `OnConfigure` mehtod implementation specifies that app.config should be used as a configuration store.
 
 ### Use Settings
@@ -146,23 +146,6 @@ public readonly Option<string> AuthClientId = new Option<string>("Authentication
 ```
 
 This always returns `"defualt id"` when `AuthenticationClientId` is not found in any of the configured stores.
-
-# Supported Data Types
-
-`Option<T>` supports basic data types, however it's extensible. You can [write your own `ITypeParser`](doc/CustomParsers.md) to implement custom type handling. All of the types support nullables as well i.e. `Option<T?>`. List of types supported in the latest version:
-
-* `bool`, `double`, `int`, `long`, `string`, `TimeSpan`, `DateTime`.
-* `Uri`
-* `string[]` - string value separated by `,` or ` `(space).
-* special type `JiraTime` allowing to write expressions like `1h 5m 3s` etc.
-
-# How types are parsed
-
-## Boolean
-
-Boolean is considered to be `true` if it has one of these values: `true`, `yes`, `1`. Everything else is considered a false value.
-
-
 
 # Available Stores
 

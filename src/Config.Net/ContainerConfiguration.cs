@@ -18,9 +18,9 @@ namespace Config.Net
 
       public ContainerConfiguration()
       {
-         foreach (KeyValuePair<Type, ITypeParser> pc in GetBuiltInParsers())
+         foreach(ITypeParser pc in GetBuiltInParsers())
          {
-            _parsers.TryAdd(pc.Key, pc.Value);
+            AddParser(pc);
          }
       }
 
@@ -70,29 +70,21 @@ namespace Config.Net
       /// performance issues
       /// </summary>
       /// <returns></returns>
-      private static Dictionary<Type, ITypeParser> GetBuiltInParsers()
+      private static IEnumerable<ITypeParser> GetBuiltInParsers()
       {
-         var core = new CoreParsers();
-
-         //initialise dictionary manually intead of reflection for performance
-         var result = new Dictionary<Type, ITypeParser>
+         return new ITypeParser[]
          {
-            {typeof(double), new DoubleParser()},
-            {typeof(int), new IntParser()},
-            {typeof(JiraTime), new JiraTimeParser()},
-            {typeof(long), new LongParser()},
-            {typeof(string[]), new StringArrayParser()},
-            {typeof(string), new StringParser()},
-            {typeof(TimeSpan), new TimeSpanParser()},
-            {typeof(DateTime), new DateTimeParser()}
+            new DoubleParser(),
+            new IntParser(),
+            new JiraTimeParser(),
+            new LongParser(),
+            new StringArrayParser(),
+            new StringParser(),
+            new TimeSpanParser(),
+            new DateTimeParser(),
+            new CoreParsers(),
+            new NetworkCredentialParser()
          };
-
-         foreach(Type t in core.SupportedTypes)
-         {
-            result[t] = core;
-         }
-
-         return result;
       }
    }
 }
