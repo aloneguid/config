@@ -67,6 +67,15 @@ namespace Config.Net.Tests
       }
    }
 
+    public class JsonFileConfigStoreTest : AllStoresTest
+    {
+        protected override IConfigStore CreateStore()
+        {
+            var testFile = Path.Combine(BuildDir.FullName, "test.json");
+            return new JsonFileConfigStore(testFile);
+        }
+    }
+
 
 #if NETFULL
    public class AzureKeyVaultTest : AllStoresTest
