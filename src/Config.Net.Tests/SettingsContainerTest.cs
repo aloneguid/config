@@ -76,6 +76,13 @@ namespace Config.Net.Tests
       }
 
       [Fact]
+      public void Read_ByGetProperty_SameResult()
+      {
+         var c = new MyContainer(_store);
+         var value = c.NoInitTimeout.Value;
+      }
+
+      [Fact]
       public void CustomTypes_ForMyOwnClass_ParsesOut()
       {
          var c = new MyContainer(_store, new MyTypeParser());

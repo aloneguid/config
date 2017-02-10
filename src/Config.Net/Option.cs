@@ -97,6 +97,17 @@ namespace Config.Net
       }
 
       /// <summary>
+      /// Read the option value
+      /// </summary>
+      public T Value
+      {
+         get
+         {
+            return _parent.Read(this);
+         }
+      }
+
+      /// <summary>
       /// Writes a new value to this option. The value is written to the first available store which is writeable.
       /// If none of the stores are writeable no errors are thrown.
       /// </summary>
