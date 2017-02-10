@@ -89,5 +89,18 @@ namespace Config.Net
          return configuration;
       }
 
+      /// <summary>
+      /// Uses JSON file as a configuration storage.
+      /// </summary>
+      /// <param name="configuration">Configuration object.</param>
+      /// <param name="jsonFilePath">Full path to json storage file.</param>
+      /// <returns>Changed configuration.</returns>
+      /// <remarks>Storage file does not have to exist, however it will be created as soon as first write performed.</remarks>
+      public static IConfigConfiguration UseJsonFile(this IConfigConfiguration configuration, string jsonFilePath)
+      {
+         configuration.AddStore(new JsonFileConfigStore(jsonFilePath));
+         return configuration;
+      }
+
    }
 }

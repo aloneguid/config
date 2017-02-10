@@ -30,7 +30,8 @@
             }
         }
     },
-    "dependencies": {
-        "netbox": "1.0.1701.1901"
-    }
+  "dependencies": {
+    "netbox": "1.0.1701.1901",
+    "Newtonsoft.Json": "9.0.1"
+  }
 }
