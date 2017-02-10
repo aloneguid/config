@@ -156,10 +156,11 @@ The list of available built-in and external stores is maintained on this page:
 
 | Name                 | Readable | Writeable | Package  | Purpose                  |
 |----------------------|----------|-----------|----------|--------------------------|
-|[AppConfig](doc/Stores_AppConfig.md)            | v        | x         | internal | .NET app.config files    |
+|[AppConfig](doc/Stores_AppConfig.md)|v|x|internal|.NET app.config files|
 |[EnvironmentVariables](doc/Stores_EnvironmentVariables.md) | v        | v         | internal | OS environment variables |
 |[CommandLine](doc/Stores_CommandLine.md)|v|x|internal|Parsing command line as configuration source| 
 |[IniFile](doc/Stores_IniFile.md)              | v        | v         | internal | INI files |
+|[JSON](doc/Stores_JsonFile.md)|v|v|internal|JSON file storage|
 |[InMemory](doc/Stores_InMemory.md)             | v        | v         | internal | In-memory storage |
 |[Azure](doc/Stores_Azure.md)                | v        | x         | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure's ConfigurationManager |
 |[AzureTable](doc/Stores_AzureTable.md)           | v        | v         | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure Table Storage |
