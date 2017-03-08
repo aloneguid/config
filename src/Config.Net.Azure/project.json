@@ -1,0 +1,54 @@
+{
+   "version": "3.0.2",
+
+   "authors": [ "Ivan Gavryliuk" ],
+
+   "title": "Config.Net.Azure",
+
+   "copyright": "Copyright (c) 2015-2016 by Ivan Gavryliuk",
+
+   "packOptions": {
+
+      "iconUrl": "http://images.gavryli.uk/nuget/config.net.png",
+
+      "projectUrl": "https://github.com/aloneguid/config",
+
+      "summary": ".NET configuration library"
+   },
+
+   "buildOptions": {
+      "keyFile": "../config.snk"
+   },
+
+
+   "dependencies": {
+      "Config.Net": "3.0.2"
+   },
+
+   "frameworks": {
+      "netstandard1.6": {
+         "imports": "dnxcore50",
+         "buildOptions": {
+            "define": [ "NETSTANDARD" ]
+         },
+        "dependencies": {
+            "NETStandard.Library": "1.6.1"
+        }
+      },
+      "net45": {
+         "buildOptions": {
+            "define": [ "NETFULL" ]
+         },
+        "frameworkAssemblies": {
+            "System.Runtime": "4.0.0.0",
+            "System.Threading.Tasks": "4.0.0.0"
+        },
+         "dependencies": {
+            "WindowsAzure.Storage": "7.2.1",
+            "Microsoft.IdentityModel.Clients.ActiveDirectory": "2.28.2",
+            "Microsoft.Azure.KeyVault": "1.0.0",
+            "Microsoft.WindowsAzure.ConfigurationManager":  "3.2.3"
+         }
+      }
+   }
+}

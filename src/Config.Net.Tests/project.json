@@ -1,0 +1,40 @@
+{
+   "version": "3.0.0-*",
+
+   "testRunner": "xunit",
+
+   "dependencies": {
+      "xunit": "2.2.0-beta4-build3444",
+      "Config.Net": "3.0.2",
+      "Config.Net.Azure": "3.0.2",
+    "netbox": "1.0.1701.1901"
+   },
+
+   "buildOptions": {
+      "keyFile": "../config.snk",
+      "copyToOutput":  [ "TestData/example.ini" ]
+   },
+
+   "frameworks": {
+      "netcoreapp1.0": {
+         "dependencies": {
+            "Microsoft.NETCore.App": {
+               "type": "platform",
+               "version": "1.0.1"
+            },
+            "dotnet-test-xunit": "2.2.0-preview2-build1029"
+         },
+         "buildOptions": {
+            "define": [ "NETSTANDARD" ]
+         }
+      },
+      "net451": {
+         "dependencies": {
+            "xunit.runner.visualstudio": "2.2.0-beta4-build1194"
+         },
+         "buildOptions": {
+            "define": [ "NETFULL" ]
+         }
+      }
+   }
+}
