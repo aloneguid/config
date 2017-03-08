@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Azure.KeyVault;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.Azure.KeyVault.Models;
 
 namespace Config.Net.Azure
 {
@@ -73,7 +74,7 @@ namespace Config.Net.Azure
       {
          if (key == null) return null;
 
-         Secret secret;
+         SecretBundle secret;
 
          try
          {
@@ -81,15 +82,7 @@ namespace Config.Net.Azure
          }
          catch(AggregateException ex)
          {
-            KeyVaultClientException ex1 = ex.InnerException as KeyVaultClientException;
-            if (ex1 != null && ex1.Status == HttpStatusCode.NotFound)
-            {
-               secret = null;
-            }
-            else
-            {
-               throw;
-            }
+            throw ex.InnerException;
          }
 
          return secret == null ? null : secret.Value;

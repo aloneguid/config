@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="netbox" Version="1.0.1701.1901" />
+    <PackageReference Include="netbox" Version="1.0.1703.701" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
   </ItemGroup>
 
