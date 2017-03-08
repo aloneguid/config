@@ -5,39 +5,24 @@ param(
 
 Write-Host "version is $Version"
 
-$xmlMain = [xml](Get-Content "src\Config.Net\Config.Net.csproj")
-
-$xmlMain.Project.PropertyGroup[0].VersionPrefix = $Version
-
-$xmlMain.Save("$PSScriptRoot\src\Config.Net\Config.Net.csproj")
-
-<#
-function Get-Json($RelPath)
+function Update-ProjectVersions([string]$RelPath, [string]$Version, [bool]$UpdatePackageVersion)
 {
-   $path = "$PSScriptRoot\$RelPath"
-   Get-Content $path | ConvertFrom-Json
+   $xml = [xml](Get-Content "$PSScriptRoot\$RelPath")
+
+   if($UpdatePackageVersion)
+   {
+      $xml.Project.PropertyGroup[0].VersionPrefix = $Version
+   }
+
+   foreach($other in $args)
+   {
+      $json.dependencies.$other = $Version
+
+      Write-Host "set $other to $Version"
+   }
+
+   $xml.Save("$PSScriptRoot\$RelPath")
 }
 
-function Set-Json($Json, $RelPath)
-{
-   $path = "$PSScriptRoot\$RelPath"
-   $content = $Json | ConvertTo-Json -Depth 100
-   $content | Set-Content -Path $path
-}
-
-$jsonMain = Get-Json "src\Config.Net\project.json"
-$jsonAzure = Get-Json "src\Config.Net.Azure\project.json"
-$jsonTests = Get-Json "src\Config.Net.Tests\project.json"
-
-$jsonMain.version = $Version
-
-$jsonAzure.version = $Version
-$jsonAzure.dependencies."Config.Net" = $Version
-
-$jsonTests.dependencies."Config.Net" = $Version
-$jsonTests.dependencies."Config.Net.Azure" = $Version
-
-Set-Json $jsonMain "src\Config.Net\project.json"
-Set-Json $jsonAzure "src\Config.Net.Azure\project.json"
-Set-Json $jsonTests "src\Config.Net.Tests\project.json"
-#>
+Update-ProjectVersions "src\Config.Net\Config.Net.csproj" $Version $true
+Update-ProjectVersions "src\Config.Net.Azure\Config.Net.Azure.csproj" $Version $true
