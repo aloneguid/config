@@ -5,6 +5,13 @@ param(
 
 Write-Host "version is $Version"
 
+$xmlMain = [xml](Get-Content "src\Config.Net\Config.Net.csproj")
+
+$xmlMain.Project.PropertyGroup[0].VersionPrefix = $Version
+
+$xmlMain.Save("$PSScriptRoot\src\Config.Net\Config.Net.csproj")
+
+<#
 function Get-Json($RelPath)
 {
    $path = "$PSScriptRoot\$RelPath"
@@ -33,4 +40,4 @@ $jsonTests.dependencies."Config.Net.Azure" = $Version
 Set-Json $jsonMain "src\Config.Net\project.json"
 Set-Json $jsonAzure "src\Config.Net.Azure\project.json"
 Set-Json $jsonTests "src\Config.Net.Tests\project.json"
-
+#>
