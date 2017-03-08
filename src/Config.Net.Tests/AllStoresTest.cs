@@ -97,7 +97,7 @@ namespace Config.Net.Tests
    {
       private IConfigStore _store;
       //private readonly string _storeName;
-      private string _testFile;
+      //private string _testFile;
       protected TestSettings _settings = new TestSettings();
 
       protected abstract IConfigStore CreateStore();
