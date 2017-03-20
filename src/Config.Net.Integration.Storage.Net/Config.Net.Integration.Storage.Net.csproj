@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Storage.Net" Version="3.4.1703.701" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Config.Net\Config.Net.csproj" />
+  </ItemGroup>
+
+</Project>
