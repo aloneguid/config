@@ -20,8 +20,8 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <AssemblyVersion>3.0.0.0</AssemblyVersion>
-    <FileVersion>3.1.1.0</FileVersion>
-    <Version>3.1.1.0</Version>
+    <FileVersion>3.1.2.0</FileVersion>
+    <Version>3.1.2.0</Version>
     <RepositoryType>GitHub</RepositoryType>
   </PropertyGroup>
   <ItemGroup>
