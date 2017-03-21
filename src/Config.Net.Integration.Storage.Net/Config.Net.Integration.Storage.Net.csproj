@@ -1,15 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFrameworks>netstandard1.6;net451</TargetFrameworks>
+    <Copyright>Copyright (c) 2015-2017 by Ivan Gavryliuk</Copyright>
+    <Authors>Ivan Gavryliuk (@aloneguid)</Authors>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
+    <FileVersion>3.1.1.0</FileVersion>
+    <Version>3.1.1.0</Version>
+    <PackageIconUrl>http://i.isolineltd.com/nuget/config.net.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/aloneguid/config</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
+    <AssemblyOriginatorKeyFile>../config.snk</AssemblyOriginatorKeyFile>
+    <PackageLicenseUrl>https://github.com/aloneguid/config/blob/master/LICENSE</PackageLicenseUrl>
+    <SignAssembly>true</SignAssembly>
+    <RepositoryType>GitHub</RepositoryType>
+    <Description>This package integrates Config.Net with Storage.Net library allowing you to use any data source already supported in Storage.Net (there are plenty).</Description>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Storage.Net" Version="3.4.1703.701" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Config.Net\Config.Net.csproj" />
   </ItemGroup>
-
 </Project>

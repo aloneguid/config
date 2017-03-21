@@ -1,23 +1,28 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Copyright>Copyright (c) 2015-2016 by Ivan Gavryliuk</Copyright>
+    <Copyright>Copyright (c) 2015-2017 by Ivan Gavryliuk</Copyright>
     <AssemblyTitle>Config.Net.Azure</AssemblyTitle>
-    <VersionPrefix>3.1.0-alpha-1</VersionPrefix>
-    <Authors>Ivan Gavryliuk</Authors>
+    <Authors>Ivan Gavryliuk (@aloneguid)</Authors>
     <TargetFrameworks>netstandard1.6;net451</TargetFrameworks>
     <AssemblyName>Config.Net.Azure</AssemblyName>
     <AssemblyOriginatorKeyFile>../config.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
     <PackageId>Config.Net.Azure</PackageId>
-    <PackageIconUrl>http://images.gavryli.uk/nuget/config.net.png</PackageIconUrl>
+    <PackageIconUrl>http://i.isolineltd.com/nuget/config.net.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/aloneguid/config</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/aloneguid/config/blob/master/LICENSE</PackageLicenseUrl>
     <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.6' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
     <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.1</NetStandardImplicitPackageVersion>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
+    <FileVersion>3.1.1.0</FileVersion>
+    <Version>3.1.1.0</Version>
+    <RepositoryType>GitHub</RepositoryType>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Config.Net\Config.Net.csproj" />
