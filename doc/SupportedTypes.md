@@ -13,6 +13,7 @@ Config.Net supports the following CLR types:
 - `System.TimeSpan`
 - `System.DateTime`
 - `System.Uri`
+- `System.Guid`
 
 ## Arrays
 

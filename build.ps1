@@ -7,7 +7,7 @@ param(
 )
 
 $VersionPrefix = "3"
-$VersionSuffix = "1.2.0"
+$VersionSuffix = "2.0.0"
 $Copyright = "Copyright (c) 2015-2017 by Ivan Gavryliuk"
 $PackageIconUrl = "http://i.isolineltd.com/nuget/config.net.png"
 $PackageProjectUrl = "https://github.com/aloneguid/config"

@@ -27,5 +27,25 @@ namespace Config.Net.Tests
          string back = Parser.ToRawString(result);
          Assert.Equal(expected, back);
       }
+
+      [Fact]
+      public void Guid_Valid_Parses()
+      {
+         Guid g = Guid.NewGuid();
+
+         bool parsed = Parser.TryParse(g.ToString(), typeof(Guid), out object result);
+
+         Assert.True(parsed);
+         string back = Parser.ToRawString(g);
+         Assert.Equal(g.ToString(), back);
+      }
+
+      [Fact]
+      public void Guid_Invalid_False()
+      {
+         bool parsed = Parser.TryParse("dsfdsf", typeof(Guid), out object result);
+         Assert.False(parsed);
+         Assert.Null(result);
+      }
    }
 }
