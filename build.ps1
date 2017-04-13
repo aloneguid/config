@@ -6,6 +6,11 @@ param(
    $NuGetApiKey
 )
 
+$gv = "3.2.0"
+$vt = @{
+   "Config.Net.Integration.Storage.Net.csproj" = "1.0.0-alpha-1";
+}
+
 $VersionPrefix = "3"
 $VersionSuffix = "2.0.0"
 $Copyright = "Copyright (c) 2015-2017 by Ivan Gavryliuk"
@@ -17,18 +22,18 @@ $PackageLicenseUrl = "https://github.com/aloneguid/config/blob/master/LICENSE"
 $RepositoryType = "GitHub"
 
 $SlnPath = "src\Config.Net.sln"
-$AssemblyVersion = "$VersionPrefix.0.0.0"
-$PackageVersion = "$VersionPrefix.$VersionSuffix"
-Write-Host "version: $PackageVersion, assembly version: $AssemblyVersion"
 
 function Set-VstsBuildNumber($BuildNumber)
 {
    Write-Verbose -Verbose "##vso[build.updatebuildnumber]$BuildNumber"
 }
 
-function Update-ProjectVersion([string]$Path)
+function Update-ProjectVersion($File)
 {
-   $xml = [xml](Get-Content $Path)
+   $v = $vt.($File.Name)
+   if($v -eq $null) { $v = $gv }
+
+   $xml = [xml](Get-Content $File.FullName)
 
    if($xml.Project.PropertyGroup.Count -eq $null)
    {
@@ -39,9 +44,19 @@ function Update-ProjectVersion([string]$Path)
       $pg = $xml.Project.PropertyGroup[0]
    }
 
-   $pg.Version = $PackageVersion
-   $pg.FileVersion = $PackageVersion
-   $pg.AssemblyVersion = $AssemblyVersion
+   $parts = $v -split "\."
+   $bv = $parts[2]
+   if($bv.Contains("-")) { $bv = $bv.Substring(0, $bv.IndexOf("-"))}
+   $fv = "{0}.{1}.{2}.0" -f $parts[0], $parts[1], $bv
+   $av = "{0}.0.0.0" -f $parts[0]
+   $pv = $v
+
+   $pg.Version = $pv
+   $pg.FileVersion = $fv
+   $pg.AssemblyVersion = $av
+
+   Write-Host "$($File.Name) => fv: $fv, av: $av, pkg: $pv"
+
    $pg.Copyright = $Copyright
    $pg.PackageIconUrl = $PackageIconUrl
    $pg.PackageProjectUrl = $PackageProjectUrl
@@ -50,16 +65,20 @@ function Update-ProjectVersion([string]$Path)
    $pg.PackageLicenseUrl = $PackageLicenseUrl
    $pg.RepositoryType = $RepositoryType
 
-   $xml.Save($Path)
+   $xml.Save($File.FullName)
 }
 
-function Exec($Command)
+function Exec($Command, [switch]$ContinueOnError)
 {
    Invoke-Expression $Command
    if($LASTEXITCODE -ne 0)
    {
       Write-Error "command failed (error code: $LASTEXITCODE)"
-      exit 1
+
+      if(-not $ContinueOnError.IsPresent)
+      {
+         exit 1
+      }
    }
 }
 
@@ -72,11 +91,9 @@ if($Publish -and (-not $NuGetApiKey))
 
 # Update versioning information
 Get-ChildItem *.csproj -Recurse | Where-Object {-not($_.Name -like "*test*")} | % {
-   $path = $_.FullName
-   Write-Host "setting version on $path"
-   Update-ProjectVersion $path
+   Update-ProjectVersion $_
 }
-Set-VstsBuildNumber $Version
+Set-VstsBuildNumber $gv
 
 # Restore packages
 Exec "dotnet restore $SlnPath"
@@ -94,7 +111,7 @@ if($Publish.IsPresent)
       $path = $_.FullName
       Write-Host "publishing from $path"
 
-      Exec "nuget push $path -Source https://www.nuget.org/api/v2/package -ApiKey $NuGetApiKey"
+      Exec "nuget push $path -Source https://www.nuget.org/api/v2/package -ApiKey $NuGetApiKey" -ContinueOnError
    }
 }
 
