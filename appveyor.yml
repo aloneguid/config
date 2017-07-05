@@ -9,3 +9,6 @@ build:
 test: off
 artifacts:
 - path: src/**/*.nupkg
+deploy:
+- provider: Environment
+  name: aloneguid NuGet
