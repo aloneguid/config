@@ -1,8 +1,5 @@
 ﻿using System;
 using System.IO;
-#if NETFULL
-using Config.Net.Azure;
-#endif
 using Config.Net.Stores;
 using Xunit;
 
@@ -19,19 +16,6 @@ namespace Config.Net.Tests
          return new IniFileConfigStore(testFile);
       }
    }
-
-#if NETFULL
-   public class AzureTablesTest : AllStoresTest
-   {
-      protected override IConfigStore CreateStore()
-      {
-         return new AzureTableConfigStore(
-            _settings.AzureStorageName,
-            _settings.AzureStorageKey,
-            "configurationtest", "confignettests");
-      }
-   }
-#endif
 
    public class InMemoryTest : AllStoresTest
    {
@@ -75,20 +59,6 @@ namespace Config.Net.Tests
             return new JsonFileConfigStore(testFile);
         }
     }
-
-
-#if NETFULL
-   public class AzureKeyVaultTest : AllStoresTest
-   {
-      protected override IConfigStore CreateStore()
-      {
-         return new AzureKeyVaultConfigStore(
-                  _settings.AzureKeyVaultUri,
-                  _settings.AzureKeyVaultClientId,
-                  _settings.AzureKeyVaultSecret);
-      }
-   }
-#endif
 
    /// <summary>
    /// Tests all stores for consistent behavior
