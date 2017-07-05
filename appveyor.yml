@@ -1,0 +1,11 @@
+version: 3.3.{build}
+image: Visual Studio 2017
+configuration: Release
+before_build:
+- ps: .\appveyor.ps1
+build:
+  project: src/Config.Net.sln
+  verbosity: minimal
+test: off
+artifacts:
+- path: src/**/*.nupkg
