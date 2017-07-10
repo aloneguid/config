@@ -241,18 +241,6 @@ namespace Config.Net.Tests
       }
 
       [Fact]
-      public void Write_WhenTypeNotSupported_ThrowsException()
-      {
-         Assert.Throws(typeof (ArgumentException), () => _settings.GuidNotSupported.Write(Guid.NewGuid()));
-      }
-
-      [Fact]
-      public void Write_Nullable_WhenTypeNotSupported_ThrowsException()
-      {
-         Assert.Throws(typeof(ArgumentException), () => _settings.GuidNotSupported.Write(Guid.NewGuid()));
-      }
-
-      [Fact]
       public void WriteStringTest()
       {
          const string writeValue = "SomeValue";
