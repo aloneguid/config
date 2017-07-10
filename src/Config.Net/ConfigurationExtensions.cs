@@ -73,7 +73,7 @@ namespace Config.Net
       /// <returns>Changed configuration</returns>
       public static IConfigConfiguration UseCommandLineArgs(this IConfigConfiguration configuration, Dictionary<int, Option> positionToOption = null)
       {
-         configuration.AddStore(new CommandLineConfigStore(null, null));
+         configuration.AddStore(new CommandLineConfigStore(null, positionToOption));
          return configuration;
       }
 

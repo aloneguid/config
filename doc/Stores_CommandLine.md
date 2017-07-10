@@ -51,7 +51,7 @@ class MySettings : SettingsContainer
    {
       configuration.UseCommandLine(new Dictionary<int, Option>
       {
-         {0, CommandName}
+         {1, CommandName}
       });
    }
 }
@@ -62,3 +62,4 @@ the following command line `set Delay=5` will map to:
 - `CommandName`:`set`
 - `Delay`:`5`
 
+Note that parameter indexes start with 1, because parameter index 0 is reserved for the executable name.
