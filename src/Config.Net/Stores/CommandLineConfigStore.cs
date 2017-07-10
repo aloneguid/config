@@ -10,15 +10,17 @@ namespace Config.Net.Stores
       private static readonly char[] ArgPrefixes = new[] { '-', '/' };
       private static readonly string[] ArgDelimiters = new[] { ":", "=" };
 
+
       public bool CanRead => true;
 
       public bool CanWrite => false;
 
       public string Name => "Command Line Arguments";
 
-      public CommandLineConfigStore(string[] args)
+      public CommandLineConfigStore(string[] args,
+         Dictionary<int, Option> positionToOption)
       {
-         Parse(args ?? Environment.GetCommandLineArgs());
+         Parse(args ?? Environment.GetCommandLineArgs(), positionToOption);
       }
 
       public void Dispose()
@@ -39,19 +41,34 @@ namespace Config.Net.Stores
          throw new NotSupportedException();
       }
 
-      private void Parse(string[] args)
+      private void Parse(string[] args, Dictionary<int, Option> positionToOption)
       {
+         _nameToValue.Clear();
+
          if (args == null) return;
 
-         var pairs = args
-            .Where(a => a != null)
-            .Select(a => a.SplitByDelimiter(ArgDelimiters))
-            .Select(a => new Tuple<string, string>(a.Item1.TrimStart(ArgPrefixes), a.Item2))
-            .Where(kv => !string.IsNullOrEmpty(kv.Item2))
-            .GroupBy(p => p.Item1, StringComparer.OrdinalIgnoreCase)
-            .ToDictionary(kv => kv.Key, kv => kv.First().Item2);
+         for(int i = 0; i < args.Length; i++)
+         {
+            string name;
+            string value;
 
-         _nameToValue.AddRange(pairs);
+            if(positionToOption != null && positionToOption.TryGetValue(i, out Option option))
+            {
+               name = option.Name;
+               value = args[i];
+            }
+            else
+            {
+               var nameValue = args[i].SplitByDelimiter(ArgDelimiters);
+               name = nameValue.Item1.TrimStart(ArgPrefixes);
+               value = nameValue.Item2;
+            }
+
+            if(name != null && value != null)
+            {
+               _nameToValue[name] = value;
+            }
+         }
       }
    }
 }

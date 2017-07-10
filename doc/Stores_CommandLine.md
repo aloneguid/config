@@ -7,17 +7,19 @@ To configure the store:
 ```csharp
 protected override void OnConfigure(IConfigConfiguration configuration)
 {
-    configuration.UseCommandLine(args);
+    configuration.UseCommandLine();
 }
 ```
-
-`args` is a string array usually passed to the `Main` method. This argument is optional and when set to null will get process command line parameters automatically.
 
 ## Conventions
 
 This store will recognize any command line parameter which has a key-value delimiter in it (`=` or `:`) and optionally starts with a prefix `/` or `-` (the store trims these characters from the argument start).
 
 If an argument has more than one delimiter the first one will be used.
+
+## Unnamed parameters
+
+Parameters which are not named (don't have a delimiter) are skipped by default. If you wish to map a positional parameter to an option value you can specify an optional dictionary in configuration (see examples below).
 
 ## Examples
 
@@ -34,6 +36,29 @@ all the parameters are valid and essentially will become the following:
 - `arg5`:`value5`
 - `arg6`:`value6`
 
-### Ignored Parameters
+### Positional parameters
 
-Any parameter which has no key-value delimiter is completely ignored.
+Given a settings container:
+
+```csharp
+class MySettings : SettingsContainer
+{
+   public readonly Option<string> CommandName;
+
+   public readonly Option<int> Delay;
+
+   protected override void OnConfigure(IConfigConfiguration configuration)
+   {
+      configuration.UseCommandLine(new Dictionary<int, Option>
+      {
+         {0, CommandName}
+      });
+   }
+}
+```
+
+the following command line `set Delay=5` will map to:
+
+- `CommandName`:`set`
+- `Delay`:`5`
+

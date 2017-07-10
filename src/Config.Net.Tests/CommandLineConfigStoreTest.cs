@@ -12,10 +12,25 @@ namespace Config.Net.Tests
       [Fact]
       public void NamedParameters_MixedNaming_ParsesValues()
       {
-         var store = new CommandLineConfigStore(new[] { "-v:123", "--version:123", "-x5", "nothing" });
+         var store = new CommandLineConfigStore(new[] { "-v:123", "--version:123", "-x5", "nothing" }, null);
 
          string v = store.Read("v");
          Assert.Equal("123", v);
+      }
+
+      [Fact]
+      public void PositionalParameters_returned_as_value()
+      {
+         var store = new CommandLineConfigStore(new[] { "create", "name=thename" },
+            new Dictionary<int, Option>
+            {
+               {0, new Option<string>("positional", null) }
+            });
+
+
+         Assert.Equal("create", store.Read("positional"));
+         Assert.Equal("thename", store.Read("name"));
+
       }
    }
 }

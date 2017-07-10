@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Config.Net.Stores;
+using System.Collections.Generic;
 
 namespace Config.Net
 {
@@ -65,27 +66,14 @@ namespace Config.Net
 
       /// <summary>
       /// Accepts configuration from the command line arguments. This is not intended to replace a command line parsing framework but rather
-      /// complement it in a configuration like way.
-      /// </summary>
-      /// <param name="configuration">Configuration object</param>
-      /// <param name="args">Parameters usually passed to the Main method. This argument is optional and when set to null will get process
-      /// command line parameters automatically.</param>
-      /// <returns>Chained configuration</returns>
-      public static IConfigConfiguration UseCommandLineArgs(this IConfigConfiguration configuration, string[] args)
-      {
-         configuration.AddStore(new CommandLineConfigStore(args));
-         return configuration;
-      }
-
-      /// <summary>
-      /// Accepts configuration from the command line arguments. This is not intended to replace a command line parsing framework but rather
       /// complement it in a configuration like way. Uses current process' command line parameters automatically
       /// </summary>
       /// <param name="configuration">Configuration object</param>
+      /// <param name="positionToOption">When parameters are not named you can specify this dictionary to map parameter position to option value.</param>
       /// <returns>Changed configuration</returns>
-      public static IConfigConfiguration UseCommandLineArgs(this IConfigConfiguration configuration)
+      public static IConfigConfiguration UseCommandLineArgs(this IConfigConfiguration configuration, Dictionary<int, Option> positionToOption = null)
       {
-         configuration.AddStore(new CommandLineConfigStore(null));
+         configuration.AddStore(new CommandLineConfigStore(null, null));
          return configuration;
       }
 

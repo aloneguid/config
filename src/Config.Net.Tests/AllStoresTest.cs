@@ -47,7 +47,7 @@ namespace Config.Net.Tests
    {
       protected override IConfigStore CreateStore()
       {
-         return new CommandLineConfigStore(null);
+         return new CommandLineConfigStore(null, null);
       }
    }
 
