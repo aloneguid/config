@@ -47,5 +47,16 @@ namespace Config.Net.Tests
          Assert.False(parsed);
          Assert.Null(result);
       }
+
+      [Fact]
+      public void Dates_Valid_Parses()
+      {
+         DateTime d = DateTime.Now;
+
+         string s = Parser.ToRawString(d);
+
+         Assert.True(Parser.TryParse(s, typeof(DateTime), out object d1obj));
+         Assert.Equal(d.RoundToSecond(), ((DateTime)d1obj).RoundToSecond());
+      }
    }
 }

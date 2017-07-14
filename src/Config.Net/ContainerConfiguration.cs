@@ -81,7 +81,6 @@ namespace Config.Net
             new StringArrayParser(),
             new StringParser(),
             new TimeSpanParser(),
-            new DateTimeParser(),
             new CoreParsers(),
             new NetworkCredentialParser()
          };

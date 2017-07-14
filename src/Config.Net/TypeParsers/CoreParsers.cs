@@ -8,7 +8,7 @@ namespace Config.Net.TypeParsers
    /// </summary>
    class CoreParsers : ITypeParser
    {
-      public IEnumerable<Type> SupportedTypes => new[] { typeof(Uri), typeof(bool), typeof(Guid) };
+      public IEnumerable<Type> SupportedTypes => new[] { typeof(Uri), typeof(bool), typeof(Guid), typeof(DateTime) };
 
       private static readonly Dictionary<string, bool> BooleanTrueValues =
          new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase)
@@ -33,6 +33,9 @@ namespace Config.Net.TypeParsers
 
          if (t == typeof(Guid))
             return value.ToString();
+
+         if(t == typeof(DateTime))
+            return ((DateTime)value).ToUniversalTime().ToString("u");
 
          return null;
       }
@@ -74,6 +77,14 @@ namespace Config.Net.TypeParsers
 
             result = null;
             return false;
+         }
+
+         if(t == typeof(DateTime))
+         {
+            DateTime dateResult;
+            bool parsed = DateTime.TryParse(value, out dateResult);
+            result = dateResult;
+            return parsed;
          }
 
          result = null;
