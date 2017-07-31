@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Config.Net.Tests": {
-      "commandName": "Project",
-      "commandLineArgs": "silent delay=3"
-    }
-  }
-}

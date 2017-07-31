@@ -6,7 +6,13 @@ before_build:
 build:
   project: src/Config.Net.sln
   verbosity: minimal
-test: off
+test_script:
+- cmd: >-
+    cd src\Config.Net.Tests
+
+    dotnet test
+
+    cd ..\..
 artifacts:
 - path: src/**/*.nupkg
 deploy:
