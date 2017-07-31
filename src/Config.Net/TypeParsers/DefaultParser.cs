@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace Config.Net.TypeParsers
 {
@@ -56,16 +57,7 @@ namespace Config.Net.TypeParsers
          Type nullable = Nullable.GetUnderlyingType(t);
          if(nullable != null) t = nullable;
 
-         try
-         {
-            Enum.GetUnderlyingType(t);
-            return true;
-         }
-         catch(ArgumentException)
-         {
-            return false;
-         }
+         return t.GetTypeInfo().IsEnum;
       }
-
    }
 }
