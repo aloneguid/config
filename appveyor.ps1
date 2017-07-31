@@ -7,6 +7,8 @@ $vt = @{
    "Config.Net.Integration.Storage.Net.csproj" = "1.0.0-alpha-1";
 }
 
+Write-Host "global version is $gv"
+
 $Copyright = "Copyright (c) 2015-2017 by Ivan Gavryliuk"
 $PackageIconUrl = "http://i.isolineltd.com/nuget/config.net.png"
 $PackageProjectUrl = "https://github.com/aloneguid/config"
