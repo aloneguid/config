@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Copyright>Copyright (c) 2015-2017 by Ivan Gavryliuk</Copyright>
     <AssemblyTitle>Config.Net</AssemblyTitle>
@@ -25,6 +25,12 @@
     <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/aloneguid/config/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>GitHub</RepositoryType>
+    <Version>
+    </Version>
+    <FileVersion>
+    </FileVersion>
+    <AssemblyVersion>
+    </AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="netbox" Version="1.4.19" />

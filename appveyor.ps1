@@ -72,7 +72,7 @@ function Exec($Command, [switch]$ContinueOnError)
 }
 
 # Update versioning information
-Get-ChildItem *.csproj -Recurse | Where-Object {-not($_.Name -like "*test*")} | % {
+Get-ChildItem *.csproj -Recurse | Where-Object {-not(($_.Name -like "*test*") -or ($_.Name -like "*runner*"))} | % {
    Update-ProjectVersion $_
 }
 
