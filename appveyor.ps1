@@ -21,6 +21,8 @@ $SlnPath = "src\Config.Net.sln"
 
 function Update-ProjectVersion($File)
 {
+   Write-Host "updating $File ..."
+
    $v = $vt.($File.Name)
    if($v -eq $null) { $v = $gv }
 
@@ -38,9 +40,9 @@ function Update-ProjectVersion($File)
    $parts = $v -split "\."
    $bv = $parts[2]
    if($bv.Contains("-")) { $bv = $bv.Substring(0, $bv.IndexOf("-"))}
-   $fv = "{0}.{1}.{2}.0" -f $parts[0], $parts[1], $bv
-   $av = "{0}.0.0.0" -f $parts[0]
-   $pv = $v
+   [string] $fv = "{0}.{1}.{2}.0" -f $parts[0], $parts[1], $bv
+   [string] $av = "{0}.0.0.0" -f $parts[0]
+   [string] $pv = $v
 
    $pg.Version = $pv
    $pg.FileVersion = $fv

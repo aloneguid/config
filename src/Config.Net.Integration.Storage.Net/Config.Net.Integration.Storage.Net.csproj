@@ -15,14 +15,6 @@
     <RepositoryType>GitHub</RepositoryType>
     <Description>This package integrates Config.Net with Storage.Net library allowing you to use any data source already supported in Storage.Net (there are plenty).</Description>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>
-    </Version>
-    <Authors>
-    </Authors>
-    <FileVersion>
-    </FileVersion>
-    <AssemblyVersion>
-    </AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Storage.Net" Version="4.0.0-alpha-1" />
