@@ -162,6 +162,5 @@ The list of available built-in and external stores is maintained on this page:
 |[IniFile](doc/Stores_IniFile.md)              | v        | v         | internal | INI files |
 |[JSON](doc/Stores_JsonFile.md)|v|v|internal|JSON file storage|
 |[InMemory](doc/Stores_InMemory.md)             | v        | v         | internal | In-memory storage |
-|[Azure](doc/Stores_Azure.md)                | v        | x         | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure's ConfigurationManager |
-|[AzureTable](doc/Stores_AzureTable.md)           | v        | v         | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure Table Storage |
-|[AzureKeyVault](doc/Stores_AzureKeyVault.md)        | v        | v          | [Config.Net.Azure](https://www.nuget.org/packages/Config.Net.Azure) | Azure Key Vault Secrets |
+|[Storage.Net Integration](doc/Stores_StorageNet.md)|v|v|external|anything that [storage.net](https://github.com/aloneguid/storage) supports
+

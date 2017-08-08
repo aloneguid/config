@@ -18,12 +18,6 @@ namespace Config.Net.Tests
       protected override void OnConfigure(IConfigConfiguration configuration)
       {
          configuration.UseIniFile("c:\\tmp\\integration-tests.ini");
-         configuration.UseEnvironmentVariables();
-
-         configuration.UseCommandLineArgs(new Dictionary<int, Option>
-         {
-            { 0, AzureStorageName }
-         });
       }
    }
 

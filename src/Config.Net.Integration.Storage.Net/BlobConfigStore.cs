@@ -1,4 +1,5 @@
-﻿using Storage.Net.Blob;
+﻿using Storage.Net;
+using Storage.Net.Blob;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,7 +27,16 @@ namespace Config.Net.Integration.Storage.Net
 
       public string Read(string key)
       {
-         return _blobs.ReadText(key);
+         if (key == null) return null;
+
+         try
+         {
+            return _blobs.ReadText(key);
+         }
+         catch (StorageException ex) when (ex.ErrorCode == ErrorCode.NotFound)
+         {
+            return null;
+         }
       }
 
       public void Write(string key, string value)

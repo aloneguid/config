@@ -14,14 +14,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Config.Net.Integration.Storage.Net\Config.Net.Integration.Storage.Net.csproj" />
     <ProjectReference Include="..\Config.Net\Config.Net.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Include="Storage.Net" Version="4.0.22" />
+    <PackageReference Include="Storage.Net.Microsoft.Azure.Storage" Version="1.0.22" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
     <PackageReference Include="xunit" Version="2.2.0" />
-    <PackageReference Include="netbox" Version="1.4.19" />
+    <PackageReference Include="netbox" Version="1.4.20" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">

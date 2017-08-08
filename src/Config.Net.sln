@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F2107671-5DC0-48C0-ABE8-D80ACDC5D7D2}"
 	ProjectSection(SolutionItems) = preProject
@@ -10,23 +10,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\appveyor.yml = ..\appveyor.yml
 		..\build.ps1 = ..\build.ps1
 		..\pack.cmd = ..\pack.cmd
-		..\README.markdown = ..\README.markdown
-		..\README.v1.markdown = ..\README.v1.markdown
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{CDB02CCC-51F3-4777-A942-6F2E1DB3FD0B}"
 	ProjectSection(SolutionItems) = preProject
 		..\doc\CustomParsers.md = ..\doc\CustomParsers.md
+		..\README.markdown = ..\README.markdown
+		..\README.v1.markdown = ..\README.v1.markdown
 		..\doc\ReleaseNotes.md = ..\doc\ReleaseNotes.md
 		..\doc\Stores_AppConfig.md = ..\doc\Stores_AppConfig.md
-		..\doc\Stores_Azure.md = ..\doc\Stores_Azure.md
-		..\doc\Stores_AzureKeyVault.md = ..\doc\Stores_AzureKeyVault.md
-		..\doc\Stores_AzureTable.md = ..\doc\Stores_AzureTable.md
 		..\doc\Stores_CommandLine.md = ..\doc\Stores_CommandLine.md
 		..\doc\Stores_EnvironmentVariables.md = ..\doc\Stores_EnvironmentVariables.md
 		..\doc\Stores_IniFile.md = ..\doc\Stores_IniFile.md
 		..\doc\Stores_InMemory.md = ..\doc\Stores_InMemory.md
 		..\doc\Stores_JsonFile.md = ..\doc\Stores_JsonFile.md
+		..\doc\Stores_StorageNet.md = ..\doc\Stores_StorageNet.md
 		..\doc\SupportedTypes.md = ..\doc\SupportedTypes.md
 	EndProjectSection
 EndProject

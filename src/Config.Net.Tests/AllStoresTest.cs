@@ -2,6 +2,9 @@
 using System.IO;
 using Config.Net.Stores;
 using Xunit;
+using Storage.Net.Blob;
+using Storage.Net;
+using Config.Net.Integration.Storage.Net;
 
 namespace Config.Net.Tests
 {
@@ -51,14 +54,29 @@ namespace Config.Net.Tests
       }
    }
 
-    public class JsonFileConfigStoreTest : AllStoresTest
-    {
-        protected override IConfigStore CreateStore()
-        {
-            var testFile = Path.Combine(BuildDir.FullName, "test.json");
-            return new JsonFileConfigStore(testFile);
-        }
-    }
+   public class JsonFileConfigStoreTest : AllStoresTest
+   {
+      protected override IConfigStore CreateStore()
+      {
+         var testFile = Path.Combine(BuildDir.FullName, "test.json");
+         return new JsonFileConfigStore(testFile);
+      }
+   }
+
+   /*public class StorageNetStoreTest : AllStoresTest
+   {
+      protected override IConfigStore CreateStore()
+      {
+         var settings = new TestSettings();
+
+         string name = settings.AzureStorageName;
+
+         IBlobStorage blobs =
+            StorageFactory.Blobs.AzureBlobStorage(settings.AzureStorageName, settings.AzureStorageKey, "confignet");
+
+         return new BlobConfigStore(blobs);
+      }
+   }*/
 
    /// <summary>
    /// Tests all stores for consistent behavior
@@ -66,11 +84,13 @@ namespace Config.Net.Tests
    public abstract class AllStoresTest : AbstractTestFixture, IDisposable
    {
       private IConfigStore _store;
+
       //private readonly string _storeName;
       //private string _testFile;
       protected TestSettings _settings = new TestSettings();
 
       protected abstract IConfigStore CreateStore();
+
       public AllStoresTest()
       {
          _store = CreateStore();
@@ -83,7 +103,7 @@ namespace Config.Net.Tests
       [InlineData("testkey3", null)]
       public void Write_WritesKeyValue_ReadsBackCorrectly(string key, string value)
       {
-         if(!_store.CanWrite) return;
+         if (!_store.CanWrite) return;
 
          _store.Write(key, value);
 
@@ -93,7 +113,7 @@ namespace Config.Net.Tests
       [Fact]
       public void Write_ReplacesValue_ReadsBackCorrectly()
       {
-         if(!_store.CanWrite) return;
+         if (!_store.CanWrite) return;
 
          const string key = "key7";
          const string value = "changedvalue7";
