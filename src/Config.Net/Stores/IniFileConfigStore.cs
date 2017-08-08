@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Config.Net.Stores.Formats;
+using Config.Net.Stores.Formats.Ini;
 
 namespace Config.Net.Stores
 {

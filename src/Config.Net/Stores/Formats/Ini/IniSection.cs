@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Config.Net.Stores.Formats
+namespace Config.Net.Stores.Formats.Ini
 {
    class IniSection
    {

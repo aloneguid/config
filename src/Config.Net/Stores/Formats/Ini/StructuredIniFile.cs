@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Config.Net.Stores.Formats
+namespace Config.Net.Stores.Formats.Ini
 {
    class StructuredIniFile
    {

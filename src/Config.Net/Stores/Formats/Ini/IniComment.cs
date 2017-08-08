@@ -1,4 +1,4 @@
-﻿namespace Config.Net.Stores.Formats
+﻿namespace Config.Net.Stores.Formats.Ini
 {
    class IniComment : IniEntity
    {

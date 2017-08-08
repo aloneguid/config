@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Config.Net.Stores.Formats
+namespace Config.Net.Stores.Formats.Ini
 {
    internal class IniKeyValue : IniEntity
    {
