@@ -1,4 +1,4 @@
-﻿using Config.Net.Stores.Formats;
+﻿using Config.Net.Stores.Formats.Ini;
 using Xunit;
 
 namespace Config.Net.Tests.Stores.Formats
