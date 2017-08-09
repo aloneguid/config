@@ -29,6 +29,7 @@
   <ItemGroup>
     <PackageReference Include="netbox" Version="1.4.20" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="YamlDotNet.Signed" Version="4.2.1" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
     <DefineConstants>$(DefineConstants);NETSTANDARD</DefineConstants>
