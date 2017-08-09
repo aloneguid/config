@@ -24,5 +24,13 @@ namespace Config.Net.Tests.Stores
 
          Assert.Equal("Visual Studio 2017", image);
       }
+
+      [Fact]
+      public void Can_read_nested_node()
+      {
+         string project = _yaml.Read("build.project");
+
+         Assert.Equal("src/Config.Net.sln", project);
+      }
    }
 }
