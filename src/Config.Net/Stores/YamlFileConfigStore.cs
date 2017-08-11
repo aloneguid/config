@@ -41,7 +41,7 @@ namespace Config.Net.Stores
 
       private string ReadYamlKey(string name)
       {
-         if (!File.Exists(_fullName)) return null;
+         if (name == null || !File.Exists(_fullName)) return null;
 
          var ys = new YamlStream();
 
@@ -58,23 +58,52 @@ namespace Config.Net.Stores
 
          foreach (string part in parts)
          {
-            if (current is YamlMappingNode currentMapping)
-            {
-               var currentFind = currentMapping
-                  .Children
-                  .FirstOrDefault(c => (c.Key is YamlScalarNode keyName) && (keyName.Value == part));
+            current = DiveIn(current, part);
 
-               current = currentFind.Value;
-            }
-            else
-            {
-               return null;
-            }
+            if (current == null) break;
          }
 
-        if (current is YamlScalarNode currentScalar) return currentScalar.Value;
+         return GetResult(current);
+      }
 
-         throw new Exception("invalid YAML");
+      private YamlNode DiveIn(YamlNode node, string name)
+      {
+         if (node is YamlMappingNode currentMapping)
+         {
+            return currentMapping
+               .Children
+               .Where(c => IsMatch(c.Key, name))
+               .Select(c => c.Value)
+               .FirstOrDefault();
+         }
+         else if (node is YamlSequenceNode currentSequence)
+         {
+            YamlNode start = currentSequence.FirstOrDefault(el => DiveIn(el, name) != null);
+
+            return DiveIn(start, name);
+         }
+         else
+         {
+            return null;
+         }
+      }
+
+      private bool IsMatch(YamlNode node, string name)
+      {
+         if (node is YamlScalarNode scalar)
+            return scalar.Value == name;
+
+         return false;
+      }
+
+      private string GetResult(YamlNode node)
+      {
+         if (node == null) return null;
+
+         if (node is YamlScalarNode scalar)
+            return scalar.Value;
+
+         return null;
       }
 
    }

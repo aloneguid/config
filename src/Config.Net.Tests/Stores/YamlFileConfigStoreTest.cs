@@ -32,5 +32,16 @@ namespace Config.Net.Tests.Stores
 
          Assert.Equal("src/Config.Net.sln", project);
       }
+
+      [Fact]
+      public void Can_read_multiline()
+      {
+         string cmd = _yaml.Read("test_script.cmd");
+
+         Assert.Equal(@"cd src\Config.Net.Tests
+dotnet test
+cd ..\..", cmd, false, true, true);
+
+      }
    }
 }
