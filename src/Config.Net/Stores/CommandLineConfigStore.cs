@@ -13,7 +13,7 @@ namespace Config.Net.Stores
 
       public bool CanRead => true;
 
-      public bool CanWrite => false;
+      public bool CanWrite { get => false; set {  } }
 
       public string Name => "Command Line Arguments";
 

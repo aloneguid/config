@@ -22,12 +22,14 @@ namespace Config.Net.Stores
         /// <exception cref="ArgumentNullException"><paramref name="fullName"/> is null.</exception>
         /// <exception cref="IOException">Provided path is not valid.</exception>
         /// <remarks>Storage file does not have to exist, however it will be created as soon as first write performed.</remarks>
-        public JsonFileConfigStore(string fullName)
+        public JsonFileConfigStore(string fullName, bool canWrite = true)
         {
             if (fullName == null) throw new ArgumentNullException(nameof(fullName));
 
             _fullName = fullName;
             _fileName = Path.GetFileName(fullName);
+
+            CanWrite = canWrite;
 
             var parentDirPath = Path.GetDirectoryName(fullName);
 
@@ -47,7 +49,7 @@ namespace Config.Net.Stores
 
         public bool CanRead => true;
 
-        public bool CanWrite => true;
+        public bool CanWrite { get; set; }
 
         public string Read(string key)
         {

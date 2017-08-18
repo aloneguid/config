@@ -20,7 +20,7 @@ namespace Config.Net
       /// <summary>
       /// Returns true if store supports write operation.
       /// </summary>
-      bool CanWrite { get; }
+      bool CanWrite { get; set; }
 
       /// <summary>
       /// Reads a key from the store.

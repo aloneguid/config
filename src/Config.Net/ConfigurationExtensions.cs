@@ -35,9 +35,10 @@ namespace Config.Net
       /// <summary>
       /// Uses system environment variables
       /// </summary>
-      public static IConfigConfiguration UseEnvironmentVariables(this IConfigConfiguration configuration)
+      /// <param name="canWrite">Optional parameter to allow a read only usage of this store.</param>
+      public static IConfigConfiguration UseEnvironmentVariables(this IConfigConfiguration configuration, bool canWrite = true)
       {
-         configuration.AddStore(new EnvironmentVariablesStore());
+         configuration.AddStore(new EnvironmentVariablesStore(canWrite));
          return configuration;
       }
 
@@ -46,10 +47,11 @@ namespace Config.Net
       /// </summary>
       /// <param name="configuration"></param>
       /// <param name="iniFilePath">File does not have to exist, however it will be created as soon as you try to write to it.</param>
+      /// <param name="canWrite">Optional parameter to allow a read only usage of this store.</param>
       /// <returns></returns>
-      public static IConfigConfiguration UseIniFile(this IConfigConfiguration configuration, string iniFilePath)
+      public static IConfigConfiguration UseIniFile(this IConfigConfiguration configuration, string iniFilePath, bool canWrite = true)
       {
-         configuration.AddStore(new IniFileConfigStore(iniFilePath));
+         configuration.AddStore(new IniFileConfigStore(iniFilePath, canWrite));
          return configuration;
       }
 
@@ -58,9 +60,10 @@ namespace Config.Net
       /// </summary>
       /// <param name="configuration"></param>
       /// <returns></returns>
-      public static IConfigConfiguration UseInMemoryConfig(this IConfigConfiguration configuration)
+      /// <param name="canWrite">Optional parameter to allow a read only usage of this store.</param>
+      public static IConfigConfiguration UseInMemoryConfig(this IConfigConfiguration configuration, bool canWrite = true)
       {
-         configuration.AddStore(new InMemoryConfigStore());
+         configuration.AddStore(new InMemoryConfigStore(canWrite));
          return configuration;
       }
 
@@ -82,11 +85,12 @@ namespace Config.Net
       /// </summary>
       /// <param name="configuration">Configuration object.</param>
       /// <param name="jsonFilePath">Full path to json storage file.</param>
+      /// <param name="canWrite">Optional parameter to allow a read only usage of this store.</param>
       /// <returns>Changed configuration.</returns>
       /// <remarks>Storage file does not have to exist, however it will be created as soon as first write performed.</remarks>
-      public static IConfigConfiguration UseJsonFile(this IConfigConfiguration configuration, string jsonFilePath)
+      public static IConfigConfiguration UseJsonFile(this IConfigConfiguration configuration, string jsonFilePath, bool canWrite = true)
       {
-         configuration.AddStore(new JsonFileConfigStore(jsonFilePath));
+         configuration.AddStore(new JsonFileConfigStore(jsonFilePath, canWrite));
          return configuration;
       }
 

@@ -8,6 +8,11 @@ namespace Config.Net.Stores
    /// </summary>
    class EnvironmentVariablesStore : IConfigStore
    {
+      public EnvironmentVariablesStore(bool canWrite = true)
+      {
+         CanWrite = canWrite;
+      }
+
       /// <summary>
       /// Readable
       /// </summary>
@@ -16,7 +21,7 @@ namespace Config.Net.Stores
       /// <summary>
       /// Writeable
       /// </summary>
-      public bool CanWrite => true;
+      public bool CanWrite { get; set; }
 
       /// <summary>
       /// Store name

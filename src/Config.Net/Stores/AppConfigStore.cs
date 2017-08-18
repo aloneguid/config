@@ -13,7 +13,12 @@ namespace Config.Net.Stores
 
       public bool CanRead => true;
 
-      public bool CanWrite => false;
+      public bool CanWrite { get; set; }
+
+      public AppConfigStore()
+	   {
+         CanWrite = false;
+	   }
 
       public string Read(string key)
       {

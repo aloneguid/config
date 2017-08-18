@@ -19,12 +19,14 @@ namespace Config.Net.Stores
       /// </summary>
       /// <param name="fullName">File does not have to exist, however it will be created as soon as you
       /// try to write to it</param>
-      public IniFileConfigStore(string fullName)
+      public IniFileConfigStore(string fullName, bool canWrite = true)
       {
          if (fullName == null) throw new ArgumentNullException(nameof(fullName));
 
          _fileName = Path.GetFileName(fullName);
          _fullName = fullName;
+
+         CanWrite = canWrite;
 
          string parentDirPath = Path.GetDirectoryName(fullName);
          if (string.IsNullOrEmpty(parentDirPath)) throw new IOException("the provided directory path is not valid");
@@ -40,7 +42,7 @@ namespace Config.Net.Stores
 
       public bool CanRead => true;
 
-      public bool CanWrite => true;
+      public bool CanWrite { get; set; }
 
       public string Read(string fullKey)
       {

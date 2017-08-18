@@ -10,8 +10,9 @@ namespace Config.Net.Integration.Storage.Net
    {
       private readonly IBlobStorage _blobs;
 
-      public BlobConfigStore(IBlobStorage blobs)
+      public BlobConfigStore(IBlobStorage blobs, bool canWrite = true)
       {
+         CanWrite = canWrite;
          _blobs = blobs ?? throw new ArgumentNullException(nameof(blobs));
       }
 
@@ -19,7 +20,7 @@ namespace Config.Net.Integration.Storage.Net
 
       public bool CanRead => true;
 
-      public bool CanWrite => true;
+      public bool CanWrite { get; set; }
 
       public void Dispose()
       {
