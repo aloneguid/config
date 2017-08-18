@@ -1,8 +1,8 @@
-﻿using System;
-using System.Reflection;
+﻿using Config.Net.TypeParsers;
+using System;
 using System.Collections.Concurrent;
-using Config.Net.TypeParsers;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Config.Net
 {
@@ -84,8 +84,10 @@ namespace Config.Net
          {
             ITypeParser typeParser = _config.GetParser(option.NonNullableType);
             object result;
-            typeParser.TryParse(value, option.NonNullableType, out result);
-            optionValue.Update<T>((T)result);
+            if (typeParser.TryParse(value, option.NonNullableType, out result))
+            {
+               optionValue.Update<T>((T)result);
+            }
          }
 
          OnReadOption(option, optionValue.RawValue);
@@ -108,9 +110,9 @@ namespace Config.Net
          OptionValue optionValue;
          _nameToOptionValue.TryGetValue(option.Name, out optionValue);
 
-         foreach(IConfigStore store in _config.Stores)
+         foreach (IConfigStore store in _config.Stores)
          {
-            if(store.CanWrite)
+            if (store.CanWrite)
             {
                string rawValue = AreEqual(value, option.DefaultValue) ? null : GetRawStringValue(option, value);
                store.Write(option.Name, rawValue);
@@ -168,12 +170,12 @@ namespace Config.Net
 
             if (propInfo.IsSubclassOf(optionType))
             {
-               if((pi.Attributes & FieldAttributes.InitOnly) == 0)
+               if ((pi.Attributes & FieldAttributes.InitOnly) == 0)
                {
                   throw new ArgumentException($"field '{pi.Name}' must be declared as read-only");
                }
 
-               if((pi.Attributes & FieldAttributes.Static) != 0)
+               if ((pi.Attributes & FieldAttributes.Static) != 0)
                {
                   throw new ArgumentException($"field '{pi.Name}' cannot be static");
                }
