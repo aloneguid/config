@@ -19,6 +19,7 @@ namespace Config.Net.Stores
       /// <param name="assembly">reference to the assembly to look for</param>
       public AssemblyConfigStore(Assembly assembly)
       {
+         CanWrite = false;
          _configuration = ConfigurationManager.OpenExeConfiguration(assembly.Location);
       }
 
@@ -35,7 +36,7 @@ namespace Config.Net.Stores
       /// <summary>
       /// Store is not writeable
       /// </summary>
-      public bool CanWrite => false;
+      public bool CanWrite { get; set; }
 
       /// <summary>
       /// Reads the value by key

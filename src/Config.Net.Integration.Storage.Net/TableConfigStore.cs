@@ -11,18 +11,19 @@ namespace Config.Net.Integration.Storage.Net
       private readonly string _tableName;
       private readonly string _partitionKey;
 
-      public TableConfigStore(ITableStorage tableStorage, string tableName, string partitionKey)
+      public TableConfigStore(ITableStorage tableStorage, string tableName, string partitionKey, bool canWrite = true)
       {
          _tableStorage = tableStorage;
          _tableName = tableName;
          _partitionKey = partitionKey;
+         CanWrite = canWrite;
       }
 
       public string Name => "Storage.Net Tables";
 
       public bool CanRead => true;
 
-      public bool CanWrite => true;
+      public bool CanWrite { get; set; }
 
       public void Dispose()
       {

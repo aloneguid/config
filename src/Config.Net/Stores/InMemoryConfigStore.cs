@@ -6,9 +6,14 @@ namespace Config.Net.Stores
    {
       public string Name => "InMemoryStore";
       public bool CanRead => true;
-      public bool CanWrite => true;
+      public bool CanWrite { get; set; }
 
       private readonly Dictionary<string, string> _data = new Dictionary<string, string>();
+
+      public InMemoryConfigStore(bool canWrite = true)
+      {
+         CanWrite = canWrite;
+      }
 
       public string Read(string key)
       {

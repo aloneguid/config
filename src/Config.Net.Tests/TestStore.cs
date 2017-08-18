@@ -6,14 +6,15 @@ namespace Config.Net.Tests
    {
       public Dictionary<string, string> Map { get; private set; }
  
-      public TestStore()
+      public TestStore(bool canWrite = true)
       {
+         CanWrite = canWrite;
          Map = new Dictionary<string, string>();
       }
 
       public string Name { get { return "test";  } }
       public bool CanRead { get { return true; } }
-      public bool CanWrite { get { return true; } }
+      public bool CanWrite { get; set; }
 
       public string Read(string key)
       {
