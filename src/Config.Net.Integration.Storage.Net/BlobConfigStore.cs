@@ -1,18 +1,16 @@
 ﻿using Storage.Net;
 using Storage.Net.Blob;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Config.Net.Integration.Storage.Net
 {
    class BlobConfigStore : IConfigStore
    {
-      private readonly IBlobStorage _blobs;
+      private readonly BlobStorage _blobs;
 
-      public BlobConfigStore(IBlobStorage blobs)
+      public BlobConfigStore(IBlobStorageProvider blobs)
       {
-         _blobs = blobs ?? throw new ArgumentNullException(nameof(blobs));
+         _blobs = new BlobStorage(blobs) ?? throw new ArgumentNullException(nameof(blobs));
       }
 
       public string Name => "Storage.Net Blobs";
@@ -31,7 +29,7 @@ namespace Config.Net.Integration.Storage.Net
 
          try
          {
-            return _blobs.ReadText(key);
+            return _blobs.ReadTextAsync(key).Result;
          }
          catch (StorageException ex) when (ex.ErrorCode == ErrorCode.NotFound)
          {
@@ -43,7 +41,7 @@ namespace Config.Net.Integration.Storage.Net
       {
          if (value == null)
          {
-            _blobs.Delete(key);
+            _blobs.DeleteAsync(key).Wait();
          }
          else
          {

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Config.Net.Integration.Storage.Net
 {
+   //todo: not ready for use yet
    class TableConfigStore : IConfigStore
    {
       private readonly ITableStorage _tableStorage;

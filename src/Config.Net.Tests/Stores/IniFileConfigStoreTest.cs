@@ -1,4 +1,4 @@
-﻿/*using System;
+﻿using System;
 using System.IO;
 using System.Threading;
 using Config.Net.Stores;
@@ -87,4 +87,3 @@ key0=s2value0
       }
    }
 }
-*/

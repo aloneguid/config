@@ -63,6 +63,16 @@ namespace Config.Net.Tests
       }
    }
 
+   public class YamlConfigStoreTest : AllStoresTest
+   {
+      protected override IConfigStore CreateStore()
+      {
+         var testFile = Path.Combine(BuildDir.FullName, "..", "..", "..", "..", "..", "appveyor.yml");
+
+         return new YamlFileConfigStore(testFile);
+      }
+   }
+
    /*public class StorageNetStoreTest : AllStoresTest
    {
       protected override IConfigStore CreateStore()

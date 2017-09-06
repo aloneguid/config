@@ -20,11 +20,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
-    <PackageReference Include="Storage.Net" Version="4.0.22" />
-    <PackageReference Include="Storage.Net.Microsoft.Azure.Storage" Version="1.0.22" />
+    <PackageReference Include="Storage.Net" Version="5.0.36" />
+    <PackageReference Include="Storage.Net.Microsoft.Azure.Storage" Version="3.0.36" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
     <PackageReference Include="xunit" Version="2.2.0" />
-    <PackageReference Include="netbox" Version="1.4.20" />
+    <PackageReference Include="netbox" Version="1.4.22" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">

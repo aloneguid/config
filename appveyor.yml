@@ -13,6 +13,7 @@ test_script:
     dotnet test
 
     cd ..\..
+- whatever: test
 artifacts:
 - path: src/**/*.nupkg
 deploy:
