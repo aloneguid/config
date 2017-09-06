@@ -14,6 +14,7 @@ Config.Net supports the following CLR types:
 - `System.DateTime`
 - `System.Uri`
 - `System.Guid`
+- `System.Collections.Generic.Dictionary`
 
 ## Arrays
 

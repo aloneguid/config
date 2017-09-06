@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Config.Net.TypeParsers;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using Config.Net.TypeParsers;
 
 namespace Config.Net
 {
@@ -18,7 +18,7 @@ namespace Config.Net
 
       public ContainerConfiguration()
       {
-         foreach(ITypeParser pc in GetBuiltInParsers())
+         foreach (ITypeParser pc in GetBuiltInParsers())
          {
             AddParser(pc);
          }
@@ -34,7 +34,7 @@ namespace Config.Net
       public void RemoveAllStores()
       {
          IConfigStore store;
-         while(!_stores.IsEmpty)
+         while (!_stores.IsEmpty)
          {
             _stores.TryTake(out store);
          }
@@ -82,7 +82,8 @@ namespace Config.Net
             new StringParser(),
             new TimeSpanParser(),
             new CoreParsers(),
-            new NetworkCredentialParser()
+            new NetworkCredentialParser(),
+            new DictionaryParser()
          };
       }
    }
