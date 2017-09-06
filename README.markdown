@@ -164,3 +164,7 @@ The list of available built-in and external stores is maintained on this page:
 |[InMemory](doc/Stores_InMemory.md)             | v        | v         | internal | In-memory storage |
 |[Storage.Net Integration](doc/Stores_StorageNet.md)|v|v|external|anything that [storage.net](https://github.com/aloneguid/storage) supports
 
+
+Proudly using [Jetbrains Rider](https://www.jetbrains.com/rider/) for Open Source Development.
+
+![Jetbrains Rider](doc/jetbrains_rider_small.png)
