@@ -83,7 +83,7 @@ key0=s1value0
 
 [S2]
 key0=s2value0
-", resultText);
+", resultText, false, true);
       }
    }
 }
