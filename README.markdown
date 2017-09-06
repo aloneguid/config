@@ -4,8 +4,6 @@ A comprehensive easy to use and powerful .NET configuration library, fully cover
 
 This library eliminates the problem of having configuration in different places, having to convert types between different providers, hardcoding configuration keys accross the solution, depending on specific configuration source implementation. It's doing that by exposing an abstract configuration interface and providing most common implementation for configuration sources like app.config, environment variables etc.
 
-See [release notes](doc/ReleaseNotes.md) for release history, issues etc.
-
 > **Note:** Current version (v2) is not compatible with v1. If you need to come back to v1 documentation please follow [this link.](https://github.com/aloneguid/config/blob/master/README.v1.markdown)
 
 ## Quick Start
