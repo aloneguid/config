@@ -14,7 +14,7 @@ using Storage.Net.Blob;
 
 protected override void OnConfigure(IConfigConfiguration configuration)
 {
-   IBlobStorage blobs =
+   IBlobStorageProvider blobs =
       StorageFactory.Blobs.AzureBlobStorage(settings.AzureStorageName, settings.AzureStorageKey, "confignet");
 
    configuration.UseStorageNetBlobs(blobs);

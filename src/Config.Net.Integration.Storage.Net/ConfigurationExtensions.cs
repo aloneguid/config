@@ -4,7 +4,7 @@ namespace Config.Net.Integration.Storage.Net
 {
    public static class ConfigurationExtensions
    {
-      public static IConfigConfiguration UseStorageNetBlobs(this IConfigConfiguration configuration, IBlobStorage blobs)
+      public static IConfigConfiguration UseStorageNetBlobs(this IConfigConfiguration configuration, IBlobStorageProvider blobs)
       {
          IConfigStore store = new BlobConfigStore(blobs);
 
