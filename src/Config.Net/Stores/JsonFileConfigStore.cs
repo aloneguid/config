@@ -16,22 +16,22 @@ namespace Config.Net.Stores
         private JObject _jsonContent = new JObject();
 
         /// <summary>
-        /// Create JSON storage in the file specified in <paramref name="fullName"/>.
+        /// Create JSON storage in the file specified in <paramref name="pathName"/>.
         /// </summary>
-        /// <param name="fullName">Full path to JSON storage file.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="fullName"/> is null.</exception>
+        /// <param name="pathName">Full or relative path to JSON storage file.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="pathName"/> is null.</exception>
         /// <exception cref="IOException">Provided path is not valid.</exception>
         /// <remarks>Storage file does not have to exist, however it will be created as soon as first write performed.</remarks>
-        public JsonFileConfigStore(string fullName)
+        public JsonFileConfigStore(string pathName)
         {
-            if (fullName == null) throw new ArgumentNullException(nameof(fullName));
+            if (pathName == null) throw new ArgumentNullException(nameof(pathName));
 
-            _fullName = fullName;
-            _fileName = Path.GetFileName(fullName);
+            _fullName = Path.GetFullPath(pathName);   // Allow relative path to JSON file
+            _fileName = Path.GetFileName(_fullName);
 
-            var parentDirPath = Path.GetDirectoryName(fullName);
+            var parentDirPath = Path.GetDirectoryName(_fullName);
 
-            if (string.IsNullOrEmpty(parentDirPath)) throw new IOException("Provided directory path is not valid");
+            if (string.IsNullOrEmpty(parentDirPath)) throw new IOException($"Provided directory path ({parentDirPath}) is not valid");
 
             Directory.CreateDirectory(parentDirPath);
 
