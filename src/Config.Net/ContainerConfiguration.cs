@@ -7,7 +7,7 @@ namespace Config.Net
 {
    class ContainerConfiguration : IConfigConfiguration
    {
-      private readonly ConcurrentBag<IConfigStore> _stores = new ConcurrentBag<IConfigStore>();
+      private readonly BlockingCollection<IConfigStore> _stores = new BlockingCollection<IConfigStore>();
       private readonly ConcurrentDictionary<Type, ITypeParser> _parsers = new ConcurrentDictionary<Type, ITypeParser>();
 
       public TimeSpan CacheTimeout { get; set; }
@@ -34,9 +34,9 @@ namespace Config.Net
       public void RemoveAllStores()
       {
          IConfigStore store;
-         while(!_stores.IsEmpty)
+         while(_stores.Count>0)
          {
-            _stores.TryTake(out store);
+            _stores.TryTake(out store, 5);   // Prevent spinning if a thread is locking a store
          }
       }
 
