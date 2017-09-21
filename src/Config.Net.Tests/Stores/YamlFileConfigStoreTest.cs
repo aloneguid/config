@@ -13,7 +13,7 @@ namespace Config.Net.Tests.Stores
 
       public YamlFileConfigStoreTest()
       {
-         var testFile = Path.Combine(BuildDir.FullName, "..", "..", "..", "..", "..", "appveyor.yml");
+         var testFile = @"..\..\..\..\..\appveyor.yml";
          _yaml = new YamlFileConfigStore(testFile);
       }
 
