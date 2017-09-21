@@ -17,16 +17,16 @@ namespace Config.Net.Stores
       /// <summary>
       /// 
       /// </summary>
-      /// <param name="fullName">File does not have to exist, however it will be created as soon as you
+      /// <param name="pathName">File does not have to exist, however it will be created as soon as you
       /// try to write to it</param>
-      public IniFileConfigStore(string fullName)
+      public IniFileConfigStore(string pathName)
       {
-         if (fullName == null) throw new ArgumentNullException(nameof(fullName));
+         if (pathName == null) throw new ArgumentNullException(nameof(pathName));
 
-         _fileName = Path.GetFileName(fullName);
-         _fullName = fullName;
+         _fullName = Path.GetFullPath(pathName);   // Allow relative path to INI file
+         _fileName = Path.GetFileName(_fullName);
 
-         string parentDirPath = Path.GetDirectoryName(fullName);
+         string parentDirPath = Path.GetDirectoryName(_fullName);
          if (string.IsNullOrEmpty(parentDirPath)) throw new IOException("the provided directory path is not valid");
          if (!Directory.Exists(parentDirPath))
          {
