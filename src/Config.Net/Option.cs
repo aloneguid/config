@@ -93,7 +93,7 @@ namespace Config.Net
       /// <param name="option"></param>
       public static implicit operator T(Option<T> option)
       {
-         return option._parent.Read(option);
+         return option._parent == null ? default(T) : option._parent.Read(option);
       }
 
       /// <summary>
@@ -103,7 +103,7 @@ namespace Config.Net
       {
          get
          {
-            return _parent.Read(this);
+            return _parent == null ? default(T) : _parent.Read(this);
          }
       }
 

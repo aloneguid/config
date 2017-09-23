@@ -3,6 +3,8 @@ using System.Reflection;
 using System.Collections.Concurrent;
 using Config.Net.TypeParsers;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Config.Net
 {
@@ -156,34 +158,27 @@ namespace Config.Net
          _isConfigured = true;
       }
 
+      [Ignore]
       private void DiscoverProperties()
       {
          Type t = this.GetType();
          Type optionType = typeof(Option);
 
-         IEnumerable<FieldInfo> properties = t.GetRuntimeFields();
-         foreach (FieldInfo pi in properties)
+         IEnumerable<PropertyInfo> properties = t.GetRuntimeProperties();
+         foreach (PropertyInfo pi in properties)
          {
-            TypeInfo propInfo = pi.FieldType.GetTypeInfo();
+            TypeInfo propInfo = pi.PropertyType.GetTypeInfo();
 
-            if (propInfo.IsSubclassOf(optionType))
+            if (propInfo.IsSubclassOf(optionType) && pi.GetCustomAttribute<IgnoreAttribute>() == null)
             {
-               if((pi.Attributes & FieldAttributes.InitOnly) == 0)
-               {
-                  throw new ArgumentException($"field '{pi.Name}' must be declared as read-only");
-               }
-
-               if((pi.Attributes & FieldAttributes.Static) != 0)
-               {
-                  throw new ArgumentException($"field '{pi.Name}' cannot be static");
-               }
-
                //check if it has the value
                object objValue = pi.GetValue(this);
-
-               //if (objValue == null) throw new ApplicationException($"option '{pi.Name}' must be initialised.");
                if (objValue == null)
                {
+                  // Throw an exception if it's impossible to assign a default value to a read-only property with no default object assigned
+                  if (!pi.CanWrite)
+                     throw new ArgumentException($"Property '{pi.Name}' must either be settable or be pre-initialised with an Option<> object.");
+                  
                   //create default instance if it doesn't exist
                   var nt = typeof(Option<>);
                   Type[] ntArgs = propInfo.GetGenericArguments();
