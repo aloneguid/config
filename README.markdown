@@ -34,9 +34,9 @@ using Config.Net;
 
 public class AllSettings : SettingsContainer
 {
-    public readonly Option<string> AuthClientId;
+    public Option<string> AuthClientId {get; set;}
 
-    public readonly Option<string> AuthClientSecret;
+    public Option<string> AuthClientSecret {get; set;}
 
     protected override void OnConfigure(IConfigConfiguration configuration)
     {
@@ -47,7 +47,7 @@ public class AllSettings : SettingsContainer
 
 Let's go through this code snippet:
 * We have declared `AllSettings` class which will store configuration for oru application. All configuration classes must derive from `SettingsContainer`.
-* Two strong-typed configuration options were declared. Note they are both `readonly` which is another plus towards code quality.
+* Two strong-typed configuration options were declared.
 * `Option<T>` is a configuration option definition in Config.Net where generic parameter specifies the type. There is a limited set of [supported types](doc/SupportedTypes.md) and you can [create your own](doc/CustomParsers.md)
 * `OnConfigure` mehtod implementation specifies that app.config should be used as a configuration store.
 
@@ -115,7 +115,7 @@ setting it to `TimeSpan.Zero` disables caching completely.
 
 There are a few requirements to declaring a setting a s member of derived `SettingsContainer` class:
 
-* The field must be read-only
+* The property must be either read-write, or can be read-only if a default value is provided
 * It cannot be static
 
 A setting has a few basic properties:
@@ -126,13 +126,13 @@ A setting has a few basic properties:
 The simplest form of declaring an option is:
 
 ```csharp
-public readonly Option<string> AuthClientId = new Option<string>();
+public Option<string> AuthClientId  {get; set;}
 ```
 
 This sets option name to `AuthClientId` and default value to `null`. However if you need to specify the name explicitly change it to the following:
 
 ```csharp
-public readonly Option<string> AuthClientId = new Option<string>("AuthenticationClientId", null);
+public Option<string> AuthClientId {get; } = new Option<string>("AuthenticationClientId", null);
 ```
 
 This sets option name to `AuthenticationClientId` whereas local variable name is still `AuthClientId`. It is recommended that you set option name explicitly anyway, even if it matches the variable name. It saves from potential refactoring problems as when you rename the variable but config files still hold the old name.
@@ -144,10 +144,10 @@ Default value is returned in case an option cannot be found in any of the stores
 To change the default value pass it as a constructor argument in option initialisation:
 
 ```csharp
-public readonly Option<string> AuthClientId = new Option<string>("AuthenticationClientId", "default id");
+public Option<string> AuthClientId  {get; } = new Option<string>("AuthenticationClientId", "default id");
 ```
 
-This always returns `"defualt id"` when `AuthenticationClientId` is not found in any of the configured stores.
+This always returns `"default id"` when `AuthenticationClientId` is not found in any of the configured stores.
 
 # Available Stores
 
