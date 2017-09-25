@@ -16,7 +16,7 @@ namespace Config.Net.Stores
 
       public YamlFileConfigStore(string fullName)
       {
-         _fullName = fullName ?? throw new ArgumentNullException(nameof(fullName));
+         _fullName = Path.GetFullPath(fullName) ?? throw new ArgumentNullException(nameof(fullName));
       }
 
       public string Name => $"yaml";
