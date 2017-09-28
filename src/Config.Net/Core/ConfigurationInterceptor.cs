@@ -19,9 +19,13 @@ namespace Config.Net.Core
 
       public void Intercept(IInvocation invocation)
       {
-         if(IsGetMethod(invocation.Method))
+         if (IsGetMethod(invocation.Method))
          {
             invocation.ReturnValue = GetValue(invocation.Method);
+         }
+         else
+         {
+            SetValue(invocation.Method, invocation.Arguments[0]);
          }
       }
 
@@ -37,6 +41,15 @@ namespace Config.Net.Core
          PropertyOptions po = _propertyOptions[name];
 
          return _ioHandler.Read(po);
+      }
+
+      private void SetValue(MethodInfo mi, object value)
+      {
+         string name = mi.Name.Substring(4);
+
+         PropertyOptions po = _propertyOptions[name];
+
+         _ioHandler.Write(po, value);
       }
    }
 }

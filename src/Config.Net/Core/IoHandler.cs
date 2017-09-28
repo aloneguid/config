@@ -41,8 +41,15 @@ namespace Config.Net.Core
          }
          else
          {
-            ITypeParser parser = GetParser(value.GetType());
-            valueToWrite = parser.ToRawString(value);
+            if (_defaultParser.IsSupported(property.Type))
+            {
+               valueToWrite = _defaultParser.ToRawString(value);
+            }
+            else
+            {
+               ITypeParser parser = GetParser(value.GetType());
+               valueToWrite = parser.ToRawString(value);
+            }
          }
 
          foreach (IConfigStore store in _stores.Where(s => s.CanWrite))
@@ -64,17 +71,17 @@ namespace Config.Net.Core
          }
          else
          {
-            if(_defaultParser.IsSupported(property.Type))   //type here must be a non-nullable one
+            if(_defaultParser.IsSupported(property.BaseType))   //type here must be a non-nullable one
             {
-               if(!_defaultParser.TryParse(rawValue, property.Type, out result))
+               if(!_defaultParser.TryParse(rawValue, property.BaseType, out result))
                {
                   result = property.DefaultValue;
                }
             }
             else
             {
-               ITypeParser typeParser = GetParser(property.Type);
-               if(!typeParser.TryParse(rawValue, property.Type, out result))
+               ITypeParser typeParser = GetParser(property.BaseType);
+               if(!typeParser.TryParse(rawValue, property.BaseType, out result))
                {
                   result = property.DefaultValue;
                }

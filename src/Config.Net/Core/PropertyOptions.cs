@@ -11,12 +11,35 @@ namespace Config.Net.Core
       public PropertyOptions(string name, Type type, object defaultValue)
       {
          Name = name;
+
          Type = type;
+
+         TypeInfo ti = type.GetTypeInfo();
+         if(ti.IsClass)
+         {
+            BaseType = type;
+         }
+         else
+         {
+            if(ti.IsGenericType && ti.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+               BaseType = ti.GetGenericArguments()[0];
+            }
+            else
+            {
+               BaseType = type;
+            }
+         }
+
          DefaultValue = defaultValue;
       }
 
       public string Name { get; }
+
       public Type Type { get; }
+
+      public Type BaseType { get; }
+
       public object DefaultValue { get; }
 
       public static Dictionary<string, PropertyOptions> Discover<TInterface>()

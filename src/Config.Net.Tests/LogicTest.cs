@@ -7,7 +7,7 @@ namespace Config.Net.Tests
    /// <summary>
    /// These are the old tests from v1, still valuable!
    /// </summary>
-   public class ConfigManagerTest
+   public class LogicTest
    {
       public enum Grid
       {
@@ -57,7 +57,7 @@ namespace Config.Net.Tests
       private TestStore _store;
       private IFixtureSettings _settings;
 
-      public ConfigManagerTest()
+      public LogicTest()
       {
          _store = new TestStore();
 
