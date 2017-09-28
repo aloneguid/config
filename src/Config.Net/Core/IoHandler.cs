@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Config.Net.TypeParsers;
 
@@ -28,6 +29,26 @@ namespace Config.Net.Core
       public object Read(PropertyOptions property)
       {
          return ReadNonCached(property);
+      }
+
+      public void Write(PropertyOptions property, object value)
+      {
+         string valueToWrite;
+
+         if (value == null)
+         {
+            valueToWrite = null;
+         }
+         else
+         {
+            ITypeParser parser = GetParser(value.GetType());
+            valueToWrite = parser.ToRawString(value);
+         }
+
+         foreach (IConfigStore store in _stores.Where(s => s.CanWrite))
+         {
+            store.Write(property.Name, valueToWrite);
+         }
       }
 
       public object ReadNonCached(PropertyOptions property)
