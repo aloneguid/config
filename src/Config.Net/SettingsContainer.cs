@@ -31,7 +31,6 @@ namespace Config.Net
       /// </summary>
       protected SettingsContainer() : this(null)
       {
-
       }
 
       /// <summary>
@@ -62,7 +61,7 @@ namespace Config.Net
 
          if (!optionValue.IsExpired(_config.CacheTimeout))
          {
-            return (T)optionValue.RawValue;
+            return (T) optionValue.RawValue;
          }
 
          string value = ReadFirstValue(option.Name);
@@ -75,7 +74,7 @@ namespace Config.Net
             object resultObject;
             if (DefaultParser.TryParse(value, option.NonNullableType, out resultObject))
             {
-               optionValue.Update<T>((T)resultObject);
+               optionValue.Update<T>((T) resultObject);
             }
             else
             {
@@ -87,12 +86,12 @@ namespace Config.Net
             ITypeParser typeParser = _config.GetParser(option.NonNullableType);
             object result;
             typeParser.TryParse(value, option.NonNullableType, out result);
-            optionValue.Update<T>((T)result);
+            optionValue.Update<T>((T) result);
          }
 
          OnReadOption(option, optionValue.RawValue);
 
-         return (T)optionValue.RawValue;
+         return (T) optionValue.RawValue;
       }
 
       /// <summary>
@@ -110,9 +109,9 @@ namespace Config.Net
          OptionValue optionValue;
          _nameToOptionValue.TryGetValue(option.Name, out optionValue);
 
-         foreach(IConfigStore store in _config.Stores)
+         foreach (IConfigStore store in _config.Stores)
          {
-            if(store.CanWrite)
+            if (store.CanWrite)
             {
                string rawValue = AreEqual(value, option.DefaultValue) ? null : GetRawStringValue(option, value);
                store.Write(option.Name, rawValue);
@@ -164,42 +163,60 @@ namespace Config.Net
          Type t = this.GetType();
          Type optionType = typeof(Option);
 
-         IEnumerable<PropertyInfo> properties = t.GetRuntimeProperties();
+         IEnumerable<PropertyInfo> properties = t.GetRuntimeProperties()
+            .Where(f => f.PropertyType.GetTypeInfo().IsSubclassOf(optionType) && f.GetCustomAttribute<IgnoreAttribute>() == null).ToList();
+         // Only include fields that have not already been added as properties
+         IEnumerable<FieldInfo> fields = t.GetRuntimeFields()
+            .Where(f => f.IsPublic && f.FieldType.GetTypeInfo().IsSubclassOf(optionType)).ToList();
+
          foreach (PropertyInfo pi in properties)
          {
-            TypeInfo propInfo = pi.PropertyType.GetTypeInfo();
+            AssignOption(pi.GetValue(this), pi, pi.PropertyType.GetTypeInfo(), pi.CanWrite, v => pi.SetValue(this, v));
+         }
+         foreach (FieldInfo fi in fields)
+         {
+            if (properties.Any(p => p.Name == fi.Name))
+               throw new ArgumentException(
+                  $"Field '{fi.Name}' has already been defined as a property.");
+               
+            var methInfo = fi.FieldType.GetTypeInfo();
+            if (!methInfo.IsSubclassOf(optionType)) continue;
+            AssignOption(fi.GetValue(this), fi, methInfo, true, v => fi.SetValue(this, v));
+         }
+      }
 
-            if (propInfo.IsSubclassOf(optionType) && pi.GetCustomAttribute<IgnoreAttribute>() == null)
+      private void AssignOption(object objValue, MemberInfo pi, TypeInfo propInfo, bool writeable,
+         Action<object> setter)
+      {
+         {
+            //check if it has the value
+            if (objValue == null)
             {
-               //check if it has the value
-               object objValue = pi.GetValue(this);
-               if (objValue == null)
-               {
-                  // Throw an exception if it's impossible to assign a default value to a read-only property with no default object assigned
-                  if (!pi.CanWrite)
-                     throw new ArgumentException($"Property '{pi.Name}' must either be settable or be pre-initialised with an Option<> object.");
-                  
-                  //create default instance if it doesn't exist
-                  var nt = typeof(Option<>);
-                  Type[] ntArgs = propInfo.GetGenericArguments();
-                  Type ntGen = nt.MakeGenericType(ntArgs);
-                  objValue = Activator.CreateInstance(ntGen);
+               // Throw an exception if it's impossible to assign a default value to a read-only property with no default object assigned
+               if (!writeable)
+                  throw new ArgumentException(
+                     $"Property/Field '{pi.Name}' must either be settable or be pre-initialised with an Option<> object as a property, or marked as readonly if a field");
 
-                  //set the instance value back to the container
-                  pi.SetValue(this, objValue);
-               }
+               //create default instance if it doesn't exist
+               var nt = typeof(Option<>);
+               Type[] ntArgs = propInfo.GetGenericArguments();
+               Type ntGen = nt.MakeGenericType(ntArgs);
+               objValue = Activator.CreateInstance(ntGen);
 
-               Option value = (Option)objValue;
-               if (string.IsNullOrEmpty(value.Name)) value.Name = pi.Name;
-               value.Name = GetFullKeyName(value.Name);
-               value._parent = this;
-               value.NonNullableType = Nullable.GetUnderlyingType(value.ValueType);
-               value.IsNullable = value.NonNullableType != null;
-               if (value.NonNullableType == null) value.NonNullableType = value.ValueType;
-
-               _nameToOption[value.Name] = value;
-               _nameToOptionValue[value.Name] = new OptionValue();
+               //set the instance value back to the container
+               setter(objValue);
             }
+
+            Option value = (Option) objValue;
+            if (string.IsNullOrEmpty(value.Name)) value.Name = pi.Name;
+            value.Name = GetFullKeyName(value.Name);
+            value._parent = this;
+            value.NonNullableType = Nullable.GetUnderlyingType(value.ValueType);
+            value.IsNullable = value.NonNullableType != null;
+            if (value.NonNullableType == null) value.NonNullableType = value.ValueType;
+
+            _nameToOption[value.Name] = value;
+            _nameToOptionValue[value.Name] = new OptionValue();
          }
       }
 
@@ -249,7 +266,7 @@ namespace Config.Net
 
             if (t1.IsArray && t2.IsArray)
             {
-               return AreEqual((Array)value1, (Array)value2);
+               return AreEqual((Array) value1, (Array) value2);
             }
          }
 
@@ -292,6 +309,5 @@ namespace Config.Net
          }
          return stringValue;
       }
-
    }
 }

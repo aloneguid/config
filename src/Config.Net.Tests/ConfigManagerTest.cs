@@ -26,8 +26,8 @@ namespace Config.Net.Tests
             _store = store;
          }
 
-         public Option<string> UnitTestName { get; } = new Option<string>("UnitTestName", "not set");
-         public Option<int> NumberOfMinutes { get; } = new Option<int>("NumberOfMinutes", 10);
+         public readonly Option<string> UnitTestName = new Option<string>("UnitTestName", "not set");
+         public readonly Option<int> NumberOfMinutes = new Option<int>("NumberOfMinutes", 10);
          public Option<string[]> Regions { get; } = new Option<string[]>("Regions", new[] { "Japan", "Denmark", "Australia" });
          public Option<bool> LogXml { get; } = new Option<bool>("log-xml", true);
          public Option<int?> NumberOfMinutesMaybe { get; } = new Option<int?>("NumberOfMinutesMaybe", null);
