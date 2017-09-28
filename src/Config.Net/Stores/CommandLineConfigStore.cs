@@ -19,7 +19,12 @@ namespace Config.Net.Stores
 
       public CommandLineConfigStore(string[] args)
       {
+#if NETSTANDARD14
+         if (args == null) throw new ArgumentNullException(nameof(args));
+         Parse(args);
+#else
          Parse(args ?? Environment.GetCommandLineArgs());
+#endif
       }
 
       public void Dispose()

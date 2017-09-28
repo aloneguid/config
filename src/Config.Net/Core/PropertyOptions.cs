@@ -23,7 +23,7 @@ namespace Config.Net.Core
          {
             if(ti.IsGenericType && ti.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
-               BaseType = ti.GetGenericArguments()[0];
+               BaseType = ti.GenericTypeArguments[0];
             }
             else
             {
@@ -46,7 +46,8 @@ namespace Config.Net.Core
       {
          var result = new Dictionary<string, PropertyOptions>();
 
-         PropertyInfo[] properties = typeof(TInterface).GetTypeInfo().GetProperties();
+         IEnumerable<PropertyInfo> properties = typeof(TInterface).GetTypeInfo().DeclaredProperties;
+         //PropertyInfo[] properties = typeof(TInterface).GetTypeInfo().GetProperties();
 
          foreach(PropertyInfo pi in properties)
          {
