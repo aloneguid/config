@@ -3,10 +3,9 @@
 To configure the store:
 
 ```csharp
-protected override void OnConfigure(IConfigConfiguration configuration)
-{
-    configuration.UseIniFile("full path to file.ini");
-}
+IMySettings settings = new ConfigurationBuilder<IMySettings>()
+   .UseIniFile()
+   .Build();
 ```
 
 The store supports reading and writing, as well as INI file sections.
@@ -14,7 +13,7 @@ The store supports reading and writing, as well as INI file sections.
 In the simplest form every key in the INI file corresponds to the name of an option. For instance a definition
 
 ```csharp
-Option<string> MyOption;
+string MyOption { get; }
 ```
 
 will correspond to a line in an INI file:
@@ -35,7 +34,8 @@ MyOption=my fancy value
 should use the definition
 
 ```csharp
-Option<string> MyOption = new Option<string>("SectionOne.MyOption", null);
+[Option(Name = "SectionOne.MyOption")]
+string MyOption { get; }
 ```
 
 ### Writing

@@ -3,10 +3,9 @@
 To configure the store:
 
 ```csharp
-protected override void OnConfigure(IConfigConfiguration configuration)
-{
-    configuration.UseEnvironmentVariables();
-}
+IMySettings settings = new ConfigurationBuilder<IMySettings>()
+   .UseEnvironmentVariables()
+   .Build();
 ```
 
  This store works with system environment variables, the ones you get on Windows **cmd.exe** by typing `set` or in PowerShell by typing `Get-ChildItem Env:` or on Unix base systems `env`.

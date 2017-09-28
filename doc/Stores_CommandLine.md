@@ -5,10 +5,9 @@ This is in no way a command line framework but is rather an addition allowing yo
 To configure the store:
 
 ```csharp
-protected override void OnConfigure(IConfigConfiguration configuration)
-{
-    configuration.UseCommandLine();
-}
+IMySettings settings = new ConfigurationBuilder<IMySettings>()
+   .UseCommandLine()
+   .Build();
 ```
 
 ## Conventions
@@ -38,28 +37,4 @@ all the parameters are valid and essentially will become the following:
 
 ### Positional parameters
 
-Given a settings container:
-
-```csharp
-class MySettings : SettingsContainer
-{
-   public readonly Option<string> CommandName;
-
-   public readonly Option<int> Delay;
-
-   protected override void OnConfigure(IConfigConfiguration configuration)
-   {
-      configuration.UseCommandLine(new Dictionary<int, Option>
-      {
-         {1, CommandName}
-      });
-   }
-}
-```
-
-the following command line `set Delay=5` will map to:
-
-- `CommandName`:`set`
-- `Delay`:`5`
-
-Note that parameter indexes start with 1, because parameter index 0 is reserved for the executable name.
+todo

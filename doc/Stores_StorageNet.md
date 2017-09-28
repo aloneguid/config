@@ -9,17 +9,9 @@ Config.Net can be configured to use blob storage from Storage.Net as key-value s
 
 ```csharp
 
-using Storage.Net;
-using Storage.Net.Blob;
-
-protected override void OnConfigure(IConfigConfiguration configuration)
-{
-   IBlobStorageProvider blobs =
-      StorageFactory.Blobs.AzureBlobStorage(settings.AzureStorageName, settings.AzureStorageKey, "confignet");
-
-   configuration.UseStorageNetBlobs(blobs);
-
-}
+IMySettings settings = new ConfigurationBuilder<IMySettings>()
+   .UseStorageNetBlobs(blobs)
+   .Build();
 ```
 
 which when writing 2 settings `testkey1` and `testkey2` will look like:
