@@ -13,7 +13,6 @@ Usually developers will hardcode reading cofiguration values from different sour
 ```csharp
 var clientId = ConfigurationManager.AppSettings["AuthClientId"];
 var clientSecret = ConfigurationManager.AppSettings["AuthClientSecret"];
-
 ```
 
 You would guess that this code is trying to read a configuration setting from the local app.config file by name and that might be true, however there are numerous problems with this approach:
@@ -32,7 +31,7 @@ using Config.Net;
 
 public class AllSettings : SettingsContainer
 {
-    public readonly Option<string> AuthClientId;
+    public Option<string> AuthClientId {get; set;}
 
     public readonly Option<string> AuthClientSecret;
 
@@ -43,11 +42,15 @@ public class AllSettings : SettingsContainer
 }
 ```
 
+The values stored in the configuration all inherit from an 'Option', and are strongly typed using the format `Option<T>` where `T` is any standard base type.
+
+The publically accessible fields can be defined as either Properties or Fields. The advantage of a Property is that it allows definition of a interfaces for decoupling and IOC injection, but Fields are supported for backwards compatibility.
+
 Let's go through this code snippet:
 * We have declared `AllSettings` class which will store configuration for oru application. All configuration classes must derive from `SettingsContainer`.
-* Two strong-typed configuration options were declared. Note they are both `readonly` which is another plus towards code quality.
+* Two strong-typed configuration options were declared. Note they can be either properties or fields, and both are `readonly` which is another plus towards code quality.
 * `Option<T>` is a configuration option definition in Config.Net where generic parameter specifies the type. There is a limited set of [supported types](doc/SupportedTypes.md) and you can [create your own](doc/CustomParsers.md)
-* `OnConfigure` mehtod implementation specifies that app.config should be used as a configuration store.
+* `OnConfigure` method implementation specifies that app.config should be used as a configuration store.
 
 ### Use Settings
 
@@ -113,8 +116,8 @@ setting it to `TimeSpan.Zero` disables caching completely.
 
 There are a few requirements to declaring a setting a s member of derived `SettingsContainer` class:
 
-* The field must be read-only
-* It cannot be static
+* If a property is used, it must be either read-write if no default is supplied, or can be read-only if a default value is provided (recommended)
+* If a field is used, it must be marked as read-only, and cannot be static
 
 A setting has a few basic properties:
 
@@ -124,11 +127,19 @@ A setting has a few basic properties:
 The simplest form of declaring an option is:
 
 ```csharp
+public Option<string> AuthClientId  {get; set;}
+```
+or
+```csharp
 public readonly Option<string> AuthClientId = new Option<string>();
 ```
 
 This sets option name to `AuthClientId` and default value to `null`. However if you need to specify the name explicitly change it to the following:
 
+```csharp
+public Option<string> AuthClientId {get; } = new Option<string>("AuthenticationClientId", null);
+```
+or
 ```csharp
 public readonly Option<string> AuthClientId = new Option<string>("AuthenticationClientId", null);
 ```
@@ -142,10 +153,10 @@ Default value is returned in case an option cannot be found in any of the stores
 To change the default value pass it as a constructor argument in option initialisation:
 
 ```csharp
-public readonly Option<string> AuthClientId = new Option<string>("AuthenticationClientId", "default id");
+public Option<string> AuthClientId  {get; } = new Option<string>("AuthenticationClientId", "default id");
 ```
 
-This always returns `"defualt id"` when `AuthenticationClientId` is not found in any of the configured stores.
+This always returns `"default id"` when `AuthenticationClientId` is not found in any of the configured stores.
 
 # Available Stores
 

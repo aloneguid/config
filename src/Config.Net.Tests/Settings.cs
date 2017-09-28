@@ -5,15 +5,15 @@ namespace Config.Net.Tests
 {
    public class TestSettings : SettingsContainer
    {
-      public readonly Option<string> AzureStorageName = new Option<string>("Azure.Storage.Name", null);
+      public Option<string> AzureStorageName { get; } = new Option<string>("Azure.Storage.Name", null);
 
-      public readonly Option<string> AzureStorageKey = new Option<string>("Azure.Storage.Key", null);
+      public Option<string> AzureStorageKey { get; } = new Option<string>("Azure.Storage.Key", null);
 
-      public readonly Option<Uri> AzureKeyVaultUri = new Option<Uri>("Azure.KeyVault.Url", null);
+      public Option<Uri> AzureKeyVaultUri { get; } = new Option<Uri>("Azure.KeyVault.Url", null);
 
-      public readonly Option<string> AzureKeyVaultClientId = new Option<string>("Azure.KeyVault.Aad.ClientId", null);
+      public Option<string> AzureKeyVaultClientId { get; } = new Option<string>("Azure.KeyVault.Aad.ClientId", null);
 
-      public readonly Option<string> AzureKeyVaultSecret = new Option<string>("Azure.KeyVault.Aad.ClientSecret", null);
+      public Option<string> AzureKeyVaultSecret { get; } = new Option<string>("Azure.KeyVault.Aad.ClientSecret", null);
 
       protected override void OnConfigure(IConfigConfiguration configuration)
       {

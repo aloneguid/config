@@ -28,16 +28,16 @@ namespace Config.Net.Tests
 
          public readonly Option<string> UnitTestName = new Option<string>("UnitTestName", "not set");
          public readonly Option<int> NumberOfMinutes = new Option<int>("NumberOfMinutes", 10);
-         public readonly Option<string[]> Regions = new Option<string[]>("Regions", new[] { "Japan", "Denmark", "Australia" });
-         public readonly Option<bool> LogXml = new Option<bool>("log-xml", true);
-         public readonly Option<int?> NumberOfMinutesMaybe = new Option<int?>("NumberOfMinutesMaybe", null);
-         public readonly Option<TimeSpan> PingInterval = new Option<TimeSpan>("ping-interval", TimeSpan.FromMinutes(1));
-         public readonly Option<TimeSpan?> NullablePingInterval = new Option<TimeSpan?>("ping-interval-nullable", null);
-         public readonly Option<JiraTime> IssueEstimate = new Option<JiraTime>("estimate", JiraTime.FromHumanReadableString("1h2m"));
-         public readonly Option<Grid> ActiveGrid = new Option<Grid>("ActiveGrid", Grid.ZA);
-         public readonly Option<Grid?> ActiveGridNullable = new Option<Grid?>("ActiveGridMaybe", null);
-         public readonly Option<Guid> GuidNotSupported = new Option<Guid>("GuidSetting", Guid.Empty);
-         public readonly Option<NetworkCredential> SomeCreds = new Option<NetworkCredential>(new NetworkCredential("ivan", "pass32"));
+         public Option<string[]> Regions { get; } = new Option<string[]>("Regions", new[] { "Japan", "Denmark", "Australia" });
+         public Option<bool> LogXml { get; } = new Option<bool>("log-xml", true);
+         public Option<int?> NumberOfMinutesMaybe { get; } = new Option<int?>("NumberOfMinutesMaybe", null);
+         public Option<TimeSpan> PingInterval { get; } = new Option<TimeSpan>("ping-interval", TimeSpan.FromMinutes(1));
+         public Option<TimeSpan?> NullablePingInterval { get; } = new Option<TimeSpan?>("ping-interval-nullable", null);
+         public Option<JiraTime> IssueEstimate { get; } = new Option<JiraTime>("estimate", JiraTime.FromHumanReadableString("1h2m"));
+         public Option<Grid> ActiveGrid { get; } = new Option<Grid>("ActiveGrid", Grid.ZA);
+         public Option<Grid?> ActiveGridNullable { get; } = new Option<Grid?>("ActiveGridMaybe", null);
+         public Option<Guid> GuidNotSupported { get; } = new Option<Guid>("GuidSetting", Guid.Empty);
+         public Option<NetworkCredential> SomeCreds { get; } = new Option<NetworkCredential>(new NetworkCredential("ivan", "pass32"));
 
          protected override void OnConfigure(IConfigConfiguration configuration)
          {

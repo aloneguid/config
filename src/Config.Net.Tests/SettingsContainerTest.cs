@@ -7,9 +7,9 @@ namespace Config.Net.Tests
 {
    public class AllSettings : SettingsContainer
    {
-      public readonly Option<string> AuthClientId = new Option<string>("AuthenticationClientId", "default id");
+      public Option<string> AuthClientId { get; } = new Option<string>("AuthenticationClientId", "default id");
 
-      public readonly Option<string> AuthClientSecret = new Option<string>();
+      public Option<string> AuthClientSecret { get; } = new Option<string>();
 
       protected override void OnConfigure(IConfigConfiguration configuration)
       {
@@ -41,13 +41,13 @@ namespace Config.Net.Tests
          }
          #endregion
 
-         public readonly Option<TimeSpan> StrongSpan = new Option<TimeSpan>(TimeSpan.FromDays(1));
+         public Option<TimeSpan> StrongSpan { get; } = new Option<TimeSpan>(TimeSpan.FromDays(1));
 
-         public readonly Option<int> Timeout = new Option<int>(2);
+         public Option<int> Timeout { get; } = new Option<int>(2);
 
-         public readonly Option<int> NoInitTimeout;
+         public Option<int> NoInitTimeout { get; set; }
 
-         public readonly Option<MyType> MyTypeField;
+         public Option<MyType> MyTypeField { get; set; }
 
          protected override void OnConfigure(IConfigConfiguration configuration)
          {

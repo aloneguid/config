@@ -9,7 +9,7 @@ namespace Config.Net.Runner
 
    public class Cmds : SettingsContainer
    {
-      public readonly Option<string> Mode = new Option<string>("interactive");
+      public Option<string> Mode { get; } = new Option<string>("interactive");
 
       protected override void OnConfigure(IConfigConfiguration configuration)
       {

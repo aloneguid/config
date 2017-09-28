@@ -9,10 +9,10 @@ namespace Config.Net.Tests
    public class StoreOrderSettings : SettingsContainer
    {
       private readonly bool _reverse;
-      public readonly Option<string> a = new Option<string>("a", "DEFAULT A");
-      public readonly Option<string> b = new Option<string>("b", "DEFAULT B");
-      public readonly Option<string> c = new Option<string>("c", "DEFAULT C");
-      public readonly Option<string> x = new Option<string>("x", "DEFAULT X");
+      public Option<string> a { get; } = new Option<string>("a", "DEFAULT A");
+      public Option<string> b { get; } = new Option<string>("b", "DEFAULT B");
+      public Option<string> c { get; } = new Option<string>("c", "DEFAULT C");
+      public Option<string> x { get; } = new Option<string>("x", "DEFAULT X");
 
       public StoreOrderSettings(bool reverse = false)
       {
@@ -50,20 +50,21 @@ namespace Config.Net.Tests
       public void Test_Store_Priority_Order()
       {
          var container = new StoreOrderSettings();
-         Assert.Equal(container.a , "HIGH-A");
-         Assert.Equal(container.b , "MED-B");
-         Assert.Equal(container.c , "LOW-C");
-         Assert.Equal(container.x , "DEFAULT X");
+         Assert.Equal("HIGH-A", container.a);
+         Assert.Equal("MED-B", container.b);
+         Assert.Equal("LOW-C", container.c);
+         Assert.Equal("DEFAULT X", container.x);
       }
       
       [Fact]
       public void Test_Store_Priority_Order_Reverse()
       {
          var container = new StoreOrderSettings(true);
-         Assert.Equal(container.c , "LOW-C");
-         Assert.Equal(container.b , "LOW-B");
-         Assert.Equal(container.a , "LOW-A");
-         Assert.Equal(container.x , "DEFAULT X");
+         Assert.Equal("LOW-C", container.c);
+         Assert.Equal("LOW-B", container.b);
+         Assert.Equal("LOW-A", container.a);
+         Assert.Equal("DEFAULT X", container.x);
+
       }
 
    }
