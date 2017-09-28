@@ -64,6 +64,7 @@ namespace Config.Net.Tests
          Assert.Equal("LOW-B", container.b);
          Assert.Equal("LOW-A", container.a);
          Assert.Equal("DEFAULT X", container.x);
+
       }
 
    }

@@ -19,7 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{CDB02CCC-51F
 		..\doc\jetbrains_rider_small.png = ..\doc\jetbrains_rider_small.png
 		..\README.markdown = ..\README.markdown
 		..\README.v1.markdown = ..\README.v1.markdown
-		..\doc\ReleaseNotes.md = ..\doc\ReleaseNotes.md
 		..\doc\Stores_AppConfig.md = ..\doc\Stores_AppConfig.md
 		..\doc\Stores_CommandLine.md = ..\doc\Stores_CommandLine.md
 		..\doc\Stores_EnvironmentVariables.md = ..\doc\Stores_EnvironmentVariables.md
