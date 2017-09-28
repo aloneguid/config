@@ -4,13 +4,13 @@ namespace Config.Net.Integration.Storage.Net
 {
    public static class ConfigurationExtensions
    {
-      public static IConfigConfiguration UseStorageNetBlobs(this IConfigConfiguration configuration, IBlobStorageProvider blobs)
+      public static ConfigurationBuilder<TInterface> UseStorageNetBlobs<TInterface>(this ConfigurationBuilder<TInterface> builder, IBlobStorageProvider blobs) where TInterface : class
       {
          IConfigStore store = new BlobConfigStore(blobs);
 
-         configuration.AddStore(store);
+         builder.UseConfigStore(store);
 
-         return configuration;
+         return builder;
       }
    }
 }

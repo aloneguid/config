@@ -17,10 +17,9 @@ namespace Config.Net.Stores
 
       public string Name => "Command Line Arguments";
 
-      public CommandLineConfigStore(string[] args,
-         Dictionary<int, Option> positionToOption)
+      public CommandLineConfigStore(string[] args)
       {
-         Parse(args ?? Environment.GetCommandLineArgs(), positionToOption);
+         Parse(args ?? Environment.GetCommandLineArgs());
       }
 
       public void Dispose()
@@ -41,30 +40,22 @@ namespace Config.Net.Stores
          throw new NotSupportedException();
       }
 
-      private void Parse(string[] args, Dictionary<int, Option> positionToOption)
+      private void Parse(string[] args)
       {
          _nameToValue.Clear();
 
          if (args == null) return;
 
-         for(int i = 0; i < args.Length; i++)
+         for (int i = 0; i < args.Length; i++)
          {
             string name;
             string value;
 
-            if(positionToOption != null && positionToOption.TryGetValue(i, out Option option))
-            {
-               name = option.Name;
-               value = args[i];
-            }
-            else
-            {
-               var nameValue = args[i].SplitByDelimiter(ArgDelimiters);
-               name = nameValue.Item1.TrimStart(ArgPrefixes);
-               value = nameValue.Item2;
-            }
+            var nameValue = args[i].SplitByDelimiter(ArgDelimiters);
+            name = nameValue.Item1.TrimStart(ArgPrefixes);
+            value = nameValue.Item2;
 
-            if(name != null && value != null)
+            if (name != null && value != null)
             {
                _nameToValue[name] = value;
             }

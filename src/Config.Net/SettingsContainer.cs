@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Reflection;
 using System.Collections.Concurrent;
 using Config.Net.TypeParsers;
@@ -310,4 +310,4 @@ namespace Config.Net
          return stringValue;
       }
    }
-}
+}*/

@@ -9,10 +9,12 @@ namespace Config.Net.Core
    class ConfigurationInterceptor<TInterface> : IInterceptor
    {
       private readonly Dictionary<string, PropertyOptions> _propertyOptions;
+      private IoHandler _ioHandler;
 
-      public ConfigurationInterceptor()
+      public ConfigurationInterceptor(IoHandler ioHandler)
       {
          _propertyOptions = PropertyOptions.Discover<TInterface>();
+         _ioHandler = ioHandler;
       }
 
       public void Intercept(IInvocation invocation)
@@ -34,7 +36,7 @@ namespace Config.Net.Core
 
          PropertyOptions po = _propertyOptions[name];
 
-         return po.DefaultValue;
+         return _ioHandler.Read(po);
       }
    }
 }

@@ -50,7 +50,7 @@ namespace Config.Net.Tests
    {
       protected override IConfigStore CreateStore()
       {
-         return new CommandLineConfigStore(null, null);
+         return new CommandLineConfigStore(null);
       }
    }
 
@@ -79,10 +79,6 @@ namespace Config.Net.Tests
    public abstract class AllStoresTest : AbstractTestFixture, IDisposable
    {
       private IConfigStore _store;
-
-      //private readonly string _storeName;
-      //private string _testFile;
-      protected TestSettings _settings = new TestSettings();
 
       protected abstract IConfigStore CreateStore();
 

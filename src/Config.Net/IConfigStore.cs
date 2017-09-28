@@ -8,11 +8,6 @@ namespace Config.Net
    public interface IConfigStore : IDisposable
    {
       /// <summary>
-      /// Returns store name, relatively unique.
-      /// </summary>
-      string Name { get; }
-
-      /// <summary>
       /// Returns true if store supports read operation.
       /// </summary>
       bool CanRead { get; }

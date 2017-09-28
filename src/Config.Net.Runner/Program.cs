@@ -7,23 +7,20 @@ using System.Threading.Tasks;
 namespace Config.Net.Runner
 {
 
-   public class Cmds : SettingsContainer
+   public interface IConsoleCommands
    {
-      public Option<string> Mode { get; } = new Option<string>("interactive");
-
-      protected override void OnConfigure(IConfigConfiguration configuration)
-      {
-         configuration.UseCommandLineArgs(new Dictionary<int, Option> { { 0, Mode } });
-      }
+      [Option(DefaultValue = "interactive")]
+      string Mode { get; }
    }
-
 
    class Program
    {
-
       static void Main(string[] args)
       {
-         var settings = new Cmds();
+         IConsoleCommands settings =
+            new ConfigurationBuilder<IConsoleCommands>()
+            .UseCommandLineArgs()
+            .Build();
 
          Console.WriteLine("mode: " + settings.Mode);
       }

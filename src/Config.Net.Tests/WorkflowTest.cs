@@ -11,7 +11,10 @@ namespace Config.Net.Tests
       public void Smoke()
       {
          IServerSettings settings = 
-            new ConfigurationBuilder<IServerSettings>().Create();
+            new ConfigurationBuilder<IServerSettings>()
+            .UseEnvironmentVariables()
+            .UseCommandLineArgs()
+            .Build();
 
          string address = settings.Address;
          string s = settings.Key;

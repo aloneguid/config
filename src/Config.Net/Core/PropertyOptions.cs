@@ -8,14 +8,15 @@ namespace Config.Net.Core
 {
    class PropertyOptions
    {
-      public PropertyOptions(string name, object defaultValue)
+      public PropertyOptions(string name, Type type, object defaultValue)
       {
          Name = name;
+         Type = type;
          DefaultValue = defaultValue;
       }
 
       public string Name { get; }
-
+      public Type Type { get; }
       public object DefaultValue { get; }
 
       public static Dictionary<string, PropertyOptions> Discover<TInterface>()
@@ -37,7 +38,7 @@ namespace Config.Net.Core
                defaultValue = attribute.DefaultValue;
             }
 
-            result[pi.Name] = new PropertyOptions(name, defaultValue);
+            result[pi.Name] = new PropertyOptions(name, pi.PropertyType, defaultValue);
          }
 
          return result;

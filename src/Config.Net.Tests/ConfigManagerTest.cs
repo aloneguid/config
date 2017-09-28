@@ -9,7 +9,7 @@ namespace Config.Net.Tests
    /// </summary>
    public class ConfigManagerTest
    {
-      enum Grid
+      public enum Grid
       {
          IT,
          AC,
@@ -18,55 +18,60 @@ namespace Config.Net.Tests
          ZA
       }
 
-      class FixtureSettings : SettingsContainer
+      public interface IFixtureSettings
       {
-         private IConfigStore _store;
-         public FixtureSettings(IConfigStore store)
-         {
-            _store = store;
-         }
 
-         public readonly Option<string> UnitTestName = new Option<string>("UnitTestName", "not set");
-         public readonly Option<int> NumberOfMinutes = new Option<int>("NumberOfMinutes", 10);
-         public Option<string[]> Regions { get; } = new Option<string[]>("Regions", new[] { "Japan", "Denmark", "Australia" });
-         public Option<bool> LogXml { get; } = new Option<bool>("log-xml", true);
-         public Option<int?> NumberOfMinutesMaybe { get; } = new Option<int?>("NumberOfMinutesMaybe", null);
-         public Option<TimeSpan> PingInterval { get; } = new Option<TimeSpan>("ping-interval", TimeSpan.FromMinutes(1));
-         public Option<TimeSpan?> NullablePingInterval { get; } = new Option<TimeSpan?>("ping-interval-nullable", null);
-         public Option<JiraTime> IssueEstimate { get; } = new Option<JiraTime>("estimate", JiraTime.FromHumanReadableString("1h2m"));
-         public Option<Grid> ActiveGrid { get; } = new Option<Grid>("ActiveGrid", Grid.ZA);
-         public Option<Grid?> ActiveGridNullable { get; } = new Option<Grid?>("ActiveGridMaybe", null);
-         public Option<Guid> GuidNotSupported { get; } = new Option<Guid>("GuidSetting", Guid.Empty);
-         public Option<NetworkCredential> SomeCreds { get; } = new Option<NetworkCredential>(new NetworkCredential("ivan", "pass32"));
+         [Option(DefaultValue = "not set")]
+         string UnitTestName { get; set; }
 
-         protected override void OnConfigure(IConfigConfiguration configuration)
-         {
-            configuration.AddStore(_store);
-            configuration.CacheTimeout = TimeSpan.Zero;
-         }
+         [Option(DefaultValue = 10)]
+         int NumberOfMinutes { get; set; }
+
+         [Option(DefaultValue = new[] { "Japan", "Denmark", "Australia" })]
+         string[] Regions { get; set; }
+
+         [Option(Name = "log-xml", DefaultValue = true)]
+         bool LogXml { get; set;  }
+
+         int? NumberOfMinutesMaybe { get; set;  }
+
+         [Option(Name = "ping-interval", DefaultValue = "00:00:01")]
+         TimeSpan PingInterval { get; set;  }
+
+         [Option(Name = "ping-interval-nullable")]
+         TimeSpan? NullablePingInterval { get; set;  }
+
+         [Option(Name = "estimate", DefaultValue = "1hm")]
+         JiraTime IssueEstimate { get; set;  }
+
+         [Option(DefaultValue = Grid.ZA)]
+         Grid ActiveGrid { get; set; }
+
+         Grid? ActiveGridNullable { get; set; }
+
+         Guid GuidNotSupported { get; }
+
+         NetworkCredential SomeCreds { get; }
       }
 
       private TestStore _store;
-      private FixtureSettings _settings;
+      private IFixtureSettings _settings;
 
       public ConfigManagerTest()
       {
          _store = new TestStore();
-         _settings = new FixtureSettings(_store);
+
+         _settings = new ConfigurationBuilder<IFixtureSettings>()
+            .UseConfigStore(_store)
+            .Build();
       }
 
-      [Fact]
-      public void Read_DefaultValue_Returns()
-      {
-         string v = _settings.UnitTestName;
-         Assert.Equal(_settings.UnitTestName.DefaultValue, v);
-      }
 
       [Fact]
       public void Read_ConfiguredValue_Returns()
       {
-         _store.Map[_settings.UnitTestName.Name] = "configured value";
-         Assert.Equal("configured value", (string)_settings.UnitTestName);
+         _store.Map[nameof(IFixtureSettings.UnitTestName)] = "configured value";
+         Assert.Equal("configured value", _settings.UnitTestName);
       }
 
       [Fact]
@@ -202,15 +207,15 @@ namespace Config.Net.Tests
       [Fact]
       public void ReadNullableEnum_NotNull_CorrectValue()
       {
-         _store.Map[_settings.ActiveGridNullable.Name] = Grid.ZA.ToString();
+         _store.Map[nameof(IFixtureSettings.ActiveGridNullable)] = Grid.ZA.ToString();
          Assert.Equal(Grid.ZA, (Grid)_settings.ActiveGridNullable);
       }
 
       [Fact]
       public void ReadNullableEnum_OutOfRange_Null()
       {
-         _store.Map[_settings.ActiveGridNullable.Name] = "Out Of Range";
-         Assert.Null((Grid?)_settings.ActiveGridNullable);
+         _store.Map[nameof(IFixtureSettings.ActiveGridNullable)] = "Out Of Range";
+         Assert.Null(_settings.ActiveGridNullable);
       }
 
       [Fact]
@@ -223,7 +228,7 @@ namespace Config.Net.Tests
       [Fact]
       public void ReadNullableInt_NotNull_CorrectValue()
       {
-         _store.Map[_settings.NumberOfMinutesMaybe.Name] = "9";
+         _store.Map[nameof(IFixtureSettings.NumberOfMinutesMaybe)] = "9";
          Assert.Equal(9, (int)_settings.NumberOfMinutesMaybe);
       }
 
@@ -244,7 +249,7 @@ namespace Config.Net.Tests
       public void WriteStringTest()
       {
          const string writeValue = "SomeValue";
-         _settings.UnitTestName.Write(writeValue);
+         _settings.UnitTestName = writeValue;
          
          Assert.Equal(writeValue, (string)_settings.UnitTestName);
       }
@@ -253,7 +258,7 @@ namespace Config.Net.Tests
       public void WriteStringArrayTest()
       {
          string[] writeValue = {"Japan", "Denmark", "Australia"};
-         _settings.Regions.Write(writeValue);
+         _settings.Regions = writeValue;
          
          Assert.Equal(writeValue, (string[])_settings.Regions);
       }
@@ -262,7 +267,7 @@ namespace Config.Net.Tests
       public void WriteIntTest()
       {
          const int writeValue = 23;
-         _settings.NumberOfMinutes.Write(writeValue);
+         _settings.NumberOfMinutes = writeValue;
 
          Assert.Equal(writeValue, (int)_settings.NumberOfMinutes);
       }
@@ -271,7 +276,7 @@ namespace Config.Net.Tests
       public void WriteBoolTest()
       {
          const bool writeValue = false;
-         _settings.LogXml.Write(writeValue);
+         _settings.LogXml = writeValue;
 
          Assert.Equal(writeValue, (bool)_settings.LogXml);
       }
@@ -280,7 +285,7 @@ namespace Config.Net.Tests
       public void WriteTimeSpanTest()
       {
          TimeSpan writeValue = TimeSpan.FromDays(23);
-         _settings.PingInterval.Write(writeValue);
+         _settings.PingInterval = writeValue;
 
          Assert.Equal(writeValue, (TimeSpan)_settings.PingInterval);
       }
@@ -289,7 +294,7 @@ namespace Config.Net.Tests
       public void WriteJiraTimeTest()
       {
          var writeValue = new JiraTime(TimeSpan.FromDays(17));
-         _settings.IssueEstimate.Write(writeValue);
+         _settings.IssueEstimate = writeValue;
 
          Assert.Equal(writeValue.ToString(), ((JiraTime)_settings.IssueEstimate).ToString());
       }
@@ -298,7 +303,7 @@ namespace Config.Net.Tests
       public void WriteEnumTest()
       {
          const Grid writeValue = Grid.UK;
-         _settings.ActiveGrid.Write(writeValue);
+         _settings.ActiveGrid = writeValue;
 
          Assert.Equal(writeValue, (Grid)_settings.ActiveGrid);
       }
@@ -306,13 +311,13 @@ namespace Config.Net.Tests
       [Fact]
       public void WriteNullableIntTest()
       {
-         _settings.NumberOfMinutesMaybe.Write(null);
+         _settings.NumberOfMinutesMaybe = null;
          
          Assert.Equal(null, (int?)_settings.NumberOfMinutesMaybe);
          _store.Map["NumberOfMinutesMaybe"] = "34";
          int? newWriteValue = 34;
 
-         _settings.NumberOfMinutesMaybe.Write(newWriteValue);
+         _settings.NumberOfMinutesMaybe = newWriteValue;
 
          Assert.Equal(newWriteValue, (int?)_settings.NumberOfMinutesMaybe);
       }
@@ -320,14 +325,14 @@ namespace Config.Net.Tests
       [Fact]
       public void WriteNullableEnumTest()
       {
-         _settings.ActiveGridNullable.Write(null);
+         _settings.ActiveGridNullable = null;
          Grid? value = _settings.ActiveGridNullable;
 
          Assert.Equal(null, (Grid?)_settings.ActiveGridNullable);
          
          Grid? newWriteValue = Grid.AC;
 
-         _settings.ActiveGridNullable.Write(newWriteValue);
+         _settings.ActiveGridNullable = newWriteValue;
 
          Assert.Equal(newWriteValue, (Grid?)_settings.ActiveGridNullable);
       }
@@ -335,66 +340,9 @@ namespace Config.Net.Tests
       [Fact]
       public void WriteNullableTimeSpanTest()
       {
-         _settings.NullablePingInterval.Write(null);
+         _settings.NullablePingInterval = null;
 
          Assert.Equal(null, (TimeSpan?)_settings.NullablePingInterval);
-      }
-
-      [Fact]
-      public void Write_SetSomeArrayValueAndThenSetToDefault_ReadsNull()
-      {
-         //Act
-         string[] newValue = {"UK", "US"};
-
-         //Arrange
-         _settings.Regions.Write(newValue); //This is the first step so we write a non-default value
-         _settings.Regions.Write(_settings.Regions.DefaultValue);
-
-         //Assert
-         Assert.Null(_store.Read("Regions"));
-      }
-
-      [Fact]
-      public void Write_SetSomeIntValueAndThenSetToDefault_ReadsNull()
-      {
-         int newValue = 12;
-
-         _settings.NumberOfMinutes.Write(newValue); //This is the first step so we write a non-default value
-         _settings.NumberOfMinutes.Write(_settings.NumberOfMinutes.DefaultValue);
-
-         Assert.Null(_store.Read("NumberOfMinutes"));
-      }
-
-      [Fact]
-      public void Write_SetSomeEnumValueAndThenSetToDefault_ReadsNull()
-      {
-         Grid newValue = Grid.IT;
-
-         _settings.ActiveGrid.Write(newValue); //This is the first step so we write a non-default value
-         _settings.ActiveGrid.Write(_settings.ActiveGrid.DefaultValue);
-
-         Assert.Null(_store.Read("ActiveGrid"));
-      }
-
-      [Fact]
-      public void Write_SetSomeTimeSpanValueAndThenSetToDefault_ReadsNull()
-      {
-         TimeSpan newValue = new TimeSpan(1, 1, 1);
-
-         _settings.PingInterval.Write(newValue); //This is the first step so we write a non-default value
-         _settings.PingInterval.Write(_settings.PingInterval.DefaultValue);
-
-         Assert.Null(_store.Read("ping-interval"));
-      }
-
-      [Fact]
-      public void Read_StoreContainsEmptyString_ReadsDefaultValue()
-      {
-         _store.Write("key1", string.Empty);
-
-         string value = _settings.UnitTestName;
-
-         Assert.Equal(_settings.UnitTestName.DefaultValue, value);
       }
    }
 }
