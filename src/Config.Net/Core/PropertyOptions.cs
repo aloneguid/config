@@ -62,10 +62,19 @@ namespace Config.Net.Core
                defaultValue = attribute.DefaultValue;
             }
 
+            if (defaultValue == null) defaultValue = GetDefaultValue(pi.PropertyType);
+
             result[pi.Name] = new PropertyOptions(name, pi.PropertyType, defaultValue);
          }
 
          return result;
+      }
+
+      private static object GetDefaultValue(Type t)
+      {
+         if (t.GetTypeInfo().IsValueType) return Activator.CreateInstance(t);
+
+         return null;
       }
    }
 }

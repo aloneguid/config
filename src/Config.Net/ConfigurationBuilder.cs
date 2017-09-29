@@ -18,7 +18,7 @@ namespace Config.Net
 
          if (!ti.IsInterface) throw new ArgumentException($"{ti.FullName} must be an interface", ti.FullName);
 
-         if (!ti.IsPublic) throw new ArgumentException($"{ti.FullName} must be public", ti.FullName);
+         if (!ti.IsVisible) throw new ArgumentException($"{ti.FullName} must be visible outside of the assembly (public)", ti.FullName);
       }
 
       public T Build()

@@ -20,6 +20,7 @@ namespace Config.Net.Tests
 
       public interface IFixtureSettings
       {
+         int NoAttributesInt { get; }
 
          [Option(DefaultValue = "not set")]
          string UnitTestName { get; set; }
@@ -343,6 +344,12 @@ namespace Config.Net.Tests
          _settings.NullablePingInterval = null;
 
          Assert.Equal(null, (TimeSpan?)_settings.NullablePingInterval);
+      }
+
+      [Fact]
+      public void Reading_int_with_no_attributes_returns_zero()
+      {
+         Assert.Equal(0, _settings.NoAttributesInt);
       }
    }
 }
