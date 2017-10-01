@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F45D116C-90A2-4316-A601-5FE7BAE34D84}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Config.Net.Runner</RootNamespace>
-    <AssemblyName>Config.Net.Runner</AssemblyName>
+    <ProjectGuid>{9EFE03E7-6718-4714-BB61-E965C113C3E2}</ProjectGuid>
+    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Config.Net.Runner.Configuration</RootNamespace>
+    <AssemblyName>Config.Net.Runner.Configuration</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,33 +35,30 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Builder.cs" />
+    <Compile Include="IConsoleCommandsMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Config.Net.Runner.Configuration\Config.Net.Runner.Configuration.csproj">
-      <Project>{9efe03e7-6718-4714-bb61-e965c113c3e2}</Project>
-      <Name>Config.Net.Runner.Configuration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Config.Net.Runner.Consumer\Config.Net.Runner.Consumer.csproj">
-      <Project>{c963205f-eb9d-4429-aad8-dbf409c04a43}</Project>
-      <Name>Config.Net.Runner.Consumer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Config.Net.Runner.Interfaces\Config.Net.Runner.Interfaces.csproj">
       <Project>{ce44f175-332b-43e8-a9d8-d28dfe769614}</Project>
       <Name>Config.Net.Runner.Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Config.Net\Config.Net.csproj">
+      <Project>{c71e3744-1544-47af-9a7b-e88f6f775975}</Project>
+      <Name>Config.Net</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

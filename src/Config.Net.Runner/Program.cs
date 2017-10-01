@@ -1,28 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using Config.Net.Runner.Consumer;
+using static Config.Net.Runner.Interfaces.Builder;
 
 namespace Config.Net.Runner
 {
-
-   public interface IConsoleCommands
-   {
-      [Option(DefaultValue = "interactive")]
-      string Mode { get; }
-   }
-
    class Program
    {
       static void Main(string[] args)
       {
-         IConsoleCommands settings =
-            new ConfigurationBuilder<IConsoleCommands>()
-            .UseCommandLineArgs()
-            .Build();
-
+         var settings = Build();         
          Console.WriteLine("mode: " + settings.Mode);
+
+         var clientComponent = new ChildComponent(settings);
+         Console.WriteLine(clientComponent.ToString());
       }
    }
 }
