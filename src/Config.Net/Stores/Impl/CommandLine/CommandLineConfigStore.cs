@@ -1,30 +1,28 @@
-﻿using System;
+﻿#if !NETSTANDARD14
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Config.Net.Stores
+namespace Config.Net.Stores.Impl.CommandLine
 {
    class CommandLineConfigStore : IConfigStore
    {
-      private readonly Dictionary<string, string> _nameToValue = new Dictionary<string, string>();
+      private readonly Dictionary<string, string> _nameToValue;
       private static readonly char[] ArgPrefixes = new[] { '-', '/' };
       private static readonly string[] ArgDelimiters = new[] { ":", "=" };
-
+      private readonly bool _isCaseSensitive;
 
       public bool CanRead => true;
 
       public bool CanWrite => false;
 
-      public string Name => "Command Line Arguments";
-
-      public CommandLineConfigStore(string[] args)
+      public CommandLineConfigStore(string[] args = null, bool isCaseSensitive = false, IEnumerable<KeyValuePair<string, int>> nameToPosition = null)
       {
-#if NETSTANDARD14
-         if (args == null) throw new ArgumentNullException(nameof(args));
-         Parse(args);
-#else
-         Parse(args ?? Environment.GetCommandLineArgs());
-#endif
+         _isCaseSensitive = isCaseSensitive;
+
+         _nameToValue = new Dictionary<string, string>(_isCaseSensitive ? StringComparer.Ordinal : StringComparer.OrdinalIgnoreCase);
+
+         Parse(args ?? Environment.GetCommandLineArgs(), nameToPosition);
       }
 
       public void Dispose()
@@ -45,9 +43,21 @@ namespace Config.Net.Stores
          throw new NotSupportedException();
       }
 
-      private void Parse(string[] args)
+      private void Parse(string[] args, IEnumerable<KeyValuePair<string, int>> nameToPosition)
       {
          _nameToValue.Clear();
+
+         var posToName = new Dictionary<int, string>();
+         if (nameToPosition != null)
+         {
+            foreach(var p in nameToPosition)
+            {
+               if (p.Key != null)
+               {
+                  posToName[p.Value] = p.Key;
+               }
+            }
+         }
 
          if (args == null) return;
 
@@ -64,7 +74,12 @@ namespace Config.Net.Stores
             {
                _nameToValue[name] = value;
             }
+            else if(name != null && posToName.TryGetValue(i, out string ptnName))
+            {
+               _nameToValue[ptnName] = name;
+            }
          }
       }
    }
 }
+#endif

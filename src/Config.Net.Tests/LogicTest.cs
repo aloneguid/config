@@ -31,18 +31,18 @@ namespace Config.Net.Tests
          [Option(DefaultValue = new[] { "Japan", "Denmark", "Australia" })]
          string[] Regions { get; set; }
 
-         [Option(Name = "log-xml", DefaultValue = true)]
+         [Option(Alias = "log-xml", DefaultValue = true)]
          bool LogXml { get; set;  }
 
          int? NumberOfMinutesMaybe { get; set;  }
 
-         [Option(Name = "ping-interval", DefaultValue = "00:00:01")]
+         [Option(Alias = "ping-interval", DefaultValue = "00:00:01")]
          TimeSpan PingInterval { get; set;  }
 
-         [Option(Name = "ping-interval-nullable")]
+         [Option(Alias = "ping-interval-nullable")]
          TimeSpan? NullablePingInterval { get; set;  }
 
-         [Option(Name = "estimate", DefaultValue = "1hm")]
+         [Option(Alias = "estimate", DefaultValue = "1hm")]
          JiraTime IssueEstimate { get; set;  }
 
          [Option(DefaultValue = Grid.ZA)]

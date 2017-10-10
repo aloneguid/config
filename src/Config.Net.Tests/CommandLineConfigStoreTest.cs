@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
+using Config.Net.Stores.Impl.CommandLine;
 
 namespace Config.Net.Tests
 {

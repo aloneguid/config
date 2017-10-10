@@ -58,7 +58,7 @@ namespace Config.Net.Core
 
             if(attribute != null)
             {
-               if (attribute.Name != null) name = attribute.Name;
+               if (attribute.Alias != null) name = attribute.Alias;
                defaultValue = attribute.DefaultValue;
             }
 

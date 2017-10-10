@@ -1,6 +1,9 @@
 ﻿using System.Reflection;
 using Config.Net.Stores;
 using System.Collections.Generic;
+#if !NETSTANDARD14
+using Config.Net.Stores.Impl.CommandLine;
+#endif
 
 namespace Config.Net
 {
@@ -65,26 +68,41 @@ namespace Config.Net
          return builder;
       }
 
+#if !NETSTANDARD14
+
       /// <summary>
       /// Accepts builder from the command line arguments. This is not intended to replace a command line parsing framework but rather
       /// complement it in a builder like way. Uses current process' command line parameters automatically
       /// </summary>
       /// <param name="builder">Configuration object</param>
-      /// <param name="positionToOption">When parameters are not named you can specify this dictionary to map parameter position to option value.</param>
+      /// <param name="isCaseSensitive">When true argument names are case sensitive, false by default</param>
       /// <returns>Changed builder</returns>
-      public static ConfigurationBuilder<TInterface> UseCommandLineArgs<TInterface>(this ConfigurationBuilder<TInterface> builder) where TInterface : class
+      public static ConfigurationBuilder<TInterface> UseCommandLineArgs<TInterface>(this ConfigurationBuilder<TInterface> builder,
+         bool isCaseSensitive = false,
+         params KeyValuePair<string, int>[] parameterNameToPosition)
+         where TInterface : class
       {
-         builder.UseConfigStore(new CommandLineConfigStore(null));
+         builder.UseConfigStore(new CommandLineConfigStore(null, isCaseSensitive, parameterNameToPosition));
          return builder;
       }
 
-      /// <summary>
-      /// Uses JSON file as a builder storage.
-      /// </summary>
-      /// <param name="builder">Configuration object.</param>
-      /// <param name="jsonFilePath">Full path to json storage file.</param>
-      /// <returns>Changed builder.</returns>
-      /// <remarks>Storage file does not have to exist, however it will be created as soon as first write performed.</remarks>
+      public static ConfigurationBuilder<TInterface> UseCommandLineArgs<TInterface>(this ConfigurationBuilder<TInterface> builder,
+         params KeyValuePair<string, int>[] parameterNameToPosition)
+         where TInterface : class
+      {
+         builder.UseConfigStore(new CommandLineConfigStore(null, false, parameterNameToPosition));
+         return builder;
+      }
+
+#endif
+
+         /// <summary>
+         /// Uses JSON file as a builder storage.
+         /// </summary>
+         /// <param name="builder">Configuration object.</param>
+         /// <param name="jsonFilePath">Full path to json storage file.</param>
+         /// <returns>Changed builder.</returns>
+         /// <remarks>Storage file does not have to exist, however it will be created as soon as first write performed.</remarks>
       public static ConfigurationBuilder<TInterface> UseJsonFile<TInterface>(this ConfigurationBuilder<TInterface> builder, string jsonFilePath) where TInterface : class
       {
          builder.UseConfigStore(new JsonFileConfigStore(jsonFilePath));

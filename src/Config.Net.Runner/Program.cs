@@ -9,8 +9,10 @@ namespace Config.Net.Runner
 
    public interface IConsoleCommands
    {
-      [Option(DefaultValue = "interactive")]
-      string Mode { get; }
+      [Option(DefaultValue = "download")]
+      string Action { get; }
+
+      string FilePath { get; }
    }
 
    class Program
@@ -19,10 +21,14 @@ namespace Config.Net.Runner
       {
          IConsoleCommands settings =
             new ConfigurationBuilder<IConsoleCommands>()
-            .UseCommandLineArgs()
+            .UseCommandLineArgs(
+               new KeyValuePair<string, int>(nameof(IConsoleCommands.Action), 1),
+               new KeyValuePair<string, int>(nameof(IConsoleCommands.FilePath), 2))
             .Build();
 
-         Console.WriteLine("mode: " + settings.Mode);
+         Console.WriteLine("action: " + settings.Action + ", filePath: " + settings.FilePath);
+
+         Console.ReadKey();
       }
    }
 }

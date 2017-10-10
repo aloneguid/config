@@ -37,4 +37,34 @@ all the parameters are valid and essentially will become the following:
 
 ### Positional parameters
 
-todo
+In many cases command line parameters do not have a name but still need to be captured, consider this example:
+
+`myutil upload file1.txt`
+
+this is much shorter than forcing user to specify command line like
+
+`myutil /action=upload /filepath=file1.txt`
+
+You can express the configuration to capture this in the following form:
+
+```csharp
+public interface IConsoleCommands
+{
+   [Option(DefaultValue = "download")]
+   string Action { get; }
+
+   string FilePath { get; }
+}
+
+//...
+
+
+IConsoleCommands settings =
+   new ConfigurationBuilder<IConsoleCommands>()
+   .UseCommandLineArgs(
+      new KeyValuePair<string, int>(nameof(IConsoleCommands.Action), 1),
+      new KeyValuePair<string, int>(nameof(IConsoleCommands.FilePath), 2))
+   .Build();
+```
+
+Note that the first command-line parameter starts with `1` not `0`.
