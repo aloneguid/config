@@ -17,7 +17,7 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Storage.Net" Version="5.0.36" />
+    <PackageReference Include="Storage.Net" Version="5.2.46" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Config.Net\Config.Net.csproj" />

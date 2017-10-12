@@ -3,7 +3,7 @@
     <Copyright>Copyright (c) 2015-2017 by Ivan Gavryliuk</Copyright>
     <AssemblyTitle>Config.Net</AssemblyTitle>
     <Authors>Ivan Gavryliuk (@aloneguid)</Authors>
-    <TargetFrameworks>netstandard1.4;netstandard1.6;net452</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;netstandard1.6;netstandard2.0;net452</TargetFrameworks>
     <AssemblyName>Config.Net</AssemblyName>
     <AssemblyOriginatorKeyFile>../config.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
@@ -27,13 +27,16 @@
     <RepositoryType>GitHub</RepositoryType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.2.0" />
-    <PackageReference Include="netbox" Version="1.4.22" />
+    <PackageReference Include="Castle.Core" Version="4.2.1" />
+    <PackageReference Include="netbox" Version="1.4.25" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="YamlDotNet.Signed" Version="4.2.1" />
+    <PackageReference Include="YamlDotNet.Signed" Version="4.2.2" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.4.0" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
     <Reference Include="System.Configuration" />
@@ -46,7 +49,7 @@
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
     <DefineConstants>$(DefineConstants);NETSTANDARD;NETSTANDARD14</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net452' ">
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net452' or  '$(TargetFramework)' == 'netstandard2.0'">
     <DefineConstants>$(DefineConstants);NETFULL</DefineConstants>
   </PropertyGroup>
 </Project>
