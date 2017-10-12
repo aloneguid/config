@@ -111,15 +111,6 @@ Of course in order for a property to be writeable you need to declare it as such
 string AuthClientId { get; set; }
 ```
 
-### Default Values
-
-Some settings may not exist in stores, however you may want to have a value returned differnt to it's default value. Consider declaring an option `string NumberOfMinutes { get; }` which in your application may have some special meaning. However, you may want to have a default value different from `0` which makes more sense to you, when the value is not declared anywhere in config stores. Config.Net allows you to attribute the option to achieve this:
-
-```csharp
-[Option(DefaultValue = 10)]
-string NumberOfMinutes { get; }
-```
-
 # Available Stores
 
 The list of available built-in and external stores is maintained on this page:
