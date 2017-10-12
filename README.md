@@ -1,6 +1,6 @@
 # Config.Net [![Build status](https://ci.appveyor.com/api/projects/status/f89ye0oldduk9bwi?svg=true)](https://ci.appveyor.com/project/aloneguid/config) [![NuGet](https://img.shields.io/nuget/v/Config.Net.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/Config.Net/)
 
-> Version 4 is not compatible with V3, If you need to refer to documentation to V3 please [go here](README.v3.markdown).
+> Version 4 is not compatible with V3, If you need to refer to documentation to V3 please [go here](README.v3.md).
 
 A comprehensive easy to use and powerful .NET configuration library, fully covered with unit tests and tested in the wild on thousands of servers and applications.
 
