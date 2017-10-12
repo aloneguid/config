@@ -18,6 +18,18 @@ namespace Config.Net.Tests
          ZA
       }
 
+      public interface IInvalidDefaultTypeAnnotationSettings
+      {
+         [Option(DefaultValue = (double)123)]
+         int Value { get; }
+      }
+
+      public interface IDefaultValueAsStringSettings
+      {
+         [Option(DefaultValue = "123")]
+         int Value { get; }
+      }
+
       public interface IFixtureSettings
       {
          int NoAttributesInt { get; }
@@ -314,7 +326,7 @@ namespace Config.Net.Tests
       {
          _settings.NumberOfMinutesMaybe = null;
          
-         Assert.Equal(null, (int?)_settings.NumberOfMinutesMaybe);
+         Assert.Null((int?)_settings.NumberOfMinutesMaybe);
          _store.Map["NumberOfMinutesMaybe"] = "34";
          int? newWriteValue = 34;
 
@@ -329,7 +341,7 @@ namespace Config.Net.Tests
          _settings.ActiveGridNullable = null;
          Grid? value = _settings.ActiveGridNullable;
 
-         Assert.Equal(null, (Grid?)_settings.ActiveGridNullable);
+         Assert.Null((Grid?)_settings.ActiveGridNullable);
          
          Grid? newWriteValue = Grid.AC;
 
@@ -343,13 +355,31 @@ namespace Config.Net.Tests
       {
          _settings.NullablePingInterval = null;
 
-         Assert.Equal(null, (TimeSpan?)_settings.NullablePingInterval);
+         Assert.Null((TimeSpan?)_settings.NullablePingInterval);
       }
 
       [Fact]
       public void Reading_int_with_no_attributes_returns_zero()
       {
          Assert.Equal(0, _settings.NoAttributesInt);
+      }
+
+      [Fact]
+      public void Setting_default_value_different_from_original_type_throws_exception()
+      {
+         var builder = new ConfigurationBuilder<IInvalidDefaultTypeAnnotationSettings>();
+
+         Assert.Throws<InvalidCastException>(() => builder.Build());
+      }
+
+      [Fact]
+      public void Setting_default_value_as_string_to_non_string_type_parses_it_out_correctly()
+      {
+         IDefaultValueAsStringSettings settings = new ConfigurationBuilder<IDefaultValueAsStringSettings>().Build();
+
+         int value = settings.Value;
+
+         Assert.Equal(123, value);
       }
    }
 }

@@ -59,7 +59,26 @@ namespace Config.Net.Core
             if(attribute != null)
             {
                if (attribute.Alias != null) name = attribute.Alias;
-               defaultValue = attribute.DefaultValue;
+
+               //validate that types for default value match
+               Type dvt = attribute.DefaultValue?.GetType();
+               if(attribute.DefaultValue != null)
+               {
+                  if (dvt != pi.PropertyType && dvt != typeof(string))
+                  {
+                     throw new InvalidCastException($"Default value for option {name} is of type {dvt.FullName} whereas the property has type {pi.PropertyType.FullName}. To fix this, either set default value to type {pi.PropertyType.FullName} or a string parseable to the target type.");
+                  }
+
+                  if(pi.PropertyType != typeof(string) && dvt == typeof(string))
+                  {
+                     ValueHandler.Default.TryParse(pi.PropertyType, (string)attribute.DefaultValue, out defaultValue);
+                  }
+               }
+
+               if (defaultValue == null)
+               {
+                  defaultValue = attribute.DefaultValue;
+               }
             }
 
             if (defaultValue == null) defaultValue = GetDefaultValue(pi.PropertyType);

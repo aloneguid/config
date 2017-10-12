@@ -60,6 +60,41 @@ Not all of the types can be used in the properties, because Config.Net needs to 
 
 The order in which sources are added is important - Config.Net will try to read the source in the configured order and return the value from the first store where it exists.
 
+### Changing property behavior
+
+`Option` attribute can be used to annotate interface properties with extra bahavior.
+
+#### Aliases
+
+In case your property is named different to C# property name you can alias it:
+
+```csharp
+public interface IMySettings
+{
+   [Option(Alias = "clientId")]
+   string AuthClientId { get; }
+}
+```
+
+which makes Config.Net to look for "clientId" when reading or writing.
+
+#### Default values
+
+When a property doesn't exist in any of the stores or you just haven't configured any stores at all, you will receive a default value for the property type (0 for int, null for string etc.). However, it's sometimes useful to have a different value returned as a default instead of handling that in you code. In order to do that you can use the `DefaultValue` property on the attribute:
+
+```csharp
+public interface IMySettings
+{
+   [Option(Alias = "clientId", DefaultValue = "n/a")]
+   string AuthClientId { get; }
+}
+```
+
+Now when reading the value will be read as `n/a` instead of just `null`. DefaultValue property is of type `object` therefore the type of the value you assign to it must match the property type. If this is not the case, you will receive `InvalidCastException` explaining where the problem is during the `.Build()` stage.
+
+However, you can set the property value to `string` no matter what the type is, as long as it's parseable to that type in runtime using any of the parsers.
+
+
 ### Writing Settings
 
 Some configuration stores support writing values. You can write the value back by simply setting it's value:
