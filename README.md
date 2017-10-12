@@ -1,10 +1,10 @@
 # Config.Net [![Build status](https://ci.appveyor.com/api/projects/status/f89ye0oldduk9bwi?svg=true)](https://ci.appveyor.com/project/aloneguid/config) [![NuGet](https://img.shields.io/nuget/v/Config.Net.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/Config.Net/)
 
+> Version 4 is not compatible with V3, If you need to refer to documentation to V3 please [go here](README.v3.markdown).
+
 A comprehensive easy to use and powerful .NET configuration library, fully covered with unit tests and tested in the wild on thousands of servers and applications.
 
 This library eliminates the problem of having configuration in different places, having to convert types between different providers, hardcoding configuration keys accross the solution, depending on specific configuration source implementation. It's doing that by exposing an abstract configuration interface and providing most common implementation for configuration sources like app.config, environment variables etc.
-
-> V4 alpha is now available which is introducing breaking changes to Config.Net and completely new approach to manage configuration. Don't be alarmed, it's much easier now! To refer to V4 documentation please [read this](README.v4.md)
 
 ## Quick Start
 
@@ -24,139 +24,101 @@ You would guess that this code is trying to read a configuration setting from th
 Welcome to Config.Net which solves most of those problems. Let's rewrite this abomination using Config.Net approach. First, we need to define a configuration container which describes which settings are used in your application or a library:
 
 
-### Declare Settings Container
+### Declare settings interface
 
 ```csharp
 using Config.Net;
 
-public class AllSettings : SettingsContainer
+public interface IMySettings
 {
-    public Option<string> AuthClientId {get; set;}
+    string AuthClientId { get; }
 
-    public readonly Option<string> AuthClientSecret;
-
-    protected override void OnConfigure(IConfigConfiguration configuration)
-    {
-         configuration.UseAppConfig();
-    }
+    string AuthClientSecret { get; }
 }
 ```
 
-The values stored in the configuration all inherit from an 'Option', and are strongly typed using the format `Option<T>` where `T` is any standard base type.
+These interface members describe the values you are using in code and look exactly like anything else in the code. You can pass this interface around inside your application like nothing happened.
 
-The publically accessible fields can be defined as either Properties or Fields. The advantage of a Property is that it allows definition of a interfaces for decoupling and IOC injection, but Fields are supported for backwards compatibility.
-
-Let's go through this code snippet:
-* We have declared `AllSettings` class which will store configuration for oru application. All configuration classes must derive from `SettingsContainer`.
-* Two strong-typed configuration options were declared. Note they can be either properties or fields, and both are `readonly` which is another plus towards code quality.
-* `Option<T>` is a configuration option definition in Config.Net where generic parameter specifies the type. There is a limited set of [supported types](doc/SupportedTypes.md) and you can [create your own](doc/CustomParsers.md)
-* `OnConfigure` method implementation specifies that app.config should be used as a configuration store.
-
-### Use Settings
-
-Once container has been defined start using the settings, for instance:
+In order to instantiate this interface and bind it to application settings use `ConfigurationBuilder<T>` class:
 
 ```csharp
-var c = new AllSettings();
-
-string clientId = c.AuthClientId;
-string clientSecret = c.AuthClientSecret;
+IMySettings settings = new ConfigurationBuilder<IMySettings>()
+   .UseAppConfig()
+   .Build();
 ```
 
-Two things worth to note in this snippet:
-* An instance of `AllSettings` container was created. Normally you would create an instance of a settings container per application instance for performance reasons.
-* The settings were read from the settings container. Note the syntax and that for example `AuthClientId` is defined as an `Option<string>` but casted to `string`. This is because `Option<T>` class has implicit casting operator to `T` defined.
+This is literally all you have to do. Configuration builder is an entry to creating instances of your interface and underneath it creates a proxy class which intercepts calls to properties and fetches values from underlying configured stores.
+
+Not all of the types can be used in the properties, because Config.Net needs to know how to convert them to and from the underlying stores. [This list](doc/SupportedTypes.md) is growing though, and you can always [create a new one](doc/CustomParsers.md) (please don't forget to contribute back to Config.Net).
 
 
 ### Using Multiple Sources
 
-`OnConfigure` method is used to prepare settings container for use. You can use it to add multiple configuration sources. To get the list of sources use IntelliSense (type dot-Use after `configuration`). For instance this method implementation:
+`ConfigurationBuilder<T>` is used to instantiate your configuration interface. You can use it to add multiple configuration sources. To get the list of sources use IntelliSense (type dot-Use):
 
-```csharp
-protected override void OnConfigure(IConfigConfiguration configuration)
-{
-    configuration.UseAppConfig();
-    configuration.UseEnvironmentVariables();
-}
-
-```
-
-causes the container to use both app.config and environment variables as configuration source.
+![Intellisense00](doc/intellisense00.png)
 
 The order in which sources are added is important - Config.Net will try to read the source in the configured order and return the value from the first store where it exists.
 
-### Writing Settings
+### Changing property behavior
 
-Some configuration stores support writing values. You can write the value back by calling the `.Write()` method on an option definition:
+`Option` attribute can be used to annotate interface properties with extra bahavior.
+
+#### Aliases
+
+In case your property is named different to C# property name you can alias it:
 
 ```csharp
-c.AuthClientId.Write("new value");
+public interface IMySettings
+{
+   [Option(Alias = "clientId")]
+   string AuthClientId { get; }
+}
+```
+
+which makes Config.Net to look for "clientId" when reading or writing.
+
+#### Default values
+
+When a property doesn't exist in any of the stores or you just haven't configured any stores at all, you will receive a default value for the property type (0 for int, null for string etc.). However, it's sometimes useful to have a different value returned as a default instead of handling that in you code. In order to do that you can use the `DefaultValue` property on the attribute:
+
+```csharp
+public interface IMySettings
+{
+   [Option(Alias = "clientId", DefaultValue = "n/a")]
+   string AuthClientId { get; }
+}
+```
+
+Now when reading the value will be read as `n/a` instead of just `null`. DefaultValue property is of type `object` therefore the type of the value you assign to it must match the property type. If this is not the case, you will receive `InvalidCastException` explaining where the problem is during the `.Build()` stage.
+
+However, you can set the property value to `string` no matter what the type is, as long as it's parseable to that type in runtime using any of the parsers.
+
+
+### Writing Settings
+
+Some configuration stores support writing values. You can write the value back by simply setting it's value:
+
+```csharp
+c.AuthClientId = "new value";
 ```
 
 Config.Net will write the value to the first store which supports writing. If none of the stores support writing the call will be ignored.
 
-
-## Caching
-
-By defalut config.net caches configuration values for 1 hour. After that it will read it again from the list of configured stores. If you want to change it to something else set the variable in the `OnConfigure` method:
+Of course in order for a property to be writeable you need to declare it as such in the interface:
 
 ```csharp
-protected override void OnConfigure(IConfigConfiguration configuration)
-{
-    configuration.CacheTimeout = TimeSpan.FromMinutes(1);	//sets caching to 1 minute
-
-    configuration.UseAppConfig();
-    configuration.UseEnvironmentVariables();
-}
+string AuthClientId { get; set; }
 ```
 
-setting it to `TimeSpan.Zero` disables caching completely.
+### Default Values
 
-# Ways to declare settings
-
-There are a few requirements to declaring a setting a s member of derived `SettingsContainer` class:
-
-* If a property is used, it must be either read-write if no default is supplied, or can be read-only if a default value is provided (recommended)
-* If a field is used, it must be marked as read-only, and cannot be static
-
-A setting has a few basic properties:
-
-* **Name** which by default is the same as a variable name. Config.Net uses reflection to get the variable name. Variable name is important as it's used to read the option from a specific store.
-* **Default Value** which is defaulted to the default value of the type i.e. `0` for `int`, `null` for classes etc.
-
-The simplest form of declaring an option is:
+Some settings may not exist in stores, however you may want to have a value returned differnt to it's default value. Consider declaring an option `string NumberOfMinutes { get; }` which in your application may have some special meaning. However, you may want to have a default value different from `0` which makes more sense to you, when the value is not declared anywhere in config stores. Config.Net allows you to attribute the option to achieve this:
 
 ```csharp
-public Option<string> AuthClientId  {get; set;}
+[Option(DefaultValue = 10)]
+string NumberOfMinutes { get; }
 ```
-or
-```csharp
-public readonly Option<string> AuthClientId = new Option<string>();
-```
-
-This sets option name to `AuthClientId` and default value to `null`. However if you need to specify the name explicitly change it to the following:
-
-```csharp
-public Option<string> AuthClientId {get; } = new Option<string>("AuthenticationClientId", null);
-```
-or
-```csharp
-public readonly Option<string> AuthClientId = new Option<string>("AuthenticationClientId", null);
-```
-
-This sets option name to `AuthenticationClientId` whereas local variable name is still `AuthClientId`. It is recommended that you set option name explicitly anyway, even if it matches the variable name. It saves from potential refactoring problems as when you rename the variable but config files still hold the old name.
-
-## Default Value
-
-Default value is returned in case an option cannot be found in any of the stores. This is useful in situations when you want to introduce a configurable option, but don't want to store it in an external configuration store yet. In fact you can use options to declare constants in your code that way.
-
-To change the default value pass it as a constructor argument in option initialisation:
-
-```csharp
-public Option<string> AuthClientId  {get; } = new Option<string>("AuthenticationClientId", "default id");
-```
-
-This always returns `"default id"` when `AuthenticationClientId` is not found in any of the configured stores.
 
 # Available Stores
 
