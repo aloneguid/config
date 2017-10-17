@@ -11,6 +11,7 @@ namespace Config.Net
    {
       private readonly ProxyGenerator _generator = new ProxyGenerator();
       private List<IConfigStore> _stores = new List<IConfigStore>();
+      private TimeSpan _cacheInterval = TimeSpan.Zero;
 
       public ConfigurationBuilder()
       {
@@ -21,13 +22,30 @@ namespace Config.Net
          if (!ti.IsVisible) throw new ArgumentException($"{ti.FullName} must be visible outside of the assembly (public)", ti.FullName);
       }
 
+      /// <summary>
+      /// Creates an instance of the configuration interface
+      /// </summary>
+      /// <returns></returns>
       public T Build()
       {
-         var handler = new IoHandler(_stores);
+         var handler = new IoHandler(_stores, _cacheInterval);
 
          T instance = _generator.CreateInterfaceProxyWithoutTarget<T>(new ConfigurationInterceptor<T>(handler));
 
          return instance;
+      }
+
+      /// <summary>
+      /// Set to anything different from <see cref="TimeSpan.Zero"/> to add caching for values. By default
+      /// Config.Net doesn't cache any values
+      /// </summary>
+      /// <param name="time"></param>
+      /// <returns></returns>
+      public ConfigurationBuilder<T> CacheFor(TimeSpan time)
+      {
+         _cacheInterval = time;
+
+         return this;
       }
 
       public ConfigurationBuilder<T> UseConfigStore(IConfigStore store)

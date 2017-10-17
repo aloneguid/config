@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Config.Net
 {
-   [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+   [AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter, AllowMultiple = false)]
    public class OptionAttribute : Attribute
    {
       /// <summary>

@@ -19,19 +19,37 @@ namespace Config.Net.Core
 
       public void Intercept(IInvocation invocation)
       {
-         if (IsGetMethod(invocation.Method))
+         if (IsGetProperty(invocation.Method))
          {
             invocation.ReturnValue = GetValue(invocation.Method);
          }
-         else
+         else if (IsSetProperty(invocation.Method))
          {
             SetValue(invocation.Method, invocation.Arguments[0]);
          }
+         /*else if(IsGetMethod(invocation.Method))
+         {
+            invocation.ReturnValue = GetMethodValue(invocation.Method);
+         }*/
+         else
+         {
+            throw new NotSupportedException("unsupported method signature " + invocation.Method);
+         }
+      }
+
+      private static bool IsGetProperty(MethodInfo mi)
+      {
+         return mi.Name.StartsWith("get_");
+      }
+
+      private static bool IsSetProperty(MethodInfo mi)
+      {
+         return mi.Name.StartsWith("set_");
       }
 
       private static bool IsGetMethod(MethodInfo mi)
       {
-         return mi.Name.StartsWith("get_");
+         return mi.ReturnType != typeof(void);
       }
 
       private object GetValue(MethodInfo mi)
@@ -50,6 +68,27 @@ namespace Config.Net.Core
          PropertyOptions po = _propertyOptions[name];
 
          _ioHandler.Write(po, value);
+      }
+
+      private object GetMethodValue(MethodInfo mi)
+      {
+         string path = GetPath(mi);
+
+         return null;
+      }
+
+      private string GetPath(MethodInfo mi)
+      {
+         var parts = new List<string>();
+
+         foreach(ParameterInfo pi in mi.GetParameters())
+         {
+            var pia = pi.GetCustomAttribute<OptionAttribute>();
+
+            string part = pia?.Alias ?? pi.Name;            
+         }
+
+         return string.Join(".", parts);
       }
    }
 }

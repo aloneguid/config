@@ -97,6 +97,22 @@ namespace Config.Net.Tests
       }
 
       [Fact]
+      public void Read_cached_integer()
+      {
+         _store.Map["NumberOfMinutes"] = "78";
+
+         _settings = new ConfigurationBuilder<IFixtureSettings>()
+            .UseConfigStore(_store)
+            .CacheFor(TimeSpan.FromMinutes(1))
+            .Build();
+
+         Assert.Equal(78, _settings.NumberOfMinutes);
+
+         _store.Map["NumberOfMinutes"] = "79";
+         Assert.Equal(78, _settings.NumberOfMinutes); //still cached
+      }
+
+      [Fact]
       public void Read_DefaultInteger_Reads()
       {
          Assert.Equal(10, (int)_settings.NumberOfMinutes);
