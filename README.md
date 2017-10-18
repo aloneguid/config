@@ -1,6 +1,9 @@
-# Config.Net [![Build status](https://ci.appveyor.com/api/projects/status/f89ye0oldduk9bwi?svg=true)](https://ci.appveyor.com/project/aloneguid/config) [![NuGet](https://img.shields.io/nuget/v/Config.Net.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/Config.Net/)
+# Config.Net 
 
-> Version 4 is not compatible with V3, If you need to refer to documentation to V3 please [go here](README.v3.md).
+|Stable|Pre-release|
+|------|----------|
+|[![NuGet](https://img.shields.io/nuget/v/Config.Net.svg)](https://www.nuget.org/packages/Config.Net)|[![NuGet Pre Release](https://img.shields.io/nuget/vpre/Config.Net.svg)](https://www.nuget.org/packages/Config.Net)|
+|[![Build status](https://ci.appveyor.com/api/projects/status/f89ye0oldduk9bwi?svg=true)](https://ci.appveyor.com/project/aloneguid/config)|[![Build status](https://ci.appveyor.com/api/projects/status/f89ye0oldduk9bwi?svg=true)](https://ci.appveyor.com/project/aloneguid/config)|
 
 A comprehensive easy to use and powerful .NET configuration library, fully covered with unit tests and tested in the wild on thousands of servers and applications.
 
