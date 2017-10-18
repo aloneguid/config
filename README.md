@@ -1,6 +1,6 @@
 # Config.Net 
 
-|Stable|Pre-release|
+|Stable|Preview|
 |------|----------|
 |[![NuGet](https://img.shields.io/nuget/v/Config.Net.svg)](https://www.nuget.org/packages/Config.Net)|[![NuGet Pre Release](https://img.shields.io/nuget/vpre/Config.Net.svg)](https://www.nuget.org/packages/Config.Net)|
 |[![Build status](https://ci.appveyor.com/api/projects/status/f89ye0oldduk9bwi?svg=true)](https://ci.appveyor.com/project/aloneguid/config)|[![Build status](https://ci.appveyor.com/api/projects/status/f89ye0oldduk9bwi?svg=true)](https://ci.appveyor.com/project/aloneguid/config)|
