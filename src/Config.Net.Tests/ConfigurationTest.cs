@@ -17,10 +17,21 @@ namespace Config.Net.Tests
 
          //settings.SetNumber(5);
       }
+
+      [Fact]
+      public void Derived_interfaces_can_still_access_base_interfaces()
+      {
+         IDerivedSettings settings = new ConfigurationBuilder<IDerivedSettings>()
+            .Build();
+
+         Assert.Equal(7, settings.AnotherNumber);
+         Assert.Equal(3, settings.Number);
+      }
    }
 
    public interface ISettings
    {
+      [Option(DefaultValue = 3)]
       int Number { get; }
 
       int GetNumber(
@@ -31,5 +42,11 @@ namespace Config.Net.Tests
          string section2Name);
 
       void SetNumber(int value);
+   }
+
+   public interface IDerivedSettings : ISettings
+   {
+      [Option(DefaultValue = 7)]
+      int AnotherNumber { get; }
    }
 }

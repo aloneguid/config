@@ -46,7 +46,7 @@ namespace Config.Net.Core
       {
          var result = new Dictionary<string, PropertyOptions>();
 
-         IEnumerable<PropertyInfo> properties = typeof(TInterface).GetTypeInfo().DeclaredProperties;
+         IEnumerable<PropertyInfo> properties = typeof(TInterface).GetHierarchyPublicProperties();
 
          foreach(PropertyInfo pi in properties)
          {
