@@ -11,7 +11,7 @@ namespace Config.Net.TypeParsers
       public string ToRawString(object value)
       {
          NetworkCredential nc = value as NetworkCredential;
-         return nc?.ToFriendlyString();
+         return Utils.ToFriendlyString(nc);
       }
 
       public bool TryParse(string value, Type t, out object result)

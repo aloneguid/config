@@ -66,7 +66,7 @@ namespace Config.Net.Stores.Impl.CommandLine
             string name;
             string value;
 
-            var nameValue = args[i].SplitByDelimiter(ArgDelimiters);
+            var nameValue = Utils.SplitByDelimiter(args[i], ArgDelimiters);
             name = nameValue.Item1.TrimStart(ArgPrefixes);
             value = nameValue.Item2;
 
