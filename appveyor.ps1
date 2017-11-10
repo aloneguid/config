@@ -9,6 +9,7 @@ $vt = @{
 }
 
 Write-Host "global version is $gv"
+Get-ChildItem Env:
 
 $Copyright = "Copyright (c) 2015-2017 by Ivan Gavryliuk"
 $PackageIconUrl = "http://i.isolineltd.com/nuget/config.net.png"
