@@ -4,6 +4,8 @@ branches:
   - master
 image: Visual Studio 2017
 configuration: Release
+nuget:
+  disable_publish_on_pr: true
 before_build:
 - ps: .\appveyor.ps1
 build:
