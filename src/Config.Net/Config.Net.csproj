@@ -42,11 +42,8 @@
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
-    <DefineConstants>$(DefineConstants);NETSTANDARD</DefineConstants>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
-    <DefineConstants>$(DefineConstants);NETSTANDARD;NETSTANDARD14</DefineConstants>
+    <DefineConstants>$(DefineConstants);NETSTANDARD14</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net452' or  '$(TargetFramework)' == 'netstandard2.0'">
     <DefineConstants>$(DefineConstants);NETFULL</DefineConstants>
