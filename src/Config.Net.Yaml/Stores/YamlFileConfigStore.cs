@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using YamlDotNet.RepresentationModel;
 
-namespace Config.Net.Stores
+namespace Config.Net.Yaml.Stores
 {
-   class YamlFileConfigStore : IConfigStore
+   public class YamlFileConfigStore : IConfigStore
    {
       private static readonly char[] HierarchySeparator = new[] {'.'};
 

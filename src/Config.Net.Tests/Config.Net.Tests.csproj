@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Config.Net.Integration.Storage.Net\Config.Net.Integration.Storage.Net.csproj" />
+    <ProjectReference Include="..\Config.Net.Yaml\Config.Net.Yaml.csproj" />
     <ProjectReference Include="..\Config.Net\Config.Net.csproj" />
   </ItemGroup>
   <ItemGroup>

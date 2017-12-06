@@ -1,4 +1,5 @@
 ﻿using Config.Net.Stores;
+using Config.Net.Yaml.Stores;
 using System;
 using System.Collections.Generic;
 using System.IO;
