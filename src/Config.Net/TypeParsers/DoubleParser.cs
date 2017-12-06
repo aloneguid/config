@@ -11,7 +11,7 @@ namespace Config.Net.TypeParsers
       public bool TryParse(string value, Type t, out object result)
       {
          double dr;
-         bool parsed = double.TryParse(value, out dr);
+         bool parsed = double.TryParse(value, NumberStyles.Float, TypeParserSettings.DefaultCulture, out dr);
          result = dr;
          return parsed;
          
@@ -19,7 +19,7 @@ namespace Config.Net.TypeParsers
 
       public string ToRawString(object value)
       {
-         return ((double)value).ToString(TypeParserSettings.DefaultNumericFormat, CultureInfo.InvariantCulture);
+         return ((double)value).ToString(TypeParserSettings.DefaultNumericFormat, TypeParserSettings.DefaultCulture);
       }
    }
 }

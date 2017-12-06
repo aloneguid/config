@@ -11,14 +11,14 @@ namespace Config.Net.TypeParsers
       public bool TryParse(string value, Type t, out object result)
       {
          int ir;
-         bool parsed = int.TryParse(value, out ir);
+         bool parsed = int.TryParse(value, NumberStyles.Integer, TypeParserSettings.DefaultCulture, out ir);
          result = ir;
          return parsed;
       }
 
       public string ToRawString(object value)
       {
-         return ((int)value).ToString(TypeParserSettings.DefaultNumericFormat, CultureInfo.InvariantCulture);
+         return ((int)value).ToString(TypeParserSettings.DefaultNumericFormat, TypeParserSettings.DefaultCulture);
       }
    }
 }

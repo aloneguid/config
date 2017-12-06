@@ -15,6 +15,10 @@ Config.Net supports the following CLR types:
 - `System.Uri`
 - `System.Guid`
 
+Note that when appropriate types are converted and parsed using an `InvariantCulture` instead of a current culture. This allows to be interoperable between different culture settings between applications.
+
+DateTime is always converted to UTC.
+
 ## Arrays
 
 String arrays are supported. Config.Net splits an input string by comma `,` and space character ` ` and builds an array from it. When writing back array values are joined by `, `.

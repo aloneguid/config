@@ -2,7 +2,7 @@ $gv = $env:APPVEYOR_BUILD_VERSION
 $bn = $env:APPVEYOR_BUILD_NUMBER 
 if($gv -eq $null)
 {
-   $gv = "3.2.0"
+   $gv = "1.0.0"
 }
 $vt = @{
    

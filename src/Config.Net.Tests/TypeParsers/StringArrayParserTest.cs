@@ -11,6 +11,7 @@ namespace Config.Net.Tests.TypeParsers
       [InlineData("UK")]
       [InlineData("US")]
       [InlineData("Germany")]
+      [InlineData("Germany, UK, US")]
       [InlineData(null)]
       public void ToRawString_WhenInputIsValid_ReturnValidString(string rawValue)
       {

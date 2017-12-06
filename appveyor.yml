@@ -1,8 +1,10 @@
-version: 4.2.0-preview-{build}
+version: 4.2.0
 branches:
   only:
   - master
 image: Visual Studio 2017
+environment:
+  NUGET_DEPLOY: 1
 configuration: Release
 nuget:
   disable_publish_on_pr: true
@@ -25,4 +27,4 @@ deploy:
 - provider: Environment
   name: aloneguid NuGet
   on:
-    branch: /stable-\./
+    NUGET_DEPLOY: 1

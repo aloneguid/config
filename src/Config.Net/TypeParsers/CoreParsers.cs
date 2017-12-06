@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Config.Net.TypeParsers
 {
@@ -82,7 +83,7 @@ namespace Config.Net.TypeParsers
          if(t == typeof(DateTime))
          {
             DateTime dateResult;
-            bool parsed = DateTime.TryParse(value, out dateResult);
+            bool parsed = DateTime.TryParse(value, TypeParserSettings.DefaultCulture, DateTimeStyles.None, out dateResult);
             result = dateResult;
             return parsed;
          }

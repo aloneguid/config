@@ -1,4 +1,6 @@
 ﻿using Config.Net.TypeParsers;
+using System.Globalization;
+using System.Threading;
 using Xunit;
 
 namespace Config.Net.Tests.TypeParsers
@@ -20,7 +22,8 @@ namespace Config.Net.Tests.TypeParsers
          Assert.True(TypeParser.TryParse(rawValue, typeof(double), out outValObj));
          outVal = (double)outValObj;
 
-         Assert.Equal(rawValue, TypeParser.ToRawString(outVal));
+         string actual = TypeParser.ToRawString(outVal);
+         Assert.True(rawValue == actual, $"{rawValue} != {actual}");
       }
    }
 }

@@ -10,14 +10,14 @@ namespace Config.Net.TypeParsers
       public bool TryParse(string value, Type t, out object result)
       {
          TimeSpan ts;
-         bool parsed = TimeSpan.TryParse(value, out ts);
+         bool parsed = TimeSpan.TryParse(value, TypeParserSettings.DefaultCulture, out ts);
          result = ts;
          return parsed;
       }
 
       public string ToRawString(object value)
       {
-         return value.ToString();
+         return ((TimeSpan)value).ToString(null, TypeParserSettings.DefaultCulture);
       }
    }
 }
