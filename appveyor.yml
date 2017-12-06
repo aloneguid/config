@@ -1,10 +1,8 @@
-version: 4.2.0
+version: 4.3.0-preview-{build}
 branches:
   only:
   - master
 image: Visual Studio 2017
-environment:
-  NUGET_DEPLOY: 1
 configuration: Release
 nuget:
   disable_publish_on_pr: true
@@ -14,17 +12,7 @@ build:
   project: src/Config.Net.sln
   verbosity: minimal
 test_script:
-- cmd: >-
-    cd src\Config.Net.Tests
-
-    dotnet test
-
-    cd ..\..
-- whatever: test
+- cmd: dotnet test .\src\Config.Net.Tests\
 artifacts:
 - path: src/**/*.nupkg
-deploy:
-- provider: Environment
-  name: aloneguid NuGet
-  on:
-    NUGET_DEPLOY: 1
+deploy: off
