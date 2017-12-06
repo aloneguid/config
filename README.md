@@ -4,6 +4,20 @@ A comprehensive easy to use and powerful .NET configuration library, fully cover
 
 This library eliminates the problem of having configuration in different places, having to convert types between different providers, hardcoding configuration keys accross the solution, depending on specific configuration source implementation. It's doing that by exposing an abstract configuration interface and providing most common implementation for configuration sources like app.config, environment variables etc.
 
+## Index
+
+- Quick Start (this page)
+- [Supported Types](doc/SupportedTypes.md)
+- Configuration Sources
+  - [App.config](doc/Stores_AppConfig.md)
+  - [Command Line](doc/Stores_CommandLine.md)
+  - [Environment Variables](doc/Stores_EnvironmentVariables.md)
+  - [.INI files](doc/Stores_IniFile.md)
+  - [In-Memory](doc/Stores_InMemory.md)
+  - [JSON Files](doc/Stores_JsonFile.md)
+  - [Storage.Net Integration](doc/Stores_StorageNet.md)
+- [Creating a Custom Parser](doc/CustomParsers.md)
+
 ## Quick Start
 
 Usually developers will hardcode reading cofiguration values from different sources like app.config, local json file etc. For instance, consider this code example:
@@ -108,22 +122,6 @@ Of course in order for a property to be writeable you need to declare it as such
 ```csharp
 string AuthClientId { get; set; }
 ```
-
-# Available Stores
-
-The list of available built-in and external stores is maintained on this page:
-
-
-| Name                 | Readable | Writeable | Package  | Purpose                  |
-|----------------------|----------|-----------|----------|--------------------------|
-|[AppConfig](doc/Stores_AppConfig.md)|v|x|internal|.NET app.config files|
-|[EnvironmentVariables](doc/Stores_EnvironmentVariables.md) | v        | v         | internal | OS environment variables |
-|[CommandLine](doc/Stores_CommandLine.md)|v|x|internal|Parsing command line as configuration source| 
-|[IniFile](doc/Stores_IniFile.md)              | v        | v         | internal | INI files |
-|[JSON](doc/Stores_JsonFile.md)|v|v|internal|JSON file storage|
-|[InMemory](doc/Stores_InMemory.md)             | v        | v         | internal | In-memory storage |
-|[Storage.Net Integration](doc/Stores_StorageNet.md)|v|v|external|anything that [storage.net](https://github.com/aloneguid/storage) supports
-
 
 Proudly using [Jetbrains Rider](https://www.jetbrains.com/rider/) for Open Source Development.
 
