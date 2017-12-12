@@ -8,6 +8,7 @@ This library eliminates the problem of having configuration in different places,
 
 - Quick Start (this page)
 - [Supported Types](doc/SupportedTypes.md)
+- [Dynamic Configuration](doc/DynamicConfiguration.md)
 - Configuration Sources
   - [App.config](doc/Stores_AppConfig.md)
   - [Command Line](doc/Stores_CommandLine.md)

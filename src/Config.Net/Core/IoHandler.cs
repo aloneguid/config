@@ -17,29 +17,33 @@ namespace Config.Net.Core
          _cacheInterval = cacheInterval;
       }
 
-      public object Read(PropertyOptions property)
+      public object Read(PropertyOptions property, string name = null)
       {
-         if(!_keyToValue.TryGetValue(property.Name, out LazyVar<object> value))
+         if (name == null) name = property.StoreName;
+
+         if(!_keyToValue.TryGetValue(name, out LazyVar<object> value))
          {
-            _keyToValue[property.Name] = new LazyVar<object>(_cacheInterval, () => ReadNonCached(property));
+            _keyToValue[name] = new LazyVar<object>(_cacheInterval, () => ReadNonCached(property, name));
          }
 
-         return _keyToValue[property.Name].GetValue();
+         return _keyToValue[name].GetValue();
       }
 
-      public void Write(PropertyOptions property, object value)
+      public void Write(PropertyOptions property, object value, string name = null)
       {
+         if (name == null) name = property.StoreName;
+
          string valueToWrite = ValueHandler.Default.ConvertValue(property, value);
 
          foreach (IConfigStore store in _stores.Where(s => s.CanWrite))
          {
-            store.Write(property.Name, valueToWrite);
+            store.Write(name, valueToWrite);
          }
       }
 
-      private object ReadNonCached(PropertyOptions property)
+      private object ReadNonCached(PropertyOptions property, string name)
       {
-         string rawValue = ReadFirstValue(property.Name);
+         string rawValue = ReadFirstValue(name);
 
          return ValueHandler.Default.ParseValue(property, rawValue);
       }

@@ -7,16 +7,6 @@ namespace Config.Net.Tests
 {
    public class ConfigurationTest
    {
-      //[Fact]
-      public void Call_method_with_section_names()
-      {
-         ISettings settings = new ConfigurationBuilder<ISettings>()
-            .Build();
-
-         int n = settings.GetNumber("s1", "s2");
-
-         //settings.SetNumber(5);
-      }
 
       [Fact]
       public void Derived_interfaces_can_still_access_base_interfaces()
@@ -36,7 +26,6 @@ namespace Config.Net.Tests
 
       int GetNumber(
 
-         [Option(Alias = "Azure")]
          string section1Name,
          
          string section2Name);

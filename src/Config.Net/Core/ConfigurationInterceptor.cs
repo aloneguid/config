@@ -19,57 +19,84 @@ namespace Config.Net.Core
 
       public void Intercept(IInvocation invocation)
       {
-         if (IsGetProperty(invocation.Method))
+         if(IsProperty(invocation.Method, out bool isGetProperty, out string propertyName))
          {
-            invocation.ReturnValue = GetValue(invocation.Method);
+            PropertyOptions po = _propertyOptions[propertyName];
+
+            if (isGetProperty)
+            {
+               invocation.ReturnValue = _ioHandler.Read(po);
+            }
+            else
+            {
+               _ioHandler.Write(po, invocation.Arguments[0]);
+            }
          }
-         else if (IsSetProperty(invocation.Method))
-         {
-            SetValue(invocation.Method, invocation.Arguments[0]);
-         }
-         /*else if(IsGetMethod(invocation.Method))
-         {
-            invocation.ReturnValue = GetMethodValue(invocation.Method);
-         }*/
          else
          {
-            throw new NotSupportedException("unsupported method signature " + invocation.Method);
+            //it's a method!
+
+            string name = PropertyOptions.GetMethodName(invocation.Method);
+            PropertyOptions po = _propertyOptions[name];
+
+            if(po.IsGetter == null)
+            {
+               throw new ArgumentException($"it seems like we don't know whether method '{name}' is a getter or a setter!");
+            }
+
+            bool isGetter = po.IsGetter.Value;
+            string keyName = GetValuePath(po, invocation.Arguments, !isGetter);
+            if(isGetter)
+            {
+               invocation.ReturnValue = _ioHandler.Read(po, keyName);
+            }
+            else
+            {
+               _ioHandler.Write(po, invocation.Arguments[invocation.Arguments.Length - 1], keyName);
+            }
+
          }
       }
 
-      private static bool IsGetProperty(MethodInfo mi)
+      private static bool IsProperty(MethodInfo mi, out bool isGetter, out string name)
       {
-         return mi.Name.StartsWith("get_");
+         if(mi.Name.StartsWith("get_"))
+         {
+            isGetter = true;
+            name = mi.Name.Substring(4);
+            return true;
+         }
+
+         if(mi.Name.StartsWith("set_"))
+         {
+            isGetter = false;
+            name = mi.Name.Substring(4);
+            return true;
+         }
+
+         isGetter = false;
+         name = null;
+         return false;
       }
 
-      private static bool IsSetProperty(MethodInfo mi)
+      private static string GetValuePath(PropertyOptions po, object[] arguments, bool ignoreLast)
       {
-         return mi.Name.StartsWith("set_");
+         var sb = new StringBuilder();
+         sb.Append(po.StoreName);
+
+         for(int i = 0; i < arguments.Length - (ignoreLast ? 1 : 0); i++)
+         {
+            object value = arguments[i];
+            if (value == null) continue;
+
+            sb.Append(PropertyOptions.PathSeparator);
+            sb.Append(value.ToString());
+         }
+
+         return sb.ToString();
       }
 
-      private static bool IsGetMethod(MethodInfo mi)
-      {
-         return mi.ReturnType != typeof(void);
-      }
-
-      private object GetValue(MethodInfo mi)
-      {
-         string name = mi.Name.Substring(4);
-
-         PropertyOptions po = _propertyOptions[name];
-
-         return _ioHandler.Read(po);
-      }
-
-      private void SetValue(MethodInfo mi, object value)
-      {
-         string name = mi.Name.Substring(4);
-
-         PropertyOptions po = _propertyOptions[name];
-
-         _ioHandler.Write(po, value);
-      }
-
+      // -----
       private object GetMethodValue(MethodInfo mi)
       {
          string path = GetPath(mi);
@@ -83,9 +110,9 @@ namespace Config.Net.Core
 
          foreach(ParameterInfo pi in mi.GetParameters())
          {
-            var pia = pi.GetCustomAttribute<OptionAttribute>();
+            OptionAttribute pia = pi.GetCustomAttribute<OptionAttribute>();
 
-            string part = pia?.Alias ?? pi.Name;            
+            string part = pia?.Alias ?? pi.Name;
          }
 
          return string.Join(".", parts);
