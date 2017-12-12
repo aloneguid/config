@@ -40,7 +40,7 @@ namespace Config.Net.Tests
          [Option(DefaultValue = 10)]
          int NumberOfMinutes { get; set; }
 
-         [Option(DefaultValue = new[] { "Japan", "Denmark", "Australia" })]
+         [Option(DefaultValue = "Japan Denmark Australia")]
          string[] Regions { get; set; }
 
          [Option(Alias = "log-xml", DefaultValue = true)]
@@ -121,7 +121,7 @@ namespace Config.Net.Tests
       [Fact]
       public void Read_StringArray_Reads()
       {
-         _store.Map["Regions"] = "IT, UK, US";
+         _store.Map["Regions"] = "IT UK US";
 
          string[] regions = _settings.Regions;
 
