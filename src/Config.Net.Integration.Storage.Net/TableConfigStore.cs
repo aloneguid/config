@@ -8,11 +8,11 @@ namespace Config.Net.Integration.Storage.Net
    //todo: not ready for use yet
    class TableConfigStore : IConfigStore
    {
-      private readonly ITableStorage _tableStorage;
+      private readonly ITableStorageProvider _tableStorage;
       private readonly string _tableName;
       private readonly string _partitionKey;
 
-      public TableConfigStore(ITableStorage tableStorage, string tableName, string partitionKey)
+      public TableConfigStore(ITableStorageProvider tableStorage, string tableName, string partitionKey)
       {
          _tableStorage = tableStorage;
          _tableName = tableName;
@@ -32,7 +32,7 @@ namespace Config.Net.Integration.Storage.Net
 
       public string Read(string key)
       {
-         TableRow row = _tableStorage.Get(_tableName, _partitionKey, key);
+         TableRow row = _tableStorage.GetAsync(_tableName, _partitionKey, key).Result;
          if (row == null) return null;
 
          return row["value"];
@@ -44,13 +44,13 @@ namespace Config.Net.Integration.Storage.Net
 
          if (value == null)
          {
-            _tableStorage.Delete(_tableName, rowId);
+            _tableStorage.DeleteAsync(_tableName, new[] { rowId }).Wait();
          }
          else
          {
             var row = new TableRow(rowId);
             row["value"] = value;
-            _tableStorage.InsertOrReplace(_tableName, row);
+            _tableStorage.InsertOrReplaceAsync(_tableName, new[] { row } ).Wait();
          }
       }
    }

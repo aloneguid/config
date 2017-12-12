@@ -16,12 +16,12 @@
     <ProjectReference Include="..\Config.Net\Config.Net.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
-    <PackageReference Include="Storage.Net" Version="5.2.47" />
-    <PackageReference Include="Storage.Net.Microsoft.Azure.Storage" Version="3.0.47" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0" />
-    <PackageReference Include="xunit" Version="2.3.0" />
-    <PackageReference Include="netbox" Version="1.4.30" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="Storage.Net" Version="5.7.1" />
+    <PackageReference Include="Storage.Net.Microsoft.Azure.Storage" Version="5.7.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="netbox" Version="2.0.0.34" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">
     <DefineConstants>$(DefineConstants);NETSTANDARD</DefineConstants>
