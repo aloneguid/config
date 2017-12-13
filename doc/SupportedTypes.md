@@ -19,9 +19,13 @@ Note that when appropriate types are converted and parsed using an `InvariantCul
 
 DateTime is always converted to UTC.
 
-## Arrays
+## String Arrays
 
-String arrays are supported. Config.Net splits an input string by comma `,` and space character ` ` and builds an array from it. When writing back array values are joined by `, `.
+String arrays are supported, which are encoded using a command-line syntax:
+
+- values are separated by a space i.e. `value1 value2`
+- if you need spaces inside values you must take it in quotes i.e. `"value with space" valuewithoutspace`
+- quotes inside values must be escaped using a double quote (`""`) and the value itself should be quoted i.e. `"value with ""quotes""""`
 
 ## `System.Net.NetworkCredential`
 

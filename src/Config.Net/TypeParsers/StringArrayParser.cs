@@ -82,13 +82,26 @@ namespace Config.Net.TypeParsers
                case 2:     //reading quoted value
                   if(ch == '\"')
                   {
-                     a.Add(v);
-                     v = string.Empty;
-                     state = 0;
+                     state = 3;
                   }
                   else
                   {
                      v += ch;
+                  }
+                  i++;
+                  break;
+
+               case 3:     //after quote in quoted mode
+                  if (ch == '\"')
+                  {
+                     v += ch;
+                     state = 2;
+                  }
+                  else
+                  {
+                     a.Add(v);
+                     v = string.Empty;
+                     state = 0;
                   }
                   i++;
                   break;
