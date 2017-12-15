@@ -1,6 +1,7 @@
 ﻿#if !NETSTANDARD14
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Config.Net.Stores.Impl.CommandLine
@@ -50,7 +51,7 @@ namespace Config.Net.Stores.Impl.CommandLine
          var posToName = new Dictionary<int, string>();
          if (nameToPosition != null)
          {
-            foreach(var p in nameToPosition)
+            foreach(KeyValuePair<string, int> p in nameToPosition)
             {
                if (p.Key != null)
                {
@@ -66,9 +67,13 @@ namespace Config.Net.Stores.Impl.CommandLine
             string name;
             string value;
 
-            var nameValue = Utils.SplitByDelimiter(args[i], ArgDelimiters);
+            Debug.WriteLine($"arg {i}: {args[i]}");
+
+            Tuple<string, string> nameValue = Utils.SplitByDelimiter(args[i], ArgDelimiters);
             name = nameValue.Item1.TrimStart(ArgPrefixes);
             value = nameValue.Item2;
+
+            Debug.WriteLine($"name: {name}, value: {value}");
 
             if (name != null && value != null)
             {
@@ -76,6 +81,7 @@ namespace Config.Net.Stores.Impl.CommandLine
             }
             else if(name != null && posToName.TryGetValue(i, out string ptnName))
             {
+               Debug.WriteLine($"assigned {name} to pos {ptnName}");
                _nameToValue[ptnName] = name;
             }
          }
