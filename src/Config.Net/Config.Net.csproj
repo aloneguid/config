@@ -25,7 +25,10 @@
     <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/aloneguid/config/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <PackageReleaseNotes>v4.4.0
+    <PackageReleaseNotes>v4.4.1
+bug fixed: positional parameters in command-line (#43)
+
+v4.4.0
 string array parser supports proper value escaping (#39)
 
 v4.3.0

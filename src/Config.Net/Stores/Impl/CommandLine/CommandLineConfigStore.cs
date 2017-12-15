@@ -10,7 +10,7 @@ namespace Config.Net.Stores.Impl.CommandLine
    {
       private readonly Dictionary<string, string> _nameToValue;
       private static readonly char[] ArgPrefixes = new[] { '-', '/' };
-      private static readonly string[] ArgDelimiters = new[] { ":", "=" };
+      private static readonly string[] ArgDelimiters = new[] { "=" };
       private readonly bool _isCaseSensitive;
 
       public bool CanRead => true;
@@ -67,13 +67,9 @@ namespace Config.Net.Stores.Impl.CommandLine
             string name;
             string value;
 
-            Debug.WriteLine($"arg {i}: {args[i]}");
-
             Tuple<string, string> nameValue = Utils.SplitByDelimiter(args[i], ArgDelimiters);
             name = nameValue.Item1.TrimStart(ArgPrefixes);
             value = nameValue.Item2;
-
-            Debug.WriteLine($"name: {name}, value: {value}");
 
             if (name != null && value != null)
             {
@@ -81,8 +77,7 @@ namespace Config.Net.Stores.Impl.CommandLine
             }
             else if(name != null && posToName.TryGetValue(i, out string ptnName))
             {
-               Debug.WriteLine($"assigned {name} to pos {ptnName}");
-               _nameToValue[ptnName] = name;
+               _nameToValue[ptnName] = args[i];
             }
          }
       }
