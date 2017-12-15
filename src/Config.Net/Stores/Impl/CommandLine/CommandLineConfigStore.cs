@@ -10,7 +10,7 @@ namespace Config.Net.Stores.Impl.CommandLine
    {
       private readonly Dictionary<string, string> _nameToValue;
       private static readonly char[] ArgPrefixes = new[] { '-', '/' };
-      private static readonly string[] ArgDelimiters = new[] { "=" };
+      private static readonly string[] ArgDelimiters = new[] { "=", ":" };
       private readonly bool _isCaseSensitive;
 
       public bool CanRead => true;
