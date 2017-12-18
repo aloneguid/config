@@ -25,7 +25,10 @@
     <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/aloneguid/config/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <PackageReleaseNotes>v4.4.1
+    <PackageReleaseNotes>v4.4.2
+improvement: JSON stores support hierarchies (#44)
+
+v4.4.1
 bug fixed: positional parameters in command-line (#43)
 
 v4.4.0
