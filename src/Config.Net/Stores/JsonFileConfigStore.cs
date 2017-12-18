@@ -85,8 +85,12 @@ namespace Config.Net.Stores
          if (value == null)
          {
             //remove the value
+            JToken existingValue = containerToken[ckey];
 
-            throw new NotImplementedException();
+            if (existingValue is JValue jv)
+               jv.Parent.Remove();
+            else
+               existingValue?.Remove();
          }
          else
          {
