@@ -60,7 +60,7 @@ namespace Config.Net.Tests
    {
       protected override IConfigStore CreateStore()
       {
-         var testFile = Path.Combine(BuildDir.FullName, "test.json");
+         string testFile = Path.Combine(BuildDir.FullName, "test.json");
          return new JsonFileConfigStore(testFile);
       }
    }
@@ -69,7 +69,7 @@ namespace Config.Net.Tests
    {
       protected override IConfigStore CreateStore()
       {
-         var testFile = Path.Combine(BuildDir.FullName, "..", "..", "..", "..", "..", "appveyor.yml");
+         string testFile = Path.Combine(BuildDir.FullName, "..", "..", "..", "..", "..", "appveyor.yml");
 
          return new YamlFileConfigStore(testFile);
       }

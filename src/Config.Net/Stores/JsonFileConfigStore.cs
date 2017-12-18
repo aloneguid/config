@@ -5,96 +5,120 @@ using Newtonsoft.Json.Linq;
 
 namespace Config.Net.Stores
 {
-    /// <summary>
-    /// Simple JSON storage.
-    /// </summary>
-    public class JsonFileConfigStore : IConfigStore
-    {
-        private readonly string _fullName;
-        private readonly string _fileName;
+   /// <summary>
+   /// Simple JSON storage.
+   /// </summary>
+   public class JsonFileConfigStore : IConfigStore
+   {
+      private readonly string _pathName;
+      private JObject _jo;
 
-        private JObject _jsonContent = new JObject();
+      /// <summary>
+      /// Create JSON storage in the file specified in <paramref name="pathName"/>.
+      /// </summary>
+      /// <param name="pathName">Full or relative path to JSON storage file.</param>
+      /// <exception cref="ArgumentNullException"><paramref name="pathName"/> is null.</exception>
+      /// <exception cref="IOException">Provided path is not valid.</exception>
+      /// <remarks>Storage file does not have to exist, however it will be created as soon as first write performed.</remarks>
+      public JsonFileConfigStore(string pathName)
+      {
+         if (pathName == null) throw new ArgumentNullException(nameof(pathName));
 
-        /// <summary>
-        /// Create JSON storage in the file specified in <paramref name="pathName"/>.
-        /// </summary>
-        /// <param name="pathName">Full or relative path to JSON storage file.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="pathName"/> is null.</exception>
-        /// <exception cref="IOException">Provided path is not valid.</exception>
-        /// <remarks>Storage file does not have to exist, however it will be created as soon as first write performed.</remarks>
-        public JsonFileConfigStore(string pathName)
-        {
-            if (pathName == null) throw new ArgumentNullException(nameof(pathName));
+         _pathName = Path.GetFullPath(pathName);   // Allow relative path to JSON file
 
-            _fullName = Path.GetFullPath(pathName);   // Allow relative path to JSON file
-            _fileName = Path.GetFileName(_fullName);
+         ReadJsonFile();
+      }
 
-            var parentDirPath = Path.GetDirectoryName(_fullName);
+      public void Dispose()
+      {
+         // nothing to dispose.
+      }
 
-            if (string.IsNullOrEmpty(parentDirPath)) throw new IOException($"Provided directory path ({parentDirPath}) is not valid");
+      public string Name => $"json:{_pathName}";
 
-            Directory.CreateDirectory(parentDirPath);
+      public bool CanRead => true;
 
-            ReadJsonFile();
-        }
+      public bool CanWrite => true;
 
-        public void Dispose()
-        {
-            // nothing to dispose.
-        }
+      public string Read(string key)
+      {
+         if (key == null || _jo == null) return null;
 
-        public string Name => $"json:{_fileName}";
+         string path = "$." + key;
 
-        public bool CanRead => true;
+         JToken valueToken = _jo.SelectToken(path);
 
-        public bool CanWrite => true;
+         return GetStringValue(valueToken);
+      }
 
-        public string Read(string key)
-        {
-            if (key == null)
-                return null;
+      private string GetStringValue(JToken token)
+      {
+         if (token == null) return null;
 
-            ReadJsonFile();
+         return token.ToString();
+      }
 
-            JToken token;
-            _jsonContent.TryGetValue(key, out token);
-            return token?.Value<string>();
-        }
+      public void Write(string key, string value)
+      {
+         if (key == null || _jo == null) return;
 
-        public void Write(string key, string value)
-        {
-            _jsonContent[key] = value;
+         string[] parts = key.Split('.');
 
-            WriteJsonFile();
-        }
+         //find the container first
+         JToken containerToken = _jo;
+         for(int i = 0; i < parts.Length - 1; i++)
+         {
+            string name = parts[i];
+            JToken next = containerToken[name];
 
-        private void ReadJsonFile()
-        {
-            var fileInfo = new FileInfo(_fullName);
-
-            if (fileInfo.Exists)
+            if(next == null)
             {
-                using (var stream = fileInfo.OpenRead())
-                using (var reader = new StreamReader(stream))
-                using (var jsonReader = new JsonTextReader(reader))
-                {
-                    _jsonContent = JObject.Load(jsonReader);
-                }
+               next = JObject.Parse("{}");
+               containerToken[name] = next;
             }
-            else
-            {
-                _jsonContent = new JObject();
-            }
-        }
 
-        private void WriteJsonFile()
-        {
-            using (var fileStream = File.Create(_fullName))
-            using (var writer = new StreamWriter(fileStream))
-            using (var jsonWriter = new JsonTextWriter(writer))
-            {
-                _jsonContent.WriteTo(jsonWriter);
-            }
-        }
-    }
+            containerToken = next;
+         }
+
+         //set the value
+         string ckey = parts[parts.Length - 1];
+         if (value == null)
+         {
+            //remove the value
+
+            throw new NotImplementedException();
+         }
+         else
+         {
+            containerToken[ckey] = value;
+         }
+
+         //rewrite the whole thing
+         WriteJsonFile();
+      }
+
+      private void ReadJsonFile()
+      {
+         if(File.Exists(_pathName))
+         {
+            string json = File.ReadAllText(_pathName);
+            _jo = JObject.Parse(json);
+         }
+         else
+         {
+            _jo = new JObject();
+         }
+      }
+
+      private void WriteJsonFile()
+      {
+         if (_jo == null) return;
+
+         var fi = new FileInfo(_pathName);
+         if (!fi.Directory.Exists) fi.Directory.Create();
+
+         string json = _jo.ToString(Formatting.Indented);
+         File.WriteAllText(_pathName, json);
+      }
+   }
 }
