@@ -26,19 +26,19 @@ namespace Config.Net.Core
          }
       }
 
-      public object ParseValue(PropertyOptions property, string rawValue)
+      public object ParseValue(Type baseType, string rawValue, object defaultValue)
       {
          object result;
 
          if (rawValue == null)
          {
-            result = property.DefaultValue;
+            result = defaultValue;
          }
          else
          {
-            if(!TryParse(property.BaseType, rawValue, out result))
+            if(!TryParse(baseType, rawValue, out result))
             {
-               result = property.DefaultValue;
+               result = defaultValue;
             }
          }
 
@@ -66,7 +66,7 @@ namespace Config.Net.Core
          return true;
       }
 
-      public string ConvertValue(PropertyOptions property, object value)
+      public string ConvertValue(Type baseType, object value)
       {
          string str;
 
@@ -76,7 +76,7 @@ namespace Config.Net.Core
          }
          else
          {
-            if (_defaultParser.IsSupported(property.Type))
+            if (_defaultParser.IsSupported(baseType))
             {
                str = _defaultParser.ToRawString(value);
             }

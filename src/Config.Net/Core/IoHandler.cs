@@ -17,35 +17,31 @@ namespace Config.Net.Core
          _cacheInterval = cacheInterval;
       }
 
-      public object Read(PropertyOptions property, string name = null)
+      public object Read(Type baseType, string path, object defaultValue)
       {
-         if (name == null) name = property.StoreName;
-
-         if(!_keyToValue.TryGetValue(name, out LazyVar<object> value))
+         if(!_keyToValue.TryGetValue(path, out LazyVar<object> value))
          {
-            _keyToValue[name] = new LazyVar<object>(_cacheInterval, () => ReadNonCached(property, name));
+            _keyToValue[path] = new LazyVar<object>(_cacheInterval, () => ReadNonCached(baseType, path, defaultValue));
          }
 
-         return _keyToValue[name].GetValue();
+         return _keyToValue[path].GetValue();
       }
 
-      public void Write(PropertyOptions property, object value, string name = null)
+      public void Write(Type baseType, string path, object value)
       {
-         if (name == null) name = property.StoreName;
-
-         string valueToWrite = ValueHandler.Default.ConvertValue(property, value);
+         string valueToWrite = ValueHandler.Default.ConvertValue(baseType, value);
 
          foreach (IConfigStore store in _stores.Where(s => s.CanWrite))
          {
-            store.Write(name, valueToWrite);
+            store.Write(path, valueToWrite);
          }
       }
 
-      private object ReadNonCached(PropertyOptions property, string name)
+      private object ReadNonCached(Type baseType, string path, object defaultValue)
       {
-         string rawValue = ReadFirstValue(name);
+         string rawValue = ReadFirstValue(path);
 
-         return ValueHandler.Default.ParseValue(property, rawValue);
+         return ValueHandler.Default.ParseValue(baseType, rawValue, defaultValue);
       }
 
       private string ReadFirstValue(string key)

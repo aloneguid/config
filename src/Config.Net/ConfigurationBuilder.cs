@@ -30,7 +30,7 @@ namespace Config.Net
       {
          var handler = new IoHandler(_stores, _cacheInterval);
 
-         T instance = _generator.CreateInterfaceProxyWithoutTarget<T>(new ConfigurationInterceptor<T>(handler));
+         T instance = _generator.CreateInterfaceProxyWithoutTarget<T>(new ConfigurationInterceptor(typeof(T), handler));
 
          return instance;
       }

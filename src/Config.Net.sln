@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F2107671-5DC0-48C0-ABE8-D80ACDC5D7D2}"
 	ProjectSection(SolutionItems) = preProject
@@ -18,6 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{CDB02CCC-51F
 		..\doc\DynamicConfiguration.md = ..\doc\DynamicConfiguration.md
 		..\doc\jetbrains_rider.png = ..\doc\jetbrains_rider.png
 		..\doc\jetbrains_rider_small.png = ..\doc\jetbrains_rider_small.png
+		..\doc\NestedInterfaces.md = ..\doc\NestedInterfaces.md
 		..\README.md = ..\README.md
 		..\README.v1.md = ..\README.v1.md
 		..\README.v3..md = ..\README.v3..md

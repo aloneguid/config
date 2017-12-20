@@ -17,6 +17,7 @@ This library eliminates the problem of having configuration in different places,
   - [In-Memory](doc/Stores_InMemory.md)
   - [JSON Files](doc/Stores_JsonFile.md)
   - [Storage.Net Integration](doc/Stores_StorageNet.md)
+- [Nested Interfaces](doc/NestedInterfaces.md)
 - [Creating a Custom Parser](doc/CustomParsers.md)
 
 ## Quick Start

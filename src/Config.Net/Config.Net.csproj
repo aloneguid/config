@@ -25,7 +25,10 @@
     <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/aloneguid/config/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <PackageReleaseNotes>v4.4.2
+    <PackageReleaseNotes>v4.5.0
+new feature: interfaces can now be nested into each other
+
+v4.4.2
 improvement: JSON stores support hierarchies (#44)
 
 v4.4.1

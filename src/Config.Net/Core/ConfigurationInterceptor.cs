@@ -3,105 +3,81 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using Castle.DynamicProxy;
+using Config.Net.Core.Box;
 
 namespace Config.Net.Core
 {
-   class ConfigurationInterceptor<TInterface> : IInterceptor
+   class ConfigurationInterceptor : IInterceptor
    {
-      private readonly Dictionary<string, PropertyOptions> _propertyOptions;
+      private readonly Dictionary<string, ResultBox> _boxes;
+      private readonly Type _interfaceType;
       private IoHandler _ioHandler;
+      private readonly string _prefix;
 
-      public ConfigurationInterceptor(IoHandler ioHandler)
+      public ConfigurationInterceptor(Type interfaceType, IoHandler ioHandler, string prefix = null)
       {
-         _propertyOptions = PropertyOptions.Discover<TInterface>();
+         _boxes = BoxFactory.Discover(interfaceType);
+         _interfaceType = interfaceType;
          _ioHandler = ioHandler;
+         _prefix = prefix;
       }
 
       public void Intercept(IInvocation invocation)
       {
-         if(IsProperty(invocation.Method, out bool isGetProperty, out string propertyName))
+         if(PropertyResultBox.IsProperty(invocation.Method, out bool isGetProperty, out string propertyName))
          {
-            PropertyOptions po = _propertyOptions[propertyName];
+            ResultBox rbox = _boxes[propertyName];
 
-            if (isGetProperty)
+            if (rbox is ProxyResultBox proxy)
             {
-               invocation.ReturnValue = _ioHandler.Read(po);
+               if (!proxy.IsInitialised)
+               {
+                  proxy.Initialise(_ioHandler, OptionPath.Combine(_prefix, proxy.StoreByName));
+               }
+
+               if (!isGetProperty)
+               {
+                  throw new NotSupportedException("cannot assign values to interface properties");
+               }
+
+               //return a proxy interface
+               invocation.ReturnValue = proxy.ProxyInstance;
             }
             else
             {
-               _ioHandler.Write(po, invocation.Arguments[0]);
+               PropertyResultBox pbox = (PropertyResultBox)rbox;
+               string path = OptionPath.Combine(_prefix, pbox.StoreByName);
+
+               if (isGetProperty)
+               {
+                  invocation.ReturnValue = _ioHandler.Read(pbox.ResultBaseType, path, pbox.DefaultResult);
+
+               }
+               else
+               {
+                  _ioHandler.Write(pbox.ResultBaseType, path, invocation.Arguments[0]);
+               }
             }
          }
          else
          {
             //it's a method!
 
-            string name = PropertyOptions.GetMethodName(invocation.Method);
-            PropertyOptions po = _propertyOptions[name];
+            string name = MethodResultBox.GetName(invocation.Method);
+            MethodResultBox mbox = (MethodResultBox)_boxes[name];
+            string path = mbox.GetValuePath(invocation.Arguments);
 
-            if(po.IsGetter == null)
+            if(mbox.IsGettter)
             {
-               throw new ArgumentException($"it seems like we don't know whether method '{name}' is a getter or a setter!");
-            }
-
-            bool isGetter = po.IsGetter.Value;
-            string keyName = GetValuePath(po, invocation.Arguments, !isGetter);
-            if(isGetter)
-            {
-               invocation.ReturnValue = _ioHandler.Read(po, keyName);
+               invocation.ReturnValue = _ioHandler.Read(mbox.ResultBaseType, path, mbox.DefaultResult);
             }
             else
             {
-               _ioHandler.Write(po, invocation.Arguments[invocation.Arguments.Length - 1], keyName);
+               object value = invocation.Arguments[invocation.Arguments.Length - 1];
+               _ioHandler.Write(mbox.ResultBaseType, path, value);
             }
 
          }
-      }
-
-      private static bool IsProperty(MethodInfo mi, out bool isGetter, out string name)
-      {
-         if(mi.Name.StartsWith("get_"))
-         {
-            isGetter = true;
-            name = mi.Name.Substring(4);
-            return true;
-         }
-
-         if(mi.Name.StartsWith("set_"))
-         {
-            isGetter = false;
-            name = mi.Name.Substring(4);
-            return true;
-         }
-
-         isGetter = false;
-         name = null;
-         return false;
-      }
-
-      private static string GetValuePath(PropertyOptions po, object[] arguments, bool ignoreLast)
-      {
-         var sb = new StringBuilder();
-         sb.Append(po.StoreName);
-
-         for(int i = 0; i < arguments.Length - (ignoreLast ? 1 : 0); i++)
-         {
-            object value = arguments[i];
-            if (value == null) continue;
-
-            sb.Append(PropertyOptions.PathSeparator);
-            sb.Append(value.ToString());
-         }
-
-         return sb.ToString();
-      }
-
-      // -----
-      private object GetMethodValue(MethodInfo mi)
-      {
-         string path = GetPath(mi);
-
-         return null;
       }
 
       private string GetPath(MethodInfo mi)
