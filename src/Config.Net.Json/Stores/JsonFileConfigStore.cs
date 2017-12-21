@@ -3,7 +3,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Config.Net.Stores
+namespace Config.Net.Json.Stores
 {
    /// <summary>
    /// Simple JSON storage.

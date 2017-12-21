@@ -1,18 +1,16 @@
-﻿namespace Config.Net
+﻿using Config.Net.Yaml.Stores;
+
+namespace Config.Net
 {
    /// <summary>
    /// Configuration extensions
    /// </summary>
    public static class ConfigurationExtensions
    {
-      /*
-      /// <summary>
-      /// Uses system environment variables
-      /// </summary>
-      public static ConfigurationBuilder<TInterface> UseEnvironmentVariables<TInterface>(this ConfigurationBuilder<TInterface> builder) where TInterface : class
+      public static ConfigurationBuilder<TInterface> UseYamlFile<TInterface>(this ConfigurationBuilder<TInterface> builder, string yamlFilePath) where TInterface : class
       {
-         builder.UseConfigStore(new EnvironmentVariablesStore());
+         builder.UseConfigStore(new YamlFileConfigStore(yamlFilePath));
          return builder;
-      }*/
+      }
    }
 }

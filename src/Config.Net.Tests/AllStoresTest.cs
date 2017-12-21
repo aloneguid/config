@@ -7,6 +7,7 @@ using Storage.Net;
 using Config.Net.Integration.Storage.Net;
 using Config.Net.Stores.Impl.CommandLine;
 using Config.Net.Yaml.Stores;
+using Config.Net.Json.Stores;
 
 namespace Config.Net.Tests
 {

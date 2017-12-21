@@ -14,7 +14,7 @@ namespace Config.Net.Tests.Stores
 
       public YamlFileConfigStoreTest()
       {
-         var testFile = @"..\..\..\..\..\appveyor.yml";
+         string testFile = @"..\..\..\..\..\appveyor.yml";
          _yaml = new YamlFileConfigStore(testFile);
       }
 

@@ -45,7 +45,7 @@ namespace Config.Net.Yaml.Stores
 
          var ys = new YamlStream();
 
-         using (var fs = File.OpenRead(_fullName))
+         using (FileStream fs = File.OpenRead(_fullName))
          using (var reader = new StreamReader(fs))
          {
             ys = new YamlStream();
