@@ -8,22 +8,29 @@ namespace Config.Net.Core
 {
    class ValueHandler
    {
-      private readonly DefaultParser _defaultParser = new DefaultParser();
-      private readonly ConcurrentDictionary<Type, ITypeParser> _parsers = new ConcurrentDictionary<Type, ITypeParser>();
+      private static readonly DefaultParser DefaultParser = new DefaultParser();
+      private static readonly ConcurrentDictionary<Type, ITypeParser> Parsers = new ConcurrentDictionary<Type, ITypeParser>();
+      private static readonly HashSet<Type> SupportedTypes = new HashSet<Type>();
 
       private static readonly ValueHandler _default = new ValueHandler();
 
       public static ValueHandler Default => _default;
 
-      private ValueHandler()
+      static ValueHandler()
       {
          foreach (ITypeParser pc in GetBuiltInParsers())
          {
             foreach (Type t in pc.SupportedTypes)
             {
-               _parsers[t] = pc;
+               Parsers[t] = pc;
+               SupportedTypes.Add(t);
             }
          }
+      }
+
+      public static bool IsSupported(Type t)
+      {
+         return SupportedTypes.Contains(t) || DefaultParser.IsSupported(t);
       }
 
       public object ParseValue(Type baseType, string rawValue, object defaultValue)
@@ -47,9 +54,9 @@ namespace Config.Net.Core
 
       public bool TryParse(Type propertyType, string rawValue, out object result)
       {
-         if (_defaultParser.IsSupported(propertyType))   //type here must be a non-nullable one
+         if (DefaultParser.IsSupported(propertyType))   //type here must be a non-nullable one
          {
-            if (!_defaultParser.TryParse(rawValue, propertyType, out result))
+            if (!DefaultParser.TryParse(rawValue, propertyType, out result))
             {
                return false;
             }
@@ -76,9 +83,9 @@ namespace Config.Net.Core
          }
          else
          {
-            if (_defaultParser.IsSupported(baseType))
+            if (DefaultParser.IsSupported(baseType))
             {
-               str = _defaultParser.ToRawString(value);
+               str = DefaultParser.ToRawString(value);
             }
             else
             {
@@ -93,7 +100,7 @@ namespace Config.Net.Core
       private ITypeParser GetParser(Type t)
       {
          ITypeParser result;
-         _parsers.TryGetValue(t, out result);
+         Parsers.TryGetValue(t, out result);
          return result;
       }
 

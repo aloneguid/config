@@ -7,6 +7,10 @@ namespace Config.Net.Core.Box
    {
       public PropertyResultBox(string name, Type resultType) : base(name, resultType, null)
       {
+         if(!ValueHandler.IsSupported(ResultBaseType))
+         {
+            throw new NotSupportedException($"type {ResultBaseType} on property '{name}' is not supported.");
+         }
       }
 
       public static bool IsProperty(MethodInfo mi, out bool isGetter, out string name)

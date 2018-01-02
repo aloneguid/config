@@ -17,6 +17,17 @@ namespace Config.Net.Tests
          Assert.Equal(7, settings.AnotherNumber);
          Assert.Equal(3, settings.Number);
       }
+
+      [Fact]
+      public void Invalid_basic_type_prevents_builder()
+      {
+         Assert.Throws<NotSupportedException>(() => new ConfigurationBuilder<IInvalidBasicType>().Build());
+      }
+   }
+
+   public interface IInvalidBasicType
+   {
+      Type NotSupported { get; }
    }
 
    public interface ISettings
