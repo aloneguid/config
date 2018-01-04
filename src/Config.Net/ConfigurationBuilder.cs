@@ -28,9 +28,10 @@ namespace Config.Net
       /// <returns></returns>
       public T Build()
       {
-         var handler = new IoHandler(_stores, _cacheInterval);
+         var valueHandler = new ValueHandler();
+         var ioHandler = new IoHandler(_stores, valueHandler, _cacheInterval);
 
-         T instance = _generator.CreateInterfaceProxyWithoutTarget<T>(new ConfigurationInterceptor(typeof(T), handler));
+         T instance = _generator.CreateInterfaceProxyWithoutTarget<T>(new ConfigurationInterceptor(typeof(T), ioHandler));
 
          return instance;
       }

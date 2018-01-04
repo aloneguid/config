@@ -16,7 +16,7 @@ namespace Config.Net.Core
 
       public ConfigurationInterceptor(Type interfaceType, IoHandler ioHandler, string prefix = null)
       {
-         _boxes = BoxFactory.Discover(interfaceType);
+         _boxes = BoxFactory.Discover(interfaceType, ioHandler.ValueHandler);
          _interfaceType = interfaceType;
          _ioHandler = ioHandler;
          _prefix = prefix;

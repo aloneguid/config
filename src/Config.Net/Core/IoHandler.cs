@@ -8,14 +8,18 @@ namespace Config.Net.Core
    class IoHandler
    {
       private readonly IEnumerable<IConfigStore> _stores;
+      private readonly ValueHandler _valueHandler;
       private readonly TimeSpan _cacheInterval;
       private readonly ConcurrentDictionary<string, LazyVar<object>> _keyToValue = new ConcurrentDictionary<string, LazyVar<object>>();
 
-      public IoHandler(IEnumerable<IConfigStore> stores, TimeSpan cacheInterval)
+      public IoHandler(IEnumerable<IConfigStore> stores, ValueHandler valueHandler, TimeSpan cacheInterval)
       {
          _stores = stores ?? throw new ArgumentNullException(nameof(stores));
+         _valueHandler = valueHandler ?? throw new ArgumentNullException(nameof(valueHandler));
          _cacheInterval = cacheInterval;
       }
+
+      public ValueHandler ValueHandler => _valueHandler;
 
       public object Read(Type baseType, string path, object defaultValue)
       {
@@ -29,7 +33,7 @@ namespace Config.Net.Core
 
       public void Write(Type baseType, string path, object value)
       {
-         string valueToWrite = ValueHandler.Default.ConvertValue(baseType, value);
+         string valueToWrite = _valueHandler.ConvertValue(baseType, value);
 
          foreach (IConfigStore store in _stores.Where(s => s.CanWrite))
          {
@@ -41,7 +45,7 @@ namespace Config.Net.Core
       {
          string rawValue = ReadFirstValue(path);
 
-         return ValueHandler.Default.ParseValue(baseType, rawValue, defaultValue);
+         return _valueHandler.ParseValue(baseType, rawValue, defaultValue);
       }
 
       private string ReadFirstValue(string key)

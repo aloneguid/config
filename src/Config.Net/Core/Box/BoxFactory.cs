@@ -7,18 +7,18 @@ namespace Config.Net.Core.Box
 {
    static class BoxFactory
    {
-      public static Dictionary<string, ResultBox> Discover(Type t)
+      public static Dictionary<string, ResultBox> Discover(Type t, ValueHandler valueHandler)
       {
          var result = new Dictionary<string, ResultBox>();
 
-         DiscoverProperties(t, result);
+         DiscoverProperties(t, valueHandler, result);
 
-         DiscoverMethods(t, result);
+         DiscoverMethods(t, valueHandler, result);
 
          return result;
       }
 
-      private static void DiscoverProperties(Type t, Dictionary<string, ResultBox> result)
+      private static void DiscoverProperties(Type t, ValueHandler valueHandler, Dictionary<string, ResultBox> result)
       {
          IEnumerable<PropertyInfo> properties = GetHierarchyPublicProperties(t);
 
@@ -28,13 +28,15 @@ namespace Config.Net.Core.Box
                ? (ResultBox)new ProxyResultBox(pi.Name, pi.PropertyType)
                : (ResultBox)new PropertyResultBox(pi.Name, pi.PropertyType);
 
-            AddAttributes(pbox, pi);
+            ValidateSupportedType(pbox, valueHandler);
+
+            AddAttributes(pbox, pi, valueHandler);
 
             result[pi.Name] = pbox;
          }
       }
 
-      private static void DiscoverMethods(Type t, Dictionary<string, ResultBox> result)
+      private static void DiscoverMethods(Type t, ValueHandler valueHandler, Dictionary<string, ResultBox> result)
       {
          TypeInfo ti = t.GetTypeInfo();
 
@@ -44,9 +46,22 @@ namespace Config.Net.Core.Box
          {
             var mbox = new MethodResultBox(method);
 
-            AddAttributes(mbox, method);
+            AddAttributes(mbox, method, valueHandler);
 
             result[mbox.Name] = mbox;
+         }
+      }
+
+      private static void ValidateSupportedType(ResultBox rb, ValueHandler valueHandler)
+      {
+         Type t = null;
+
+         if (rb is PropertyResultBox pbox)
+            t = rb.ResultBaseType;
+
+         if (t != null && !valueHandler.IsSupported(t))
+         {
+            throw new NotSupportedException($"type {t} on object '{rb.Name}' is not supported.");
          }
       }
 
@@ -57,18 +72,18 @@ namespace Config.Net.Core.Box
          return null;
       }
 
-      private static void AddAttributes(ResultBox box, PropertyInfo pi)
+      private static void AddAttributes(ResultBox box, PropertyInfo pi, ValueHandler valueHandler)
       {
-         AddAttributes(box, pi.GetCustomAttribute<OptionAttribute>());
+         AddAttributes(box, valueHandler, pi.GetCustomAttribute<OptionAttribute>());
       }
 
-      private static void AddAttributes(ResultBox box, MethodInfo mi)
+      private static void AddAttributes(ResultBox box, MethodInfo mi, ValueHandler valueHandler)
       {
-         AddAttributes(box, mi.GetCustomAttribute<OptionAttribute>());
+         AddAttributes(box, valueHandler, mi.GetCustomAttribute<OptionAttribute>());
       }
 
 
-      private static void AddAttributes(ResultBox box, OptionAttribute optionAttribute)
+      private static void AddAttributes(ResultBox box, ValueHandler valueHandler, OptionAttribute optionAttribute)
       {
          object defaultValue = null;
 
@@ -87,7 +102,7 @@ namespace Config.Net.Core.Box
 
                if (box.ResultType != typeof(string) && dvt == typeof(string))
                {
-                  ValueHandler.Default.TryParse(box.ResultType, (string)optionAttribute.DefaultValue, out defaultValue);
+                  valueHandler.TryParse(box.ResultType, (string)optionAttribute.DefaultValue, out defaultValue);
                }
             }
 

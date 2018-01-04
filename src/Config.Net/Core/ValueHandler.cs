@@ -1,36 +1,43 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Text;
 using Config.Net.TypeParsers;
 
 namespace Config.Net.Core
 {
    class ValueHandler
    {
-      private static readonly DefaultParser DefaultParser = new DefaultParser();
-      private static readonly ConcurrentDictionary<Type, ITypeParser> Parsers = new ConcurrentDictionary<Type, ITypeParser>();
-      private static readonly HashSet<Type> SupportedTypes = new HashSet<Type>();
+      private readonly DefaultParser _defaultParser = new DefaultParser();
+      private readonly ConcurrentDictionary<Type, ITypeParser> _allParsers = new ConcurrentDictionary<Type, ITypeParser>();
+      private readonly HashSet<Type> _supportedTypes = new HashSet<Type>();
 
       private static readonly ValueHandler _default = new ValueHandler();
 
-      public static ValueHandler Default => _default;
-
-      static ValueHandler()
+      public ValueHandler()
       {
          foreach (ITypeParser pc in GetBuiltInParsers())
          {
-            foreach (Type t in pc.SupportedTypes)
-            {
-               Parsers[t] = pc;
-               SupportedTypes.Add(t);
-            }
+            AddParser(pc);
          }
       }
 
-      public static bool IsSupported(Type t)
+      public void AddParser(ITypeParser parser)
       {
-         return SupportedTypes.Contains(t) || DefaultParser.IsSupported(t);
+         if (parser == null)
+         {
+            throw new ArgumentNullException(nameof(parser));
+         }
+
+         foreach (Type t in parser.SupportedTypes)
+         {
+            _allParsers[t] = parser;
+            _supportedTypes.Add(t);
+         }
+      }
+
+      public bool IsSupported(Type t)
+      {
+         return _supportedTypes.Contains(t) || _defaultParser.IsSupported(t);
       }
 
       public object ParseValue(Type baseType, string rawValue, object defaultValue)
@@ -54,9 +61,9 @@ namespace Config.Net.Core
 
       public bool TryParse(Type propertyType, string rawValue, out object result)
       {
-         if (DefaultParser.IsSupported(propertyType))   //type here must be a non-nullable one
+         if (_defaultParser.IsSupported(propertyType))   //type here must be a non-nullable one
          {
-            if (!DefaultParser.TryParse(rawValue, propertyType, out result))
+            if (!_defaultParser.TryParse(rawValue, propertyType, out result))
             {
                return false;
             }
@@ -83,9 +90,9 @@ namespace Config.Net.Core
          }
          else
          {
-            if (DefaultParser.IsSupported(baseType))
+            if (_defaultParser.IsSupported(baseType))
             {
-               str = DefaultParser.ToRawString(value);
+               str = _defaultParser.ToRawString(value);
             }
             else
             {
@@ -100,7 +107,7 @@ namespace Config.Net.Core
       private ITypeParser GetParser(Type t)
       {
          ITypeParser result;
-         Parsers.TryGetValue(t, out result);
+         _allParsers.TryGetValue(t, out result);
          return result;
       }
 
