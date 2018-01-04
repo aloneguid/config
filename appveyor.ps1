@@ -10,7 +10,7 @@ $vt = @{
 
 Write-Host "global version is $gv"
 
-$Copyright = "Copyright (c) 2015-2017 by Ivan Gavryliuk"
+$Copyright = "Copyright (c) 2015-2018 by Ivan Gavryliuk"
 $PackageIconUrl = "http://i.isolineltd.com/nuget/config.net.png"
 $PackageProjectUrl = "https://github.com/aloneguid/config"
 $RepositoryUrl = "https://github.com/aloneguid/config"
