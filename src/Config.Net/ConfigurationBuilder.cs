@@ -12,6 +12,7 @@ namespace Config.Net
       private readonly ProxyGenerator _generator = new ProxyGenerator();
       private List<IConfigStore> _stores = new List<IConfigStore>();
       private TimeSpan _cacheInterval = TimeSpan.Zero;
+      private readonly List<ITypeParser> _customParsers = new List<ITypeParser>();
 
       public ConfigurationBuilder()
       {
@@ -28,7 +29,7 @@ namespace Config.Net
       /// <returns></returns>
       public T Build()
       {
-         var valueHandler = new ValueHandler();
+         var valueHandler = new ValueHandler(_customParsers);
          var ioHandler = new IoHandler(_stores, valueHandler, _cacheInterval);
 
          T instance = _generator.CreateInterfaceProxyWithoutTarget<T>(new ConfigurationInterceptor(typeof(T), ioHandler));
@@ -52,6 +53,21 @@ namespace Config.Net
       public ConfigurationBuilder<T> UseConfigStore(IConfigStore store)
       {
          _stores.Add(store);
+         return this;
+      }
+
+      /// <summary>
+      /// Adds a custom type parser
+      /// </summary>
+      public ConfigurationBuilder<T> UseTypeParser(ITypeParser parser)
+      {
+         if (parser == null)
+         {
+            throw new ArgumentNullException(nameof(parser));
+         }
+
+         _customParsers.Add(parser);
+
          return this;
       }
    }

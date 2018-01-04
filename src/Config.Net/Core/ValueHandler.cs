@@ -13,11 +13,19 @@ namespace Config.Net.Core
 
       private static readonly ValueHandler _default = new ValueHandler();
 
-      public ValueHandler()
+      public ValueHandler(IEnumerable<ITypeParser> customParsers = null)
       {
          foreach (ITypeParser pc in GetBuiltInParsers())
          {
             AddParser(pc);
+         }
+
+         if(customParsers != null)
+         {
+            foreach(ITypeParser pc in customParsers)
+            {
+               AddParser(pc);
+            }
          }
       }
 
