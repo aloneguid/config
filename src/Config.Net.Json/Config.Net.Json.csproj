@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard1.4;net452</TargetFrameworks>
     <AssemblyOriginatorKeyFile>../config.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <FileVersion>3.2.0.0</FileVersion>
     <Version>3.2.0</Version>
@@ -15,6 +15,7 @@
     <Authors>Ivan Gavryliuk (@aloneguid)</Authors>
     <PackageIconUrl>http://i.isolineltd.com/nuget/config.net.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/aloneguid/config</PackageProjectUrl>
+    <Description>JSON integration for Config.Net</Description>
   </PropertyGroup>
 
   <ItemGroup>
