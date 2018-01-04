@@ -5,50 +5,54 @@ In cases `Config.Net` does not support data type you work with there are two rec
 - If this type is widely used i.e. part of .NET, contribute to `Config.Net` source code.
 - If this is something specific to your project, create your own type parser. The rest of this article explains how to create custom type parsers.
 
-To create a custom type parser derive from `ITypeParser` interface. In this example we will create a parser for `System.Uri` class:
+To create a custom type parser derive from `ITypeParser` interface. In this example we will create a parser for `System.Uri` class (`System.Uri` is supported by Config.Net, this is just an example):
 
 
 ```csharp
 class UriParser : ITypeParser
 {
-	public IEnumerable<Type> SupportedTypes => new[] { typeof(Uri) };
+   public IEnumerable<Type> SupportedTypes => new[] { typeof(Uri) };
 
-	public string ToRawString(object value)
-	{
-		if (value == null) return null;
+   public string ToRawString(object value)
+   {
+      if (value == null) return null;
 
-		return value.ToString();
-	}
+      return value.ToString();
+   }
 
-	public bool TryParse(string value, Type t, out object result)
-	{
-		if(value == null)
-		{
-			result = null;
-			return false;
-		}
+   public bool TryParse(string value, Type t, out object result)
+   {
+      if(value == null)
+      {
+         result = null;
+         return false;
+      }
 
-		if(t == typeof(Uri))
-		{
-			Uri uri = new Uri(value);
-			result = uri;
-			return true;
-		}
+      if(t == typeof(Uri))
+      {
+         Uri uri = new Uri(value);
+         result = uri;
+         return true;
+      }
 
-		result = null;
-		return false;
-	}
+      result = null;
+      return false;
+   }
 }
 ```
 
-In order to use the parser add it to the settings container configuration:
+To use the parser, you need to add it during configuration build stage:
 
 
 ```csharp
-protected override void OnConfigure(IConfigConfiguration configuration)
+public interface ICustomTypes
 {
-	configuration.AddParser(new UriParser());
+   Uri Address { get; set; }
 }
+
+ICustomTypes config = new ConfigurationBuilder<ICustomTypes>()
+   .UseTypeParser(new UriParser())
+   .Build();
 ```
 
-Custom parsers exist within a context of a settings container. If you have multiple containers and want to have it it all of them you need to add the parser separately.
+Note that custom parsers exist within a context of a configuration interface instance. This allows to use different parsers for the same interface amongst different instances.
