@@ -25,7 +25,10 @@
     <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/aloneguid/config/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <PackageReleaseNotes>v4.5.0
+    <PackageReleaseNotes>v4.6.0
+bug/improvement: re-added support for custom type parsers which was available in previous major version (#47)
+
+v4.5.0
 new feature: interfaces can now be nested into each other
 
 v4.4.2
