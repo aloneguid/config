@@ -1,5 +1,7 @@
 # JSON File Store
 
+Since v4.5 JSON store provider is located in a separate package [![NuGet](https://img.shields.io/nuget/v/Config.Net.Json.svg)](https://www.nuget.org/packages/Config.Net.Json)
+
 To configure the store:
 
 ```csharp
