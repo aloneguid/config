@@ -3,7 +3,7 @@ using System.Configuration;
 
 namespace Config.Net.Stores.Formats.AppConfigSection
 {
-   public class AppConfigSectionElement : ConfigurationElement
+   class AppConfigSectionElement : ConfigurationElement
    {
       private const string KeyAttributeName = "key";
       private const string ValueAttributeName = "value";
