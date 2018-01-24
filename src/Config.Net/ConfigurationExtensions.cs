@@ -23,6 +23,15 @@ namespace Config.Net
       }
 
       /// <summary>
+      /// Standard app.config (web.config) builder custom configuration section store. Read-only.
+      /// </summary>
+      public static ConfigurationBuilder<TInterface> UseAppConfig<TInterface>(this ConfigurationBuilder<TInterface> builder, string sectionName) where TInterface : class
+      {
+         builder.UseConfigStore(new AppConfigSectionStore(sectionName));
+         return builder;
+      }
+
+      /// <summary>
       /// Reads builder from the .dll.config or .exe.config file.
       /// </summary>
       /// <param name="builder"></param>

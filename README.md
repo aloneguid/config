@@ -11,6 +11,7 @@ This library eliminates the problem of having configuration in different places,
 - [Dynamic Configuration](doc/DynamicConfiguration.md)
 - Configuration Sources
   - [App.config](doc/Stores_AppConfig.md)
+  - [App.config custom section](doc/Stores_AppConfigSection.md)
   - [Command Line](doc/Stores_CommandLine.md)
   - [Environment Variables](doc/Stores_EnvironmentVariables.md)
   - [.INI files](doc/Stores_IniFile.md)
