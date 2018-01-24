@@ -6,7 +6,7 @@ namespace Config.Net.Stores.Formats.AppConfigSection
    public class AppConfigSectionElement : ConfigurationElement
    {
       private const string KeyAttributeName = "key";
-      private const string ValueAttributeName = "key";
+      private const string ValueAttributeName = "value";
 
       [ConfigurationProperty(KeyAttributeName, IsKey = true, IsRequired = true)]
       public string Key

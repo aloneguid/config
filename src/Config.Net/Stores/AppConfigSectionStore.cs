@@ -13,12 +13,12 @@ namespace Config.Net.Stores
    {
       private readonly string _sectionName;
 
-      public UseAppConfigSectionStore(string sectionName)
+      public AppConfigSectionStore(string sectionName)
       {
          _sectionName = sectionName;
       }
 
-      public string Name => "App.config";
+      public string Name => $"App.config - section {_sectionName}";
 
       public bool CanRead => true;
 
@@ -36,7 +36,7 @@ namespace Config.Net.Stores
             return null;
          }
 
-         var element = configSection.Settings.Cast<AppConfigSectionElement>().SingleOrDefault(x => x.Key == key);
+         AppConfigSectionElement element = configSection.Settings.Cast<AppConfigSectionElement>().SingleOrDefault(x => x.Key == key);
          return element?.Value;
       }
 
