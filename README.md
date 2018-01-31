@@ -4,11 +4,12 @@ A comprehensive easy to use and powerful .NET configuration library, fully cover
 
 This library eliminates the problem of having configuration in different places, having to convert types between different providers, hardcoding configuration keys accross the solution, depending on specific configuration source implementation. It's doing that by exposing an abstract configuration interface and providing most common implementation for configuration sources like app.config, environment variables etc.
 
+![Abstract](doc/abstract.png)
+
 ## Index
 
 - Quick Start (this page)
 - [Supported Types](doc/SupportedTypes.md)
-- [Dynamic Configuration](doc/DynamicConfiguration.md)
 - Configuration Sources
   - [App.config](doc/Stores_AppConfig.md)
   - [Command Line](doc/Stores_CommandLine.md)
@@ -18,6 +19,8 @@ This library eliminates the problem of having configuration in different places,
   - [JSON Files](doc/Stores_JsonFile.md)
   - [Storage.Net Integration](doc/Stores_StorageNet.md)
 - [Nested Interfaces](doc/NestedInterfaces.md)
+- [Collections](doc/Collections.md)
+- [Binding to Interface Methods](doc/DynamicConfiguration.md)
 - [Creating a Custom Parser](doc/CustomParsers.md)
 
 ## Quick Start

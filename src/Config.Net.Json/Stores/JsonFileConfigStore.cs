@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Config.Net.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -44,9 +45,21 @@ namespace Config.Net.Json.Stores
       {
          if (key == null || _jo == null) return null;
 
+         bool isLength = OptionPath.TryStripLength(key, out key);
+
          string path = "$." + key;
 
          JToken valueToken = _jo.SelectToken(path);
+
+         if(isLength)
+         {
+            if(valueToken is JArray arrayToken)
+            {
+               return arrayToken.Count.ToString();
+            }
+
+            return "0";
+         }
 
          return GetStringValue(valueToken);
       }

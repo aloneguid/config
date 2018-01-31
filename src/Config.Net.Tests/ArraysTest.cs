@@ -1,0 +1,71 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using Xunit;
+
+namespace Config.Net.Tests
+{
+   public class ArraysTest : AbstractTestFixture
+   {
+      private string _path;
+
+      public ArraysTest()
+      {
+         _path = Path.Combine(BuildDir.FullName, "TestData", "appSettings.json");
+      }
+
+      [Fact]
+      public void Read_collection_of_interfaces()
+      {
+         IInterfaceArrays config = new ConfigurationBuilder<IInterfaceArrays>()
+             .UseJsonFile(_path)
+             .Build();
+
+
+         IEnumerable<IArrayElement> r = config.Creds;
+
+         List<IArrayElement> rl = r.ToList();
+
+         Assert.Equal(2, rl.Count);
+
+         IArrayElement el0 = rl[0];
+         IArrayElement el1 = rl[1];
+
+         Assert.Equal("user1", el0.Username);
+         Assert.Equal("pass1", el0.Password);
+         Assert.Equal("user2", el1.Username);
+         Assert.Equal("pass2", el1.Password);
+      }
+
+      [Fact]
+      public void Read_collection_of_simple_values()
+      {
+         ISimpleArrays config = new ConfigurationBuilder<ISimpleArrays>()
+            .UseJsonFile(_path)
+            .Build();
+
+         List<int> numbers = config.Numbers.ToList();
+
+         Assert.Equal(new int[] { 1, 2, 3 }, numbers);
+      }
+   }
+
+   public interface IInterfaceArrays
+   {
+      IEnumerable<IArrayElement> Creds { get; set; }
+   }
+
+   public interface ISimpleArrays
+   {
+      IEnumerable<int> Numbers { get; set; }
+   }
+
+   public interface IArrayElement
+   {
+      string Username { get; }
+
+      string Password { get; }
+   }
+}

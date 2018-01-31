@@ -49,6 +49,16 @@ namespace Config.Net.Tests
       }
 
       [Fact]
+      public void Call_second_level_method()
+      {
+         _store.Write("Nested.Nested.section", "nested");
+
+         string value = _config.Nested.GetNested("section");
+
+         Assert.Equal("nested", value);
+      }
+
+      [Fact]
       public void Set_simple_method()
       {
          _config.SetFirst("one");
@@ -68,6 +78,13 @@ namespace Config.Net.Tests
       string GetThird(string name);
 
       void SetFirst(string name);
+
+      INestedCallableConfig Nested { get; }
+   }
+
+   public interface INestedCallableConfig
+   {
+      string GetNested(string sectionName);
    }
 
 }

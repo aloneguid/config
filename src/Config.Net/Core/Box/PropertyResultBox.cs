@@ -30,5 +30,22 @@ namespace Config.Net.Core.Box
          return false;
       }
 
+      public static bool IsProperty(MethodInfo mi, out string name)
+      {
+         if (mi.Name.StartsWith("get_") || mi.Name.StartsWith("set_"))
+         {
+            name = mi.Name.Substring(4);
+            return true;
+         }
+
+         name = null;
+         return false;
+      }
+
+      public static bool IsGetProperty(MethodInfo mi)
+      {
+         return mi.Name.StartsWith("get_");
+      }
+
    }
 }
