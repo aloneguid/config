@@ -24,15 +24,35 @@ namespace Config.Net.Core.Box
 
          foreach (PropertyInfo pi in properties)
          {
-            ResultBox pbox = pi.PropertyType.GetTypeInfo().IsInterface
-               ? (ResultBox)new ProxyResultBox(pi.Name, pi.PropertyType)
-               : (ResultBox)new PropertyResultBox(pi.Name, pi.PropertyType);
+            Type propertyType = pi.PropertyType;
+            ResultBox rbox;
+            bool isCollection = false;
 
-            ValidateSupportedType(pbox, valueHandler);
+            if(ResultBox.TryGetCollection(propertyType, out propertyType))
+            {
+               isCollection = true;
+            }
 
-            AddAttributes(pbox, pi, valueHandler);
+            if(propertyType.GetTypeInfo().IsInterface)
+            {
+               rbox = new ProxyResultBox(pi.Name, propertyType);
+            }
+            else
+            {
+               rbox = new PropertyResultBox(pi.Name, propertyType);
+            }
 
-            result[pi.Name] = pbox;
+            ValidateSupportedType(rbox, valueHandler);
+
+            AddAttributes(rbox, pi, valueHandler);
+
+            //adjust to collection
+            if(isCollection)
+            {
+               rbox = new CollectionResultBox(pi.Name, rbox);
+            }
+
+            result[pi.Name] = rbox;
          }
       }
 

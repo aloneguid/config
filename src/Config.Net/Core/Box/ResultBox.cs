@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace Config.Net.Core
+namespace Config.Net.Core.Box
 {
    abstract class ResultBox
    {
@@ -52,6 +52,20 @@ namespace Config.Net.Core
             }
          }
 
+      }
+
+      internal static bool TryGetCollection(Type t, out Type elementType)
+      {
+         TypeInfo ti = t.GetTypeInfo();
+
+         if(ti.IsGenericType && ti.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+         {
+            elementType = ti.GenericTypeArguments[0];
+            return true;
+         }
+
+         elementType = t;
+         return false;
       }
 
       #endregion

@@ -7,24 +7,52 @@ using Config.Net.Core.Box;
 
 namespace Config.Net.Core
 {
-   class ConfigurationInterceptor : IInterceptor
+   class InterfaceInterceptor : IInterceptor
    {
       private readonly Dictionary<string, ResultBox> _boxes;
-      private readonly Type _interfaceType;
       private IoHandler _ioHandler;
       private readonly string _prefix;
+      private readonly DynamicReader _reader;
 
-      public ConfigurationInterceptor(Type interfaceType, IoHandler ioHandler, string prefix = null)
+      public InterfaceInterceptor(Type interfaceType, IoHandler ioHandler, string prefix = null)
       {
          _boxes = BoxFactory.Discover(interfaceType, ioHandler.ValueHandler);
-         _interfaceType = interfaceType;
          _ioHandler = ioHandler;
          _prefix = prefix;
+         _reader = new DynamicReader(prefix, ioHandler);
+      }
+
+      private ResultBox FindBox(IInvocation invocation)
+      {
+         if (PropertyResultBox.IsProperty(invocation.Method, out string propertyName))
+         {
+            return _boxes[propertyName];
+         }
+         else //method
+         {
+            string name = MethodResultBox.GetName(invocation.Method);
+            return _boxes[name];
+         }
       }
 
       public void Intercept(IInvocation invocation)
       {
-         if(PropertyResultBox.IsProperty(invocation.Method, out bool isGetProperty, out string propertyName))
+         ResultBox rbox = FindBox(invocation);
+
+         bool isRead =
+            (rbox is PropertyResultBox pbox && PropertyResultBox.IsGetProperty(invocation.Method)) ||
+            (rbox is MethodResultBox mbox && mbox.IsGettter) ||
+            (rbox is CollectionResultBox);
+
+         if(isRead)
+         {
+            invocation.ReturnValue = _reader.Read(rbox);
+            return;
+         }
+
+         throw new NotImplementedException();
+
+         /*if(PropertyResultBox.IsProperty(invocation.Method, out bool isGetProperty, out string propertyName))
          {
             ResultBox rbox = _boxes[propertyName];
 
@@ -43,9 +71,8 @@ namespace Config.Net.Core
                //return a proxy interface
                invocation.ReturnValue = proxy.ProxyInstance;
             }
-            else
+            else if(rbox is PropertyResultBox pbox)
             {
-               PropertyResultBox pbox = (PropertyResultBox)rbox;
                string path = OptionPath.Combine(_prefix, pbox.StoreByName);
 
                if (isGetProperty)
@@ -57,6 +84,21 @@ namespace Config.Net.Core
                {
                   _ioHandler.Write(pbox.ResultBaseType, path, invocation.Arguments[0]);
                }
+            }
+            else if(rbox is CollectionResultBox cbox)
+            {
+               string path = OptionPath.Combine(_prefix, cbox.StoreByName);
+
+               if(!cbox.IsInitialised)
+               {
+                  int length = _ioHandler.GetLength(path);
+
+                  cbox.Initialise(length);
+               }
+
+               invocation.ReturnValue = cbox.CollectionInstance;
+
+               //todo: handle value setters as well
             }
          }
          else
@@ -77,7 +119,7 @@ namespace Config.Net.Core
                _ioHandler.Write(mbox.ResultBaseType, path, value);
             }
 
-         }
+         }*/
       }
 
       private string GetPath(MethodInfo mi)

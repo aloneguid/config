@@ -32,7 +32,7 @@ namespace Config.Net
          var valueHandler = new ValueHandler(_customParsers);
          var ioHandler = new IoHandler(_stores, valueHandler, _cacheInterval);
 
-         T instance = _generator.CreateInterfaceProxyWithoutTarget<T>(new ConfigurationInterceptor(typeof(T), ioHandler));
+         T instance = _generator.CreateInterfaceProxyWithoutTarget<T>(new InterfaceInterceptor(typeof(T), ioHandler));
 
          return instance;
       }

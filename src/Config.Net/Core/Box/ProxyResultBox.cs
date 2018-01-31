@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Castle.DynamicProxy;
 
 namespace Config.Net.Core.Box
@@ -20,7 +18,7 @@ namespace Config.Net.Core.Box
       public void Initialise(IoHandler ioHandler, string prefix)
       {
          ProxyInstance = ProxyGenerator.CreateInterfaceProxyWithoutTarget(ResultBaseType,
-            new ConfigurationInterceptor(ResultBaseType, ioHandler, prefix));
+            new InterfaceInterceptor(ResultBaseType, ioHandler, prefix));
 
          IsInitialised = true;
       }

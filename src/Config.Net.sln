@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F2107671-5DC0-48C0-ABE8-D80ACDC5D7D2}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,6 +15,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{CDB02CCC-51F3-4777-A942-6F2E1DB3FD0B}"
 	ProjectSection(SolutionItems) = preProject
 		..\doc\CustomParsers.md = ..\doc\CustomParsers.md
+		..\doc\drawings.vsdx = ..\doc\drawings.vsdx
 		..\doc\DynamicConfiguration.md = ..\doc\DynamicConfiguration.md
 		..\doc\jetbrains_rider.png = ..\doc\jetbrains_rider.png
 		..\doc\jetbrains_rider_small.png = ..\doc\jetbrains_rider_small.png
@@ -42,7 +43,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Config.Net.Runner", "Config
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config.Net.Yaml", "Config.Net.Yaml\Config.Net.Yaml.csproj", "{38D20B28-729E-4C6A-9C74-20B039C39E48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Config.Net.Json", "Config.Net.Json\Config.Net.Json.csproj", "{707AB85D-DACA-4282-B339-48706BCDC668}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config.Net.Json", "Config.Net.Json\Config.Net.Json.csproj", "{707AB85D-DACA-4282-B339-48706BCDC668}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

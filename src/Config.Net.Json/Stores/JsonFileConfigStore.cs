@@ -8,7 +8,7 @@ namespace Config.Net.Json.Stores
    /// <summary>
    /// Simple JSON storage.
    /// </summary>
-   public class JsonFileConfigStore : IConfigStore
+   public class JsonFileConfigStore : ICollectionConfigStore
    {
       private readonly string _pathName;
       private JObject _jo;
@@ -39,6 +39,19 @@ namespace Config.Net.Json.Stores
       public bool CanRead => true;
 
       public bool CanWrite => true;
+
+      public int GetCollectionLength(string key)
+      {
+         if (key == null || _jo == null) return -1;
+
+         string path = "$." + key;
+
+         JArray array = _jo.SelectToken(path) as JArray;
+
+         if (array == null) return -1;
+
+         return array.Count;
+      }
 
       public string Read(string key)
       {
