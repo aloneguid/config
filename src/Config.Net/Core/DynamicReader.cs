@@ -25,6 +25,16 @@ namespace Config.Net.Core
             return _ioHandler.Read(pbox.ResultBaseType, path, pbox.DefaultResult);
          }
 
+         if(rbox is ProxyResultBox xbox)
+         {
+            if (!xbox.IsInitialised)
+            {
+               xbox.Initialise(_ioHandler, OptionPath.Combine(_basePath, xbox.StoreByName));
+            }
+
+            return xbox.ProxyInstance;
+         }
+
          if(rbox is CollectionResultBox cbox)
          {
             string lengthPath = OptionPath.Combine(index, _basePath, cbox.StoreByName);
