@@ -2,7 +2,9 @@
 
 Config.Net supports collections for primitive types and interfaces. 
 
-Collection must be always declared as `IEnumerable<T>`.
+Collection must be always declared as `IEnumerable<T>` and only have a getter.
+
+At the moment collections are read-only and writing to collections may be supported at some point in future releases.
 
 ## Primitive Types
 Suppose you want to read an array of integers, this can be declared as:
@@ -33,4 +35,4 @@ interface IMyConfig
 
 ## Limitations
 
-At the moment this feature is relatively new and not every store supports it.
+At the moment this feature is relatively new and not every store supports it. In fact only [JSON store](Stores_JsonFile.md) supports collections.
