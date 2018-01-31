@@ -10,7 +10,6 @@ This library eliminates the problem of having configuration in different places,
 
 - Quick Start (this page)
 - [Supported Types](doc/SupportedTypes.md)
-- [Dynamic Configuration](doc/DynamicConfiguration.md)
 - Configuration Sources
   - [App.config](doc/Stores_AppConfig.md)
   - [Command Line](doc/Stores_CommandLine.md)
@@ -20,6 +19,8 @@ This library eliminates the problem of having configuration in different places,
   - [JSON Files](doc/Stores_JsonFile.md)
   - [Storage.Net Integration](doc/Stores_StorageNet.md)
 - [Nested Interfaces](doc/NestedInterfaces.md)
+- [Collections](doc/Collections.md)
+- [Binding to Interface Methods](doc/DynamicConfiguration.md)
 - [Creating a Custom Parser](doc/CustomParsers.md)
 
 ## Quick Start

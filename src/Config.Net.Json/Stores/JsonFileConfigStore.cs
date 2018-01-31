@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Config.Net.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -8,7 +9,7 @@ namespace Config.Net.Json.Stores
    /// <summary>
    /// Simple JSON storage.
    /// </summary>
-   public class JsonFileConfigStore : ICollectionConfigStore
+   public class JsonFileConfigStore : IConfigStore
    {
       private readonly string _pathName;
       private JObject _jo;
@@ -40,26 +41,25 @@ namespace Config.Net.Json.Stores
 
       public bool CanWrite => true;
 
-      public int GetCollectionLength(string key)
-      {
-         if (key == null || _jo == null) return -1;
-
-         string path = "$." + key;
-
-         JArray array = _jo.SelectToken(path) as JArray;
-
-         if (array == null) return -1;
-
-         return array.Count;
-      }
-
       public string Read(string key)
       {
          if (key == null || _jo == null) return null;
 
+         bool isLength = OptionPath.TryStripLength(key, out key);
+
          string path = "$." + key;
 
          JToken valueToken = _jo.SelectToken(path);
+
+         if(isLength)
+         {
+            if(valueToken is JArray arrayToken)
+            {
+               return arrayToken.Count.ToString();
+            }
+
+            return "0";
+         }
 
          return GetStringValue(valueToken);
       }

@@ -1,12 +1,32 @@
 ﻿namespace Config.Net.Core
 {
-   static class OptionPath
+   public static class OptionPath
    {
       public const string Separator = ".";
+      private const string IndexOpen = "[";
+      private const string IndexClose = "]";
+      public const string LengthFunction = ".$l";
 
       public static string Combine(params string[] parts)
       {
          return Combine(-1, parts);
+      }
+
+      public static string AddLength(string path)
+      {
+         return path + LengthFunction;
+      }
+
+      public static bool TryStripLength(string path, out string noLengthPath)
+      {
+         if(!path.EndsWith(LengthFunction))
+         {
+            noLengthPath = path;
+            return false;
+         }
+
+         noLengthPath = path.Substring(0, path.Length - LengthFunction.Length);
+         return true;
       }
 
       public static string Combine(int index, params string[] parts)
@@ -22,7 +42,7 @@
 
          if(index != -1)
          {
-            s = $"{s}[{index}]";
+            s = $"{s}{IndexOpen}{index}{IndexClose}";
          }
 
          return s;

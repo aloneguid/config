@@ -21,28 +21,6 @@ namespace Config.Net.Core
 
       public ValueHandler ValueHandler => _valueHandler;
 
-      public int GetLength(string path)
-      {
-         int length = -1;
-
-         foreach (IConfigStore store in _stores)
-         {
-            if (store.CanRead && store is ICollectionConfigStore collectionStore)
-            {
-               length = collectionStore.GetCollectionLength(path);
-
-               break;
-            }
-         }
-
-         if(length == -1)
-         {
-            throw new NotImplementedException($"none of the stores returned a valid collection size at '{path}'");
-         }
-
-         return length;
-      }
-
       public object Read(Type baseType, string path, object defaultValue)
       {
          if(!_keyToValue.TryGetValue(path, out LazyVar<object> value))

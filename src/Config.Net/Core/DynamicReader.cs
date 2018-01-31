@@ -51,10 +51,11 @@ namespace Config.Net.Core
       private object ReadCollection(CollectionResultBox cbox, int index)
       {
          string lengthPath = OptionPath.Combine(index, _basePath, cbox.StoreByName);
+         lengthPath = OptionPath.AddLength(lengthPath);
 
          if (!cbox.IsInitialised)
          {
-            int length = _ioHandler.GetLength(lengthPath);
+            int length = (int)_ioHandler.Read(typeof(int), lengthPath, 0);
 
             cbox.Initialise(_basePath, length, this);
          }
