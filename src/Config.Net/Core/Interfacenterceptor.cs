@@ -47,7 +47,7 @@ namespace Config.Net.Core
 
          if(isRead)
          {
-            invocation.ReturnValue = _reader.Read(rbox);
+            invocation.ReturnValue = _reader.Read(rbox, -1, invocation.Arguments);
             return;
          }
 

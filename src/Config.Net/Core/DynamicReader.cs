@@ -16,40 +16,55 @@ namespace Config.Net.Core
          _ioHandler = ioHandler;
       }
 
-      public object Read(ResultBox rbox, int index = -1)
+      public object Read(ResultBox rbox, int index = -1, params object[] arguments)
       {
-         if(rbox is PropertyResultBox pbox)
-         {
-            string path = OptionPath.Combine(index, _basePath, pbox.StoreByName);
+         if (rbox is PropertyResultBox pbox) return ReadProperty(pbox, index);
 
-            return _ioHandler.Read(pbox.ResultBaseType, path, pbox.DefaultResult);
-         }
+         if (rbox is ProxyResultBox xbox) return ReadProxy(xbox);
 
-         if(rbox is ProxyResultBox xbox)
-         {
-            if (!xbox.IsInitialised)
-            {
-               xbox.Initialise(_ioHandler, OptionPath.Combine(_basePath, xbox.StoreByName));
-            }
+         if (rbox is CollectionResultBox cbox) return ReadCollection(cbox, index);
 
-            return xbox.ProxyInstance;
-         }
-
-         if(rbox is CollectionResultBox cbox)
-         {
-            string lengthPath = OptionPath.Combine(index, _basePath, cbox.StoreByName);
-
-            if (!cbox.IsInitialised)
-            {
-               int length = _ioHandler.GetLength(lengthPath);
-
-               cbox.Initialise(_basePath, length, this);
-            }
-
-            return cbox.CollectionInstance;
-         }
+         if (rbox is MethodResultBox mbox) return ReadMethod(mbox, arguments);
 
          throw new NotImplementedException();
+      }
+
+      private object ReadProperty(PropertyResultBox pbox, int index)
+      {
+         string path = OptionPath.Combine(index, _basePath, pbox.StoreByName);
+
+         return _ioHandler.Read(pbox.ResultBaseType, path, pbox.DefaultResult);
+      }
+
+      private object ReadProxy(ProxyResultBox xbox)
+      {
+         if (!xbox.IsInitialised)
+         {
+            xbox.Initialise(_ioHandler, OptionPath.Combine(_basePath, xbox.StoreByName));
+         }
+
+         return xbox.ProxyInstance;
+      }
+
+      private object ReadCollection(CollectionResultBox cbox, int index)
+      {
+         string lengthPath = OptionPath.Combine(index, _basePath, cbox.StoreByName);
+
+         if (!cbox.IsInitialised)
+         {
+            int length = _ioHandler.GetLength(lengthPath);
+
+            cbox.Initialise(_basePath, length, this);
+         }
+
+         return cbox.CollectionInstance;
+      }
+
+      private object ReadMethod(MethodResultBox mbox, object[] arguments)
+      {
+         string path = mbox.GetValuePath(arguments);
+
+         return _ioHandler.Read(mbox.ResultBaseType, path, mbox.DefaultResult);
       }
    }
 }
