@@ -16,16 +16,26 @@ namespace Config.Net.Core
 
       public void Write(ResultBox rbox, object[] arguments)
       {
-         if (rbox is PropertyResultBox pbox) WriteProperty(pbox, arguments[0]);
+         if (rbox is PropertyResultBox pbox) WriteProperty(pbox, arguments);
 
-         else throw new NotImplementedException();
+         else if (rbox is MethodResultBox mbox) WriteMethod(mbox, arguments);
+
+         else throw new NotImplementedException($"don't know how to write {rbox.GetType()}");
       }
 
-      private void WriteProperty(PropertyResultBox pbox, object value)
+      private void WriteProperty(PropertyResultBox pbox, object[] arguments)
       {
          string path = OptionPath.Combine(_basePath, pbox.StoreByName);
 
-         _ioHandler.Write(pbox.ResultBaseType, path, value);
+         _ioHandler.Write(pbox.ResultBaseType, path, arguments[0]);
+      }
+
+      private void WriteMethod(MethodResultBox mbox, object[] arguments)
+      {
+         object value = arguments[arguments.Length - 1];
+         string path = mbox.GetValuePath(arguments);
+
+         _ioHandler.Write(mbox.ResultBaseType, path, value);
       }
    }
 }
