@@ -20,6 +20,8 @@ namespace Config.Net.Core
 
          else if (rbox is MethodResultBox mbox) WriteMethod(mbox, arguments);
 
+         else if (rbox is ProxyResultBox xbox) WriteProxy(xbox, arguments);
+
          else throw new NotImplementedException($"don't know how to write {rbox.GetType()}");
       }
 
@@ -36,6 +38,11 @@ namespace Config.Net.Core
          string path = mbox.GetValuePath(arguments);
 
          _ioHandler.Write(mbox.ResultBaseType, path, value);
+      }
+
+      private void WriteProxy(ProxyResultBox xbox, object[] arguments)
+      {
+         throw new NotSupportedException("cannot assign values to interface properties");
       }
    }
 }

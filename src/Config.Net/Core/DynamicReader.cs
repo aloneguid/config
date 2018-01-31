@@ -20,13 +20,13 @@ namespace Config.Net.Core
       {
          if (rbox is PropertyResultBox pbox) return ReadProperty(pbox, index);
 
-         if (rbox is ProxyResultBox xbox) return ReadProxy(xbox);
+         if (rbox is ProxyResultBox xbox) return ReadProxy(xbox, index);
 
          if (rbox is CollectionResultBox cbox) return ReadCollection(cbox, index);
 
          if (rbox is MethodResultBox mbox) return ReadMethod(mbox, arguments);
 
-         throw new NotImplementedException();
+         throw new NotImplementedException($"don't know how to read {rbox.GetType()}");
       }
 
       private object ReadProperty(PropertyResultBox pbox, int index)
@@ -36,14 +36,16 @@ namespace Config.Net.Core
          return _ioHandler.Read(pbox.ResultBaseType, path, pbox.DefaultResult);
       }
 
-      private object ReadProxy(ProxyResultBox xbox)
+      private object ReadProxy(ProxyResultBox xbox, int index)
       {
-         if (!xbox.IsInitialised)
+         if (!xbox.IsInitialisedAt(index))
          {
-            xbox.Initialise(_ioHandler, OptionPath.Combine(_basePath, xbox.StoreByName));
+            string prefix = OptionPath.Combine(index, _basePath, xbox.StoreByName);
+
+            xbox.InitialiseAt(index, _ioHandler, prefix);
          }
 
-         return xbox.ProxyInstance;
+         return xbox.GetInstanceAt(index);
       }
 
       private object ReadCollection(CollectionResultBox cbox, int index)
