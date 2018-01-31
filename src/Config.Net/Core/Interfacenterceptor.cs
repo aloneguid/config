@@ -13,6 +13,7 @@ namespace Config.Net.Core
       private IoHandler _ioHandler;
       private readonly string _prefix;
       private readonly DynamicReader _reader;
+      private readonly DynamicWriter _writer;
 
       public InterfaceInterceptor(Type interfaceType, IoHandler ioHandler, string prefix = null)
       {
@@ -20,6 +21,7 @@ namespace Config.Net.Core
          _ioHandler = ioHandler;
          _prefix = prefix;
          _reader = new DynamicReader(prefix, ioHandler);
+         _writer = new DynamicWriter(prefix, ioHandler);
       }
 
       private ResultBox FindBox(IInvocation invocation)
@@ -50,8 +52,10 @@ namespace Config.Net.Core
             invocation.ReturnValue = _reader.Read(rbox, -1, invocation.Arguments);
             return;
          }
-
-         throw new NotImplementedException();
+         else
+         {
+            _writer.Write(rbox, invocation.Arguments);
+         }
 
          /*if(PropertyResultBox.IsProperty(invocation.Method, out bool isGetProperty, out string propertyName))
          {
