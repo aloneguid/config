@@ -66,6 +66,7 @@ namespace Config.Net.Core
       private object ReadMethod(MethodResultBox mbox, object[] arguments)
       {
          string path = mbox.GetValuePath(arguments);
+         path = OptionPath.Combine(_basePath, path);
 
          return _ioHandler.Read(mbox.ResultBaseType, path, mbox.DefaultResult);
       }
