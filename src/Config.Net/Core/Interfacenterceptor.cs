@@ -17,7 +17,7 @@ namespace Config.Net.Core
 
       public InterfaceInterceptor(Type interfaceType, IoHandler ioHandler, string prefix = null)
       {
-         _boxes = BoxFactory.Discover(interfaceType, ioHandler.ValueHandler);
+         _boxes = BoxFactory.Discover(interfaceType, ioHandler.ValueHandler, prefix);
          _ioHandler = ioHandler;
          _prefix = prefix;
          _reader = new DynamicReader(prefix, ioHandler);

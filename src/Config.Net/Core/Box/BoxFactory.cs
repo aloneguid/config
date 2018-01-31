@@ -7,18 +7,18 @@ namespace Config.Net.Core.Box
 {
    static class BoxFactory
    {
-      public static Dictionary<string, ResultBox> Discover(Type t, ValueHandler valueHandler)
+      public static Dictionary<string, ResultBox> Discover(Type t, ValueHandler valueHandler, string basePath)
       {
          var result = new Dictionary<string, ResultBox>();
 
-         DiscoverProperties(t, valueHandler, result);
+         DiscoverProperties(t, valueHandler, result, basePath);
 
          DiscoverMethods(t, valueHandler, result);
 
          return result;
       }
 
-      private static void DiscoverProperties(Type t, ValueHandler valueHandler, Dictionary<string, ResultBox> result)
+      private static void DiscoverProperties(Type t, ValueHandler valueHandler, Dictionary<string, ResultBox> result, string basePath)
       {
          IEnumerable<PropertyInfo> properties = GetHierarchyPublicProperties(t);
 
@@ -30,6 +30,11 @@ namespace Config.Net.Core.Box
 
             if(ResultBox.TryGetCollection(propertyType, out propertyType))
             {
+               if(pi.SetMethod != null)
+               {
+                  throw new NotSupportedException($"Collection properties cannot have a setter. Detected at '{OptionPath.Combine(basePath, pi.Name)}'");
+               }
+
                isCollection = true;
             }
 

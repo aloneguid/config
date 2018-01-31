@@ -50,16 +50,24 @@ namespace Config.Net.Tests
 
          Assert.Equal(new int[] { 1, 2, 3 }, numbers);
       }
+
+      [Fact]
+      public void Collections_cannot_have_a_setter()
+      {
+         var builder = new ConfigurationBuilder<ISetterArrays>();
+
+         Assert.Throws<NotSupportedException>(() => builder.Build());
+      }
    }
 
    public interface IInterfaceArrays
    {
-      IEnumerable<IArrayElement> Creds { get; set; }
+      IEnumerable<IArrayElement> Creds { get; }
    }
 
    public interface ISimpleArrays
    {
-      IEnumerable<int> Numbers { get; set; }
+      IEnumerable<int> Numbers { get; }
    }
 
    public interface IArrayElement
@@ -67,5 +75,10 @@ namespace Config.Net.Tests
       string Username { get; }
 
       string Password { get; }
+   }
+
+   public interface ISetterArrays
+   {
+      IEnumerable<int> WithSettter { get; set; }
    }
 }
