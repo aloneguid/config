@@ -15,8 +15,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{CDB02CCC-51F3-4777-A942-6F2E1DB3FD0B}"
 	ProjectSection(SolutionItems) = preProject
 		..\doc\Collections.md = ..\doc\Collections.md
+		..\doc\confignet.vsdx = ..\doc\confignet.vsdx
 		..\doc\CustomParsers.md = ..\doc\CustomParsers.md
-		..\doc\drawings.vsdx = ..\doc\drawings.vsdx
 		..\doc\DynamicConfiguration.md = ..\doc\DynamicConfiguration.md
 		..\doc\jetbrains_rider.png = ..\doc\jetbrains_rider.png
 		..\doc\jetbrains_rider_small.png = ..\doc\jetbrains_rider_small.png
@@ -26,6 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{CDB02CCC-51F
 		..\README.v3..md = ..\README.v3..md
 		..\doc\Stores_AppConfig.md = ..\doc\Stores_AppConfig.md
 		..\doc\Stores_CommandLine.md = ..\doc\Stores_CommandLine.md
+		..\doc\Stores_Custom.md = ..\doc\Stores_Custom.md
 		..\doc\Stores_EnvironmentVariables.md = ..\doc\Stores_EnvironmentVariables.md
 		..\doc\Stores_IniFile.md = ..\doc\Stores_IniFile.md
 		..\doc\Stores_InMemory.md = ..\doc\Stores_InMemory.md

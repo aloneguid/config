@@ -21,7 +21,9 @@ This library eliminates the problem of having configuration in different places,
 - [Nested Interfaces](doc/NestedInterfaces.md)
 - [Collections](doc/Collections.md)
 - [Binding to Interface Methods](doc/DynamicConfiguration.md)
-- [Creating a Custom Parser](doc/CustomParsers.md)
+- Extending Config.Net
+  - [Implementing a custom parser](doc/CustomParsers.md)
+  - [Implementing a custom configuration store](doc/Stores_Custom.md)
 
 ## Quick Start
 
