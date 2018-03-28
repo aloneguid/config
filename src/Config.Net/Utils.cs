@@ -16,7 +16,7 @@ namespace Config.Net
          string creds = credsAndDomain.Item1;
          string domain = credsAndDomain.Item2;
 
-         var usernameAndPassword = SplitByDelimiter(s, ":");
+         var usernameAndPassword = SplitByDelimiter(creds, ":");
          string username = usernameAndPassword.Item1;
          string password = usernameAndPassword.Item2;
 
