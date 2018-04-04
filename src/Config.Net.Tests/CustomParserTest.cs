@@ -30,6 +30,12 @@ namespace Config.Net.Tests
          byte Byte { get; set; }
       }
 
+      public interface IStandardTypes
+      {
+         [Option(DefaultValue = "123")]
+         DateTime TheDate { get; set; }
+      }
+
       private IConfigStore _store = new InMemoryConfigStore();
 
       [Fact]
@@ -46,6 +52,33 @@ namespace Config.Net.Tests
          Assert.Equal("byteconst", _store.Read("Byte"));
 
          Assert.Equal((byte)1, config.Byte);
+      }
+
+      [Fact]
+      public void Custom_parser_wins_over_builtin_implementation()
+      {
+         IStandardTypes config = new ConfigurationBuilder<IStandardTypes>()
+            .UseTypeParser(new CustomDateParser())
+            .Build();
+
+         Assert.Equal(new DateTime(2018, 03, 04), config.TheDate);
+      }
+
+      class CustomDateParser : ITypeParser
+      {
+         public IEnumerable<Type> SupportedTypes => new[] { typeof(DateTime) };
+
+         public string ToRawString(object value)
+         {
+            return "date";
+         }
+
+         public bool TryParse(string value, Type t, out object result)
+         {
+            result = new DateTime(2018, 03, 04);
+
+            return true;
+         }
       }
    }
 }

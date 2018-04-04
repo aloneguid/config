@@ -56,3 +56,5 @@ ICustomTypes config = new ConfigurationBuilder<ICustomTypes>()
 ```
 
 Note that custom parsers exist within a context of a configuration interface instance. This allows to use different parsers for the same interface amongst different instances.
+
+When adding a custom parser that is already implemented as built-in parser, the last added parser always wins in terms of priority of use. Therefore using the `UseParser` you can override the standard read/write behavior.
