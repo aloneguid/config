@@ -7,9 +7,9 @@ namespace Config.Net.Stores.Formats.Ini
 {
    class StructuredIniFile
    {
-      private const string SectionBegin = "[";
-      private const string SectionEnd = "]";
-      private static readonly char[] SectionTrims = {'[', ']'};
+      private const string _sectionBegin = "[";
+      private const string _sectionEnd = "]";
+      private static readonly char[] _sectionTrims = {'[', ']'};
 
       private readonly IniSection _globalSection;
       private readonly List<IniSection> _sections = new List<IniSection>();
@@ -77,10 +77,10 @@ namespace Config.Net.Stores.Formats.Ini
             {
                line = line.Trim();
 
-               if(line.StartsWith(SectionBegin))
+               if(line.StartsWith(_sectionBegin))
                {
                   //start new section
-                  line = line.Trim(SectionTrims).Trim();
+                  line = line.Trim(_sectionTrims).Trim();
                   section = new IniSection(line);
                   file._sections.Add(section);
                }
@@ -119,7 +119,7 @@ namespace Config.Net.Stores.Formats.Ini
                if(section.Name != null)
                {
                   writer.WriteLine();
-                  writer.WriteLine($"{SectionBegin}{section.Name}{SectionEnd}");
+                  writer.WriteLine($"{_sectionBegin}{section.Name}{_sectionEnd}");
                }
 
                section.WriteTo(writer);

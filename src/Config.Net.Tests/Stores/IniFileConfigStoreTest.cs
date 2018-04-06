@@ -19,7 +19,7 @@ namespace Config.Net.Tests.Stores
          File.Copy(src, _testFilePath, true);
 
          //create the store
-         _store = new IniFileConfigStore(_testFilePath);
+         _store = new IniFileConfigStore(_testFilePath, true);
       }
 
       public void Dispose()
@@ -48,11 +48,11 @@ namespace Config.Net.Tests.Stores
       [Fact]
       public void Read_FileDoesNotExist_DoesNotFail()
       {
-         var store = new IniFileConfigStore($"c:\\{Guid.NewGuid()}.ini");
+         var store = new IniFileConfigStore($"c:\\{Guid.NewGuid()}.ini", true);
       }
 
       [Fact]
-      public void ValuesChange_RewriteFileWithNewValues_ReadsNewValues()
+      public void ValuesChange_RewriteFileWithNewValues_DoesNotReadNewValuesBecauseTheyreCached()
       {
          File.WriteAllText(_testFilePath, "keyV=valueV");
 
@@ -60,14 +60,14 @@ namespace Config.Net.Tests.Stores
 
          Thread.Sleep(TimeSpan.FromSeconds(1));
 
-         Assert.Equal("valueV", _store.Read("keyV"));
+         Assert.NotEqual("valueV", _store.Read("keyV"));
       }
 
       [Fact]
       public void Write_NewFileWithNewValues_WritesCorrectText()
       {
          string fullPath = Path.Combine(TestDir.FullName, Guid.NewGuid() + ".ini");
-         var ini = new IniFileConfigStore(fullPath);
+         var ini = new IniFileConfigStore(fullPath, true);
 
          ini.Write("key0", "value0");
          ini.Write("S1.key0", "s1value0");

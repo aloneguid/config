@@ -16,7 +16,19 @@ namespace Config.Net.Tests
          string src = Path.Combine(dir, "TestData", "example.ini");
          string testFile = Path.Combine(dir, "test.ini");
          File.Copy(src, testFile, true);
-         return new IniFileConfigStore(testFile);
+         return new IniFileConfigStore(testFile, true);
+      }
+   }
+
+   public class IniFileContentTest : AllStoresTest
+   {
+      protected override IConfigStore CreateStore()
+      {
+         string dir = BuildDir.FullName;
+         string src = Path.Combine(dir, "TestData", "example.ini");
+         string content = File.ReadAllText(src);
+
+         return new IniFileConfigStore(content, false);
       }
    }
 

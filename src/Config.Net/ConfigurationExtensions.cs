@@ -53,7 +53,19 @@ namespace Config.Net
       /// <returns></returns>
       public static ConfigurationBuilder<TInterface> UseIniFile<TInterface>(this ConfigurationBuilder<TInterface> builder, string iniFilePath) where TInterface : class
       {
-         builder.UseConfigStore(new IniFileConfigStore(iniFilePath));
+         builder.UseConfigStore(new IniFileConfigStore(iniFilePath, true));
+         return builder;
+      }
+
+      /// <summary>
+      /// Simple INI storage.
+      /// </summary>
+      /// <param name="builder"></param>
+      /// <param name="contents">File contents</param>
+      /// <returns></returns>
+      public static ConfigurationBuilder<TInterface> UseIniFileContents<TInterface>(this ConfigurationBuilder<TInterface> builder, string contents) where TInterface : class
+      {
+         builder.UseConfigStore(new IniFileConfigStore(contents, false));
          return builder;
       }
 

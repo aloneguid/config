@@ -1,14 +1,30 @@
 # INI File Store
 
-To configure the store:
+## Configuring
+
+### Mapping to file
 
 ```csharp
 IMySettings settings = new ConfigurationBuilder<IMySettings>()
-   .UseIniFile()
+   .UseIniFile(filePath)
    .Build();
 ```
 
-The store supports reading and writing, as well as INI file sections.
+This variant supports reading and writing.
+
+### Mapping to file contents
+
+```csharp
+IMySettings settings = new ConfigurationBuilder<IMySettings>()
+   .UseIniFileContents(contentsOfAnIniFile)
+   .Build();
+```
+
+This variant only supports reading as you are passing full file content immediately.
+
+## Using
+
+The store fully supports INI file sections.
 
 In the simplest form every key in the INI file corresponds to the name of an option. For instance a definition
 
