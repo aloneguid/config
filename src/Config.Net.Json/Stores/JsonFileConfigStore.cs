@@ -12,22 +12,33 @@ namespace Config.Net.Json.Stores
    public class JsonFileConfigStore : IConfigStore
    {
       private readonly string _pathName;
-      private JObject _jo;
+      private readonly JObject _jo;
 
       /// <summary>
-      /// Create JSON storage in the file specified in <paramref name="pathName"/>.
+      /// Create JSON storage in the file specified in <paramref name="name"/>.
       /// </summary>
-      /// <param name="pathName">Full or relative path to JSON storage file.</param>
-      /// <exception cref="ArgumentNullException"><paramref name="pathName"/> is null.</exception>
+      /// <param name="name">Name of the file, either path to JSON storage file, or json file content.</param>
+      /// <param name="isFilePath">Set to true if <paramref name="name"/> specifies file name, otherwise false. </param>
+      /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
       /// <exception cref="IOException">Provided path is not valid.</exception>
       /// <remarks>Storage file does not have to exist, however it will be created as soon as first write performed.</remarks>
-      public JsonFileConfigStore(string pathName)
+      public JsonFileConfigStore(string name, bool isFilePath)
       {
-         if (pathName == null) throw new ArgumentNullException(nameof(pathName));
+         if (name == null) throw new ArgumentNullException(nameof(name));
 
-         _pathName = Path.GetFullPath(pathName);   // Allow relative path to JSON file
+         if(isFilePath)
+         {
+            _pathName = Path.GetFullPath(name);   // Allow relative path to JSON file
+            _jo = ReadJsonFile(_pathName);
+            CanWrite = true;
+         }
+         else
+         {
+            _jo = ReadJsonString(name);
+            CanWrite = false;
+         }
 
-         ReadJsonFile();
+         CanRead = true;
       }
 
       public void Dispose()
@@ -37,9 +48,9 @@ namespace Config.Net.Json.Stores
 
       public string Name => $"json:{_pathName}";
 
-      public bool CanRead => true;
+      public bool CanRead { get; }
 
-      public bool CanWrite => true;
+      public bool CanWrite { get; }
 
       public string Read(string key)
       {
@@ -73,7 +84,7 @@ namespace Config.Net.Json.Stores
 
       public void Write(string key, string value)
       {
-         if (key == null || _jo == null) return;
+         if (key == null || _jo == null || !CanWrite) return;
 
          string[] parts = key.Split('.');
 
@@ -114,17 +125,20 @@ namespace Config.Net.Json.Stores
          WriteJsonFile();
       }
 
-      private void ReadJsonFile()
+      private static JObject ReadJsonFile(string fileName)
       {
-         if(File.Exists(_pathName))
+         if(File.Exists(fileName))
          {
-            string json = File.ReadAllText(_pathName);
-            _jo = JObject.Parse(json);
+            string json = File.ReadAllText(fileName);
+            return JObject.Parse(json);
          }
-         else
-         {
-            _jo = new JObject();
-         }
+
+         return new JObject();
+      }
+
+      private static JObject ReadJsonString(string jsonString)
+      {
+         return JObject.Parse(jsonString);
       }
 
       private void WriteJsonFile()

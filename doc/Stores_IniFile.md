@@ -16,7 +16,7 @@ This variant supports reading and writing.
 
 ```csharp
 IMySettings settings = new ConfigurationBuilder<IMySettings>()
-   .UseIniFileContents(contentsOfAnIniFile)
+   .UseIniString(contentsOfAnIniFile)
    .Build();
 ```
 

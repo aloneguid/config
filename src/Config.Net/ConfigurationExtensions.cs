@@ -61,11 +61,11 @@ namespace Config.Net
       /// Simple INI storage.
       /// </summary>
       /// <param name="builder"></param>
-      /// <param name="contents">File contents</param>
+      /// <param name="iniString">File contents</param>
       /// <returns></returns>
-      public static ConfigurationBuilder<TInterface> UseIniFileContents<TInterface>(this ConfigurationBuilder<TInterface> builder, string contents) where TInterface : class
+      public static ConfigurationBuilder<TInterface> UseIniString<TInterface>(this ConfigurationBuilder<TInterface> builder, string iniString) where TInterface : class
       {
-         builder.UseConfigStore(new IniFileConfigStore(contents, false));
+         builder.UseConfigStore(new IniFileConfigStore(iniString, false));
          return builder;
       }
 

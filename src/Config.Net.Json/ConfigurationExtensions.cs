@@ -16,9 +16,23 @@ namespace Config.Net
       /// <remarks>Storage file does not have to exist, however it will be created as soon as first write performed.</remarks>
       public static ConfigurationBuilder<TInterface> UseJsonFile<TInterface>(this ConfigurationBuilder<TInterface> builder, string jsonFilePath) where TInterface : class
       {
-         builder.UseConfigStore(new JsonFileConfigStore(jsonFilePath));
+         builder.UseConfigStore(new JsonFileConfigStore(jsonFilePath, true));
          return builder;
       }
+
+      /// <summary>
+      /// Uses JSON file as a builder storage.
+      /// </summary>
+      /// <param name="builder">Configuration object.</param>
+      /// <param name="jsonString">Json document.</param>
+      /// <returns>Changed builder.</returns>
+      /// <remarks>Storage file does not have to exist, however it will be created as soon as first write performed.</remarks>
+      public static ConfigurationBuilder<TInterface> UseJsonString<TInterface>(this ConfigurationBuilder<TInterface> builder, string jsonString) where TInterface : class
+      {
+         builder.UseConfigStore(new JsonFileConfigStore(jsonString, false));
+         return builder;
+      }
+
 
    }
 }
