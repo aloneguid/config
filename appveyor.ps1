@@ -2,6 +2,7 @@ $BuildNo = $env:APPVEYOR_BUILD_NUMBER
 $Major = 4
 $Minor = 7
 $Patch = 3
+$IsPrerelease = $true
 
 if($BuildNo -eq $null)
 {
@@ -33,7 +34,13 @@ function Update-ProjectVersion($File)
       $pg = $xml.Project.PropertyGroup[0]
    }
 
-   [string] $suffix = "-build-" + $BuildNo.PadLeft(8, '0')
+   if($IsPrerelease) {
+      $suffix = "-ci-" + $BuildNo.PadLeft(5, '0')
+   } else {
+      $suffix = ""
+   }
+
+   
    [string] $fv = "{0}.{1}.{2}.0" -f $Major, $Minor, $Patch
    [string] $av = "{0}.0.0.0" -f $Major
    [string] $pv = "{0}.{1}.{2}{3}" -f $Major, $Minor, $Patch, $suffix
