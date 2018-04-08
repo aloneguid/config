@@ -1,14 +1,12 @@
-$gv = $env:APPVEYOR_BUILD_VERSION
-$bn = $env:APPVEYOR_BUILD_NUMBER 
-if($gv -eq $null)
-{
-   $gv = "1.0.0"
-}
-$vt = @{
-   
-}
+$BuildNo = $env:APPVEYOR_BUILD_NUMBER
+$Major = 4
+$Minor = 7
+$Patch = 3
 
-Write-Host "global version is $gv"
+if($BuildNo -eq $null)
+{
+   $BuildNo = "1"
+}
 
 $Copyright = "Copyright (c) 2015-2018 by Ivan Gavryliuk"
 $PackageIconUrl = "http://i.isolineltd.com/nuget/config.net.png"
@@ -24,9 +22,6 @@ function Update-ProjectVersion($File)
 {
    Write-Host "updating $File ..."
 
-   $v = $vt.($File.Name)
-   if($v -eq $null) { $v = $gv }
-
    $xml = [xml](Get-Content $File.FullName)
 
    if($xml.Project.PropertyGroup.Count -eq $null)
@@ -38,12 +33,10 @@ function Update-ProjectVersion($File)
       $pg = $xml.Project.PropertyGroup[0]
    }
 
-   $parts = $v -split "\."
-   $bv = $parts[2]
-   if($bv.Contains("-")) { $bv = $bv.Substring(0, $bv.IndexOf("-"))}
-   [string] $fv = "{0}.{1}.{2}.0" -f $parts[0], $parts[1], $bv
-   [string] $av = "{0}.0.0.0" -f $parts[0]
-   [string] $pv = $v
+   [string] $suffix = "-build-" + $BuildNo.PadLeft(8, '0')
+   [string] $fv = "{0}.{1}.{2}.0" -f $Major, $Minor, $Patch
+   [string] $av = "{0}.0.0.0" -f $Major
+   [string] $pv = "{0}.{1}.{2}{3}" -f $Major, $Minor, $Patch, $suffix
 
    $pg.Version = $pv
    $pg.FileVersion = $fv

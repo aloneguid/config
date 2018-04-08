@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard1.6;net452</TargetFrameworks>
-    <Copyright>Copyright (c) 2015-2017 by Ivan Gavryliuk</Copyright>
+    <Copyright>Copyright (c) 2015-2018 by Ivan Gavryliuk</Copyright>
     <Authors>Ivan Gavryliuk (@aloneguid)</Authors>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
-    <Version>1.0.0-alpha-1</Version>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <FileVersion>4.7.3.0</FileVersion>
+    <Version>4.7.3-build00000001</Version>
     <PackageIconUrl>http://i.isolineltd.com/nuget/config.net.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/aloneguid/config</PackageProjectUrl>
     <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
