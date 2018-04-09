@@ -79,7 +79,7 @@ namespace Config.Net.Tests
    {
       protected override IConfigStore CreateStore()
       {
-         string testFile = Path.Combine(BuildDir.FullName, "test.json");
+         string testFile = Path.Combine(BuildDir.FullName, "TestData", "appSettings.json");
          string json = File.ReadAllText(testFile);
          return new JsonFileConfigStore(json, false);
       }
