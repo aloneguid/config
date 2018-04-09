@@ -131,7 +131,6 @@ namespace Config.Net.Core
          {
             new DoubleParser(),
             new IntParser(),
-            new JiraTimeParser(),
             new LongParser(),
             new StringArrayParser(),
             new StringParser(),

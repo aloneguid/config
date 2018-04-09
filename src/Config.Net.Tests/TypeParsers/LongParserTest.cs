@@ -17,7 +17,7 @@ namespace Config.Net.Tests.TypeParsers
          object outValObj;
          long outVal;
 
-         Assert.True(TypeParser.TryParse(rawValue, typeof(JiraTime), out outValObj));
+         Assert.True(TypeParser.TryParse(rawValue, typeof(long), out outValObj));
          outVal = (long)outValObj;
 
          Assert.Equal(rawValue, TypeParser.ToRawString(outVal));

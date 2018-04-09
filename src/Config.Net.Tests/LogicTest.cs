@@ -54,9 +54,6 @@ namespace Config.Net.Tests
          [Option(Alias = "ping-interval-nullable")]
          TimeSpan? NullablePingInterval { get; set;  }
 
-         [Option(Alias = "estimate", DefaultValue = "1hm")]
-         JiraTime IssueEstimate { get; set;  }
-
          [Option(DefaultValue = Grid.ZA)]
          Grid ActiveGrid { get; set; }
 
@@ -173,18 +170,6 @@ namespace Config.Net.Tests
          Assert.Equal(1, v.Hours);
          Assert.Equal(2, v.Minutes);
          Assert.Equal(3, v.Seconds);
-      }
-
-      [Fact]
-      public void JiraTimeParserTest()
-      {
-         _store.Map["estimate"] = "1d4h";
-         JiraTime time = _settings.IssueEstimate;
-         Assert.Equal(1, time.TimeSpan.Days);
-         Assert.Equal(4, time.TimeSpan.Hours);
-         Assert.Equal(0, time.TimeSpan.Minutes);
-         Assert.Equal(0, time.TimeSpan.Seconds);
-         Assert.Equal(0, time.TimeSpan.Milliseconds);
       }
 
       [Fact]
@@ -317,15 +302,6 @@ namespace Config.Net.Tests
          _settings.PingInterval = writeValue;
 
          Assert.Equal(writeValue, (TimeSpan)_settings.PingInterval);
-      }
-
-      [Fact]
-      public void WriteJiraTimeTest()
-      {
-         var writeValue = new JiraTime(TimeSpan.FromDays(17));
-         _settings.IssueEstimate = writeValue;
-
-         Assert.Equal(writeValue.ToString(), ((JiraTime)_settings.IssueEstimate).ToString());
       }
 
       [Fact]
