@@ -41,7 +41,7 @@ function Update-ProjectVersion($File)
    }
 
    
-   [string] $fv = "{0}.{1}.{2}.0" -f $Major, $Minor, $Patch
+   [string] $fv = "{0}.{1}.{2}.{3}" -f $Major, $Minor, $Patch, $BuildNo
    [string] $av = "{0}.0.0.0" -f $Major
    [string] $pv = "{0}.{1}.{2}{3}" -f $Major, $Minor, $Patch, $suffix
 
