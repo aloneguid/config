@@ -1,6 +1,6 @@
 # Collections
 
-Config.Net supports collections for primitive types and interfaces. 
+Config.Net supports collections for primitive types and **interfaces**. 
 
 Collection must be always declared as `IEnumerable<T>` and only have a getter.
 
