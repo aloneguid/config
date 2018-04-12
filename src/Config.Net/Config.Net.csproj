@@ -25,8 +25,12 @@
     <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/aloneguid/config/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <PackageReleaseNotes>v4.7.2
-.ini and .json providers allow to be configured by file contents, not just file path (#57)
+    <PackageReleaseNotes>v4.7.3
+removed obsolete JiraTime class
+
+v4.7.2
+
+ini and .json providers allow to be configured by file contents, not just file path (#57)
 
 v4.7.0
 - new feature: entity arrays.
