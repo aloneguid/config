@@ -20,24 +20,25 @@ namespace Config.Net.Stores.Formats.Ini
 
       public IniComment Comment { get; }
 
-      public static IniKeyValue FromLine(string line)
+      public static IniKeyValue FromLine(string line, bool parseInlineComments)
       {
          int idx = line.IndexOf(KeyValueSeparator, StringComparison.CurrentCulture);
          if(idx == -1) return null;
 
          string key = line.Substring(0, idx).Trim();
          string value = line.Substring(idx + 1).Trim();
-         string comment;
-         idx = value.LastIndexOf(IniComment.CommentSeparator, StringComparison.CurrentCulture);
-         if(idx != -1)
+         string comment = null;
+
+         if (parseInlineComments)
          {
-            comment = value.Substring(idx + 1).Trim();
-            value = value.Substring(0, idx).Trim();
+            idx = value.LastIndexOf(IniComment.CommentSeparator, StringComparison.CurrentCulture);
+            if (idx != -1)
+            {
+               comment = value.Substring(idx + 1).Trim();
+               value = value.Substring(0, idx).Trim();
+            }
          }
-         else
-         {
-            comment = null;
-         }
+
          return new IniKeyValue(key, value, comment);
       }
    }

@@ -1,10 +1,10 @@
 $BuildNo = $env:APPVEYOR_BUILD_NUMBER
 $Major = 4
-$Minor = 7
-$Patch = 4
-$IsPrerelease = $true
+$Minor = 8
+$Patch = 0
+$IsPrerelease = $false
 
-# latest release - 4.7.3
+# latest release - 4.8.0
 
 if($BuildNo -eq $null)
 {

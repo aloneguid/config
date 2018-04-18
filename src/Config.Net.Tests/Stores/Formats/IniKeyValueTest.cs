@@ -11,12 +11,27 @@ namespace Config.Net.Tests.Stores.Formats
       [InlineData("key==value", "key", "=value")]
       [InlineData("key=value;value;value", "key", "value;value")]
       [InlineData("key=value=value;value", "key", "value=value")]
-      public void FromLine_Variable_Variable(string input, string expectedKey, string expectedValue)
+      public void FromLine_ParsingInlineComments(string input, string expectedKey, string expectedValue)
       {
-         IniKeyValue kv = IniKeyValue.FromLine(input);
+         IniKeyValue kv = IniKeyValue.FromLine(input, true);
 
          Assert.Equal(expectedKey, kv.Key);
          Assert.Equal(expectedValue, kv.Value);
       }
+
+      [Theory]
+      [InlineData("key=value", "key", "value")]
+      [InlineData("key=value;123", "key", "value;123")]
+      [InlineData("key==value", "key", "=value")]
+      [InlineData("key=value;value;value", "key", "value;value;value")]
+      [InlineData("key=value=value;value", "key", "value=value;value")]
+      public void FromLine_IgnoringInlineComments(string input, string expectedKey, string expectedValue)
+      {
+         IniKeyValue kv = IniKeyValue.FromLine(input, false);
+
+         Assert.Equal(expectedKey, kv.Key);
+         Assert.Equal(expectedValue, kv.Value);
+      }
+
    }
 }

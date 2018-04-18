@@ -50,10 +50,13 @@ namespace Config.Net
       /// </summary>
       /// <param name="builder"></param>
       /// <param name="iniFilePath">File does not have to exist, however it will be created as soon as you try to write to it.</param>
+      /// <param name="parseInlineComments">When true, inline comments are parsed. It is set to false by default so inline comments are considered a part of the value.</param>
       /// <returns></returns>
-      public static ConfigurationBuilder<TInterface> UseIniFile<TInterface>(this ConfigurationBuilder<TInterface> builder, string iniFilePath) where TInterface : class
+      public static ConfigurationBuilder<TInterface> UseIniFile<TInterface>(this ConfigurationBuilder<TInterface> builder,
+         string iniFilePath,
+         bool parseInlineComments = false) where TInterface : class
       {
-         builder.UseConfigStore(new IniFileConfigStore(iniFilePath, true));
+         builder.UseConfigStore(new IniFileConfigStore(iniFilePath, true, parseInlineComments));
          return builder;
       }
 
@@ -62,10 +65,13 @@ namespace Config.Net
       /// </summary>
       /// <param name="builder"></param>
       /// <param name="iniString">File contents</param>
+      /// <param name="parseInlineComments">When true, inline comments are parsed. It is set to false by default so inline comments are considered a part of the value</param>
       /// <returns></returns>
-      public static ConfigurationBuilder<TInterface> UseIniString<TInterface>(this ConfigurationBuilder<TInterface> builder, string iniString) where TInterface : class
+      public static ConfigurationBuilder<TInterface> UseIniString<TInterface>(this ConfigurationBuilder<TInterface> builder,
+         string iniString,
+         bool parseInlineComments = false) where TInterface : class
       {
-         builder.UseConfigStore(new IniFileConfigStore(iniString, false));
+         builder.UseConfigStore(new IniFileConfigStore(iniString, false, parseInlineComments));
          return builder;
       }
 

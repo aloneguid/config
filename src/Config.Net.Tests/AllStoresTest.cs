@@ -16,7 +16,7 @@ namespace Config.Net.Tests
          string src = Path.Combine(dir, "TestData", "example.ini");
          string testFile = Path.Combine(dir, "test.ini");
          File.Copy(src, testFile, true);
-         return new IniFileConfigStore(testFile, true);
+         return new IniFileConfigStore(testFile, true, false);
       }
    }
 
@@ -28,7 +28,7 @@ namespace Config.Net.Tests
          string src = Path.Combine(dir, "TestData", "example.ini");
          string content = File.ReadAllText(src);
 
-         return new IniFileConfigStore(content, false);
+         return new IniFileConfigStore(content, false, true);
       }
    }
 

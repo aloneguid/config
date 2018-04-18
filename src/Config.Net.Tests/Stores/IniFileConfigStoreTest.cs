@@ -19,7 +19,7 @@ namespace Config.Net.Tests.Stores
          File.Copy(src, _testFilePath, true);
 
          //create the store
-         _store = new IniFileConfigStore(_testFilePath, true);
+         _store = new IniFileConfigStore(_testFilePath, true, true);
       }
 
       public void Dispose()
@@ -48,7 +48,7 @@ namespace Config.Net.Tests.Stores
       [Fact]
       public void Read_FileDoesNotExist_DoesNotFail()
       {
-         var store = new IniFileConfigStore($"c:\\{Guid.NewGuid()}.ini", true);
+         var store = new IniFileConfigStore($"c:\\{Guid.NewGuid()}.ini", true, true);
       }
 
       [Fact]
@@ -67,7 +67,7 @@ namespace Config.Net.Tests.Stores
       public void Write_NewFileWithNewValues_WritesCorrectText()
       {
          string fullPath = Path.Combine(TestDir.FullName, Guid.NewGuid() + ".ini");
-         var ini = new IniFileConfigStore(fullPath, true);
+         var ini = new IniFileConfigStore(fullPath, true, true);
 
          ini.Write("key0", "value0");
          ini.Write("S1.key0", "s1value0");

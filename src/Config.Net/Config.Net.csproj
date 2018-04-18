@@ -25,7 +25,10 @@
     <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/aloneguid/config/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <PackageReleaseNotes>v4.7.3
+    <PackageReleaseNotes>v4.8.0
+- new feature and breaking change: by default inline .ini comments are ignored (#60)
+
+v4.7.3
 removed obsolete JiraTime class
 
 v4.7.2

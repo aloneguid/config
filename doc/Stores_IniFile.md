@@ -71,4 +71,37 @@ There are a few edge cases when working with INI files you should know about:
 
 * A value can have an equal sign (`=`) and it will be considered a part of the value, because only the first equal sign is considered as a key-value separator.
 * Apparently key names cannot contain `=`
+
+#### A note on INI  comments
+
+INI files consider semicolon (`;`) as an inline comment separator, therefore you cannot have it a part of a value. For instance a line like `key=value; this is a comment` in ideal INI implementation will be parsed out as
+
+- key: `key`
+- value: `value`
+- comment: `comment`
+
+However, in my experience, values like secrets, connection strings etc. _do_ often contain semicolons and in order to put them in an INI file you've got to do a trick like put a semicolon at the end of the value so that beforementioned string will become something like this `key=value; this is a comment;` to be parsed out as
+
+- key: `key`
+- value: `value; this is a commment`
+- comment: *none*
+
+Although this is absolutely valid and this is how INI files should work, it is often really frustrating as when you have a lot of values with semicolons you either have to check that they do contain semicolons and add a semicolon at the end, or just get used to adding semicolon at the end of every value. I believe neither of the solutions are practical, therefore since v**4.8.0** config.net does not parse inline comments by default (comment lines are still processed). This sorts out a lot of confusing questions around "why my value is not parsed correctly by config.net" or "this software is buggy" etc.
+
+If you still want to revert to the old behavior, you can construct INI parser using the new signature:
+
+```csharp
+.UseIniFile(string iniFilePath, bool parseInlineComments = false);
+
+// or
+
+.UseIniString<TInterface>(string iniString, bool parseInlineComments = false);
+```
+
+and passing `true` to the last argument.
+
+
+  
+
+
 * If a value contains semicolon (`;`) which is a comment separator in INI files you should add it also as a last character in the value, because the parser considers only last `;` as a comment separator. For example `key=val;ue` wil be read as `val`, however `key=val;ue;` will be read as `val;ue`.
