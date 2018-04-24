@@ -14,6 +14,8 @@
     <Authors>Ivan Gavryliuk (@aloneguid)</Authors>
     <PackageIconUrl>http://i.isolineltd.com/nuget/config.net.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/aloneguid/config</PackageProjectUrl>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="YamlDotNet.Signed" Version="4.2.2" />

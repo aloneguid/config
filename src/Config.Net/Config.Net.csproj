@@ -17,10 +17,9 @@
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
     <FileVersion>4.7.3.0</FileVersion>
-    <Version>4.7.3-build00000001</Version>
+    <Version>4.7.3</Version>
     <Description>Super simple configuration framework for .NET focused on developer ergonomics and strong typing. Supports multiple configuration sources such as .ini, .json, .xml files, as well as external providers pluggable by other NuGet packages.</Description>
     <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/aloneguid/config/blob/master/LICENSE</PackageLicenseUrl>
@@ -56,6 +55,11 @@ string array parser supports proper value escaping (#39)
 
 v4.3.0
 new feature: configuration interfaces support methods</PackageReleaseNotes>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+  <PropertyGroup>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.2.1" />

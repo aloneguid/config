@@ -15,6 +15,8 @@
     <PackageIconUrl>http://i.isolineltd.com/nuget/config.net.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/aloneguid/config</PackageProjectUrl>
     <Description>JSON integration for Config.Net</Description>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />

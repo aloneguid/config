@@ -2,7 +2,7 @@ $BuildNo = $env:APPVEYOR_BUILD_NUMBER
 $Major = 4
 $Minor = 8
 $Patch = 0
-$IsPrerelease = $false
+$IsPrerelease = $true
 
 # latest release - 4.8.0
 
