@@ -86,4 +86,17 @@ Get-ChildItem *.csproj -Recurse | Where-Object {-not(($_.Name -like "*test*") -o
 # Restore packages
 Exec "dotnet restore $SlnPath"
 
-Write-Host "build succeeded."
+function Get-DisplayVersion()
+{
+   $v = "$Major.$Minor.$Patch"
+   
+   if($IsPrerelease)
+   {
+      $v = "$v-ci-$BuildNo"
+   }
+
+   $v
+}
+
+$VDisplay = Get-DisplayVersion
+Invoke-Expression "appveyor UpdateBuild -Version $VDisplay"
