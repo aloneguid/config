@@ -50,7 +50,7 @@ MyOption=my fancy value
 should use the definition
 
 ```csharp
-[Option(Name = "SectionOne.MyOption")]
+[Option(Alias = "SectionOne.MyOption")]
 string MyOption { get; }
 ```
 
