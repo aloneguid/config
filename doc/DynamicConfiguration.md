@@ -25,6 +25,8 @@ public interface ICallableConfig
 
 changes the key to **CustomName**.*value of `keyName`*.
 
+Please take a special note that if you call a method just `Get(string name)` Config.Net will read settings from a root namespace i.e. `Get("myprop")` will return a value by key `myprop`. Essentially this allows you to *read from the store dynamically*, however you are losing the ability of performing type safe conversions.
+
 ## Multiple Parameters
 
 You can declare a method with as many parameters as you want, they will be simply chained together when deciding which key name to use, for example:

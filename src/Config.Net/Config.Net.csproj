@@ -24,7 +24,10 @@
     <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/aloneguid/config/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <PackageReleaseNotes>v4.8.0
+    <PackageReleaseNotes>v4.9.0
+- ability to read config from root namespace
+
+v4.8.0
 - new feature and breaking change: by default inline .ini comments are ignored (#60)
 
 v4.7.3

@@ -42,7 +42,10 @@ namespace Config.Net.Core.Box
             object value = arguments[i];
             if (value == null) continue;
 
-            sb.Append(OptionPath.Separator);
+            if (sb.Length > 0)
+            {
+               sb.Append(OptionPath.Separator);
+            }
             sb.Append(value.ToString());
          }
 

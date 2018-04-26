@@ -21,6 +21,16 @@ namespace Config.Net.Tests
       }
 
       [Fact]
+      public void Call_get_root_property_method()
+      {
+         _store.Write("rootKey", "rootValue");
+
+         string value = _config.Get("rootKey");
+
+         Assert.Equal("rootValue", "rootValue");
+      }
+
+      [Fact]
       public void Call_simple_get_method()
       {
          _store.Write("First.section.key", "mv");
@@ -80,6 +90,8 @@ namespace Config.Net.Tests
       void SetFirst(string name);
 
       INestedCallableConfig Nested { get; }
+
+      string Get(string name);
    }
 
    public interface INestedCallableConfig
