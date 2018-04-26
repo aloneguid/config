@@ -105,6 +105,16 @@ namespace Config.Net
       }
 
       public static ConfigurationBuilder<TInterface> UseCommandLineArgs<TInterface>(this ConfigurationBuilder<TInterface> builder,
+         bool isCaseSensitive = false,
+         string[] args = null,
+         params KeyValuePair<string, int>[] parameterNameToPosition)
+         where TInterface : class
+      {
+         builder.UseConfigStore(new CommandLineConfigStore(args, isCaseSensitive, parameterNameToPosition));
+         return builder;
+      }
+
+      public static ConfigurationBuilder<TInterface> UseCommandLineArgs<TInterface>(this ConfigurationBuilder<TInterface> builder,
          params KeyValuePair<string, int>[] parameterNameToPosition)
          where TInterface : class
       {
