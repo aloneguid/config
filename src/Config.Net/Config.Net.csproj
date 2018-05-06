@@ -78,6 +78,9 @@ new feature: configuration interfaces support methods</PackageReleaseNotes>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Stores\Formats\AppConfigSection\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
     <DefineConstants>$(DefineConstants);NETSTANDARD14</DefineConstants>
   </PropertyGroup>

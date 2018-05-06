@@ -26,6 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{CDB02CCC-51F
 		..\README.v1.md = ..\README.v1.md
 		..\README.v3..md = ..\README.v3..md
 		..\doc\Stores_AppConfig.md = ..\doc\Stores_AppConfig.md
+		..\doc\Stores_AppConfigSection.md = ..\doc\Stores_AppConfigSection.md
 		..\doc\Stores_CommandLine.md = ..\doc\Stores_CommandLine.md
 		..\doc\Stores_Custom.md = ..\doc\Stores_Custom.md
 		..\doc\Stores_EnvironmentVariables.md = ..\doc\Stores_EnvironmentVariables.md

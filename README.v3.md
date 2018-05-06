@@ -164,6 +164,7 @@ The list of available built-in and external stores is maintained on this page:
 | Name                 | Readable | Writeable | Package  | Purpose                  |
 |----------------------|----------|-----------|----------|--------------------------|
 |[AppConfig](doc/Stores_AppConfig.md)|v|x|internal|.NET app.config files|
+|[AppConfigSection](doc/Stores_AppConfig.md)|v|x|internal|.NET app.config files (custom sections)|
 |[EnvironmentVariables](doc/Stores_EnvironmentVariables.md) | v        | v         | internal | OS environment variables |
 |[CommandLine](doc/Stores_CommandLine.md)|v|x|internal|Parsing command line as configuration source| 
 |[IniFile](doc/Stores_IniFile.md)              | v        | v         | internal | INI files |
