@@ -13,7 +13,7 @@ namespace Config.Net.Tests
 
       public ArraysTest()
       {
-         _path = Path.Combine(BuildDir.FullName, "TestData", "appSettings.json");
+         _path = Path.Combine(BuildDir.FullName, "TestData", "sample.json");
       }
 
       [Fact]

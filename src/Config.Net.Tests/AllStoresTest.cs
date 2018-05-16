@@ -13,8 +13,8 @@ namespace Config.Net.Tests
       protected override IConfigStore CreateStore()
       {
          string dir = BuildDir.FullName;
-         string src = Path.Combine(dir, "TestData", "example.ini");
-         string testFile = Path.Combine(dir, "test.ini");
+         string src = Path.Combine(dir, "TestData", "sample.ini");
+         string testFile = Path.Combine(dir, "sample.ini");
          File.Copy(src, testFile, true);
          return new IniFileConfigStore(testFile, true, false);
       }
@@ -25,7 +25,7 @@ namespace Config.Net.Tests
       protected override IConfigStore CreateStore()
       {
          string dir = BuildDir.FullName;
-         string src = Path.Combine(dir, "TestData", "example.ini");
+         string src = Path.Combine(dir, "TestData", "sample.ini");
          string content = File.ReadAllText(src);
 
          return new IniFileConfigStore(content, false, true);
@@ -79,7 +79,7 @@ namespace Config.Net.Tests
    {
       protected override IConfigStore CreateStore()
       {
-         string testFile = Path.Combine(BuildDir.FullName, "TestData", "appSettings.json");
+         string testFile = Path.Combine(BuildDir.FullName, "TestData", "sample.json");
          string json = File.ReadAllText(testFile);
          return new JsonFileConfigStore(json, false);
       }

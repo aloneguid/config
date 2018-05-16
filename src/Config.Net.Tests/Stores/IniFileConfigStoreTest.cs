@@ -14,8 +14,8 @@ namespace Config.Net.Tests.Stores
       public IniFileConfigStoreTest()
       {
          //get back clean file
-         string src = Path.Combine(BuildDir.FullName, "TestData", "example.ini");
-         _testFilePath = Path.Combine(TestDir.FullName, "example.ini");
+         string src = Path.Combine(BuildDir.FullName, "TestData", "sample.ini");
+         _testFilePath = Path.Combine(TestDir.FullName, "sample.ini");
          File.Copy(src, _testFilePath, true);
 
          //create the store

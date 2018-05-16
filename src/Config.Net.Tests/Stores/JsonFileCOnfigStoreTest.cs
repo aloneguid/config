@@ -15,7 +15,7 @@ namespace Config.Net.Tests.Stores
 
       public JsonFileCOnfigStoreTest()
       {
-         _path = Path.Combine(BuildDir.FullName, "TestData", "appSettings.json");
+         _path = Path.Combine(BuildDir.FullName, "TestData", "sample.json");
          _store = new JsonFileConfigStore(_path, true);
       }
 

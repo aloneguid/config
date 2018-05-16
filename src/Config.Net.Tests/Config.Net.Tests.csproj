@@ -6,7 +6,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
-    <None Update="TestData\appSettings.json">
+    <None Update="TestData\sample.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="TestData\example.ini">
