@@ -1,87 +1,92 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <Copyright>Copyright (c) 2015-2018 by Ivan Gavryliuk</Copyright>
-    <AssemblyTitle>Config.Net</AssemblyTitle>
-    <Authors>Ivan Gavryliuk (@aloneguid)</Authors>
-    <TargetFrameworks>netstandard1.4;netstandard1.6;netstandard2.0;net452</TargetFrameworks>
-    <AssemblyName>Config.Net</AssemblyName>
-    <AssemblyOriginatorKeyFile>../config.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
-    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
-    <PackageId>Config.Net</PackageId>
-    <PackageIconUrl>http://i.isolineltd.com/nuget/config.net.png</PackageIconUrl>
-    <PackageProjectUrl>https://github.com/aloneguid/config</PackageProjectUrl>
-    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.6' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
-    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.1</NetStandardImplicitPackageVersion>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-    <FileVersion>4.7.3.0</FileVersion>
-    <Version>4.7.3</Version>
-    <Description>Super simple configuration framework for .NET focused on developer ergonomics and strong typing. Supports multiple configuration sources such as .ini, .json, .xml files, as well as external providers pluggable by other NuGet packages.</Description>
-    <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
-    <PackageLicenseUrl>https://github.com/aloneguid/config/blob/master/LICENSE</PackageLicenseUrl>
-    <RepositoryType>GitHub</RepositoryType>
-    <PackageReleaseNotes>v4.9.0
-- ability to read config from root namespace
+﻿<Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
+      <Copyright>Copyright (c) 2015-2018 by Ivan Gavryliuk</Copyright>
+      <AssemblyTitle>Config.Net</AssemblyTitle>
+      <Authors>Ivan Gavryliuk (@aloneguid)</Authors>
+      <TargetFrameworks>netstandard1.4;netstandard1.6;netstandard2.0;net452</TargetFrameworks>
+      <AssemblyName>Config.Net</AssemblyName>
+      <AssemblyOriginatorKeyFile>../config.snk</AssemblyOriginatorKeyFile>
+      <SignAssembly>true</SignAssembly>
+      <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
+      <PackageId>Config.Net</PackageId>
+      <PackageIconUrl>http://i.isolineltd.com/nuget/config.net.png</PackageIconUrl>
+      <PackageProjectUrl>https://github.com/aloneguid/config</PackageProjectUrl>
+      <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.6' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+      <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.1</NetStandardImplicitPackageVersion>
+      <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+      <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+      <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+      <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+      <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      <FileVersion>4.7.3.0</FileVersion>
+      <Version>4.7.3</Version>
+      <Description>Super simple configuration framework for .NET focused on developer ergonomics and strong typing. Supports multiple configuration sources such as .ini, .json, .xml files, as well as external providers pluggable by other NuGet packages.</Description>
+      <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
+      <PackageLicenseUrl>https://github.com/aloneguid/config/blob/master/LICENSE</PackageLicenseUrl>
+      <RepositoryType>GitHub</RepositoryType>
+      <PackageReleaseNotes>
+         v4.9.0
+         - ability to read config from root namespace
 
-v4.8.0
-- new feature and breaking change: by default inline .ini comments are ignored (#60)
+         v4.8.0
+         - new feature and breaking change: by default inline .ini comments are ignored (#60)
 
-v4.7.3
-removed obsolete JiraTime class
+         v4.7.3
+         removed obsolete JiraTime class
 
-v4.7.2
+         v4.7.2
 
-ini and .json providers allow to be configured by file contents, not just file path (#57)
+         ini and .json providers allow to be configured by file contents, not just file path (#57)
 
-v4.7.0
-- new feature: entity arrays.
-- bug fixed: Methods in nested interfaces do not return values.
+         v4.7.0
+         - new feature: entity arrays.
+         - bug fixed: Methods in nested interfaces do not return values.
 
-v4.6.0
-bug/improvement: re-added support for custom type parsers which was available in previous major version (#47)
+         v4.6.0
+         bug/improvement: re-added support for custom type parsers which was available in previous major version (#47)
 
-v4.5.0
-new feature: interfaces can now be nested into each other
+         v4.5.0
+         new feature: interfaces can now be nested into each other
 
-v4.4.2
-improvement: JSON stores support hierarchies (#44)
+         v4.4.2
+         improvement: JSON stores support hierarchies (#44)
 
-v4.4.1
-bug fixed: positional parameters in command-line (#43)
+         v4.4.1
+         bug fixed: positional parameters in command-line (#43)
 
-v4.4.0
-string array parser supports proper value escaping (#39)
+         v4.4.0
+         string array parser supports proper value escaping (#39)
 
-v4.3.0
-new feature: configuration interfaces support methods</PackageReleaseNotes>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-  </PropertyGroup>
-  <PropertyGroup>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.2.1" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
-    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.4.0" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
-    <Reference Include="System.Configuration" />
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
-    <DefineConstants>$(DefineConstants);NETSTANDARD14</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net452' or  '$(TargetFramework)' == 'netstandard2.0'">
-    <DefineConstants>$(DefineConstants);NETFULL</DefineConstants>
-  </PropertyGroup>
+         v4.3.0
+         new feature: configuration interfaces support methods
+      </PackageReleaseNotes>
+      <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+      <WarningsAsErrors />
+   </PropertyGroup>
+   <PropertyGroup>
+      <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+   </PropertyGroup>
+   <ItemGroup>
+      <PackageReference Include="Castle.Core" Version="4.2.1" />
+   </ItemGroup>
+   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
+      <PackageReference Include="System.Reflection.TypeExtensions" Version="4.4.0" />
+   </ItemGroup>
+   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
+   </ItemGroup>
+   <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
+      <Reference Include="System.Configuration" />
+      <Reference Include="System" />
+      <Reference Include="Microsoft.CSharp" />
+   </ItemGroup>
+   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
+      <DefineConstants>$(DefineConstants);NETSTANDARD14</DefineConstants>
+   </PropertyGroup>
+   <PropertyGroup Condition=" '$(TargetFramework)' == 'net452' or  '$(TargetFramework)' == 'netstandard2.0'">
+      <DefineConstants>$(DefineConstants);NETFULL</DefineConstants>
+   </PropertyGroup>
+   <ItemGroup>
+      <DotNetCliToolReference Include="dotnet-housework" Version="0.0.7" />
+   </ItemGroup>
 </Project>
