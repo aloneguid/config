@@ -5,24 +5,16 @@ using System.Linq;
 using System.Text;
 using Xunit;
 
-namespace Config.Net.Tests
+namespace Config.Net.Tests.Virtual
 {
-   public class ArraysTest : AbstractTestFixture
+   public partial class VirtualStoreTest
    {
-      private string _path;
-
-      public ArraysTest()
-      {
-         _path = Path.Combine(BuildDir.FullName, "TestData", "sample.json");
-      }
-
       [Fact]
       public void Read_collection_of_interfaces()
       {
          IInterfaceArrays config = new ConfigurationBuilder<IInterfaceArrays>()
-             .UseJsonFile(_path)
+             .UseConfigStore(store)
              .Build();
-
 
          IEnumerable<IArrayElement> r = config.Creds;
 
@@ -43,7 +35,7 @@ namespace Config.Net.Tests
       public void Read_collection_of_simple_values()
       {
          ISimpleArrays config = new ConfigurationBuilder<ISimpleArrays>()
-            .UseJsonFile(_path)
+            .UseConfigStore(store)
             .Build();
 
          List<int> numbers = config.Numbers.ToList();

@@ -7,7 +7,7 @@ using Config.Net.Stores;
 using Config.Net.Stores.Impl.CommandLine;
 using Config.Net.Yaml.Stores;
 
-namespace Config.Net.Tests
+namespace Config.Net.Tests.Virtual
 {
    public abstract partial class VirtualStoreTest : AbstractTestFixture, IDisposable
    {
@@ -16,6 +16,19 @@ namespace Config.Net.Tests
       public VirtualStoreTest()
       {
          store = CreateStore();
+      }
+
+      protected string GetSamplePath(string ext)
+      {
+         string dir = BuildDir.FullName;
+         string src = Path.Combine(dir, "TestData", "sample." + ext);
+         string testFile = Path.Combine(dir, src);
+         src = Path.GetFullPath(testFile);
+         string dest = Path.Combine(TestDir.FullName, "sample." + ext);
+
+         File.Copy(src, dest, true);
+
+         return dest;
       }
 
       protected virtual IConfigStore CreateStore()
@@ -35,10 +48,7 @@ namespace Config.Net.Tests
    {
       protected override IConfigStore CreateStore()
       {
-         string dir = BuildDir.FullName;
-         string src = Path.Combine(dir, "TestData", "sample.ini");
-         string testFile = Path.Combine(dir, "sample.ini");
-         File.Copy(src, testFile, true);
+         string testFile = GetSamplePath("ini");
          return new IniFileConfigStore(testFile, true, false);
       }
    }
@@ -47,8 +57,7 @@ namespace Config.Net.Tests
    {
       protected override IConfigStore CreateStore()
       {
-         string dir = BuildDir.FullName;
-         string src = Path.Combine(dir, "TestData", "sample.ini");
+         string src = GetSamplePath("ini");
          string content = File.ReadAllText(src);
 
          return new IniFileConfigStore(content, false, true);
@@ -59,7 +68,7 @@ namespace Config.Net.Tests
    {
       protected override IConfigStore CreateStore()
       {
-         string testFile = Path.Combine(BuildDir.FullName, "TestData", "sample.yml");
+         string testFile = GetSamplePath("yml");
          return new YamlFileConfigStore(testFile);
       }
    }
@@ -102,7 +111,7 @@ namespace Config.Net.Tests
    {
       protected override IConfigStore CreateStore()
       {
-         string testFile = Path.Combine(BuildDir.FullName, "test.json");
+         string testFile = GetSamplePath("json");
          return new JsonFileConfigStore(testFile, true);
       }
    }
@@ -111,7 +120,7 @@ namespace Config.Net.Tests
    {
       protected override IConfigStore CreateStore()
       {
-         string testFile = Path.Combine(BuildDir.FullName, "TestData", "sample.json");
+         string testFile = GetSamplePath("json");
          string json = File.ReadAllText(testFile);
          return new JsonFileConfigStore(json, false);
       }

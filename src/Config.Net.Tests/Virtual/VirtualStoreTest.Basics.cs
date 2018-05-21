@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
-namespace Config.Net.Tests
+namespace Config.Net.Tests.Virtual
 {
    public partial class VirtualStoreTest
    {
