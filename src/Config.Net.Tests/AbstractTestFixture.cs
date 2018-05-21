@@ -42,7 +42,7 @@ namespace Config.Net.Tests
       {
          get
          {
-            if(_testDir == null)
+            if (_testDir == null)
             {
                //Cleanup();
 
@@ -57,7 +57,7 @@ namespace Config.Net.Tests
       private void Cleanup()
       {
          //FS cleanup
-         foreach(DirectoryInfo oldDir in BuildDir.GetDirectories(TestDirPrefix + "*", SearchOption.TopDirectoryOnly))
+         foreach (DirectoryInfo oldDir in BuildDir.GetDirectories(TestDirPrefix + "*", SearchOption.TopDirectoryOnly))
          {
             oldDir.Delete(true);
          }
@@ -80,19 +80,11 @@ namespace Config.Net.Tests
          {
             if (_thisAsm == null)
             {
-#if NETFULL
                _thisAsm = Assembly.GetExecutingAssembly();
-#endif
-
-#if NETSTANDARD
-               _thisAsm = Assembly.Load(new AssemblyName("Config.Net.Tests"));
-#endif
             }
 
             return _thisAsm;
          }
       }
-
-
    }
 }

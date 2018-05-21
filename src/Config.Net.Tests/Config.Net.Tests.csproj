@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <VersionPrefix>3.0.0</VersionPrefix>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyOriginatorKeyFile>../config.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
@@ -12,6 +12,9 @@
     <None Update="TestData\sample.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="TestData\sample.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Config.Net.Integration.Storage.Net\Config.Net.Integration.Storage.Net.csproj" />
@@ -20,12 +23,12 @@
     <ProjectReference Include="..\Config.Net\Config.Net.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
-    <PackageReference Include="Storage.Net" Version="5.8.0.106" />
-    <PackageReference Include="Storage.Net.Microsoft.Azure.Storage" Version="5.8.0.106" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
+    <PackageReference Include="Storage.Net" Version="5.9.2" />
+    <PackageReference Include="Storage.Net.Microsoft.Azure.Storage" Version="5.9.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
     <PackageReference Include="xunit" Version="2.3.1" />
-    <PackageReference Include="netbox" Version="2.0.0.34" />
+    <PackageReference Include="netbox" Version="2.0.1" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">
     <DefineConstants>$(DefineConstants);NETSTANDARD</DefineConstants>
