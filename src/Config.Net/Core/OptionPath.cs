@@ -29,6 +29,23 @@
          return true;
       }
 
+      public static bool TryStripIndex(string path, out string noIndexPath, out int index)
+      {
+         int openIdx = path.IndexOf(IndexOpen);
+         int closeIdx = path.IndexOf(IndexClose);
+
+         if(openIdx == -1 || closeIdx == -1 || openIdx > closeIdx)
+         {
+            noIndexPath = path;
+            index = 0;
+            return false;
+         }
+
+         noIndexPath = path.Substring(0, openIdx);
+         int.TryParse(path.Substring(openIdx + 1, closeIdx - openIdx - 1), out index);
+         return true;
+      }
+
       public static string Combine(int index, params string[] parts)
       {
          string s = string.Empty;

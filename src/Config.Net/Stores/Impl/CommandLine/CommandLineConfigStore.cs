@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Config.Net.Core;
+using Config.Net.TypeParsers;
 
 namespace Config.Net.Stores.Impl.CommandLine
 {
@@ -34,9 +36,35 @@ namespace Config.Net.Stores.Impl.CommandLine
       {
          if (key == null) return null;
 
+         bool isLength = OptionPath.TryStripLength(key, out key);
+
+         if(isLength)
+         {
+            string[] ar = GetAsArray(key);
+            if(ar == null) return "0";
+            return ar.Length.ToString();
+         }
+
+         if(OptionPath.TryStripIndex(key, out key, out int index))
+         {
+            string[] ar = GetAsArray(key);
+            if (ar == null) return null;
+            if (index >= ar.Length) return null;
+            return ar[index];
+         }
+
          string value;
          _nameToValue.TryGetValue(key, out value);
          return value;
+      }
+
+      private string[] GetAsArray(string key)
+      {
+         if (!_nameToValue.TryGetValue(key, out string allString)) return null;
+
+         var sap = new StringArrayParser();
+         if (!sap.TryParse(allString, typeof(string[]), out object obj) || !(obj is string[])) return null;
+         return (string[])obj;
       }
 
       public void Write(string key, string value)

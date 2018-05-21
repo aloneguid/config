@@ -103,7 +103,11 @@ namespace Config.Net.Tests.Virtual
    {
       protected override IConfigStore CreateStore()
       {
-         return new CommandLineConfigStore(null);
+         return new CommandLineConfigStore(new[]
+         {
+            "Numbers=1 2 3",
+            "Creds=\"Username:user1 Password:pass1\" \"Username:user2 Password:pass2\""
+         });
       }
    }
 

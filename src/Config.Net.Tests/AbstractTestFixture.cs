@@ -1,39 +1,15 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
-using System.Net;
-using System.Net.Security;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
+using NetBox.Extensions;
 
 namespace Config.Net.Tests
 {
    public class AbstractTestFixture
    {
-      private const string TestDirPrefix = "UNIT-TEST-";
-      private const string TestStorageDirName = "TEST-STATE";
+      private const string TestDirContainer = "ts";
       private DirectoryInfo _testDir;
-
-#if NETFULL
-      static AbstractTestFixture()
-      {
-         /*Log.Configuration.LogFormat = LogFormat.ModernMini;
-         Log.Configuration.Enable(LogType.ColoredConsole);
-         Log.Configuration.Enable(LogType.Trace);*/
-
-         ServicePointManager.ServerCertificateValidationCallback += CertificateValidationCallback;
-      }
-
-      private static bool CertificateValidationCallback(
-         object sender,
-         X509Certificate certificate,
-         X509Chain chain,
-         SslPolicyErrors sslPolicyErrors)
-      {
-         return true;
-      }
-#endif
-
+      private static bool cleanedUp = false;
 
       /// <summary>
       /// Isolated directory will be created for every test only when needed, and destroyed automagicaly
@@ -46,7 +22,7 @@ namespace Config.Net.Tests
             {
                //Cleanup();
 
-               string testDir = Path.Combine(BuildDir.FullName, TestDirPrefix + Guid.NewGuid());
+               string testDir = Path.Combine(BuildDir.FullName, TestDirContainer, Guid.NewGuid().ToString());
                Directory.CreateDirectory(testDir);
                _testDir = new DirectoryInfo(testDir);
             }
@@ -54,10 +30,21 @@ namespace Config.Net.Tests
          }
       }
 
+      public AbstractTestFixture()
+      {
+         if (cleanedUp) return;
+
+         string dirPath = Path.Combine(BuildDir.FullName, TestDirContainer);
+
+         if (Directory.Exists(dirPath)) Directory.Delete(dirPath, true);
+
+         cleanedUp = true;
+      }
+
       private void Cleanup()
       {
          //FS cleanup
-         foreach (DirectoryInfo oldDir in BuildDir.GetDirectories(TestDirPrefix + "*", SearchOption.TopDirectoryOnly))
+         foreach (DirectoryInfo oldDir in BuildDir.GetDirectories(TestDirContainer + "*", SearchOption.TopDirectoryOnly))
          {
             oldDir.Delete(true);
          }
