@@ -77,7 +77,14 @@ namespace Config.Net.Tests.Virtual
    {
       protected override IConfigStore CreateStore()
       {
-         return new InMemoryConfigStore();
+         var result = new InMemoryConfigStore();
+         result.Write("Numbers", "1 2 3");
+         result.Write("Creds[0].Username", "user1");
+         result.Write("Creds[0].Password", "pass1");
+         result.Write("Creds[1].Username", "user2");
+         result.Write("Creds[1].Password", "pass2");
+         result.Write("Creds.$l", "2");
+         return result;
       }
    }
 
@@ -95,6 +102,13 @@ namespace Config.Net.Tests.Virtual
    {
       protected override IConfigStore CreateStore()
       {
+         Environment.SetEnvironmentVariable("Numbers", "1 2 3");
+         Environment.SetEnvironmentVariable("Creds[0].Username", "user1");
+         Environment.SetEnvironmentVariable("Creds[0].Password", "pass1");
+         Environment.SetEnvironmentVariable("Creds[1].Username", "user2");
+         Environment.SetEnvironmentVariable("Creds[1].Password", "pass2");
+         Environment.SetEnvironmentVariable("Creds.$l", "2");
+
          return new EnvironmentVariablesStore();
       }
    }
@@ -106,7 +120,11 @@ namespace Config.Net.Tests.Virtual
          return new CommandLineConfigStore(new[]
          {
             "Numbers=1 2 3",
-            "Creds=\"Username:user1 Password:pass1\" \"Username:user2 Password:pass2\""
+            "Creds[0].Username=user1",
+            "Creds[0].Password=pass1",
+            "Creds[1].Username=user2",
+            "Creds[1].Password=pass2",
+            "Creds.$l=2"
          });
       }
    }

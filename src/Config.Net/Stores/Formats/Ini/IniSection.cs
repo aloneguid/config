@@ -22,6 +22,12 @@ namespace Config.Net.Stores.Formats.Ini
       /// <param name="name">Pass null to work with global section</param>
       public IniSection(string name)
       {
+         if(name != null)
+         {
+            if (name.StartsWith("[")) name = name.Substring(1);
+            if (name.EndsWith("]")) name = name.Substring(0, name.Length - 1);
+         }
+
          Name = name;
       }
 
@@ -105,6 +111,11 @@ namespace Config.Net.Stores.Formats.Ini
                writer.WriteLine(comment.Value);
             }
          }
+      }
+
+      public override string ToString()
+      {
+         return Name;
       }
    }
 }

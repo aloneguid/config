@@ -36,21 +36,14 @@ namespace Config.Net.Stores.Impl.CommandLine
       {
          if (key == null) return null;
 
-         bool isLength = OptionPath.TryStripLength(key, out key);
-
-         if(isLength)
+         if(FlatArrays.IsArrayLength(key, k => _nameToValue.GetValueOrDefault(k), out int length))
          {
-            string[] ar = GetAsArray(key);
-            if(ar == null) return "0";
-            return ar.Length.ToString();
+            return length.ToString();
          }
 
-         if(OptionPath.TryStripIndex(key, out key, out int index))
+         if(FlatArrays.IsArrayElement(key, k => _nameToValue.GetValueOrDefault(k), out string element))
          {
-            string[] ar = GetAsArray(key);
-            if (ar == null) return null;
-            if (index >= ar.Length) return null;
-            return ar[index];
+            return element;
          }
 
          string value;
@@ -62,14 +55,13 @@ namespace Config.Net.Stores.Impl.CommandLine
       {
          if (!_nameToValue.TryGetValue(key, out string allString)) return null;
 
-         var sap = new StringArrayParser();
-         if (!sap.TryParse(allString, typeof(string[]), out object obj) || !(obj is string[])) return null;
-         return (string[])obj;
+         if (!StringArrayParser.TryParse(allString, out string[] ar)) return null;
+         return ar;
       }
 
       public void Write(string key, string value)
       {
-         throw new NotSupportedException();
+         throw new NotSupportedException("command line cannot be written to");
       }
 
       private void Parse(string[] args, IEnumerable<KeyValuePair<string, int>> nameToPosition)

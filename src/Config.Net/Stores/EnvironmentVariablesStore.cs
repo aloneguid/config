@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Config.Net.Core;
 
 namespace Config.Net.Stores
 {
@@ -32,6 +33,16 @@ namespace Config.Net.Stores
 
          foreach(string variant in GetAllKeyVariants(key))
          {
+            if (FlatArrays.IsArrayLength(variant, k => Environment.GetEnvironmentVariable(k), out int length))
+            {
+               return length.ToString();
+            }
+
+            if (FlatArrays.IsArrayElement(variant, k => Environment.GetEnvironmentVariable(k), out string element))
+            {
+               return element;
+            }
+
             string value = Environment.GetEnvironmentVariable(variant);
             if (value != null) return value;
          }

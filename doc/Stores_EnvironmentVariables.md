@@ -13,3 +13,7 @@ IMySettings settings = new ConfigurationBuilder<IMySettings>()
 The store supports reading and writing environment variables.
 
 > Note: Some systems like Visual Studio Team System Build replace dots (.) with underscores (_) when defining a variable. To overcome this the store will try to read the variable in both variants.
+
+## Collections
+
+Collections are supported by using the [flatline syntax](flatline.md).

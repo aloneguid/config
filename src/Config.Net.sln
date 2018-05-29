@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{CDB02CCC-51F
 		..\doc\confignet.vsdx = ..\doc\confignet.vsdx
 		..\doc\CustomParsers.md = ..\doc\CustomParsers.md
 		..\doc\DynamicConfiguration.md = ..\doc\DynamicConfiguration.md
+		..\doc\flatline.md = ..\doc\flatline.md
 		..\doc\jetbrains_rider.png = ..\doc\jetbrains_rider.png
 		..\doc\jetbrains_rider_small.png = ..\doc\jetbrains_rider_small.png
 		..\doc\NestedInterfaces.md = ..\doc\NestedInterfaces.md

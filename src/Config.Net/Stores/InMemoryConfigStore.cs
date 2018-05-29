@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Config.Net.Core;
 
 namespace Config.Net.Stores
 {
@@ -14,7 +15,18 @@ namespace Config.Net.Stores
       {
          if(key == null) return null;
 
-         return _data.ContainsKey(key) ? _data[key] : null;
+         if (FlatArrays.IsArrayLength(key, k => _data.GetValueOrDefault(k), out int length))
+         {
+            return length.ToString();
+         }
+
+         if (FlatArrays.IsArrayElement(key, k => _data.GetValueOrDefault(k), out string element))
+         {
+            return element;
+         }
+
+
+         return _data.GetValueOrDefault(key);
       }
 
       public void Write(string key, string value)

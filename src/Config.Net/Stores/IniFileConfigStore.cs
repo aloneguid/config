@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using Config.Net.Stores.Formats;
+using Config.Net.Core;
 using Config.Net.Stores.Formats.Ini;
 
 namespace Config.Net.Stores
@@ -54,9 +54,19 @@ namespace Config.Net.Stores
 
       public bool CanWrite { get; }
 
-      public string Read(string fullKey)
+      public string Read(string key)
       {
-         return _iniFile[fullKey];
+         if (FlatArrays.IsArrayLength(key, k => _iniFile[k], out int length))
+         {
+            return length.ToString();
+         }
+
+         if (FlatArrays.IsArrayElement(key, k => _iniFile[k], out string element))
+         {
+            return element;
+         }
+
+         return _iniFile[key];
       }
 
       public void Write(string key, string value)

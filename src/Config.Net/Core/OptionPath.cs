@@ -19,6 +19,12 @@
 
       public static bool TryStripLength(string path, out string noLengthPath)
       {
+         if(path == null)
+         {
+            noLengthPath = path;
+            return false;
+         }
+
          if(!path.EndsWith(LengthFunction))
          {
             noLengthPath = path;
@@ -31,10 +37,17 @@
 
       public static bool TryStripIndex(string path, out string noIndexPath, out int index)
       {
+         if(path == null)
+         {
+            index = 0;
+            noIndexPath = path;
+            return false;
+         }
+
          int openIdx = path.IndexOf(IndexOpen);
          int closeIdx = path.IndexOf(IndexClose);
 
-         if(openIdx == -1 || closeIdx == -1 || openIdx > closeIdx)
+         if(openIdx == -1 || closeIdx == -1 || openIdx > closeIdx || closeIdx != path.Length - 1)
          {
             noIndexPath = path;
             index = 0;

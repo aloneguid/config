@@ -20,6 +20,18 @@ namespace Config.Net.TypeParsers
          return true;
       }
 
+      public static bool TryParse(string value, out string[] result)
+      {
+         if(value == null)
+         {
+            result = null;
+            return false;
+         }
+
+         result = ParseAsArray(value);
+         return true;
+      }
+
       public string ToRawString(object value)
       {
          string[] arv = (string[])value;

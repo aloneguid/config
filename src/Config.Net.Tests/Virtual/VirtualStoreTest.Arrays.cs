@@ -44,6 +44,14 @@ namespace Config.Net.Tests.Virtual
       }
 
       [Fact]
+      public void Write_collection_of_simple_values_reads()
+      {
+         ISimpleArrays config = new ConfigurationBuilder<ISimpleArrays>()
+            .UseConfigStore(store)
+            .Build();
+      }
+
+      [Fact]
       public void Collections_cannot_have_a_setter()
       {
          var builder = new ConfigurationBuilder<ISetterArrays>();

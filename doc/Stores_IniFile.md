@@ -105,3 +105,7 @@ and passing `true` to the last argument.
 
 
 * If a value contains semicolon (`;`) which is a comment separator in INI files you should add it also as a last character in the value, because the parser considers only last `;` as a comment separator. For example `key=val;ue` wil be read as `val`, however `key=val;ue;` will be read as `val;ue`.
+
+## Collections
+
+Collections are supported by using the [flatline syntax](flatline.md).

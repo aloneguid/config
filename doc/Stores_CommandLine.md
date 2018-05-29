@@ -71,19 +71,4 @@ Note that the first command-line parameter starts with `1` not `0`.
 
 ## Collections
 
-Command line supports binding to collections, however only simplest collections are supported. For instance:
-
-```csharp
-public interface ISimpleArrays
-{
-   IEnumerable<int> Numbers { get; }
-}
-```
-
-binds to the following command line:
-
-```bash
-"Numbers=1 2 3"
-```
-
-Note that elements are space separated.
+Command line store also supports collections by using the [flatline syntax](flatline.md).

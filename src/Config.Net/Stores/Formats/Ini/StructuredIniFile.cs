@@ -80,7 +80,7 @@ namespace Config.Net.Stores.Formats.Ini
                if(line.StartsWith(_sectionBegin))
                {
                   //start new section
-                  line = line.Trim(_sectionTrims).Trim();
+                  line = line.Trim();
                   section = new IniSection(line);
                   file._sections.Add(section);
                }
