@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Config.Net.Core;
 using YamlDotNet.RepresentationModel;
 
 namespace Config.Net.Yaml.Stores
@@ -19,7 +20,7 @@ namespace Config.Net.Yaml.Stores
          _fullName = Path.GetFullPath(fullName) ?? throw new ArgumentNullException(nameof(fullName));
       }
 
-      public string Name => $"yaml";
+      public string Name => "yaml";
 
       public bool CanRead => true;
 
@@ -43,6 +44,8 @@ namespace Config.Net.Yaml.Stores
       {
          if (name == null || !File.Exists(_fullName)) return null;
 
+         bool isLength = OptionPath.TryStripLength(name, out name);
+
          var ys = new YamlStream();
 
          using (FileStream fs = File.OpenRead(_fullName))
@@ -63,7 +66,7 @@ namespace Config.Net.Yaml.Stores
             if (current == null) break;
          }
 
-         return GetResult(current);
+         return GetResult(current, isLength);
       }
 
       private YamlNode DiveIn(YamlNode node, string name)
@@ -96,12 +99,24 @@ namespace Config.Net.Yaml.Stores
          return false;
       }
 
-      private string GetResult(YamlNode node)
+      private string GetResult(YamlNode node, bool isLength)
       {
          if (node == null) return null;
 
+         if(isLength)
+         {
+            if(node is YamlSequenceNode sequenceNode)
+            {
+               return sequenceNode.Count().ToString();
+            }
+
+            return "0";
+         }
+
          if (node is YamlScalarNode scalar)
+         {
             return scalar.Value;
+         }
 
          return null;
       }

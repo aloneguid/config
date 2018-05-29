@@ -46,7 +46,7 @@ namespace Config.Net.Json.Stores
          // nothing to dispose.
       }
 
-      public string Name => $"json:{_pathName}";
+      public string Name => "json";
 
       public bool CanRead { get; }
 

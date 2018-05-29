@@ -35,4 +35,4 @@ interface IMyConfig
 
 ## Limitations
 
-At the moment this feature is relatively new and not every store supports it. In fact only [JSON store](Stores_JsonFile.md) supports collections.
+Collections at the moment are only supported in read-only mode. All of the stores do support collections, however due to the nature of some underlying implementations complex collections are harder to represent and they are following the [flat line syntax](flatline.md).
