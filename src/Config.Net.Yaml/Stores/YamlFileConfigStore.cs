@@ -71,13 +71,29 @@ namespace Config.Net.Yaml.Stores
 
       private YamlNode DiveIn(YamlNode node, string name)
       {
+         bool isIndex = OptionPath.TryStripIndex(name, out name, out int index);
+
          if (node is YamlMappingNode currentMapping)
          {
-            return currentMapping
+            YamlNode result = currentMapping
                .Children
                .Where(c => IsMatch(c.Key, name))
                .Select(c => c.Value)
                .FirstOrDefault();
+
+            if(isIndex && result is YamlSequenceNode sequenceNode)
+            {
+               if(index < sequenceNode.Count())
+               {
+                  result = sequenceNode[index];
+               }
+               else
+               {
+                  result = null;
+               }
+            }
+
+            return result;
          }
          else if (node is YamlSequenceNode currentSequence)
          {
