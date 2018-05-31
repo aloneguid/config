@@ -41,5 +41,10 @@ namespace Config.Net.Stores.Formats.Ini
 
          return new IniKeyValue(key, value, comment);
       }
+
+      public override string ToString()
+      {
+         return $"{Value}";
+      }
    }
 }
