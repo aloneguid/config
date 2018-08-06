@@ -6,11 +6,11 @@ namespace Config.Net.Integration.Storage.Net
 {
    class BlobConfigStore : IConfigStore
    {
-      private readonly BlobStorage _blobs;
+      private readonly IBlobStorage _blobs;
 
-      public BlobConfigStore(IBlobStorageProvider blobs)
+      public BlobConfigStore(IBlobStorage blobs)
       {
-         _blobs = new BlobStorage(blobs) ?? throw new ArgumentNullException(nameof(blobs));
+         _blobs = blobs ?? throw new ArgumentNullException(nameof(blobs));
       }
 
       public string Name => "Storage.Net Blobs";
@@ -45,7 +45,7 @@ namespace Config.Net.Integration.Storage.Net
          }
          else
          {
-            _blobs.WriteText(key, value);
+            _blobs.WriteTextAsync(key, value).Wait();
          }
       }
    }

@@ -8,15 +8,15 @@ namespace Config.Net.Integration.Storage.Net
    //todo: not ready for use yet
    class TableConfigStore : IConfigStore
    {
-      private readonly ITableStorageProvider _tableStorage;
+      private readonly ITableStorage _tableStorage;
       private readonly string _tableName;
       private readonly string _partitionKey;
 
-      public TableConfigStore(ITableStorageProvider tableStorage, string tableName, string partitionKey)
+      public TableConfigStore(ITableStorage tableStorage, string tableName, string partitionKey)
       {
-         _tableStorage = tableStorage;
-         _tableName = tableName;
-         _partitionKey = partitionKey;
+         _tableStorage = tableStorage ?? throw new ArgumentNullException(nameof(tableStorage));
+         _tableName = tableName ?? throw new ArgumentNullException(nameof(tableName));
+         _partitionKey = partitionKey ?? throw new ArgumentNullException(nameof(partitionKey));
       }
 
       public string Name => "Storage.Net Tables";

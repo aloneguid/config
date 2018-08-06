@@ -1,12 +1,16 @@
-﻿using Storage.Net.Blob;
+﻿using Config.Net.Integration.Storage.Net;
+using Storage.Net.Blob;
 
-namespace Config.Net.Integration.Storage.Net
+namespace Config.Net
 {
    public static class ConfigurationExtensions
    {
-      public static ConfigurationBuilder<TInterface> UseStorageNetBlobs<TInterface>(this ConfigurationBuilder<TInterface> builder, IBlobStorageProvider blobs) where TInterface : class
+      /// <summary>
+      /// Use <see cref="IBlobStorage"/> as underlying configuration storage. Every blob will correspond to a key storing it's value as the content.
+      /// </summary>
+      public static ConfigurationBuilder<TInterface> UseStorageNetBlobs<TInterface>(this ConfigurationBuilder<TInterface> builder, IBlobStorage blobStorage) where TInterface : class
       {
-         IConfigStore store = new BlobConfigStore(blobs);
+         IConfigStore store = new BlobConfigStore(blobStorage);
 
          builder.UseConfigStore(store);
 
