@@ -136,33 +136,6 @@ namespace Config.Net.Tests
       }
 
       [Fact]
-      public void ReadBooleanYesNoTest()
-      {
-         _store.Map["log-xml"] = "yes";
-         Assert.True(_settings.LogXml);
-
-         _store.Map["log-xml"] = "no";
-         Assert.False(_settings.LogXml);         
-      }
-
-      [Fact]
-      public void Read_PropertySyntax_Reads()
-      {
-         _store.Map["log-xml"] = "no";
-         Assert.False(_settings.LogXml);
-      }
-
-      [Fact]
-      public void ReadBoolean10Test()
-      {
-         _store.Map["log-xml"] = "1";
-         Assert.True(_settings.LogXml);
-
-         _store.Map["log-xml"] = "0";
-         Assert.False(_settings.LogXml);
-      }
-
-      [Fact]
       public void TimeSpanParserTest()
       {
          _store.Map["ping-interval"] = "01:02:03";

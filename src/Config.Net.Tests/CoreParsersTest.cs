@@ -15,10 +15,6 @@ namespace Config.Net.Tests
       [Theory]
       [InlineData("true", "true")]
       [InlineData("false", "false")]
-      [InlineData("yes", "true")]
-      [InlineData("no", "false")]
-      [InlineData("1", "true")]
-      [InlineData("0", "false")]
       public void Boolean__(string input, string expected)
       {
          object result;
