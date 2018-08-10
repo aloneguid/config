@@ -11,13 +11,6 @@ namespace Config.Net.TypeParsers
    {
       public IEnumerable<Type> SupportedTypes => new[] { typeof(Uri), typeof(bool), typeof(Guid), typeof(DateTime) };
 
-      private static readonly Dictionary<string, bool> BooleanTrueValues =
-         new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase)
-      {
-         {"true", true},
-         {"yes", true},
-         {"1", true},
-      };
 
 
       public string ToRawString(object value)
@@ -58,13 +51,7 @@ namespace Config.Net.TypeParsers
 
          if(t == typeof(bool))
          {
-            if(BooleanTrueValues.ContainsKey(value))
-            {
-               result = true;
-               return true;
-            }
-
-            result = false;
+            result = bool.Parse(value);
             return true;
          }
 
