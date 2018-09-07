@@ -15,7 +15,7 @@ namespace Config.Net.TypeParsers
          bool parsed;
          if (value.StartsWith("0x"))
          {
-            parsed = byte.TryParse(value, NumberStyles.HexNumber, TypeParserSettings.DefaultCulture, out ir);
+            parsed = byte.TryParse(value.Substring(2), NumberStyles.HexNumber, TypeParserSettings.DefaultCulture, out ir);
          }
          else
          {
