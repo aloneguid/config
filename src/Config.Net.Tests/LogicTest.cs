@@ -82,7 +82,7 @@ namespace Config.Net.Tests
          float TotalSeconds7d { get; set; }
          [Option(DefaultValue = 12345678.1234567)]
          double TotalSeconds15d { get; set; }
-         [Option(DefaultValue = "1234567.1234567890")]
+         [Option(DefaultValue = "1234567890.123456789012345678")]
          decimal TotalSeconds28d { get; set; }
 
          [Option(Alias = "ping-interval", DefaultValue = "00:00:01")]
@@ -321,7 +321,7 @@ namespace Config.Net.Tests
       }
       #endregion
 
-      #region Int Tests
+      #region UInt Tests
       [Fact]
       public void Read_UInt_Reads()
       {
@@ -384,6 +384,107 @@ namespace Config.Net.Tests
       public void Read_DefaultULong_Reads()
       {
          Assert.Equal<ulong>(86400000000, (ulong)_settings.MicroSecondsOfDay);
+      }
+      #endregion
+      #endregion
+
+      #region Decimal Types Tests
+      #region Float Tests
+      [Fact]
+      public void Read_Float_Reads()
+      {
+         _store.Map["TotalSeconds7d"] = "78";
+
+         float seconds = _settings.TotalSeconds7d;
+         Assert.Equal<float>(78, seconds);
+      }
+
+      [Fact]
+      public void Read_Cached_Float()
+      {
+         _store.Map["TotalSeconds7d"] = "78";
+
+         _settings = new ConfigurationBuilder<IFixtureSettings>()
+            .UseConfigStore(_store)
+            .CacheFor(TimeSpan.FromMinutes(1))
+            .Build();
+
+         Assert.Equal<float>(78, _settings.TotalSeconds7d);
+
+         _store.Map["TotalSeconds15d"] = "79";
+         Assert.Equal<float>(78, _settings.TotalSeconds7d); //still cached
+      }
+
+      [Fact]
+      public void Read_DefaultFloat_Reads()
+      {
+         Assert.Equal<float>(12345.67f, (float)_settings.TotalSeconds7d);
+      }
+      #endregion
+
+      #region Double Tests
+      [Fact]
+      public void Read_Double_Reads()
+      {
+         _store.Map["TotalSeconds15d"] = "78";
+
+         double seconds = _settings.TotalSeconds15d;
+         Assert.Equal<double>(78, seconds);
+      }
+
+      [Fact]
+      public void Read_Cached_Double()
+      {
+         _store.Map["TotalSeconds15d"] = "78";
+
+         _settings = new ConfigurationBuilder<IFixtureSettings>()
+            .UseConfigStore(_store)
+            .CacheFor(TimeSpan.FromMinutes(1))
+            .Build();
+
+         Assert.Equal<double>(78, _settings.TotalSeconds15d);
+
+         _store.Map["TotalSeconds15d"] = "79";
+         Assert.Equal<double>(78, _settings.TotalSeconds15d); //still cached
+      }
+
+      [Fact]
+      public void Read_DefaultDouble_Reads()
+      {
+         Assert.Equal<double>(12345678.1234567, _settings.TotalSeconds15d);
+      }
+      #endregion
+
+      #region Decimal Tests
+      [Fact]
+      public void Read_Decimal_Reads()
+      {
+         _store.Map["TotalSeconds28d"] = "78";
+
+         decimal seconds = _settings.TotalSeconds28d;
+         Assert.Equal<decimal>(78, seconds);
+      }
+
+      [Fact]
+      public void Read_Cached_Decimal()
+      {
+         _store.Map["TotalSeconds28d"] = "78";
+
+         _settings = new ConfigurationBuilder<IFixtureSettings>()
+            .UseConfigStore(_store)
+            .CacheFor(TimeSpan.FromMinutes(1))
+            .Build();
+
+         Assert.Equal<decimal>(78, _settings.TotalSeconds28d);
+
+         _store.Map["TotalSeconds28d"] = "79";
+         Assert.Equal<decimal>(78, _settings.TotalSeconds28d); //still cached
+      }
+
+      [Fact]
+      public void Read_DefaultDecimal_Reads()
+      {
+         Assert.Equal<decimal>(1234567890.123456789012345678m, _settings.TotalSeconds28d);
       }
       #endregion
       #endregion
