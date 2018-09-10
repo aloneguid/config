@@ -140,7 +140,6 @@ namespace Config.Net.Core
             new UShortParser(),
             new UIntParser(),
             new ULongParser(),
-            new BoolParser(),
             new StringArrayParser(),
             new StringParser(),
             new TimeSpanParser(),
