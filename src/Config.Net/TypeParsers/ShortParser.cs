@@ -7,7 +7,7 @@ namespace Config.Net.TypeParsers
 {
    class ShortParser : ITypeParser
    {
-      public IEnumerable<Type> SupportedTypes => new[] { typeof(int) };
+      public IEnumerable<Type> SupportedTypes => new[] { typeof(short) };
 
       public bool TryParse(string value, Type t, out object result)
       {
