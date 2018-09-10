@@ -9,6 +9,7 @@ namespace Config.Net.Tests
    /// </summary>
    public class LogicTest
    {
+      #region Type Defines
       public enum Grid
       {
          IT,
@@ -37,22 +38,58 @@ namespace Config.Net.Tests
          [Option(DefaultValue = "not set")]
          string UnitTestName { get; set; }
 
+         [Option(DefaultValue = (sbyte)10)]
+         sbyte NumberOfYears { get; set; }
+
+         [Option(DefaultValue = (short)1000)]
+         short NumberOfHours { get; set; }
+
          [Option(DefaultValue = 10)]
          int NumberOfMinutes { get; set; }
+
+         [Option(DefaultValue = (long)1000000000)]
+         long NumberOfSeconds { get; set; }
+
+         [Option(DefaultValue = (byte)24)]
+         byte HoursOfDay { get; set; }
+
+         [Option(DefaultValue = (ushort)1440)]
+         ushort MinutesOfDay { get; set; }
+
+         [Option(DefaultValue = (uint)86400)]
+         uint SecondsOfDay { get; set; }
+
+         [Option(DefaultValue = (ulong)86400000000)]
+         ulong MicroSecondsOfDay { get; set; }
 
          [Option(DefaultValue = "Japan Denmark Australia")]
          string[] Regions { get; set; }
 
          [Option(Alias = "log-xml", DefaultValue = true)]
-         bool LogXml { get; set;  }
+         bool LogXml { get; set; }
 
-         int? NumberOfMinutesMaybe { get; set;  }
+         byte? NumberOfYearsMaybe { get; set; }
+         short? NumberOfHoursMaybe { get; set; }
+         int? NumberOfMinutesMaybe { get; set; }
+         long? NumberOfSecondsMaybe { get; set; }
+
+         byte? HoursOfDayMaybe { get; set; }
+         ushort? MinutesOfDayMaybe { get; set; }
+         uint? SecondsOfDayMaybe { get; set; }
+         ulong? MicroSecondsOfDayMaybe { get; set; }
+
+         [Option(DefaultValue = 12345.67f)]
+         float TotalSeconds7d { get; set; }
+         [Option(DefaultValue = 12345678.1234567)]
+         double TotalSeconds15d { get; set; }
+         [Option(DefaultValue = "1234567890.123456789012345678")]
+         decimal TotalSeconds28d { get; set; }
 
          [Option(Alias = "ping-interval", DefaultValue = "00:00:01")]
-         TimeSpan PingInterval { get; set;  }
+         TimeSpan PingInterval { get; set; }
 
          [Option(Alias = "ping-interval-nullable")]
-         TimeSpan? NullablePingInterval { get; set;  }
+         TimeSpan? NullablePingInterval { get; set; }
 
          [Option(DefaultValue = Grid.ZA)]
          Grid ActiveGrid { get; set; }
@@ -63,6 +100,7 @@ namespace Config.Net.Tests
 
          NetworkCredential SomeCreds { get; }
       }
+      #endregion
 
       private TestStore _store;
       private IFixtureSettings _settings;
@@ -84,6 +122,74 @@ namespace Config.Net.Tests
          Assert.Equal("configured value", _settings.UnitTestName);
       }
 
+      #region Integer Types Tests
+      #region SByte Tests
+      [Fact]
+      public void Read_SByte_Reads()
+      {
+         _store.Map["NumberOfYears"] = "78";
+
+         sbyte years = _settings.NumberOfYears;
+         Assert.Equal(78, years);
+      }
+
+      [Fact]
+      public void Read_Cached_SByte()
+      {
+         _store.Map["NumberOfYears"] = "78";
+
+         _settings = new ConfigurationBuilder<IFixtureSettings>()
+            .UseConfigStore(_store)
+            .CacheFor(TimeSpan.FromMinutes(1))
+            .Build();
+
+         Assert.Equal(78, _settings.NumberOfYears);
+
+         _store.Map["NumberOfYears"] = "79";
+         Assert.Equal(78, _settings.NumberOfYears); //still cached
+      }
+
+      [Fact]
+      public void Read_DefaultSByte_Reads()
+      {
+         Assert.Equal(10, (sbyte)_settings.NumberOfYears);
+      }
+      #endregion
+
+      #region Short Tests
+      [Fact]
+      public void Read_Short_Reads()
+      {
+         _store.Map["NumberOfHours"] = "78";
+
+         short years = _settings.NumberOfHours;
+         Assert.Equal(78, years);
+      }
+
+      [Fact]
+      public void Read_Cached_Short()
+      {
+         _store.Map["NumberOfHours"] = "78";
+
+         _settings = new ConfigurationBuilder<IFixtureSettings>()
+            .UseConfigStore(_store)
+            .CacheFor(TimeSpan.FromMinutes(1))
+            .Build();
+
+         Assert.Equal(78, _settings.NumberOfHours);
+
+         _store.Map["NumberOfHours"] = "79";
+         Assert.Equal(78, _settings.NumberOfHours); //still cached
+      }
+
+      [Fact]
+      public void Read_DefaultShort_Reads()
+      {
+         Assert.Equal(1000, (short)_settings.NumberOfHours);
+      }
+      #endregion
+
+      #region Int Tests
       [Fact]
       public void Read_Integer_Reads()
       {
@@ -94,7 +200,7 @@ namespace Config.Net.Tests
       }
 
       [Fact]
-      public void Read_cached_integer()
+      public void Read_Cached_Integer()
       {
          _store.Map["NumberOfMinutes"] = "78";
 
@@ -114,6 +220,274 @@ namespace Config.Net.Tests
       {
          Assert.Equal(10, (int)_settings.NumberOfMinutes);
       }
+      #endregion
+
+      #region Long Tests
+      [Fact]
+      public void Read_Long_Reads()
+      {
+         _store.Map["NumberOfSeconds"] = "78";
+
+         long seconds = _settings.NumberOfSeconds;
+         Assert.Equal(78, seconds);
+      }
+
+      [Fact]
+      public void Read_Cached_Long()
+      {
+         _store.Map["NumberOfSeconds"] = "78";
+
+         _settings = new ConfigurationBuilder<IFixtureSettings>()
+            .UseConfigStore(_store)
+            .CacheFor(TimeSpan.FromMinutes(1))
+            .Build();
+
+         Assert.Equal(78, _settings.NumberOfSeconds);
+
+         _store.Map["NumberOfSeconds"] = "79";
+         Assert.Equal(78, _settings.NumberOfSeconds); //still cached
+      }
+
+      [Fact]
+      public void Read_DefaultLong_Reads()
+      {
+         Assert.Equal(1000000000, (long)_settings.NumberOfSeconds);
+      }
+      #endregion
+
+      #region SByte Tests
+      [Fact]
+      public void Read_Byte_Reads()
+      {
+         _store.Map["HoursOfDay"] = "78";
+
+         byte hours = _settings.HoursOfDay;
+         Assert.Equal<byte>(78, hours);
+      }
+
+      [Fact]
+      public void Read_Cached_Byte()
+      {
+         _store.Map["HoursOfDay"] = "78";
+
+         _settings = new ConfigurationBuilder<IFixtureSettings>()
+            .UseConfigStore(_store)
+            .CacheFor(TimeSpan.FromMinutes(1))
+            .Build();
+
+         Assert.Equal<byte>(78, _settings.HoursOfDay);
+
+         _store.Map["HoursOfDay"] = "79";
+         Assert.Equal<byte>(78, _settings.HoursOfDay); //still cached
+      }
+
+      [Fact]
+      public void Read_DefaultByte_Reads()
+      {
+         Assert.Equal(24, (sbyte)_settings.HoursOfDay);
+      }
+      #endregion
+
+      #region Short Tests
+      [Fact]
+      public void Read_UShort_Reads()
+      {
+         _store.Map["MinutesOfDay"] = "78";
+
+         ushort minutes = _settings.MinutesOfDay;
+         Assert.Equal<ushort>(78, minutes);
+      }
+
+      [Fact]
+      public void Read_Cached_UShort()
+      {
+         _store.Map["MinutesOfDay"] = "78";
+
+         _settings = new ConfigurationBuilder<IFixtureSettings>()
+            .UseConfigStore(_store)
+            .CacheFor(TimeSpan.FromMinutes(1))
+            .Build();
+
+         Assert.Equal<ushort>(78, _settings.MinutesOfDay);
+
+         _store.Map["MinutesOfDay"] = "79";
+         Assert.Equal<ushort>(78, _settings.MinutesOfDay); //still cached
+      }
+
+      [Fact]
+      public void Read_DefaultUShort_Reads()
+      {
+         Assert.Equal<ushort>(1440, _settings.MinutesOfDay);
+      }
+      #endregion
+
+      #region UInt Tests
+      [Fact]
+      public void Read_UInt_Reads()
+      {
+         _store.Map["SecondsOfDay"] = "78";
+
+         uint seconds = _settings.SecondsOfDay;
+         Assert.Equal<uint>(78, seconds);
+      }
+
+      [Fact]
+      public void Read_Cached_UInt()
+      {
+         _store.Map["SecondsOfDay"] = "78";
+
+         _settings = new ConfigurationBuilder<IFixtureSettings>()
+            .UseConfigStore(_store)
+            .CacheFor(TimeSpan.FromMinutes(1))
+            .Build();
+
+         Assert.Equal<uint>(78, _settings.SecondsOfDay);
+
+         _store.Map["SecondsOfDay"] = "79";
+         Assert.Equal<uint>(78, _settings.SecondsOfDay); //still cached
+      }
+
+      [Fact]
+      public void Read_DefaultUInt_Reads()
+      {
+         Assert.Equal<uint>(86400, _settings.SecondsOfDay);
+      }
+      #endregion
+
+      #region ULong Tests
+      [Fact]
+      public void Read_ULong_Reads()
+      {
+         _store.Map["MicroSecondsOfDay"] = "78";
+
+         ulong microSeconds = _settings.MicroSecondsOfDay;
+         Assert.Equal<ulong>(78, microSeconds);
+      }
+
+      [Fact]
+      public void Read_Cached_ULong()
+      {
+         _store.Map["MicroSecondsOfDay"] = "78";
+
+         _settings = new ConfigurationBuilder<IFixtureSettings>()
+            .UseConfigStore(_store)
+            .CacheFor(TimeSpan.FromMinutes(1))
+            .Build();
+
+         Assert.Equal<ulong>(78, _settings.MicroSecondsOfDay);
+
+         _store.Map["MicroSecondsOfDay"] = "79";
+         Assert.Equal<ulong>(78, _settings.MicroSecondsOfDay); //still cached
+      }
+
+      [Fact]
+      public void Read_DefaultULong_Reads()
+      {
+         Assert.Equal<ulong>(86400000000, (ulong)_settings.MicroSecondsOfDay);
+      }
+      #endregion
+      #endregion
+
+      #region Decimal Types Tests
+      #region Float Tests
+      [Fact]
+      public void Read_Float_Reads()
+      {
+         _store.Map["TotalSeconds7d"] = "78";
+
+         float seconds = _settings.TotalSeconds7d;
+         Assert.Equal<float>(78, seconds);
+      }
+
+      [Fact]
+      public void Read_Cached_Float()
+      {
+         _store.Map["TotalSeconds7d"] = "78";
+
+         _settings = new ConfigurationBuilder<IFixtureSettings>()
+            .UseConfigStore(_store)
+            .CacheFor(TimeSpan.FromMinutes(1))
+            .Build();
+
+         Assert.Equal<float>(78, _settings.TotalSeconds7d);
+
+         _store.Map["TotalSeconds15d"] = "79";
+         Assert.Equal<float>(78, _settings.TotalSeconds7d); //still cached
+      }
+
+      [Fact]
+      public void Read_DefaultFloat_Reads()
+      {
+         Assert.Equal<float>(12345.67f, (float)_settings.TotalSeconds7d);
+      }
+      #endregion
+
+      #region Double Tests
+      [Fact]
+      public void Read_Double_Reads()
+      {
+         _store.Map["TotalSeconds15d"] = "78";
+
+         double seconds = _settings.TotalSeconds15d;
+         Assert.Equal<double>(78, seconds);
+      }
+
+      [Fact]
+      public void Read_Cached_Double()
+      {
+         _store.Map["TotalSeconds15d"] = "78";
+
+         _settings = new ConfigurationBuilder<IFixtureSettings>()
+            .UseConfigStore(_store)
+            .CacheFor(TimeSpan.FromMinutes(1))
+            .Build();
+
+         Assert.Equal<double>(78, _settings.TotalSeconds15d);
+
+         _store.Map["TotalSeconds15d"] = "79";
+         Assert.Equal<double>(78, _settings.TotalSeconds15d); //still cached
+      }
+
+      [Fact]
+      public void Read_DefaultDouble_Reads()
+      {
+         Assert.Equal<double>(12345678.1234567, _settings.TotalSeconds15d);
+      }
+      #endregion
+
+      #region Decimal Tests
+      [Fact]
+      public void Read_Decimal_Reads()
+      {
+         _store.Map["TotalSeconds28d"] = "78";
+
+         decimal seconds = _settings.TotalSeconds28d;
+         Assert.Equal<decimal>(78, seconds);
+      }
+
+      [Fact]
+      public void Read_Cached_Decimal()
+      {
+         _store.Map["TotalSeconds28d"] = "78";
+
+         _settings = new ConfigurationBuilder<IFixtureSettings>()
+            .UseConfigStore(_store)
+            .CacheFor(TimeSpan.FromMinutes(1))
+            .Build();
+
+         Assert.Equal<decimal>(78, _settings.TotalSeconds28d);
+
+         _store.Map["TotalSeconds28d"] = "79";
+         Assert.Equal<decimal>(78, _settings.TotalSeconds28d); //still cached
+      }
+
+      [Fact]
+      public void Read_DefaultDecimal_Reads()
+      {
+         Assert.Equal<decimal>(1234567890.123456789012345678m, _settings.TotalSeconds28d);
+      }
+      #endregion
+      #endregion
 
       [Fact]
       public void Read_StringArray_Reads()
@@ -125,6 +499,7 @@ namespace Config.Net.Tests
          Assert.Equal(3, regions.Length);
       }
 
+      #region Bool Test
       [Fact]
       public void ReadBooleanTrueFalseTest()
       {
@@ -142,7 +517,7 @@ namespace Config.Net.Tests
          Assert.True(_settings.LogXml);
 
          _store.Map["log-xml"] = "no";
-         Assert.False(_settings.LogXml);         
+         Assert.False(_settings.LogXml);
       }
 
       [Fact]
@@ -161,6 +536,7 @@ namespace Config.Net.Tests
          _store.Map["log-xml"] = "0";
          Assert.False(_settings.LogXml);
       }
+      #endregion
 
       [Fact]
       public void TimeSpanParserTest()
@@ -172,6 +548,7 @@ namespace Config.Net.Tests
          Assert.Equal(3, v.Seconds);
       }
 
+      #region Enum Tests
       [Fact]
       public void ReadEnum_NotInConfig_DefaultValue()
       {
@@ -231,7 +608,9 @@ namespace Config.Net.Tests
          _store.Map[nameof(IFixtureSettings.ActiveGridNullable)] = "Out Of Range";
          Assert.Null(_settings.ActiveGridNullable);
       }
+      #endregion
 
+      #region Nullable Int Tests
       [Fact]
       public void ReadNullableInt_Null_Null()
       {
@@ -245,6 +624,7 @@ namespace Config.Net.Tests
          _store.Map[nameof(IFixtureSettings.NumberOfMinutesMaybe)] = "9";
          Assert.Equal(9, (int)_settings.NumberOfMinutesMaybe);
       }
+      #endregion
 
       /// <summary>
       /// Previously this operation would fail because ConfigManager would compare the cached value to
@@ -264,16 +644,16 @@ namespace Config.Net.Tests
       {
          const string writeValue = "SomeValue";
          _settings.UnitTestName = writeValue;
-         
+
          Assert.Equal(writeValue, (string)_settings.UnitTestName);
       }
 
       [Fact]
       public void WriteStringArrayTest()
       {
-         string[] writeValue = {"Japan", "Denmark", "Australia"};
+         string[] writeValue = { "Japan", "Denmark", "Australia" };
          _settings.Regions = writeValue;
-         
+
          Assert.Equal(writeValue, (string[])_settings.Regions);
       }
 
@@ -317,7 +697,7 @@ namespace Config.Net.Tests
       public void WriteNullableIntTest()
       {
          _settings.NumberOfMinutesMaybe = null;
-         
+
          Assert.Null((int?)_settings.NumberOfMinutesMaybe);
          _store.Map["NumberOfMinutesMaybe"] = "34";
          int? newWriteValue = 34;
@@ -334,7 +714,7 @@ namespace Config.Net.Tests
          Grid? value = _settings.ActiveGridNullable;
 
          Assert.Null((Grid?)_settings.ActiveGridNullable);
-         
+
          Grid? newWriteValue = Grid.AC;
 
          _settings.ActiveGridNullable = newWriteValue;
