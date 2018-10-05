@@ -19,8 +19,6 @@ namespace Config.Net
          TypeInfo ti = typeof(T).GetTypeInfo();
 
          if (!ti.IsInterface) throw new ArgumentException($"{ti.FullName} must be an interface", ti.FullName);
-
-         if (!ti.IsVisible) throw new ArgumentException($"{ti.FullName} must be visible outside of the assembly (public)", ti.FullName);
       }
 
       /// <summary>

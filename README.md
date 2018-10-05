@@ -68,7 +68,11 @@ IMySettings settings = new ConfigurationBuilder<IMySettings>()
 
 This is literally all you have to do. Configuration builder is an entry to creating instances of your interface and underneath it creates a proxy class which intercepts calls to properties and fetches values from underlying configured stores.
 
-Not all of the types can be used in the properties, because Config.Net needs to know how to convert them to and from the underlying stores. [This list](doc/SupportedTypes.md) is growing though, and you can always [create a new one](doc/CustomParsers.md) (please don't forget to contribute back to Config.Net).
+Not all of the types can be used in the properties, because Config.Net needs to know how to convert them to and from the underlying stores. [This list](doc/SupportedTypes.md) is growing though, and you can always [create a new one](doc/CustomParsers.md) (please don't forget to contribute back to Config.Net). Please also note that if you want to use internal types, you should add the following within your assembly:
+
+```chasrp
+[assembly: InternalsVisibleTo ("DynamicProxyGenAssembly2")]
+```
 
 
 ### Using Multiple Sources
