@@ -12,5 +12,14 @@ namespace Config.Net
 
          return builder;
       }
+
+      public static ConfigurationBuilder<TInterface> UseAzureKeyVaultWithServicePrincipal<TInterface>(
+         this ConfigurationBuilder<TInterface> builder, Uri vaultUri, string clientId, string clientSecret) where TInterface : class
+      {
+         builder.UseConfigStore(AzureKeyVaultConfigStore.CreateWithPrincipal(vaultUri, clientId, clientSecret));
+
+         return builder;
+      }
+
    }
 }

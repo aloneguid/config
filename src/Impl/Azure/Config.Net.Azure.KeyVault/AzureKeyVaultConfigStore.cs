@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.KeyVault.Models;
 using Microsoft.Azure.Services.AppAuthentication;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
 namespace Config.Net.Azure.KeyVault
 {
@@ -23,6 +26,31 @@ namespace Config.Net.Azure.KeyVault
          var client = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
 
          return new AzureKeyVaultConfigStore(vaultUri, client);
+      }
+
+      public static AzureKeyVaultConfigStore CreateWithPrincipal(Uri vaultUri, string azureAadClientId, string azureAadClientSecret)
+      {
+         var credential = new ClientCredential(azureAadClientId, azureAadClientSecret);
+
+         var client = new KeyVaultClient(
+            new KeyVaultClient.AuthenticationCallback( (authority, resource, scope) => GetAccessToken(authority, resource, scope, credential) ),
+            GetHttpClient());
+
+         return new AzureKeyVaultConfigStore(vaultUri, client);
+      }
+
+      private static async Task<string> GetAccessToken(string authority, string resource, string scope, ClientCredential credential)
+      {
+         var context = new AuthenticationContext(authority, TokenCache.DefaultShared);
+
+         AuthenticationResult result = await context.AcquireTokenAsync(resource, credential);
+
+         return result.AccessToken;
+      }
+
+      private static HttpClient GetHttpClient()
+      {
+         return new HttpClient();
       }
 
       public bool CanRead => true;
