@@ -129,9 +129,17 @@ namespace Config.Net.Core
       {
          return new ITypeParser[]
          {
+            new FloatParser(),
             new DoubleParser(),
+            new DecimalParser(),
+            new SByteParser(),
+            new ShortParser(),
             new IntParser(),
             new LongParser(),
+            new ByteParser(),
+            new UShortParser(),
+            new UIntParser(),
+            new ULongParser(),
             new StringArrayParser(),
             new StringParser(),
             new TimeSpanParser(),
