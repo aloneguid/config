@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.6;net452</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net452</TargetFrameworks>
     <Copyright>Copyright (c) 2015-2018 by Ivan Gavryliuk</Copyright>
     <Authors>Ivan Gavryliuk (@aloneguid)</Authors>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>

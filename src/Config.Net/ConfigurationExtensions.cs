@@ -1,9 +1,7 @@
 ﻿using System.Reflection;
 using Config.Net.Stores;
 using System.Collections.Generic;
-#if !NETSTANDARD14
 using Config.Net.Stores.Impl.CommandLine;
-#endif
 
 namespace Config.Net
 {
@@ -12,7 +10,6 @@ namespace Config.Net
    /// </summary>
    public static class ConfigurationExtensions
    {
-#if NETFULL
       /// <summary>
       /// Standard app.config (web.config) builder store. Read-only.
       /// </summary>
@@ -33,7 +30,6 @@ namespace Config.Net
          builder.UseConfigStore(new AssemblyConfigStore(assembly));
          return builder;
       }
-#endif
 
       /// <summary>
       /// Uses system environment variables
@@ -86,8 +82,6 @@ namespace Config.Net
          return builder;
       }
 
-#if !NETSTANDARD14
-
       /// <summary>
       /// Accepts builder from the command line arguments. This is not intended to replace a command line parsing framework but rather
       /// complement it in a builder like way. Uses current process' command line parameters automatically
@@ -121,8 +115,5 @@ namespace Config.Net
          builder.UseConfigStore(new CommandLineConfigStore(null, false, parameterNameToPosition));
          return builder;
       }
-
-#endif
-
    }
 }

@@ -3,7 +3,7 @@
       <Copyright>Copyright (c) 2015-2018 by Ivan Gavryliuk</Copyright>
       <AssemblyTitle>Config.Net</AssemblyTitle>
       <Authors>Ivan Gavryliuk (@aloneguid)</Authors>
-      <TargetFrameworks>netstandard1.4;netstandard1.6;netstandard2.0;net452</TargetFrameworks>
+      <TargetFrameworks>netstandard2.0;net452</TargetFrameworks>
       <AssemblyName>Config.Net</AssemblyName>
       <AssemblyOriginatorKeyFile>../config.snk</AssemblyOriginatorKeyFile>
       <SignAssembly>true</SignAssembly>
@@ -34,9 +34,6 @@
    <ItemGroup>
       <PackageReference Include="Castle.Core" Version="4.2.1" />
    </ItemGroup>
-   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
-      <PackageReference Include="System.Reflection.TypeExtensions" Version="4.4.0" />
-   </ItemGroup>
    <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
       <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
    </ItemGroup>
@@ -44,14 +41,5 @@
       <Reference Include="System.Configuration" />
       <Reference Include="System" />
       <Reference Include="Microsoft.CSharp" />
-   </ItemGroup>
-   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
-      <DefineConstants>$(DefineConstants);NETSTANDARD14</DefineConstants>
-   </PropertyGroup>
-   <PropertyGroup Condition=" '$(TargetFramework)' == 'net452' or  '$(TargetFramework)' == 'netstandard2.0'">
-      <DefineConstants>$(DefineConstants);NETFULL</DefineConstants>
-   </PropertyGroup>
-   <ItemGroup>
-      <DotNetCliToolReference Include="dotnet-housework" Version="0.0.7" />
    </ItemGroup>
 </Project>

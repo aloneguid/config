@@ -88,15 +88,13 @@ namespace Config.Net.Tests.Virtual
       }
    }
 
-#if NETFULL
-   public class AppConfigTest : VirtualStoreTest
+   /*public class AppConfigTest : VirtualStoreTest
    {
       protected override IConfigStore CreateStore()
       {
          return new AppConfigStore();
       }
-   }
-#endif
+   }*/
 
    public class EnvironmentVariablesTest : VirtualStoreTest
    {

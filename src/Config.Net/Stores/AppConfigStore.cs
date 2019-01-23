@@ -1,5 +1,5 @@
-﻿#if NETFULL
-using System;
+﻿using System;
+using System.Collections.Specialized;
 using System.Configuration;
 
 namespace Config.Net.Stores
@@ -18,7 +18,24 @@ namespace Config.Net.Stores
       public string Read(string key)
       {
          if(key == null) return null;
-         string value = ConfigurationManager.AppSettings[key];
+
+         //first, look at appsettings and connection strings
+         string value = ConfigurationManager.AppSettings[key] ?? ConfigurationManager.ConnectionStrings[key]?.ConnectionString;
+
+         if(value == null)
+         {
+            int idx = key.IndexOf('.');
+            if(idx != -1)
+            {
+               string sectionName = key.Substring(0, idx);
+               if(ConfigurationManager.GetSection(sectionName) is NameValueCollection nvsc)
+               {
+                  string keyName = key.Substring(idx + 1);
+                  value = nvsc[keyName];
+               }
+            }
+         }
+
          return value;
       }
 
@@ -32,4 +49,3 @@ namespace Config.Net.Stores
       }
    }
 }
-#endif
