@@ -44,6 +44,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config.Net.Yaml", "Config.N
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config.Net.Json", "Config.Net.Json\Config.Net.Json.csproj", "{707AB85D-DACA-4282-B339-48706BCDC668}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Impl", "Impl", "{51231C17-CE02-49B0-96B6-9E588113CF75}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure", "Azure", "{3AAB816A-C707-40A0-8CDF-47F0AD7C0162}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Config.Net.Azure.KeyVault", "Impl\Azure\Config.Net.Azure.KeyVault\Config.Net.Azure.KeyVault.csproj", "{5CE56287-6FC3-443C-BCDE-FC75B257AEC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,9 +80,17 @@ Global
 		{707AB85D-DACA-4282-B339-48706BCDC668}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{707AB85D-DACA-4282-B339-48706BCDC668}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{707AB85D-DACA-4282-B339-48706BCDC668}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CE56287-6FC3-443C-BCDE-FC75B257AEC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CE56287-6FC3-443C-BCDE-FC75B257AEC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CE56287-6FC3-443C-BCDE-FC75B257AEC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CE56287-6FC3-443C-BCDE-FC75B257AEC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3AAB816A-C707-40A0-8CDF-47F0AD7C0162} = {51231C17-CE02-49B0-96B6-9E588113CF75}
+		{5CE56287-6FC3-443C-BCDE-FC75B257AEC1} = {3AAB816A-C707-40A0-8CDF-47F0AD7C0162}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {414C0C13-66E5-4F73-BEF8-33FC415F61A3}

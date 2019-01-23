@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Config.Net.Azure.KeyVault;
 using Config.Net.Json.Stores;
 using Config.Net.Stores;
 using Config.Net.Stores.Impl.CommandLine;
@@ -143,6 +144,14 @@ namespace Config.Net.Tests.Virtual
          string testFile = GetSamplePath("json");
          string json = File.ReadAllText(testFile);
          return new JsonFileConfigStore(json, false);
+      }
+   }
+
+   public class AzureKeyVaultConfigStoreTest : VirtualStoreTest
+   {
+      protected override IConfigStore CreateStore()
+      {
+         return AzureKeyVaultConfigStore.CreateWithManagedIdentity(new Uri("https://algtestvault.vault.azure.net/"));
       }
    }
 
