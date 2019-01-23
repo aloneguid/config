@@ -8,13 +8,15 @@ nuget:
   disable_publish_on_pr: true
 before_build:
 - ps: >-
+   dotnet tool install -g housework
+
     dotnet restore src/Config.Net.sln
 
     cd src/Config.Net
 
-    dotnet housework setbuildnumber %FileVersion%  ../../build.ini -v
+    housework setbuildnumber %FileVersion%  ../../build.ini -v
 
-    dotnet housework author ../*.csproj  ../../build.ini -r -v
+    housework author ../*.csproj  ../../build.ini -r -v
 
     cd ../..
 build:
