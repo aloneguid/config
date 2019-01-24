@@ -168,4 +168,4 @@ Does your company use Config.Net?  Ask your manager or marketing team if your co
 
 Thanks to [JetBrains](https://www.jetbrains.com) for kindly providing an open-source license to their amazing [Rider IDE](https://www.jetbrains.com/rider/) for Open Source Development.
 
-![Jetbrains Rider](doc/jetbrains_rider_small.png)
+[![Jetbrains Rider](doc/jetbrains_rider_small.png)](https://www.jetbrains.com/rider/)
