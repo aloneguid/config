@@ -1,4 +1,4 @@
-# Config.Net [![NuGet](https://img.shields.io/nuget/v/Config.Net.svg)](https://www.nuget.org/packages/Config.Net) [![Build status](https://ci.appveyor.com/api/projects/status/f89ye0oldduk9bwi?svg=true)](https://ci.appveyor.com/project/aloneguid/config)
+﻿# Config.Net [![NuGet](https://img.shields.io/nuget/v/Config.Net.svg)](https://www.nuget.org/packages/Config.Net) [![Build status](https://ci.appveyor.com/api/projects/status/f89ye0oldduk9bwi?svg=true)](https://ci.appveyor.com/project/aloneguid/config)
 
 A comprehensive easy to use and powerful .NET configuration library, fully covered with unit tests and tested in the wild on thousands of servers and applications.
 
@@ -134,6 +134,38 @@ Of course in order for a property to be writeable you need to declare it as such
 string AuthClientId { get; set; }
 ```
 
-Proudly using [Jetbrains Rider](https://www.jetbrains.com/rider/) for Open Source Development.
+## Sponsorship
+
+This framework is free and can be used for free, open source and commercial applications. Config.Net (all code, NuGets and binaries) are under the [MIT License (MIT)](https://github.com/aloneguid/config/blob/master/LICENSE). It's battle-tested and used many awesome people and organisations. So hit the magic ⭐️ button, we appreciate it!!! 🙏 Thx!
+
+The core team members, Config.Net contributors and contributors in the ecosystem do this open source work in their free time. If you use Config>net a serious task, and you'd like us to invest more time on it, please donate. This project increases your income/productivity/usabilty too.
+
+### Why charge/sponsor for open source?
+
+ * [Open-Source Maintainers are Jerks! | Nick Randolph & Geoffrey Huntley](https://vimeo.com/296579853)
+ * [FOSS is free as in toilet | Geoffroy Couprie](http://unhandledexpression.com/general/2018/11/27/foss-is-free-as-in-toilet.html)
+ * [How to Charge for your Open Source | Mike Perham](https://www.mikeperham.com/2015/11/23/how-to-charge-for-your-open-source/)
+ * [Sustain OSS: The Report](https://sustainoss.org/assets/pdf/SustainOSS-west-2017-report.pdf)
+ * [Open Source Maintainers Owe You Nothing | Mike McQuaid](https://mikemcquaid.com/2018/03/19/open-source-maintainers-owe-you-nothing/)
+ * [Who should fund open source projects? | Jane Elizabeth](https://jaxenter.com/who-funds-open-source-projects-133222.html)
+ * [Apply at OSS Inc today| Ryan Chenkie](https://twitter.com/ryanchenkie/status/1067801413974032385)
+ * [The Ethics of Unpaid Labor and the OSS Community | Ashe Dryden](https://www.ashedryden.com/blog/the-ethics-of-unpaid-labor-and-the-oss-community)
+
+### Backers
+
+[Become a backer](https://opencollective.com/config#backer) and show your support to our open source project.
+
+[![](https://opencollective.com/config/tiers/backer.svg?avatarHeight=40&width=600)](https://opencollective.com/config#backer)
+
+### Sponsors
+
+Does your company use Config.Net?  Ask your manager or marketing team if your company would be interested in supporting our project.  Support will allow the maintainers to dedicate more time for maintenance and new features for everyone.  Also, your company's logo will show here - who doesn't want a little extra exposure?
+
+[![](https://opencollective.com/config/tiers/sponsor.svg?avatarHeight=40&width=600)](https://opencollective.com/config#backer)
+
+
+## Special Thanks
+
+Thanks to [JetBrains](https://www.jetbrains.com) for kindly providing an open-source license to their amazing [Rider IDE](https://www.jetbrains.com/rider/) for Open Source Development.
 
 ![Jetbrains Rider](doc/jetbrains_rider_small.png)

@@ -147,13 +147,13 @@ namespace Config.Net.Tests.Virtual
       }
    }
 
-   public class AzureKeyVaultConfigStoreTest : VirtualStoreTest
+   /*public class AzureKeyVaultConfigStoreTest : VirtualStoreTest
    {
       protected override IConfigStore CreateStore()
       {
          return AzureKeyVaultConfigStore.CreateWithManagedIdentity(new Uri("https://algtestvault.vault.azure.net/"));
       }
-   }
+   }*/
 
    #endregion
 }
