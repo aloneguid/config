@@ -26,4 +26,9 @@ test_script:
 - cmd: dotnet test .\src\Config.Net.Tests\
 artifacts:
 - path: src/**/*.nupkg
+only_commits:
+  files:
+    - appveyor.yml
+    - build.ini
+    - src/
 deploy: off
