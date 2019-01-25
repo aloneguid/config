@@ -136,9 +136,9 @@ string AuthClientId { get; set; }
 
 ## Sponsorship
 
-This framework is free and can be used for free, open source and commercial applications. Config.Net (all code, NuGets and binaries) are under the [MIT License (MIT)](https://github.com/aloneguid/config/blob/master/LICENSE). It's battle-tested and used many awesome people and organisations. So hit the magic ⭐️ button, we appreciate it!!! 🙏 Thx!
+This framework is free and can be used for free, open source and commercial applications. Config.Net (all code, NuGets and binaries) are under the [MIT License (MIT)](https://github.com/aloneguid/config/blob/master/LICENSE). It's battle-tested and used by many awesome people and organisations. So hit the magic ⭐️ button, we appreciate it!!! 🙏 Thx!
 
-The core team members, Config.Net contributors and contributors in the ecosystem do this open source work in their free time. If you use Config>net a serious task, and you'd like us to invest more time on it, please donate. This project increases your income/productivity/usabilty too.
+The core team members, Config.Net contributors and contributors in the ecosystem do this open source work in their free time. If you use Config.Netk, and you'd like us to invest more time on it, please donate. This project increases your income/productivity/usabilty too.
 
 ### Why charge/sponsor for open source?
 
