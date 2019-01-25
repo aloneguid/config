@@ -6,7 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F2107671-5DC0-48C0-ABE8-D80ACDC5D7D2}"
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
-		..\appveyor.yml = ..\appveyor.yml
 		..\build.ini = ..\build.ini
 	EndProjectSection
 EndProject
@@ -48,7 +47,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Impl", "Impl", "{51231C17-C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure", "Azure", "{3AAB816A-C707-40A0-8CDF-47F0AD7C0162}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Config.Net.Azure.KeyVault", "Impl\Azure\Config.Net.Azure.KeyVault\Config.Net.Azure.KeyVault.csproj", "{5CE56287-6FC3-443C-BCDE-FC75B257AEC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config.Net.Azure.KeyVault", "Impl\Azure\Config.Net.Azure.KeyVault\Config.Net.Azure.KeyVault.csproj", "{5CE56287-6FC3-443C-BCDE-FC75B257AEC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
