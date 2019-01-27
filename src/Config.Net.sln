@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28516.95
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F2107671-5DC0-48C0-ABE8-D80ACDC5D7D2}"
 	ProjectSection(SolutionItems) = preProject
@@ -27,6 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{CDB02CCC-51F
 		..\doc\Stores_IniFile.md = ..\doc\Stores_IniFile.md
 		..\doc\Stores_InMemory.md = ..\doc\Stores_InMemory.md
 		..\doc\Stores_JsonFile.md = ..\doc\Stores_JsonFile.md
+		..\doc\Stores_KeyVault.md = ..\doc\Stores_KeyVault.md
 		..\doc\Stores_StorageNet.md = ..\doc\Stores_StorageNet.md
 		..\doc\SupportedTypes.md = ..\doc\SupportedTypes.md
 	EndProjectSection

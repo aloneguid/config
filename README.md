@@ -18,6 +18,8 @@ This library eliminates the problem of having configuration in different places,
   - [In-Memory](doc/Stores_InMemory.md)
   - [JSON Files](doc/Stores_JsonFile.md)
   - [Storage.Net Integration](doc/Stores_StorageNet.md)
+  - **Microsoft Azure**
+    - [Azure Key Vault](doc/Stores_KeyVault.md) 
 - [Nested Interfaces](doc/NestedInterfaces.md)
 - [Collections](doc/Collections.md)
 - [Binding to Interface Methods](doc/DynamicConfiguration.md)

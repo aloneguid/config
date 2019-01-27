@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net452</TargetFrameworks>
+     <AssemblyOriginatorKeyFile>../../../config.snk</AssemblyOriginatorKeyFile>
+     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
 
   <ItemGroup>
