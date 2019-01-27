@@ -5,6 +5,7 @@
      <AssemblyOriginatorKeyFile>../../../config.snk</AssemblyOriginatorKeyFile>
      <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
      <SignAssembly>true</SignAssembly>
+     <Description>Adds support for Azure Key Vault to Config.Net.</Description>
   </PropertyGroup>
 
   <ItemGroup>
