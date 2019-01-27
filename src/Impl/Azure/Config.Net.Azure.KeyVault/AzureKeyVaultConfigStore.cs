@@ -15,6 +15,11 @@ namespace Config.Net.Azure.KeyVault
 
       private AzureKeyVaultConfigStore(Uri vaultUri, KeyVaultClient client)
       {
+         if (vaultUri == null)
+         {
+            throw new ArgumentNullException(nameof(vaultUri));
+         }
+
          _vaultUri = vaultUri.ToString().Trim('/');
          _client = client;
       }
@@ -30,6 +35,16 @@ namespace Config.Net.Azure.KeyVault
 
       public static AzureKeyVaultConfigStore CreateWithPrincipal(Uri vaultUri, string azureAadClientId, string azureAadClientSecret)
       {
+         if (string.IsNullOrEmpty(azureAadClientId))
+         {
+            throw new ArgumentException("message", nameof(azureAadClientId));
+         }
+
+         if (string.IsNullOrEmpty(azureAadClientSecret))
+         {
+            throw new ArgumentException("message", nameof(azureAadClientSecret));
+         }
+
          var credential = new ClientCredential(azureAadClientId, azureAadClientSecret);
 
          var client = new KeyVaultClient(
