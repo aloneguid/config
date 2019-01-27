@@ -1,12 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using NetBox.Extensions;
 
 namespace Config.Net.Tests
 {
    public class AbstractTestFixture
    {
-      private const string TestDirContainer = "ts";
+      private string TestDirContainer = "ts" + Guid.NewGuid();
       private DirectoryInfo _testDir;
       private static bool cleanedUp = false;
 

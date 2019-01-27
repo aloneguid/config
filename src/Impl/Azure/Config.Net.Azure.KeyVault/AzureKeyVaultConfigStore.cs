@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.KeyVault.Models;
 using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using NetBox.Extensions;
 
 namespace Config.Net.Azure.KeyVault
 {
@@ -80,14 +82,30 @@ namespace Config.Net.Azure.KeyVault
       public string Read(string key)
       {
          if (key == null) return null;
+         key = key.UrlEncode();
 
-         SecretBundle secret = _client.GetSecretAsync(_vaultUri, key).Result;
+         try
+         {
+            SecretBundle secret = _client.GetSecretAsync(_vaultUri, key).Result;
 
-         return secret.Value;
+            return secret.Value;
+         }
+         catch (AggregateException agex) when(agex.InnerException is KeyVaultErrorException kvex && kvex.Response.StatusCode == HttpStatusCode.NotFound)
+         {
+            //ignore, the secret is simply not found
+            return null;
+         }
       }
 
       public void Write(string key, string value)
       {
+         if (key == null)
+         {
+            throw new ArgumentNullException(nameof(key));
+         }
+
+         key = key.UrlEncode();
+
          _client.SetSecretAsync(_vaultUri, key, value).Wait();
       }
    }

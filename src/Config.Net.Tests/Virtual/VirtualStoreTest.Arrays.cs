@@ -12,6 +12,8 @@ namespace Config.Net.Tests.Virtual
       [Fact]
       public void Read_collection_of_interfaces()
       {
+         if (!isPrepopulated) return;
+
          IInterfaceArrays config = new ConfigurationBuilder<IInterfaceArrays>()
              .UseConfigStore(store)
              .Build();
@@ -34,6 +36,8 @@ namespace Config.Net.Tests.Virtual
       [Fact]
       public void Read_collection_of_simple_values()
       {
+         if (!isPrepopulated) return;
+
          ISimpleArrays config = new ConfigurationBuilder<ISimpleArrays>()
             .UseConfigStore(store)
             .Build();

@@ -13,9 +13,16 @@ namespace Config.Net.Tests.Virtual
    public abstract partial class VirtualStoreTest : AbstractTestFixture, IDisposable
    {
       protected IConfigStore store;
+      protected ITestCredential creds;
+      protected bool isPrepopulated = true;
 
       public VirtualStoreTest()
       {
+         creds = new ConfigurationBuilder<ITestCredential>()
+            .UseIniFile("c:\\tmp\\integration-tests.ini")
+            .UseEnvironmentVariables()
+            .Build();
+
          store = CreateStore();
       }
 
@@ -89,6 +96,7 @@ namespace Config.Net.Tests.Virtual
       }
    }
 
+   //this probably requires an external process project
    /*public class AppConfigTest : VirtualStoreTest
    {
       protected override IConfigStore CreateStore()
@@ -147,13 +155,15 @@ namespace Config.Net.Tests.Virtual
       }
    }
 
-   /*public class AzureKeyVaultConfigStoreTest : VirtualStoreTest
+   public class AzureKeyVaultConfigStoreTest : VirtualStoreTest
    {
       protected override IConfigStore CreateStore()
       {
-         return AzureKeyVaultConfigStore.CreateWithManagedIdentity(new Uri("https://algtestvault.vault.azure.net/"));
+         isPrepopulated = false;
+
+         return AzureKeyVaultConfigStore.CreateWithPrincipal(creds.AzureKeyVaultUri, creds.AzureKeyVaultCredentials.UserName, creds.AzureKeyVaultCredentials.Password);
       }
-   }*/
+   }
 
    #endregion
 }
