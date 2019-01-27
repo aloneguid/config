@@ -20,3 +20,5 @@ IMySettings settings = new ConfigurationBuilder<IMySettings>()
          this ConfigurationBuilder(vaultUri, clientId, clientSecret)
    .Build();
 ```
+
+This implementation always uses secrets, and their latest versions to read config settings. The store is read/write.
