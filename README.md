@@ -155,15 +155,15 @@ The core team members, Config.Net contributors and contributors in the ecosystem
 
 ### Backers
 
-[Become a backer](https://opencollective.com/config#backer) and show your support to our open source project.
+Become a backer and show your support to our open source project.
 
-[![](https://opencollective.com/config/tiers/backer.svg?avatarHeight=40&width=600)](https://opencollective.com/config#backer)
+[![](https://opencollective.com/config/backers.svg)](https://opencollective.com/config#support)
 
 ### Sponsors
 
 Does your company use Config.Net?  Ask your manager or marketing team if your company would be interested in supporting our project.  Support will allow the maintainers to dedicate more time for maintenance and new features for everyone.  Also, your company's logo will show here - who doesn't want a little extra exposure?
 
-[![](https://opencollective.com/config/tiers/sponsor.svg?avatarHeight=40&width=600)](https://opencollective.com/config#backer)
+[![](https://opencollective.com/config/sponsors.svg)](https://opencollective.com/config#sponsor)
 
 
 ## Special Thanks
