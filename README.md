@@ -86,7 +86,7 @@ IMySettings settings = new ConfigurationBuilder<IMySettings>()
 ```
 Handling `appsettings.json` with environment override file `appsettings.{Environment}.json` based on "APP_ENV" environment variable.
 
-See [Mapping to appsettings.json file](doc/Stores_JsonFile.md#Mapping-to-appsettings.json-file) for more information.
+See [Mapping to appsettings.json file](doc/Stores_JsonFile.md#mapping-to-appsettingsjson-file) for more information.
 
 ### Using Multiple Sources
 
