@@ -77,6 +77,17 @@ Not all of the types can be used in the properties, because Config.Net needs to 
 ```
 
 
+### Using appsettings.json similar to ASP.NET configuration
+
+```csharp
+IMySettings settings = new ConfigurationBuilder<IMySettings>()
+   .UseJsonConfig()
+   .Build();
+```
+Handling `appsettings.json` with environment override file `appsettings.{Environment}.json` based on "APP_ENV" environment variable.
+
+See [Mapping to appsettings.json file](doc/Stores_JsonFile.md#Mapping-to-appsettings.json-file) for more information.
+
 ### Using Multiple Sources
 
 `ConfigurationBuilder<T>` is used to instantiate your configuration interface. You can use it to add multiple configuration sources. To get the list of sources use IntelliSense (type dot-Use):

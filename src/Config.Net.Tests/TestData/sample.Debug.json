@@ -1,0 +1,19 @@
+﻿{
+   "Logging": {
+      "IncludeScopes": true,
+      "LogLevel": {
+         "Microsoft": "Debug"
+      }
+   },
+   "ApplicationInsights": {
+      "InstrumentationKey": "debug-key"
+   },
+   "Numbers": [ 1, 0 ],
+   "Creds": [
+      {},
+      {
+         "Username": "user2",
+         "Password": "debug"
+      }
+   ]
+}

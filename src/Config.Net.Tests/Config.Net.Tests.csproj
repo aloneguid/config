@@ -6,6 +6,10 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
+    <None Update="TestData\sample.Debug.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+       <DependentUpon>TestData\sample.json</DependentUpon>
+    </None>
     <None Update="TestData\sample.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

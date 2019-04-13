@@ -32,19 +32,47 @@ namespace Config.Net.Runner
    {
       static void Main(string[] args)
       {
+         PrintAppConfig();
+         Console.WriteLine();
+         PrintJsonConfig();
+         Console.ReadKey();
+      }
+
+      private static void PrintAppConfig()
+      {
          IConsoleCommands settings =
             new ConfigurationBuilder<IConsoleCommands>()
-            .UseAppConfig()
-            .UseCommandLineArgs(
-               new KeyValuePair<string, int>(nameof(IConsoleCommands.Action), 1),
-               new KeyValuePair<string, int>(nameof(IConsoleCommands.FilePath), 2))
-            .Build();
+               .UseAppConfig()
+               .UseCommandLineArgs(
+                  new KeyValuePair<string, int>(nameof(IConsoleCommands.Action), 1),
+                  new KeyValuePair<string, int>(nameof(IConsoleCommands.FilePath), 2))
+               .Build();
+
+         PrintToConsole(settings, "AppConfig");
+      }
+
+      private static void PrintJsonConfig()
+      {
+         Environment.SetEnvironmentVariable(EnvironmentFileBuilder.EnvironmentKey, "Runner");
+         IConsoleCommands settings =
+            new ConfigurationBuilder<IConsoleCommands>()
+               .UseJsonConfig()
+               .UseCommandLineArgs(
+                  new KeyValuePair<string, int>(nameof(IConsoleCommands.Action), 1),
+                  new KeyValuePair<string, int>(nameof(IConsoleCommands.FilePath), 2))
+               .Build();
+
+         PrintToConsole(settings, "JsonConfig");
+      }
+
+      private static void PrintToConsole(IConsoleCommands settings, string displayName)
+      {
+         Console.WriteLine($"----------{displayName}----------");
 
          Console.WriteLine("action: " + settings.Action + ", filePath: " + settings.FilePath);
-         Console.WriteLine("appkey: {0}, myconn: {1}, custom key: {2}", settings.AppKey, settings.MyConnection, settings.MySectionKey);
+         Console.WriteLine("appkey: {0}, myconn: {1}, custom key: {2}", settings.AppKey, settings.MyConnection,
+            settings.MySectionKey);
          Console.WriteLine("key1: {0}, key2: {1}", settings.MySectionKey1, settings.MySectionKey2);
-
-         Console.ReadKey();
       }
    }
 }

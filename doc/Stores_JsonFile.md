@@ -24,6 +24,40 @@ IMySettings settings = new ConfigurationBuilder<IMySettings>()
 
 This variant supports reading only as there is nowhere to write in this case.
 
+### Mapping to appsettings.json file
+
+```csharp
+IMySettings settings = new ConfigurationBuilder<IMySettings>()
+   .UseJsonConfig()
+   .Build();
+```
+
+This variant supports reading only. Requires "appsettings.json" file in root.
+
+##### Environment
+`appsettings.json` can have multiple environment files like `appsettings.Debug.json` and `appsettings.Staging.json` etc.
+ The builder will search for "APP_ENV" environment variable and override `appsettings.json` partially or fully according to environment file. If environment file `appsettings.{Environment}.json` is missing, no exception will be raised and  only `appsettings.json` will be used.
+
+This method is similar to [Use multiple environments in ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-2.2).
+The advantage of this approach on other configuration transformation methods is not having to build the code in order to 
+get the environment configuration.
+
+##### Advanced usage
+
+```csharp
+IMySettings settings = new ConfigurationBuilder<IMySettings>()
+   .UseJsonConfig("mysettings.json", settings =>
+      {
+         settings.MergeArrayHandling = MergeArrayHandling.Merge;
+         settings.MergeNullValueHandling = MergeNullValueHandling.Ignore;
+      })
+   .Build();
+```
+
+This variant supports reading only. `Path` can be either relative or absolute.
+
+See [Merging JSON](https://www.newtonsoft.com/json/help/html/MergeJson.htm) for other `settings` options.
+
 ## Using
 
 In the simplest form every key in the JSON file corresponds to the name of an option. For instance a definition
