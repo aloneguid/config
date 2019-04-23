@@ -20,6 +20,9 @@ pr:
       - README.md
       - /doc/**/*
 
+variables:
+  - group: 'Externals'
+
 steps:
 - task: gittools.gitversion.gitversion-task.GitVersion@4
   displayName: GitVersion
