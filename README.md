@@ -1,4 +1,4 @@
-﻿# Config.Net [![NuGet](https://img.shields.io/nuget/v/Config.Net.svg)](https://www.nuget.org/packages/Config.Net) [![Build status](https://aloneguid.visualstudio.com/Config.Net/_apis/build/status/Core%20Build)](https://aloneguid.visualstudio.com/Config.Net/_build/latest?definitionId=39) ![](https://img.shields.io/azure-devops/tests/aloneguid/Config.Net/39.svg)
+﻿# Config.Net [![NuGet](https://img.shields.io/nuget/v/Config.Net.svg)](https://www.nuget.org/packages/Config.Net) [![Build status](https://aloneguid.visualstudio.com/Config.Net/_apis/build/status/Core%20Build)](https://aloneguid.visualstudio.com/Config.Net/_build/latest?definitionId=39) ![](https://img.shields.io/azure-devops/tests/aloneguid/Config.Net/39.svg) [![open collective backers and sponsors](https://img.shields.io/opencollective/all/config.svg)](https://opencollective.com/config)
 
 A comprehensive, easy to use and powerful .NET configuration library, fully covered with unit tests and tested in the wild on thousands of servers and applications.
 
@@ -155,15 +155,15 @@ The core team members, Config.Net contributors and contributors in the ecosystem
 
 ### Backers
 
-[Become a backer](https://opencollective.com/config#backer) and show your support to our open source project.
+Become a backer and show your support to our open source project.
 
-[![](https://opencollective.com/config/tiers/backer.svg?avatarHeight=40&width=600)](https://opencollective.com/config#backer)
+[![](https://opencollective.com/config/backers.svg)](https://opencollective.com/config#support)
 
 ### Sponsors
 
 Does your company use Config.Net?  Ask your manager or marketing team if your company would be interested in supporting our project.  Support will allow the maintainers to dedicate more time for maintenance and new features for everyone.  Also, your company's logo will show here - who doesn't want a little extra exposure?
 
-[![](https://opencollective.com/config/tiers/sponsor.svg?avatarHeight=40&width=600)](https://opencollective.com/config#backer)
+[![](https://opencollective.com/config/sponsors.svg)](https://opencollective.com/config#sponsor)
 
 
 ## Special Thanks
