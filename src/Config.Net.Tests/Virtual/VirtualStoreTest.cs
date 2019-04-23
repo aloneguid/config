@@ -85,7 +85,7 @@ namespace Config.Net.Tests.Virtual
    {
       protected override IConfigStore CreateStore()
       {
-         var result = new InMemoryConfigStore();
+         var result = new DictionaryConfigStore();
          result.Write("Numbers", "1 2 3");
          result.Write("Creds[0].Username", "user1");
          result.Write("Creds[0].Password", "pass1");

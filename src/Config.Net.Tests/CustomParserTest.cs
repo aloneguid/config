@@ -36,7 +36,7 @@ namespace Config.Net.Tests
          DateTime TheDate { get; set; }
       }
 
-      private IConfigStore _store = new InMemoryConfigStore();
+      private IConfigStore _store = new DictionaryConfigStore();
 
       [Fact]
       public void Custom_byte_parser()
