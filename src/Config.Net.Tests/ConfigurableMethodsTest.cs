@@ -9,11 +9,11 @@ namespace Config.Net.Tests
    public class ConfigurableMethodsTest
    {
       private ICallableConfig _config;
-      private InMemoryConfigStore _store;
+      private DictionaryConfigStore _store;
 
       public ConfigurableMethodsTest()
       {
-         _store = new InMemoryConfigStore();
+         _store = new DictionaryConfigStore();
 
          _config = new ConfigurationBuilder<ICallableConfig>()
             .UseConfigStore(_store)

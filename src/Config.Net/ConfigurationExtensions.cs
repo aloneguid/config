@@ -11,6 +11,16 @@ namespace Config.Net
    public static class ConfigurationExtensions
    {
       /// <summary>
+      /// In-memory dictionary. Optionally you can pass pre-created dictionary, otherwise it will be created internally as empty.
+      /// </summary>
+      public static ConfigurationBuilder<TInterface> UseInMemoryDictionary<TInterface>(this ConfigurationBuilder<TInterface> builder,
+         IDictionary<string, string> container = null) where TInterface : class
+      {
+         builder.UseConfigStore(new DictionaryConfigStore(container));
+         return builder;
+      }
+
+      /// <summary>
       /// Standard app.config (web.config) builder store. Read-only.
       /// </summary>
       public static ConfigurationBuilder<TInterface> UseAppConfig<TInterface>(this ConfigurationBuilder<TInterface> builder) where TInterface : class
@@ -68,17 +78,6 @@ namespace Config.Net
          bool parseInlineComments = false) where TInterface : class
       {
          builder.UseConfigStore(new IniFileConfigStore(iniString, false, parseInlineComments));
-         return builder;
-      }
-
-      /// <summary>
-      /// Use in-memory builder
-      /// </summary>
-      /// <param name="builder"></param>
-      /// <returns></returns>
-      public static ConfigurationBuilder<TInterface> UseInMemoryConfig<TInterface>(this ConfigurationBuilder<TInterface> builder) where TInterface : class
-      {
-         builder.UseConfigStore(new InMemoryConfigStore());
          return builder;
       }
 

@@ -9,11 +9,11 @@ namespace Config.Net.Tests
    public class NestedInterfacesTest
    {
       private IMaster _config;
-      private InMemoryConfigStore _store;
+      private DictionaryConfigStore _store;
 
       public NestedInterfacesTest()
       {
-         _store = new InMemoryConfigStore();
+         _store = new DictionaryConfigStore();
 
          _config = new ConfigurationBuilder<IMaster>()
             .UseConfigStore(_store)

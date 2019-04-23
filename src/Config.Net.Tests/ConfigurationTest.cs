@@ -23,6 +23,30 @@ namespace Config.Net.Tests
       {
          Assert.Throws<NotSupportedException>(() => new ConfigurationBuilder<IInvalidBasicType>().Build());
       }
+
+      [Fact]
+      public void Take_value_for_second_from_first()
+      {
+         //construct the builder first
+         var builder = new ConfigurationBuilder<ITwoSettings>();
+
+         //add a sample store that contains setings for future stores
+         builder.UseInMemoryDictionary(new Dictionary<string, string> { ["OneForSecond"] = "first" });
+
+         //get the value before you finish building all the settings container
+         string second = builder.Build().OneForSecond;
+
+         Assert.Equal("first", second);
+
+         // add another store, by using a setting from the previous one
+         builder.UseInMemoryDictionary(new Dictionary<string, string> { ["Second"] = second });
+
+         // assert
+         ITwoSettings settings = builder.Build();
+         Assert.Equal("first", settings.OneForSecond);
+         Assert.Equal("first", settings.Second);
+            
+      }
    }
 
    public interface IInvalidBasicType
@@ -48,5 +72,12 @@ namespace Config.Net.Tests
    {
       [Option(DefaultValue = 7)]
       int AnotherNumber { get; }
+   }
+
+   public interface ITwoSettings
+   {
+      string OneForSecond { get; }
+
+      string Second { get; }
    }
 }
