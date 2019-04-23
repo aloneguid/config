@@ -21,7 +21,7 @@ pr:
       - /doc/**/*
 
 variables:
-  - group: 'Externals'
+  - group: 'External Resources'
 
 steps:
 - task: gittools.gitversion.gitversion-task.GitVersion@4
