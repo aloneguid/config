@@ -1,4 +1,6 @@
-﻿using Config.Net.Json.Stores;
+﻿using System;
+using Config.Net.Json.Stores;
+using Newtonsoft.Json.Linq;
 
 namespace Config.Net
 {
@@ -33,6 +35,20 @@ namespace Config.Net
          return builder;
       }
 
-
+      /// <summary>
+      /// Uses JSON file (appsettings.json) as a builder storage. Read-only.
+      /// </summary>
+      /// <param name="builder">Configuration object.</param>
+      /// <param name="jsonFilePath">Relative or full path to json file.</param>
+      /// <param name="settings">Settings used when merging JSON.</param>
+      /// <returns>Changed builder.</returns>
+      /// <remarks>When using default <code>UseJsonConfig()</code> appsettings.json must exist otherwise empty storage will be returned.</remarks>
+      public static ConfigurationBuilder<TInterface> UseJsonConfig<TInterface>(this ConfigurationBuilder<TInterface> builder, string jsonFilePath = "appsettings.json", Action<JsonMergeSettings> settings = null) where TInterface : class
+      {
+         JsonMergeSettings jsonMergeSettings = EnvironmentFileBuilder.DefaultJsonMergeSettings;
+         settings?.Invoke(jsonMergeSettings);
+         builder.UseConfigStore(new EnvironmentFileBuilder().Build(jsonFilePath, jsonMergeSettings));
+         return builder;
+      }
    }
 }
