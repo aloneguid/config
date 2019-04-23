@@ -27,14 +27,18 @@
       <PackageReleaseNotes>all of the stores support collections, including simple stores</PackageReleaseNotes>
       <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
       <WarningsAsErrors />
-   </PropertyGroup>
-   <PropertyGroup>
       <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+   </PropertyGroup>
+   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
+      <DefineConstants>CORE3</DefineConstants>
    </PropertyGroup>
    <ItemGroup>
       <PackageReference Include="Castle.Core" Version="4.2.1" />
    </ItemGroup>
    <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
+   </ItemGroup>
+   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
       <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
    </ItemGroup>
    <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
