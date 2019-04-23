@@ -1,4 +1,4 @@
-﻿# Config.Net [![NuGet](https://img.shields.io/nuget/v/Config.Net.svg)](https://www.nuget.org/packages/Config.Net) [![Build status](https://aloneguid.visualstudio.com/Config.Net/_apis/build/status/Core%20Build)](https://aloneguid.visualstudio.com/Config.Net/_build/latest?definitionId=39) ![](https://img.shields.io/azure-devops/tests/aloneguid/Config.Net/39.svg) [![open collective backers and sponsors](https://img.shields.io/opencollective/all/config.svg)](https://opencollective.com/config)
+﻿# Config.Net [![NuGet](https://img.shields.io/nuget/v/Config.Net.svg)](https://www.nuget.org/packages/Config.Net) [![Build status](https://aloneguid.visualstudio.com/Config.Net/_apis/build/status/Core%20Build)](https://aloneguid.visualstudio.com/Config.Net/_build/latest?definitionId=43) ![](https://img.shields.io/azure-devops/tests/aloneguid/Config.Net/43.svg) [![open collective backers and sponsors](https://img.shields.io/opencollective/all/config.svg)](https://opencollective.com/config)
 
 A comprehensive, easy to use and powerful .NET configuration library, fully covered with unit tests and tested in the wild on thousands of servers and applications.
 
