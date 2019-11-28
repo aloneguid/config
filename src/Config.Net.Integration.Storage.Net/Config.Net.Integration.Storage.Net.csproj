@@ -9,9 +9,7 @@
     <PackageIconUrl>http://i.isolineltd.com/nuget/config.net.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/aloneguid/config</PackageProjectUrl>
     <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
-    <AssemblyOriginatorKeyFile>../config.snk</AssemblyOriginatorKeyFile>
     <PackageLicenseUrl>https://github.com/aloneguid/config/blob/master/LICENSE</PackageLicenseUrl>
-    <SignAssembly>true</SignAssembly>
     <RepositoryType>GitHub</RepositoryType>
     <Description>This package integrates Config.Net with Storage.Net library allowing you to use any data source already supported in Storage.Net (there are plenty).</Description>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>

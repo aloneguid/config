@@ -2,8 +2,6 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net452</TargetFrameworks>
     <AssemblyOriginatorKeyFile>../config.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
     <FileVersion>4.7.3.0</FileVersion>
     <Version>4.7.3-build00000001</Version>

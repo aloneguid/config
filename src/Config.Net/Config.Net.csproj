@@ -5,18 +5,9 @@
       <Authors>Ivan Gavryliuk (@aloneguid)</Authors>
       <TargetFrameworks>netstandard2.0;net452</TargetFrameworks>
       <AssemblyName>Config.Net</AssemblyName>
-      <AssemblyOriginatorKeyFile>../config.snk</AssemblyOriginatorKeyFile>
-      <SignAssembly>true</SignAssembly>
-      <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
       <PackageId>Config.Net</PackageId>
       <PackageIconUrl>http://i.isolineltd.com/nuget/config.net.png</PackageIconUrl>
       <PackageProjectUrl>https://github.com/aloneguid/config</PackageProjectUrl>
-      <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.6' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
-      <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.1</NetStandardImplicitPackageVersion>
-      <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-      <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-      <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-      <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
       <AssemblyVersion>4.0.0.0</AssemblyVersion>
       <FileVersion>4.7.3.0</FileVersion>
       <Version>4.7.3</Version>
@@ -24,26 +15,25 @@
       <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
       <PackageLicenseExpression>MIT</PackageLicenseExpression>
       <RepositoryType>GitHub</RepositoryType>
-      <PackageReleaseNotes>all of the stores support collections, including simple stores</PackageReleaseNotes>
       <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
       <WarningsAsErrors />
+   </PropertyGroup>
+
+   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
       <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-   </PropertyGroup>
-   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
-      <DefineConstants>CORE3</DefineConstants>
-   </PropertyGroup>
+   </PropertyGroup>   
    <ItemGroup>
       <PackageReference Include="Castle.Core" Version="4.2.1" />
    </ItemGroup>
    <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
       <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
    </ItemGroup>
-   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
-      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
-   </ItemGroup>
    <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
       <Reference Include="System.Configuration" />
       <Reference Include="System" />
       <Reference Include="Microsoft.CSharp" />
+   </ItemGroup>
+   <ItemGroup>
+     <Folder Include="Properties\" />
    </ItemGroup>
 </Project>
