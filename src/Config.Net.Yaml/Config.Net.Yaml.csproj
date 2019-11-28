@@ -18,7 +18,7 @@
     <WarningsAsErrors />
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="YamlDotNet.Signed" Version="4.3.1" />
+    <PackageReference Include="YamlDotNet.Signed" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Config.Net\Config.Net.csproj" />
