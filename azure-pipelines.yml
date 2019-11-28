@@ -37,6 +37,12 @@ steps:
 - script: 'housework author src/*.csproj -s build.ini -r'
   displayName: 'author csproj'
 
+- script: 'housework setbuildnumber %Version% -s build.ini'
+  displayName: 'set build number'
+
+- script: 'housework pushvars Version -s build.ini'
+  displayName: 'push variables'
+
 - task: DotNetCoreCLI@2
   displayName: 'build all'
   inputs:
@@ -61,6 +67,7 @@ steps:
     flattenFolders: true
 
 #- task: PublishBuildArtifacts@1
+#   condition: "eq(variables['Build.SourceBranch'], 'refs/heads/master')"
 #  displayName: 'publish nugets'
 #  inputs:
 #    ArtifactName: nuget
