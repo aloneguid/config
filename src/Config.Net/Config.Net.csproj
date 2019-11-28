@@ -22,7 +22,7 @@
       <Version>4.7.3</Version>
       <Description>Super simple configuration framework for .NET focused on developer ergonomics and strong typing. Supports multiple configuration sources such as .ini, .json, .xml files, as well as external providers pluggable by other NuGet packages.</Description>
       <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
-      <PackageLicenseUrl>https://github.com/aloneguid/config/blob/master/LICENSE</PackageLicenseUrl>
+      <PackageLicenseExpression>MIT</PackageLicenseExpression>
       <RepositoryType>GitHub</RepositoryType>
       <PackageReleaseNotes>all of the stores support collections, including simple stores</PackageReleaseNotes>
       <TreatWarningsAsErrors>true</TreatWarningsAsErrors>

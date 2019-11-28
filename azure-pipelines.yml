@@ -60,7 +60,7 @@ steps:
     OverWrite: true
     flattenFolders: true
 
-- task: PublishBuildArtifacts@1
-  displayName: 'publish nugets'
-  inputs:
-    ArtifactName: nuget
+#- task: PublishBuildArtifacts@1
+#  displayName: 'publish nugets'
+#  inputs:
+#    ArtifactName: nuget
