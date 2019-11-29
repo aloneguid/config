@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net452</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
      <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
      <Description>Adds support for Azure Key Vault to Config.Net.</Description>
   </PropertyGroup>
