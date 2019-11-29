@@ -1,5 +1,5 @@
 pool:
-  vmImage: 'windows-2019'
+  vmImage: 'ubuntu-16.04'
 
 trigger:
   batch: true
