@@ -29,13 +29,13 @@ steps:
   inputs:
     name: housework
 
-- script: 'housework author src/*.csproj -s build.ini -r'
+- script: 'housework author src/*.csproj -s build.ini -r -v'
   displayName: 'author csproj'
 
-- script: 'housework setbuildnumber %Version% -s build.ini'
+- script: 'housework setbuildnumber %Version% -s build.ini -v'
   displayName: 'set build number'
 
-- script: 'housework pushvars Version -s build.ini'
+- script: 'housework pushvars Version -s build.ini -v'
   displayName: 'push variables'
 
 - task: DotNetCoreCLI@2
