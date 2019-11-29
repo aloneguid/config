@@ -42,7 +42,7 @@ steps:
   displayName: 'build all'
   inputs:
     projects: src/Config.Net.sln
-    arguments: '-c release'
+    arguments: '-c release -v d'
 
 - task: DotNetCoreCLI@2
   displayName: 'unit tests'
