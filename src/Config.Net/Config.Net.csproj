@@ -17,11 +17,9 @@
       <RepositoryType>GitHub</RepositoryType>
       <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
       <WarningsAsErrors />
+      <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
    </PropertyGroup>
 
-   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-      <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-   </PropertyGroup>   
    <ItemGroup>
       <PackageReference Include="Castle.Core" Version="4.2.1" />
    </ItemGroup>
