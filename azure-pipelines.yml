@@ -61,8 +61,11 @@ steps:
     OverWrite: true
     flattenFolders: true
 
-#- task: PublishBuildArtifacts@1
-#   condition: "eq(variables['Build.SourceBranch'], 'refs/heads/master')"
-#  displayName: 'publish nugets'
-#  inputs:
-#    ArtifactName: nuget
+- task: NuGetCommand@2
+  displayName: 'publish to nuget.org'
+  condition: "eq(variables['Build.SourceBranch'], 'refs/heads/master')"
+  inputs:
+    command: push
+    packagesToPush: '$(build.artifactstagingdirectory)/*.nupkg'
+    nuGetFeedType: external
+    publishFeedCredentials: 'nuget.org (aloneguid)'

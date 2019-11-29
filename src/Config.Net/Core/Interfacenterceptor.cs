@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
 using System.Text;
 using Castle.DynamicProxy;
@@ -14,6 +15,8 @@ namespace Config.Net.Core
       private readonly string _prefix;
       private readonly DynamicReader _reader;
       private readonly DynamicWriter _writer;
+      private readonly bool _isInpc;
+      private PropertyChangedEventHandler _inpcHandler;
 
       public InterfaceInterceptor(Type interfaceType, IoHandler ioHandler, string prefix = null)
       {
@@ -22,6 +25,7 @@ namespace Config.Net.Core
          _prefix = prefix;
          _reader = new DynamicReader(prefix, ioHandler);
          _writer = new DynamicWriter(prefix, ioHandler);
+         _isInpc = interfaceType.GetInterface(nameof(INotifyPropertyChanged)) != null;
       }
 
       private ResultBox FindBox(IInvocation invocation)
@@ -39,11 +43,13 @@ namespace Config.Net.Core
 
       public void Intercept(IInvocation invocation)
       {
+         if (TryInterceptInpc(invocation)) return;
+
          ResultBox rbox = FindBox(invocation);
 
          bool isRead =
-            (rbox is PropertyResultBox pbox && PropertyResultBox.IsGetProperty(invocation.Method)) ||
-            (rbox is ProxyResultBox xbox && PropertyResultBox.IsGetProperty(invocation.Method)) ||
+            (rbox is PropertyResultBox && PropertyResultBox.IsGetProperty(invocation.Method)) ||
+            (rbox is ProxyResultBox && PropertyResultBox.IsGetProperty(invocation.Method)) ||
             (rbox is MethodResultBox mbox && mbox.IsGettter) ||
             (rbox is CollectionResultBox);
 
@@ -55,7 +61,38 @@ namespace Config.Net.Core
          else
          {
             _writer.Write(rbox, invocation.Arguments);
+
+            TryNotifyInpc(invocation, rbox);
          }
+      }
+
+      private bool TryInterceptInpc(IInvocation invocation)
+      {
+         if (!_isInpc) return false;
+         
+         if (invocation.Method.Name == "add_PropertyChanged")
+         {
+            invocation.ReturnValue =
+               _inpcHandler =
+               (PropertyChangedEventHandler)Delegate.Combine(_inpcHandler, (Delegate)invocation.Arguments[0]);
+            return true;
+         }
+         else if(invocation.Method.Name == "remove_PropertyChanged")
+         {
+            invocation.ReturnValue =
+               _inpcHandler =
+               (PropertyChangedEventHandler)Delegate.Remove(_inpcHandler, (Delegate)invocation.Arguments[0]);
+            return true;
+         }
+
+         return false;
+      }
+
+      private void TryNotifyInpc(IInvocation invocation, ResultBox rbox)
+      {
+         if (_inpcHandler == null || rbox is MethodResultBox) return;
+
+         _inpcHandler.Invoke(invocation.InvocationTarget, new PropertyChangedEventArgs(rbox.StoreByName));
       }
    }
 }

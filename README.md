@@ -1,4 +1,4 @@
-﻿# Config.Net [![NuGet](https://img.shields.io/nuget/v/Config.Net.svg)](https://www.nuget.org/packages/Config.Net) [![Build status](https://aloneguid.visualstudio.com/AllPublic/_apis/build/status/Config.Net)](https://aloneguid.visualstudio.com/AllPublic/_build/latest?definitionId=47) ![](https://img.shields.io/azure-devops/tests/aloneguid/AllPublic/47.svg) [![open collective backers and sponsors](https://img.shields.io/opencollective/all/config.svg)](https://opencollective.com/config)
+﻿# Config.Net [![NuGet](https://img.shields.io/nuget/v/Config.Net.svg)](https://www.nuget.org/packages/Config.Net) [![Build status](https://aloneguid.visualstudio.com/AllPublic/_apis/build/status/Config.Net)](https://aloneguid.visualstudio.com/AllPublic/_build/latest?definitionId=66) ![](https://img.shields.io/azure-devops/tests/aloneguid/AllPublic/66.svg) [![open collective backers and sponsors](https://img.shields.io/opencollective/all/config.svg)](https://opencollective.com/config)
 
 A comprehensive, easy to use and powerful .NET configuration library, fully covered with unit tests and tested in the wild on thousands of servers and applications.
 
@@ -23,6 +23,7 @@ This library eliminates the problem of having configuration in different places,
 - [Nested Interfaces](doc/NestedInterfaces.md)
 - [Collections](doc/Collections.md)
 - [Binding to Interface Methods](doc/DynamicConfiguration.md)
+- [INotifyPropertyChanged](doc/INotifyPropertyChanged.md)
 - Extending Config.Net
   - [Implementing a custom parser](doc/CustomParsers.md)
   - [Implementing a custom configuration store](doc/Stores_Custom.md)
