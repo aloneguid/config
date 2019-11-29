@@ -3,7 +3,7 @@
       <Copyright>Copyright (c) 2015-2018 by Ivan Gavryliuk</Copyright>
       <AssemblyTitle>Config.Net</AssemblyTitle>
       <Authors>Ivan Gavryliuk (@aloneguid)</Authors>
-      <TargetFrameworks>netstandard2.0;net452</TargetFrameworks>
+      <TargetFrameworks>netstandard2.0</TargetFrameworks>
       <AssemblyName>Config.Net</AssemblyName>
       <PackageId>Config.Net</PackageId>
       <AssemblyVersion>4.0.0.0</AssemblyVersion>
@@ -17,14 +17,7 @@
 
    <ItemGroup>
       <PackageReference Include="Castle.Core" Version="4.2.1" />
-   </ItemGroup>
-   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
-   </ItemGroup>
-   <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
-      <Reference Include="System.Configuration" />
-      <Reference Include="System" />
-      <Reference Include="Microsoft.CSharp" />
+      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />   
    </ItemGroup>
    <ItemGroup>
      <Folder Include="Properties\" />
