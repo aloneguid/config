@@ -6,15 +6,10 @@
       <TargetFrameworks>netstandard2.0;net452</TargetFrameworks>
       <AssemblyName>Config.Net</AssemblyName>
       <PackageId>Config.Net</PackageId>
-      <PackageIconUrl>http://i.isolineltd.com/nuget/config.net.png</PackageIconUrl>
-      <PackageProjectUrl>https://github.com/aloneguid/config</PackageProjectUrl>
       <AssemblyVersion>4.0.0.0</AssemblyVersion>
       <FileVersion>4.7.3.0</FileVersion>
       <Version>4.7.3</Version>
       <Description>Super simple configuration framework for .NET focused on developer ergonomics and strong typing. Supports multiple configuration sources such as .ini, .json, .xml files, as well as external providers pluggable by other NuGet packages.</Description>
-      <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
-      <PackageLicenseExpression>MIT</PackageLicenseExpression>
-      <RepositoryType>GitHub</RepositoryType>
       <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
       <WarningsAsErrors />
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
