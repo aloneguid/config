@@ -17,7 +17,7 @@
       <RepositoryType>GitHub</RepositoryType>
       <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
       <WarningsAsErrors />
-      <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+      <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
    </PropertyGroup>
 
    <ItemGroup>
