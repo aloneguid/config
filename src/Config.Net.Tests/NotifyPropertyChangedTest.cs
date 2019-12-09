@@ -54,6 +54,25 @@ namespace Config.Net.Tests
          Assert.True(isSet);
          Assert.Equal("Name1", nameSet);
       }
+
+      [Fact]
+      public void Change_aliased_property_calls_notify_on_both()
+      {
+         bool isSet = false;
+         var nameSets = new List<string>();
+
+         _interface.PropertyChanged += (sender, e) =>
+         {
+            isSet = true;
+            nameSets.Add(e.PropertyName);
+         };
+
+         _interface.AliasedName = "test";
+         Assert.True(isSet);
+         Assert.Equal(2, nameSets.Count);
+         Assert.Contains("AliasedName", nameSets);
+         Assert.Contains("Name1", nameSets);
+      }
    }
 
    public interface INPC : INotifyPropertyChanged
