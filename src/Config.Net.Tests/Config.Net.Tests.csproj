@@ -26,8 +26,7 @@
     <ProjectReference Include="..\Impl\Azure\Config.Net.Azure.KeyVault\Config.Net.Azure.KeyVault.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Storage.Net" Version="6.2.9" />
-    <PackageReference Include="Storage.Net.Microsoft.Azure.Storage" Version="6.2.9" />
+    <PackageReference Include="Storage.Net" Version="8.1.17" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

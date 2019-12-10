@@ -1,5 +1,5 @@
 ﻿using Storage.Net;
-using Storage.Net.Blob;
+using Storage.Net.Blobs;
 using System;
 
 namespace Config.Net.Integration.Storage.Net

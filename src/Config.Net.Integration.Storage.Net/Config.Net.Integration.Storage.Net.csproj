@@ -12,7 +12,7 @@
     <WarningsAsErrors />
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Storage.Net" Version="6.2.9" />
+    <PackageReference Include="Storage.Net" Version="8.1.17" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Config.Net\Config.Net.csproj" />

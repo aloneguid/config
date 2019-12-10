@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Config.Net;
 using Config.Net.Azure.KeyVault;
 using Config.Net.Json.Stores;
 using Config.Net.Stores;
@@ -162,6 +163,14 @@ namespace Config.Net.Tests.Virtual
          isPrepopulated = false;
 
          return AzureKeyVaultConfigStore.CreateWithPrincipal(creds.AzureKeyVaultUri, creds.AzureKeyVaultCredentials.UserName, creds.AzureKeyVaultCredentials.Password);
+      }
+   }
+
+   public class AzureDevOpsVariableSetConfigStoreTest : VirtualStoreTest
+   {
+      protected override IConfigStore CreateStore()
+      {
+         return new AzureDevOpsVariableSetConfigStore(creds.AzDevOpsOrg, creds.AzDevOpsProject, creds.AzDevOpsPat, creds.AzDeOpsVarId);
       }
    }
 

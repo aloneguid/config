@@ -3,7 +3,7 @@ using Config.Net.Azure.KeyVault;
 
 namespace Config.Net
 {
-   public static class ConfigurationExtensions
+   public static class KeyVaultConfigurationExtensions
    {
       /// <summary>
       /// Use Azure Key Vault by authenticating with Managed Identity

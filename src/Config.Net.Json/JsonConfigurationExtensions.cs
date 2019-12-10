@@ -7,7 +7,7 @@ namespace Config.Net
    /// <summary>
    /// Configuration extensions
    /// </summary>
-   public static class ConfigurationExtensions
+   public static class JsonConfigurationExtensions
    {
       /// <summary>
       /// Uses JSON file as a builder storage.

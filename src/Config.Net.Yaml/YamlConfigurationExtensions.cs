@@ -5,7 +5,7 @@ namespace Config.Net
    /// <summary>
    /// Configuration extensions
    /// </summary>
-   public static class ConfigurationExtensions
+   public static class YamlConfigurationExtensions
    {
       public static ConfigurationBuilder<TInterface> UseYamlFile<TInterface>(this ConfigurationBuilder<TInterface> builder, string yamlFilePath) where TInterface : class
       {

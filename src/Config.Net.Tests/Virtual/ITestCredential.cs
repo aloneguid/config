@@ -10,5 +10,13 @@ namespace Config.Net.Tests.Virtual
 
       [Option(Alias = "Azure.KeyVault.Creds")]
       NetworkCredential AzureKeyVaultCredentials { get; }
+
+      string AzDevOpsOrg { get; }
+
+      string AzDevOpsProject { get; }
+
+      string AzDevOpsPat { get; }
+
+      string AzDeOpsVarId { get; }
    }
 }
