@@ -114,5 +114,17 @@ namespace Config.Net
          builder.UseConfigStore(new CommandLineConfigStore(null, false, parameterNameToPosition));
          return builder;
       }
+
+      public static ConfigurationBuilder<TInterface> UseAzureDevOpsVariableSet<TInterface>(
+         this ConfigurationBuilder<TInterface> builder,
+         string organisationName,
+         string projectName,
+         string personalAccessToken,
+         string variableGroupId)
+         where TInterface : class
+      {
+         builder.UseConfigStore(new AzureDevOpsVariableSetConfigStore(organisationName, projectName, personalAccessToken, variableGroupId));
+         return builder;
+      }
    }
 }
