@@ -13,7 +13,7 @@ namespace Config.Net.Stores.Formats.Ini
 
       private readonly IniSection _globalSection;
       private readonly List<IniSection> _sections = new List<IniSection>();
-      private readonly Dictionary<string, IniKeyValue> _fullKeyNameToValue = new Dictionary<string, IniKeyValue>();
+      private readonly Dictionary<string, IniKeyValue> _fullKeyNameToValue = new Dictionary<string, IniKeyValue>(StringComparer.InvariantCultureIgnoreCase);
 
       public StructuredIniFile()
       {

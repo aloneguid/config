@@ -53,6 +53,16 @@ namespace Config.Net.Tests.Virtual
       }
 
       [Fact]
+      public void Read_Is_Case_Insensitive()
+      {
+         if (!store.CanWrite) return;
+
+         store.Write("key9", "value9");
+
+         //Assert.Equal("value9", store.Read("KEy9"));
+      }
+
+      [Fact]
       public void Read_Null_Null()
       {
          if (!store.CanRead) return;

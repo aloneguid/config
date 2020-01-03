@@ -11,7 +11,15 @@ namespace Config.Net.Stores
 
       public DictionaryConfigStore(IDictionary<string, string> container = null)
       {
-         _container = container ?? new Dictionary<string, string>();
+         _container = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+
+         if(container != null)
+         {
+            foreach(KeyValuePair<string, string> item in container)
+            {
+               _container[item.Key] = item.Value;
+            }
+         }
       }
 
       public bool CanRead => true;
