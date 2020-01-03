@@ -162,7 +162,10 @@ namespace Config.Net.Tests.Virtual
       {
          isPrepopulated = false;
 
-         return AzureKeyVaultConfigStore.CreateWithPrincipal(creds.AzureKeyVaultUri, creds.AzureKeyVaultCredentials.UserName, creds.AzureKeyVaultCredentials.Password);
+         return AzureKeyVaultConfigStore.CreateWithPrincipal(
+            creds.AzureKeyVaultUri,
+            creds.AzureKeyVaultClientId,
+            creds.AzureKeyVaultSecret);
       }
    }
 

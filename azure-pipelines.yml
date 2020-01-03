@@ -69,3 +69,16 @@ steps:
     packagesToPush: '$(build.artifactstagingdirectory)/*.nupkg'
     nuGetFeedType: external
     publishFeedCredentials: 'nuget.org (aloneguid)'
+
+- task: GitHubRelease@1
+  displayName: 'create github release'
+  condition: "eq(variables['Build.SourceBranch'], 'refs/heads/master')"
+  inputs:
+    gitHubConnection: 'aloneguid'
+    repositoryName: 'aloneguid/config'
+    action: 'create'
+    target: '$(Build.SourceVersion)'
+    tagSource: 'userSpecifiedTag'
+    tag: '$(Build.BuildNumber)'
+    changeLogCompareToRelease: 'lastFullRelease'
+    changeLogType: 'commitBased'

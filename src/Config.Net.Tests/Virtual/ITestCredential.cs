@@ -5,11 +5,13 @@ namespace Config.Net.Tests.Virtual
 {
    public interface ITestCredential
    {
-      [Option(Alias = "Azure.KeyVault.Uri")]
       Uri AzureKeyVaultUri { get; }
 
-      [Option(Alias = "Azure.KeyVault.Creds")]
-      NetworkCredential AzureKeyVaultCredentials { get; }
+      string AzureKeyVaultTenantId { get; }
+
+      string AzureKeyVaultClientId { get; }
+
+      string AzureKeyVaultSecret { get; }
 
       string AzDevOpsOrg { get; }
 
