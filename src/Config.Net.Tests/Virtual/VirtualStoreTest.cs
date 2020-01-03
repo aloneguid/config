@@ -156,7 +156,7 @@ namespace Config.Net.Tests.Virtual
       }
    }
 
-   public class AzureKeyVaultConfigStoreTest : VirtualStoreTest
+   /*public class AzureKeyVaultConfigStoreTest : VirtualStoreTest
    {
       protected override IConfigStore CreateStore()
       {
@@ -167,7 +167,7 @@ namespace Config.Net.Tests.Virtual
             creds.AzureKeyVaultClientId,
             creds.AzureKeyVaultSecret);
       }
-   }
+   }*/
 
    public class AzureDevOpsVariableSetConfigStoreTest : VirtualStoreTest
    {
