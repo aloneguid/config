@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
@@ -99,49 +100,56 @@ namespace Config.Net.Core.Box
 
       private static void AddAttributes(ResultBox box, PropertyInfo pi, ValueHandler valueHandler)
       {
-         AddAttributes(box, valueHandler, pi.GetCustomAttribute<OptionAttribute>());
+         AddAttributes(box, valueHandler, pi.GetCustomAttribute<OptionAttribute>(), pi.GetCustomAttribute<DefaultValueAttribute>());
       }
 
       private static void AddAttributes(ResultBox box, MethodInfo mi, ValueHandler valueHandler)
       {
-         AddAttributes(box, valueHandler, mi.GetCustomAttribute<OptionAttribute>());
+         AddAttributes(box, valueHandler, mi.GetCustomAttribute<OptionAttribute>(), mi.GetCustomAttribute<DefaultValueAttribute>());
       }
 
 
-      private static void AddAttributes(ResultBox box, ValueHandler valueHandler, OptionAttribute optionAttribute)
+      private static void AddAttributes(ResultBox box, ValueHandler valueHandler, params Attribute[] attributes)
       {
-         object defaultValue = null;
+         OptionAttribute optionAttribute = attributes.OfType<OptionAttribute>().FirstOrDefault();
+         DefaultValueAttribute defaultValueAttribute = attributes.OfType<DefaultValueAttribute>().FirstOrDefault();
 
-         if (optionAttribute != null)
+         if (optionAttribute?.Alias != null)
          {
-            if (optionAttribute.Alias != null) box.StoreByName = optionAttribute.Alias;
+            box.StoreByName = optionAttribute.Alias;
+         }
 
+         box.DefaultResult = GetDefaultValue(optionAttribute?.DefaultValue, box, valueHandler) ??
+                             GetDefaultValue(defaultValueAttribute?.Value, box, valueHandler) ??
+                             GetDefaultValue(box.ResultType);
+      }
+
+      private static object GetDefaultValue(object defaultValue, ResultBox box, ValueHandler valueHandler)
+      {
+         object result = null;
+         if (defaultValue != null)
+         {
             //validate that types for default value match
-            Type dvt = optionAttribute.DefaultValue?.GetType();
-            if (optionAttribute.DefaultValue != null)
-            {
-               if (dvt != box.ResultType && dvt != typeof(string))
-               {
-                  throw new InvalidCastException($"Default value for option {box.Name} is of type {dvt.FullName} whereas the property has type {box.Name}. To fix this, either set default value to type {box.ResultType.FullName} or a string parseable to the target type.");
-               }
+            Type dvt = defaultValue?.GetType();
 
-               if (box.ResultType != typeof(string) && dvt == typeof(string))
-               {
-                  valueHandler.TryParse(box.ResultType, (string)optionAttribute.DefaultValue, out defaultValue);
-               }
+            if (dvt != box.ResultType && dvt != typeof(string))
+            {
+               throw new InvalidCastException($"Default value for option {box.Name} is of type {dvt.FullName} whereas the property has type {box.Name}. To fix this, either set default value to type {box.ResultType.FullName} or a string parseable to the target type.");
             }
 
-            if (defaultValue == null)
+            if (box.ResultType != typeof(string) && dvt == typeof(string))
             {
-               defaultValue = optionAttribute.DefaultValue;
+               valueHandler.TryParse(box.ResultType, (string)defaultValue, out result);
             }
          }
 
-         if (defaultValue == null) defaultValue = GetDefaultValue(box.ResultType);
+         if (result == null)
+         {
+            result = defaultValue;
+         }
 
-         box.DefaultResult = defaultValue;
+         return result;
       }
-
 
       private static PropertyInfo[] GetHierarchyPublicProperties(Type type)
       {
