@@ -169,6 +169,7 @@ namespace Config.Net.Tests.Virtual
       }
    }*/
 
+#if DEBUG
    public class AzureDevOpsVariableSetConfigStoreTest : VirtualStoreTest
    {
       protected override IConfigStore CreateStore()
@@ -176,6 +177,7 @@ namespace Config.Net.Tests.Virtual
          return new AzureDevOpsVariableSetConfigStore(creds.AzDevOpsOrg, creds.AzDevOpsProject, creds.AzDevOpsPat, creds.AzDeOpsVarId);
       }
    }
+#endif
 
-   #endregion
+#endregion
 }
