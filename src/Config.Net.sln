@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\azure-pipelines.yml = ..\azure-pipelines.yml
 		..\build.ini = ..\build.ini
 		..\GitVersion.yml = ..\GitVersion.yml
+		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{CDB02CCC-51F3-4777-A942-6F2E1DB3FD0B}"

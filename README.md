@@ -131,6 +131,25 @@ Now when reading the value will be read as `n/a` instead of just `null`. Default
 
 However, you can set the property value to `string` no matter what the type is, as long as it's parseable to that type in runtime using any of the parsers.
 
+##### DefaultValueAttribute
+
+Config.Net also supports [`DefaultValueAttribute`](https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.defaultvalueattribute?view=netcore-3.1) as an alternative to specifying default values. This allows your interfaces not to have any dependency on Config.Net library. Following definitions have the same effect:
+
+```csharp
+public interface IMySettings
+{
+   [Option(DefaultValue = "n/a")]
+   string AuthClientId { get; }
+}
+```
+
+```csharp
+public interface IMySettings
+{
+   [DefaultValue("n/a")]
+   string AuthClientId { get; }
+}
+```
 
 ### Writing Settings
 
