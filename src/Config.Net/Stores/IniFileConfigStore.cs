@@ -16,7 +16,7 @@ namespace Config.Net.Stores
 
       /// <summary>
       /// 
-      /// </summary>
+      /// </summary>r
       /// <param name="name">File does not have to exist, however it will be created as soon as you
       /// try to write to it</param>
       public IniFileConfigStore(string name, bool isFilePath, bool parseInlineComments)

@@ -126,7 +126,7 @@ namespace Config.Net.Yaml.Stores
                return sequenceNode.Count().ToString();
             }
 
-            return "0";
+            return null;
          }
 
          if (node is YamlScalarNode scalar)
