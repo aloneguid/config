@@ -70,7 +70,7 @@ namespace Config.Net.Json.Stores
                return arrayToken.Count.ToString();
             }
 
-            return "0";
+            return null;
          }
 
          return GetStringValue(valueToken);
