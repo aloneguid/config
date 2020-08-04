@@ -4,7 +4,7 @@ To configure the store:
 
 ```csharp
 IMySettings settings = new ConfigurationBuilder<IMySettings>()
-   .UseInMemory()
+   .UseInMemoryDictionary()
    .Build();
 ```
 
