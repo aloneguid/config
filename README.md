@@ -20,6 +20,7 @@ This library eliminates the problem of having configuration in different places,
   - **Microsoft Azure**
     - [Azure Key Vault](doc/Stores_KeyVault.md) 
   - [Storage.Net Integration](doc/Stores_StorageNet.md)
+  - [Entity Framework Core](doc/Stores_EntityFrameworkCore.md)
 - [Nested Interfaces](doc/NestedInterfaces.md)
 - [Collections](doc/Collections.md)
 - [Binding to Interface Methods](doc/DynamicConfiguration.md)

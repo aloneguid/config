@@ -4,6 +4,9 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <None Update="TestData\sample.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="TestData\sample.Debug.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
        <DependentUpon>TestData\sample.json</DependentUpon>
@@ -19,6 +22,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Config.Net.EntityFrameworkCore\Config.Net.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Config.Net.Integration.Storage.Net\Config.Net.Integration.Storage.Net.csproj" />
     <ProjectReference Include="..\Config.Net.Json\Config.Net.Json.csproj" />
     <ProjectReference Include="..\Config.Net.Yaml\Config.Net.Yaml.csproj" />
@@ -26,6 +30,7 @@
     <ProjectReference Include="..\Impl\Azure\Config.Net.Azure.KeyVault\Config.Net.Azure.KeyVault.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.1" />
     <PackageReference Include="Storage.Net" Version="8.1.17" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
       <PrivateAssets>all</PrivateAssets>
