@@ -24,11 +24,11 @@ pr:
 variables:
   - group: 'External Resources'
   - name: v
-    value: '4.15.0'
+    value: '4.16.0'
   - name: av
     value: '4.0.0'
   - name: pv
-    value: '4.15.0'
+    value: '4.16.0'
 
 steps:
 

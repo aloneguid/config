@@ -35,17 +35,17 @@ namespace Config.Net.Stores
       {
          if (key == null) return null;
 
-         if (FlatArrays.IsArrayLength(key, k => _container.GetValueOrDefault(k), out int length))
+         if (FlatArrays.IsArrayLength(key, k => _container.GetValueOrDefaultInternal(k), out int length))
          {
             return length.ToString();
          }
 
-         if (FlatArrays.IsArrayElement(key, k => _container.GetValueOrDefault(k), out string element))
+         if (FlatArrays.IsArrayElement(key, k => _container.GetValueOrDefaultInternal(k), out string element))
          {
             return element;
          }
 
-         return _container.GetValueOrDefault(key);
+         return _container.GetValueOrDefaultInternal(key);
       }
 
       public void Write(string key, string value)

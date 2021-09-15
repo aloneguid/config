@@ -1,8 +1,6 @@
 ﻿#if !NETSTANDARD14
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using Config.Net.Core;
 using Config.Net.TypeParsers;
 
@@ -36,12 +34,12 @@ namespace Config.Net.Stores.Impl.CommandLine
       {
          if (key == null) return null;
 
-         if(FlatArrays.IsArrayLength(key, k => _nameToValue.GetValueOrDefault(k), out int length))
+         if(FlatArrays.IsArrayLength(key, k => _nameToValue.GetValueOrDefaultInternal(k), out int length))
          {
             return length.ToString();
          }
 
-         if(FlatArrays.IsArrayElement(key, k => _nameToValue.GetValueOrDefault(k), out string element))
+         if(FlatArrays.IsArrayElement(key, k => _nameToValue.GetValueOrDefaultInternal(k), out string element))
          {
             return element;
          }
