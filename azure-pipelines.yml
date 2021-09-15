@@ -24,11 +24,11 @@ pr:
 variables:
   - group: 'External Resources'
   - name: v
-    value: '4.16.0'
+    value: '4.16.1'
   - name: av
     value: '4.0.0'
   - name: pv
-    value: '4.16.0'
+    value: '4.16.1'
 
 steps:
 
@@ -39,13 +39,13 @@ steps:
   inputs:
     command: test
     projects: src/Config.Net.Tests
-    arguments: '-c release  /p:Version=$(pv) /p:FileVersion=$(v) /p:AssemblyVersion=$(av) /p:PackageLicenseUrl="https://github.com/aloneguid/config/blob/master/LICENSE" /p:Authors="Ivan Gavryliuk (@aloneguid)" /p:PackageIconUrl="http://i.isolineltd.com/nuget/config.net.png"'
+    arguments: '-c release  /p:Version=$(pv) /p:FileVersion=$(v) /p:AssemblyVersion=$(av) /p:Authors="Ivan Gavryliuk (@aloneguid)"'
 
 - task: DotNetCoreCLI@2
   displayName: 'build all'
   inputs:
     projects: src/Config.Net.sln
-    arguments: '-c release  /p:Version=$(pv) /p:FileVersion=$(v) /p:AssemblyVersion=$(av) /p:PackageLicenseUrl="https://github.com/aloneguid/config/blob/master/LICENSE" /p:Authors="Ivan Gavryliuk (@aloneguid)" /p:PackageIconUrl="http://i.isolineltd.com/nuget/config.net.png"'
+    arguments: '-c release  /p:Version=$(pv) /p:FileVersion=$(v) /p:AssemblyVersion=$(av) /p:Authors="Ivan Gavryliuk (@aloneguid)"'
 
 
 
