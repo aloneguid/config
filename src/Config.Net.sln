@@ -38,8 +38,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config.Net", "Config.Net\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config.Net.Tests", "Config.Net.Tests\Config.Net.Tests.csproj", "{7DEA3E81-9D00-4030-A16F-D1D54650FCCB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config.Net.Integration.Storage.Net", "Config.Net.Integration.Storage.Net\Config.Net.Integration.Storage.Net.csproj", "{8E1E0BA4-84EE-4DFC-ABEA-E0F4A641C33C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config.Net.Yaml", "Config.Net.Yaml\Config.Net.Yaml.csproj", "{38D20B28-729E-4C6A-9C74-20B039C39E48}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config.Net.Json", "Config.Net.Json\Config.Net.Json.csproj", "{707AB85D-DACA-4282-B339-48706BCDC668}"
@@ -64,10 +62,6 @@ Global
 		{7DEA3E81-9D00-4030-A16F-D1D54650FCCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DEA3E81-9D00-4030-A16F-D1D54650FCCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DEA3E81-9D00-4030-A16F-D1D54650FCCB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8E1E0BA4-84EE-4DFC-ABEA-E0F4A641C33C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E1E0BA4-84EE-4DFC-ABEA-E0F4A641C33C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E1E0BA4-84EE-4DFC-ABEA-E0F4A641C33C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E1E0BA4-84EE-4DFC-ABEA-E0F4A641C33C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{38D20B28-729E-4C6A-9C74-20B039C39E48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{38D20B28-729E-4C6A-9C74-20B039C39E48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38D20B28-729E-4C6A-9C74-20B039C39E48}.Release|Any CPU.ActiveCfg = Release|Any CPU

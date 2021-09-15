@@ -13,7 +13,13 @@
       <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
       <WarningsAsErrors />
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+      <PackageIcon>icon.png</PackageIcon>
+      <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
    </PropertyGroup>
+
+   <ItemGroup>
+      <Content Include="..\icon.png" Link="icon.png" />
+   </ItemGroup>
 
    <ItemGroup>
       <PackageReference Include="Castle.Core" Version="4.4.1" />
@@ -29,6 +35,6 @@
    </ItemGroup>
 
    <ItemGroup>
-     <Folder Include="Properties\" />
+      <Folder Include="Properties\" />
    </ItemGroup>
 </Project>
