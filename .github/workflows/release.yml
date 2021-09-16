@@ -1,0 +1,51 @@
+name: Release
+
+env:
+  v: '4.16.2'
+  av: '4.0.0'
+  pv: '4.16.2'
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      name: Check-out source code
+      with:
+        submodules: true
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.100
+    - name: Install dependencies
+      run: dotnet restore src/Config.Net.sln
+    - name: Build
+      run: dotnet build src/Config.Net.sln --configuration Release --no-restore /p:Version=${{ env.pv }} /p:FileVersion=${{ env.v }} /p:AssemblyVersion=${{ env.av }}
+    - name: Test
+      run: dotnet test src/Config.Net.sln -c release --filter Category!=Integration --no-restore --verbosity normal /p:Version=${{ env.pv }} /p:FileVersion=${{ env.v }} /p:AssemblyVersion=${{ env.av }}
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.1
+      with:
+        name: packages
+        path: src/**/*.nupkg
+
+  publish:
+    needs: [build]
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v2.0.6
+        with:
+          name: packages
+      - name: test
+        run: ls -R
+      - name: Push to nuget.org
+        run: dotnet nuget push Stowage/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
