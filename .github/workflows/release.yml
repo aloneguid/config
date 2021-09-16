@@ -48,4 +48,4 @@ jobs:
       - name: test
         run: ls -R
       - name: Push to nuget.org
-        run: dotnet nuget push Stowage/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
