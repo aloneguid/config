@@ -6,11 +6,10 @@
       <FileVersion>4.7.3.0</FileVersion>
       <Version>4.7.3-build00000001</Version>
       <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
-      <PackageLicenseUrl>https://github.com/aloneguid/config/blob/master/LICENSE</PackageLicenseUrl>
       <RepositoryType>GitHub</RepositoryType>
-      <Copyright>Copyright (c) 2015-2018 by Ivan Gavryliuk</Copyright>
+      <Copyright>Copyright (c) 2015-2021 by Ivan Gavryliuk</Copyright>
       <Authors>Ivan Gavryliuk (@aloneguid)</Authors>
-      <PackageIconUrl>http://i.isolineltd.com/nuget/config.net.png</PackageIconUrl>
+      <PackageIconUrl></PackageIconUrl>
       <PackageProjectUrl>https://github.com/aloneguid/config</PackageProjectUrl>
       <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
       <WarningsAsErrors />
@@ -19,12 +18,15 @@
 
    </PropertyGroup>
    <ItemGroup>
-      <Content Include="..\icon.png" Link="icon.png" />
-   </ItemGroup>
-   <ItemGroup>
       <PackageReference Include="YamlDotNet" Version="8.0.0" />
    </ItemGroup>
    <ItemGroup>
       <ProjectReference Include="..\Config.Net\Config.Net.csproj" />
+   </ItemGroup>
+   <ItemGroup>
+     <None Include="..\icon.png">
+       <Pack>True</Pack>
+       <PackagePath></PackagePath>
+     </None>
    </ItemGroup>
 </Project>

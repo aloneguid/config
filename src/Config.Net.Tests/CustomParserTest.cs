@@ -61,7 +61,7 @@ namespace Config.Net.Tests
             .UseTypeParser(new CustomDateParser())
             .Build();
 
-         Assert.Equal(new DateTime(2018, 03, 04), config.TheDate);
+         Assert.Equal(new DateTime(2021, 03, 04), config.TheDate);
       }
 
       class CustomDateParser : ITypeParser
@@ -75,7 +75,7 @@ namespace Config.Net.Tests
 
          public bool TryParse(string value, Type t, out object result)
          {
-            result = new DateTime(2018, 03, 04);
+            result = new DateTime(2021, 03, 04);
 
             return true;
          }
