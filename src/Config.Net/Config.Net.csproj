@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
    <PropertyGroup>
-      <Copyright>Copyright (c) 2015-2018 by Ivan Gavryliuk</Copyright>
+      <Copyright>Copyright (c) 2015-2021 by Ivan Gavryliuk</Copyright>
       <AssemblyTitle>Config.Net</AssemblyTitle>
       <Authors>Ivan Gavryliuk (@aloneguid)</Authors>
       <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0</TargetFrameworks>
@@ -15,11 +15,8 @@
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
       <PackageIcon>icon.png</PackageIcon>
       <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+      <PackageIconUrl />
    </PropertyGroup>
-
-   <ItemGroup>
-      <Content Include="..\icon.png" Link="icon.png" />
-   </ItemGroup>
 
    <ItemGroup>
       <PackageReference Include="Castle.Core" Version="4.4.1" />
@@ -36,5 +33,12 @@
 
    <ItemGroup>
       <Folder Include="Properties\" />
+   </ItemGroup>
+
+   <ItemGroup>
+     <None Include="..\icon.png">
+       <Pack>True</Pack>
+       <PackagePath></PackagePath>
+     </None>
    </ItemGroup>
 </Project>
