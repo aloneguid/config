@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using Config.Net.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -149,7 +150,22 @@ namespace Config.Net.Json.Stores
          if (!fi.Directory.Exists) fi.Directory.Create();
 
          string json = _jo.ToString(Formatting.Indented);
-         File.WriteAllText(_pathName, json);
+
+         // write json content to a temporary file
+         string tempPath = Path.GetTempFileName();
+         byte[] data = Encoding.UTF8.GetBytes(json);
+         using (FileStream tempFile = File.Create(tempPath, 4096, FileOptions.WriteThrough))
+            tempFile.Write(data, 0, data.Length);
+
+         // replace the destination file with the temporary file, creating a backup of the destination file
+         string backupPath = _pathName + ".backup";
+         File.Replace(tempPath, _pathName, backupPath);
+         
+         // if the replacement was successful, delete the backup file. If not, restore the backup file.
+         if(File.Exists(_pathName))
+            File.Delete(backupPath);
+         else
+            File.Move(backupPath, _pathName);
       }
    }
 }
