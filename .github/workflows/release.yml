@@ -31,7 +31,7 @@ jobs:
     - name: Test
       run: dotnet test src/Config.Net.sln -c release --filter Category!=Integration --no-restore --verbosity normal /p:Version=${{ env.pv }} /p:FileVersion=${{ env.v }} /p:AssemblyVersion=${{ env.av }} /p:Authors="Ivan Gavryliuk (@aloneguid)"
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.1
+      uses: actions/upload-artifact@v2
       with:
         name: packages
         path: src/**/*.nupkg
@@ -42,10 +42,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download a Build Artifact
-        uses: actions/download-artifact@v2.0.6
+        uses: actions/download-artifact@v2
         with:
           name: packages
-      - name: test
-        run: ls -R
       - name: Push to nuget.org
         run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
