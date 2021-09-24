@@ -80,7 +80,7 @@ namespace Config.Net.Json.Stores
       {
          if (token == null) return null;
 
-         return token.ToString();
+         return token.Value<string>();
       }
 
       public void Write(string key, string value)
