@@ -159,7 +159,15 @@ namespace Config.Net.Json.Stores
 
          // replace the destination file with the temporary file, creating a backup of the destination file
          string backupPath = _pathName + ".backup";
-         File.Replace(tempPath, _pathName, backupPath);
+         
+         if (File.Exists(_pathName))
+         {
+            File.Replace(tempPath, _pathName, backupPath);
+         }
+         else
+         {
+            File.Move(tempPath, _pathName);
+         }
          
          // if the replacement was successful, delete the backup file. If not, restore the backup file.
          if(File.Exists(_pathName))
