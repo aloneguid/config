@@ -3,7 +3,7 @@
       <Copyright>Copyright (c) 2015-2021 by Ivan Gavryliuk</Copyright>
       <AssemblyTitle>Config.Net</AssemblyTitle>
       <Authors>Ivan Gavryliuk (@aloneguid)</Authors>
-      <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0</TargetFrameworks>
+      <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
       <AssemblyName>Config.Net</AssemblyName>
       <PackageId>Config.Net</PackageId>
       <AssemblyVersion>4.0.0.0</AssemblyVersion>
