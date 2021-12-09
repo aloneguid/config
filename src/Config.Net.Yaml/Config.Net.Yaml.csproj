@@ -18,7 +18,7 @@
 
    </PropertyGroup>
    <ItemGroup>
-      <PackageReference Include="YamlDotNet" Version="8.0.0" />
+      <PackageReference Include="YamlDotNet" Version="11.2.1" />
    </ItemGroup>
    <ItemGroup>
       <ProjectReference Include="..\Config.Net\Config.Net.csproj" />
@@ -28,5 +28,11 @@
        <Pack>True</Pack>
        <PackagePath></PackagePath>
      </None>
+   </ItemGroup>
+   <ItemGroup>
+     <PackageReference Update="DotNet.ReproducibleBuilds" Version="1.1.1">
+       <PrivateAssets>all</PrivateAssets>
+       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+     </PackageReference>
    </ItemGroup>
 </Project>
