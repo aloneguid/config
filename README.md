@@ -1,8 +1,8 @@
-﻿# Config.Net [![NuGet](https://img.shields.io/nuget/v/Config.Net.svg)](https://www.nuget.org/packages/Config.Net) [![open collective backers and sponsors](https://img.shields.io/opencollective/all/config.svg)](https://opencollective.com/config)
+﻿﻿# Config.Net [![NuGet](https://img.shields.io/nuget/v/Config.Net.svg)](https://www.nuget.org/packages/Config.Net) [![open collective backers and sponsors](https://img.shields.io/opencollective/all/config.svg)](https://opencollective.com/config) [![Nuget](https://img.shields.io/nuget/dt/Config.Net)](https://www.nuget.org/packages/Config.Net)
 
 A comprehensive, easy to use and powerful .NET configuration library, fully covered with unit tests and tested in the wild on thousands of servers and applications.
 
-This library eliminates the problem of having configuration in different places, having to convert types between different providers, hardcoding configuration keys accross the solution, depending on specific configuration source implementation. It's doing that by exposing an abstract configuration interface and providing most common implementation for configuration sources like app.config, environment variables etc.
+This library eliminates the problem of having configuration in different places, having to convert types between different providers, hardcoding configuration keys across the solution, depending on specific configuration source implementation. It's doing that by exposing an abstract configuration interface and providing most common implementation for configuration sources like `app.config`, environment variables etc.
 
 ![Abstract](doc/abstract.svg)
 
@@ -97,9 +97,9 @@ See [Mapping to appsettings.json file](doc/Stores_JsonFile.md#mapping-to-appsett
 
 The order in which sources are added is important - Config.Net will try to read the source in the configured order and return the value from the first store where it exists.
 
-### Changing property behavior
+### Changing property behaviour
 
-`Option` attribute can be used to annotate interface properties with extra bahavior.
+`Option` attribute can be used to annotate interface properties with extra behaviour.
 
 #### Aliases
 
@@ -171,7 +171,7 @@ string AuthClientId { get; set; }
 
 This framework is free and can be used for free, open source and commercial applications. Config.Net (all code, NuGets and binaries) are under the [MIT License (MIT)](https://github.com/aloneguid/config/blob/master/LICENSE). It's battle-tested and used by many awesome people and organisations. So hit the magic ⭐️ button, we appreciate it!!! 🙏 Thx!
 
-The core team members, Config.Net contributors and contributors in the ecosystem do this open source work in their free time. If you use Config.Netk, and you'd like us to invest more time on it, please donate. This project increases your income/productivity/usabilty too.
+The core team members, Config.Net contributors and contributors in the ecosystem do this open source work in their free time. If you use Config.Net, and you'd like us to invest more time on it, please donate. This project increases your income/productivity/usabilty too.
 
 ### Why charge/sponsor for open source?
 
