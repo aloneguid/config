@@ -20,11 +20,11 @@
 
    <ItemGroup>
       <PackageReference Include="Castle.Core" Version="4.4.1" />
-      <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+      <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
    </ItemGroup>
 
    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-      <PackageReference Include="System.Text.Json" Version="5.0.2" />
+      <PackageReference Include="System.Text.Json" Version="6.0.0" />
    </ItemGroup>
 
    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
@@ -40,5 +40,12 @@
        <Pack>True</Pack>
        <PackagePath></PackagePath>
      </None>
+   </ItemGroup>
+
+   <ItemGroup>
+     <PackageReference Update="DotNet.ReproducibleBuilds" Version="1.1.1">
+       <PrivateAssets>all</PrivateAssets>
+       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+     </PackageReference>
    </ItemGroup>
 </Project>
