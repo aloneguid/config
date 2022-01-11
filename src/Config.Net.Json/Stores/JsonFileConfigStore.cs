@@ -30,6 +30,12 @@ namespace Config.Net.Json.Stores
          if(isFilePath)
          {
             _pathName = Path.GetFullPath(name);   // Allow relative path to JSON file
+
+            if (!File.Exists(_pathName))
+            {
+               throw new FileNotFoundException("File does not exist", _pathName);
+            }
+
             _jo = ReadJsonFile(_pathName);
             CanWrite = true;
          }
@@ -146,34 +152,22 @@ namespace Config.Net.Json.Stores
       {
          if (_jo == null) return;
 
-         var fi = new FileInfo(_pathName);
-         if (!fi.Directory.Exists) fi.Directory.Create();
-
+         // create temporary file with new data
          string json = _jo.ToString(Formatting.Indented);
-
-         // write json content to a temporary file
-         string tempPath = Path.GetTempFileName();
+         string tempPath = Path.GetTempPath() + Guid.NewGuid().ToString() + ".tmp";
          byte[] data = Encoding.UTF8.GetBytes(json);
          using (FileStream tempFile = File.Create(tempPath, 4096, FileOptions.WriteThrough))
             tempFile.Write(data, 0, data.Length);
 
-         // replace the destination file with the temporary file, creating a backup of the destination file
+         // create backup of the destination file with old data
          string backupPath = _pathName + ".backup";
-         
-         if (File.Exists(_pathName))
-         {
-            File.Replace(tempPath, _pathName, backupPath);
-         }
-         else
-         {
-            File.Move(tempPath, _pathName);
-         }
-         
-         // if the replacement was successful, delete the backup file. If not, restore the backup file.
-         if(File.Exists(_pathName))
-            File.Delete(backupPath);
-         else
-            File.Move(backupPath, _pathName);
+         File.Copy(_pathName, backupPath);
+
+         // try to overwrite old file (_pathName) with new file (tempPath)
+         // and delete backup with temporary file
+         File.Copy(tempPath, _pathName, true);
+         File.Delete(backupPath);
+         File.Delete(tempPath);
       }
    }
 }
