@@ -152,22 +152,34 @@ namespace Config.Net.Json.Stores
       {
          if (_jo == null) return;
 
-         // create temporary file with new data
+         // Create temporary file with new data.
          string json = _jo.ToString(Formatting.Indented);
          string tempPath = Path.GetTempPath() + Guid.NewGuid().ToString() + ".tmp";
          byte[] data = Encoding.UTF8.GetBytes(json);
          using (FileStream tempFile = File.Create(tempPath, 4096, FileOptions.WriteThrough))
             tempFile.Write(data, 0, data.Length);
 
-         // create backup of the destination file with old data
+         // Create backup of the destination file with old data.
+         // Since backup file is required, an exception allowed.
          string backupPath = _pathName + ".backup";
          File.Copy(_pathName, backupPath, true);
 
-         // try to overwrite old file (_pathName) with new file (tempPath)
-         // and delete backup with temporary file
-         File.Copy(tempPath, _pathName, true);
-         File.Delete(backupPath);
-         File.Delete(tempPath);
+         // Try to overwrite destination file (_pathName) with new one (tempPath)
+         // and delete backup with temporary file if successful.
+         // Otherwise, restore backup data and remove unneccessary files.
+         try
+         {
+            File.Copy(tempPath, _pathName, true);
+         }
+         catch (Exception)
+         {
+            File.Copy(backupPath, _pathName, true);
+         }
+         finally
+         {
+            File.Delete(backupPath);
+            File.Delete(tempPath);
+         }
       }
    }
 }
