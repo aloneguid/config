@@ -161,7 +161,7 @@ namespace Config.Net.Json.Stores
 
          // create backup of the destination file with old data
          string backupPath = _pathName + ".backup";
-         File.Copy(_pathName, backupPath);
+         File.Copy(_pathName, backupPath, true);
 
          // try to overwrite old file (_pathName) with new file (tempPath)
          // and delete backup with temporary file
