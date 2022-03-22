@@ -15,8 +15,8 @@ namespace Config.Net.Core
       private readonly string _prefix;
       private readonly DynamicReader _reader;
       private readonly DynamicWriter _writer;
-      private readonly bool _isInpc;
-      private PropertyChangedEventHandler _inpcHandler;
+      private readonly bool _isInPc;
+      private PropertyChangedEventHandler _inPcHandler;
 
       public InterfaceInterceptor(Type interfaceType, IoHandler ioHandler, string prefix = null)
       {
@@ -25,7 +25,7 @@ namespace Config.Net.Core
          _prefix = prefix;
          _reader = new DynamicReader(prefix, ioHandler);
          _writer = new DynamicWriter(prefix, ioHandler);
-         _isInpc = interfaceType.GetInterface(nameof(INotifyPropertyChanged)) != null;
+         _isInPc = interfaceType.GetInterface(nameof(INotifyPropertyChanged)) != null;
       }
 
       private ResultBox FindBox(IInvocation invocation)
@@ -43,60 +43,60 @@ namespace Config.Net.Core
 
       public void Intercept(IInvocation invocation)
       {
-         if (TryInterceptInpc(invocation)) return;
+         if (TryInterceptInPc(invocation)) return;
 
-         ResultBox rbox = FindBox(invocation);
+         ResultBox rBox = FindBox(invocation);
 
          bool isRead =
-            (rbox is PropertyResultBox && PropertyResultBox.IsGetProperty(invocation.Method)) ||
-            (rbox is ProxyResultBox && PropertyResultBox.IsGetProperty(invocation.Method)) ||
-            (rbox is MethodResultBox mbox && mbox.IsGetter) ||
-            (rbox is CollectionResultBox);
+            (rBox is PropertyResultBox && PropertyResultBox.IsGetProperty(invocation.Method)) ||
+            (rBox is ProxyResultBox && PropertyResultBox.IsGetProperty(invocation.Method)) ||
+            (rBox is MethodResultBox mBox && mBox.IsGetter) ||
+            (rBox is CollectionResultBox);
 
          if(isRead)
          {
-            invocation.ReturnValue = _reader.Read(rbox, -1, invocation.Arguments);
+            invocation.ReturnValue = _reader.Read(rBox, -1, invocation.Arguments);
             return;
          }
          else
          {
-            _writer.Write(rbox, invocation.Arguments);
+            _writer.Write(rBox, invocation.Arguments);
 
-            TryNotifyInpc(invocation, rbox);
+            TryNotifyInPc(invocation, rBox);
          }
       }
 
-      private bool TryInterceptInpc(IInvocation invocation)
+      private bool TryInterceptInPc(IInvocation invocation)
       {
-         if (!_isInpc) return false;
+         if (!_isInPc) return false;
          
          if (invocation.Method.Name == "add_PropertyChanged")
          {
             invocation.ReturnValue =
-               _inpcHandler =
-               (PropertyChangedEventHandler)Delegate.Combine(_inpcHandler, (Delegate)invocation.Arguments[0]);
+               _inPcHandler =
+               (PropertyChangedEventHandler)Delegate.Combine(_inPcHandler, (Delegate)invocation.Arguments[0]);
             return true;
          }
          else if(invocation.Method.Name == "remove_PropertyChanged")
          {
             invocation.ReturnValue =
-               _inpcHandler =
-               (PropertyChangedEventHandler)Delegate.Remove(_inpcHandler, (Delegate)invocation.Arguments[0]);
+               _inPcHandler =
+               (PropertyChangedEventHandler)Delegate.Remove(_inPcHandler, (Delegate)invocation.Arguments[0]);
             return true;
          }
 
          return false;
       }
 
-      private void TryNotifyInpc(IInvocation invocation, ResultBox rbox)
+      private void TryNotifyInPc(IInvocation invocation, ResultBox rBox)
       {
-         if (_inpcHandler == null || rbox is MethodResultBox) return;
+         if (_inPcHandler == null || rBox is MethodResultBox) return;
 
-         _inpcHandler.Invoke(invocation.InvocationTarget, new PropertyChangedEventArgs(rbox.Name));
-         if(rbox.Name != rbox.StoreByName)
+         _inPcHandler.Invoke(invocation.InvocationTarget, new PropertyChangedEventArgs(rBox.Name));
+         if(rBox.Name != rBox.StoreByName)
          {
             //notify on StoreByName as well
-            _inpcHandler.Invoke(invocation.InvocationTarget, new PropertyChangedEventArgs(rbox.StoreByName));
+            _inPcHandler.Invoke(invocation.InvocationTarget, new PropertyChangedEventArgs(rBox.StoreByName));
          }
       }
    }
