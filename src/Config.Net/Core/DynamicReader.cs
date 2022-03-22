@@ -16,59 +16,59 @@ namespace Config.Net.Core
          _ioHandler = ioHandler;
       }
 
-      public object Read(ResultBox rbox, int index = -1, params object[] arguments)
+      public object Read(ResultBox rBox, int index = -1, params object[] arguments)
       {
-         if (rbox is PropertyResultBox pbox) return ReadProperty(pbox, index);
+         if (rBox is PropertyResultBox pBox) return ReadProperty(pBox, index);
 
-         if (rbox is ProxyResultBox xbox) return ReadProxy(xbox, index);
+         if (rBox is ProxyResultBox xBox) return ReadProxy(xBox, index);
 
-         if (rbox is CollectionResultBox cbox) return ReadCollection(cbox, index);
+         if (rBox is CollectionResultBox cBox) return ReadCollection(cBox, index);
 
-         if (rbox is MethodResultBox mbox) return ReadMethod(mbox, arguments);
+         if (rBox is MethodResultBox mBox) return ReadMethod(mBox, arguments);
 
-         throw new NotImplementedException($"don't know how to read {rbox.GetType()}");
+         throw new NotImplementedException($"don't know how to read {rBox.GetType()}");
       }
 
-      private object ReadProperty(PropertyResultBox pbox, int index)
+      private object ReadProperty(PropertyResultBox pPox, int index)
       {
-         string path = OptionPath.Combine(index, _basePath, pbox.StoreByName);
+         string path = OptionPath.Combine(index, _basePath, pPox.StoreByName);
 
-         return _ioHandler.Read(pbox.ResultBaseType, path, pbox.DefaultResult);
+         return _ioHandler.Read(pPox.ResultBaseType, path, pPox.DefaultResult);
       }
 
-      private object ReadProxy(ProxyResultBox xbox, int index)
+      private object ReadProxy(ProxyResultBox xBox, int index)
       {
-         if (!xbox.IsInitialisedAt(index))
+         if (!xBox.IsInitialisedAt(index))
          {
-            string prefix = OptionPath.Combine(index, _basePath, xbox.StoreByName);
+            string prefix = OptionPath.Combine(index, _basePath, xBox.StoreByName);
 
-            xbox.InitialiseAt(index, _ioHandler, prefix);
+            xBox.InitialiseAt(index, _ioHandler, prefix);
          }
 
-         return xbox.GetInstanceAt(index);
+         return xBox.GetInstanceAt(index);
       }
 
-      private object ReadCollection(CollectionResultBox cbox, int index)
+      private object ReadCollection(CollectionResultBox cBox, int index)
       {
-         string lengthPath = OptionPath.Combine(index, _basePath, cbox.StoreByName);
+         string lengthPath = OptionPath.Combine(index, _basePath, cBox.StoreByName);
          lengthPath = OptionPath.AddLength(lengthPath);
 
-         if (!cbox.IsInitialised)
+         if (!cBox.IsInitialised)
          {
             int length = (int)_ioHandler.Read(typeof(int), lengthPath, 0);
 
-            cbox.Initialise(_basePath, length, this);
+            cBox.Initialise(_basePath, length, this);
          }
 
-         return cbox.CollectionInstance;
+         return cBox.CollectionInstance;
       }
 
-      private object ReadMethod(MethodResultBox mbox, object[] arguments)
+      private object ReadMethod(MethodResultBox mBox, object[] arguments)
       {
-         string path = mbox.GetValuePath(arguments);
+         string path = mBox.GetValuePath(arguments);
          path = OptionPath.Combine(_basePath, path);
 
-         return _ioHandler.Read(mbox.ResultBaseType, path, mbox.DefaultResult);
+         return _ioHandler.Read(mBox.ResultBaseType, path, mBox.DefaultResult);
       }
    }
 }
