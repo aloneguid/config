@@ -90,7 +90,7 @@ namespace Config.Net.Azure.KeyVault
 
             return secret.Value;
          }
-         catch (AggregateException agex) when(agex.InnerException is KeyVaultErrorException kvex && kvex.Response.StatusCode == HttpStatusCode.NotFound)
+         catch (AggregateException agEx) when(agEx.InnerException is KeyVaultErrorException kvEx && kvEx.Response.StatusCode == HttpStatusCode.NotFound)
          {
             //ignore, the secret is simply not found
             return null;
