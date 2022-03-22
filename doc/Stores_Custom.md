@@ -45,7 +45,7 @@ This uses two helper classes - `DynamicReader` and `DynamicWriter` which contain
 
 Ease of creating custom stores was the primary design goal of this library. We believe that it can only be useful when adding another configuration source is trivial.
 
-In order to add a new store all you need to do is to implement `IConfigStore` interface which only has 4 moethods:
+In order to add a new store all you need to do is to implement `IConfigStore` interface which only has 4 methods:
 
 ```csharp
    /// <summary>
