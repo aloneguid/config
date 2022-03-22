@@ -48,9 +48,9 @@ namespace Config.Net.Tests
       {
          _store.Write("Admin.Domain.addr", "dn");
 
-         string addr = _config.Admin.Domain.Address;
+         string address = _config.Admin.Domain.Address;
 
-         Assert.Equal("dn", addr);
+         Assert.Equal("dn", address);
 
       }
    }
