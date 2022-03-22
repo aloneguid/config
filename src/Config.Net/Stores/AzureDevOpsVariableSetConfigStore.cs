@@ -72,13 +72,13 @@ namespace Config.Net.Stores
 
       private string GetRawValue(string key)
       {
-         VariableSetModel vset = GetVariableSetModel();
-         if (vset.variables == null) return null;
+         VariableSetModel vSet = GetVariableSetModel();
+         if (vSet.variables == null) return null;
 
          VariableSetValue value = null;
 
          var dic = new Dictionary<string, VariableSetValue>(StringComparer.InvariantCultureIgnoreCase);
-         foreach(KeyValuePair<string, VariableSetValue> item in vset.variables)
+         foreach(KeyValuePair<string, VariableSetValue> item in vSet.variables)
          {
             dic[item.Key] = item.Value;
          }
