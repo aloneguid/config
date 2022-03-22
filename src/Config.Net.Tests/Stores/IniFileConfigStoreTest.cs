@@ -52,7 +52,7 @@ namespace Config.Net.Tests.Stores
       }
 
       [Fact]
-      public void ValuesChange_RewriteFileWithNewValues_DoesNotReadNewValuesBecauseTheyreCached()
+      public void ValuesChange_RewriteFileWithNewValues_DoesNotReadNewValuesBecauseTheyAreCached()
       {
          File.WriteAllText(_testFilePath, "keyV=valueV");
 
