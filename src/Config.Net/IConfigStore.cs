@@ -21,7 +21,7 @@ namespace Config.Net
       /// Reads a key from the store.
       /// </summary>
       /// <param name="key">Key name.</param>
-      /// <returns>If key exists in the store returns the value, othwise returns null.</returns>
+      /// <returns>If key exists in the store returns the value, otherwise returns null.</returns>
       string Read(string key);
 
       /// <summary>
@@ -29,7 +29,7 @@ namespace Config.Net
       /// </summary>
       /// <param name="key">Key name</param>
       /// <param name="value">Key value. Value of NULL usually means the key will be deleted, at least
-      /// this is the recomendation for the custom store implementers.</param>
+      /// this is the recommendation for the custom store implementers.</param>
       void Write(string key, string value);
    }
 }

@@ -12,7 +12,7 @@ namespace Config.Net.Tests
       private static bool cleanedUp = false;
 
       /// <summary>
-      /// Isolated directory will be created for every test only when needed, and destroyed automagicaly
+      /// Isolated directory will be created for every test only when needed, and destroyed automagically
       /// </summary>
       protected DirectoryInfo TestDir
       {

@@ -30,7 +30,7 @@ namespace Config.Net.Tests
          //construct the builder first
          var builder = new ConfigurationBuilder<ITwoSettings>();
 
-         //add a sample store that contains setings for future stores
+         //add a sample store that contains settings for future stores
          builder.UseInMemoryDictionary(new Dictionary<string, string> { ["OneForSecond"] = "first" });
 
          //get the value before you finish building all the settings container
