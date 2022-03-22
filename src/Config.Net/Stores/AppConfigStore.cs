@@ -28,10 +28,10 @@ namespace Config.Net.Stores
             if(idx != -1)
             {
                string sectionName = key.Substring(0, idx);
-               if(ConfigurationManager.GetSection(sectionName) is NameValueCollection nvsc)
+               if(ConfigurationManager.GetSection(sectionName) is NameValueCollection nvSc)
                {
                   string keyName = key.Substring(idx + 1);
-                  value = nvsc[keyName];
+                  value = nvSc[keyName];
                }
             }
          }
