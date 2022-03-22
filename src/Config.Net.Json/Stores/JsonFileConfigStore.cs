@@ -106,11 +106,11 @@ namespace Config.Net.Json.Stores
          }
 
          //set the value
-         string ckey = parts[parts.Length - 1];
+         string cKey = parts[parts.Length - 1];
          if (value == null)
          {
             //remove the value
-            JToken existingValue = containerToken[ckey];
+            JToken existingValue = containerToken[cKey];
 
             if (existingValue is JValue jv)
                jv.Parent.Remove();
@@ -119,7 +119,7 @@ namespace Config.Net.Json.Stores
          }
          else
          {
-            containerToken[ckey] = value;
+            containerToken[cKey] = value;
          }
 
          //rewrite the whole thing
