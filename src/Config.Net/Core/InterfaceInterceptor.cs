@@ -50,7 +50,7 @@ namespace Config.Net.Core
          bool isRead =
             (rbox is PropertyResultBox && PropertyResultBox.IsGetProperty(invocation.Method)) ||
             (rbox is ProxyResultBox && PropertyResultBox.IsGetProperty(invocation.Method)) ||
-            (rbox is MethodResultBox mbox && mbox.IsGettter) ||
+            (rbox is MethodResultBox mbox && mbox.IsGetter) ||
             (rbox is CollectionResultBox);
 
          if(isRead)

@@ -10,13 +10,13 @@ namespace Config.Net.Core.Box
       public MethodResultBox(MethodInfo methodInfo) : base(GetName(methodInfo), GetReturnType(methodInfo), null)
       {
          StoreByName = GetStoreName(methodInfo);
-         IsGettter = IsGet(methodInfo);
+         IsGetter = IsGet(methodInfo);
       }
 
-      public bool IsGettter { get; private set; }
+      public bool IsGetter { get; private set; }
 
       /// <summary>
-      /// Composes a uniqueue method name using method name itself and parameter type names, separated by underscore
+      /// Composes a unique method name using method name itself and parameter type names, separated by underscore
       /// </summary>
       public static string GetName(MethodInfo mi)
       {
@@ -35,7 +35,7 @@ namespace Config.Net.Core.Box
       {
          var sb = new StringBuilder();
          sb.Append(StoreByName);
-         bool ignoreLast = !IsGettter;
+         bool ignoreLast = !IsGetter;
 
          for (int i = 0; i < arguments.Length - (ignoreLast ? 1 : 0); i++)
          {
