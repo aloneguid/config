@@ -14,33 +14,33 @@ namespace Config.Net.Core
          _ioHandler = ioHandler;
       }
 
-      public void Write(ResultBox rbox, object[] arguments)
+      public void Write(ResultBox rBox, object[] arguments)
       {
-         if (rbox is PropertyResultBox pbox) WriteProperty(pbox, arguments);
+         if (rBox is PropertyResultBox pBox) WriteProperty(pBox, arguments);
 
-         else if (rbox is MethodResultBox mbox) WriteMethod(mbox, arguments);
+         else if (rBox is MethodResultBox mBox) WriteMethod(mBox, arguments);
 
-         else if (rbox is ProxyResultBox xbox) WriteProxy(xbox, arguments);
+         else if (rBox is ProxyResultBox xBox) WriteProxy(xBox, arguments);
 
-         else throw new NotImplementedException($"don't know how to write {rbox.GetType()}");
+         else throw new NotImplementedException($"don't know how to write {rBox.GetType()}");
       }
 
-      private void WriteProperty(PropertyResultBox pbox, object[] arguments)
+      private void WriteProperty(PropertyResultBox pBox, object[] arguments)
       {
-         string path = OptionPath.Combine(_basePath, pbox.StoreByName);
+         string path = OptionPath.Combine(_basePath, pBox.StoreByName);
 
-         _ioHandler.Write(pbox.ResultBaseType, path, arguments[0]);
+         _ioHandler.Write(pBox.ResultBaseType, path, arguments[0]);
       }
 
-      private void WriteMethod(MethodResultBox mbox, object[] arguments)
+      private void WriteMethod(MethodResultBox mBox, object[] arguments)
       {
          object value = arguments[arguments.Length - 1];
-         string path = mbox.GetValuePath(arguments);
+         string path = mBox.GetValuePath(arguments);
 
-         _ioHandler.Write(mbox.ResultBaseType, path, value);
+         _ioHandler.Write(mBox.ResultBaseType, path, value);
       }
 
-      private void WriteProxy(ProxyResultBox xbox, object[] arguments)
+      private void WriteProxy(ProxyResultBox xBox, object[] arguments)
       {
          throw new NotSupportedException("cannot assign values to interface properties");
       }
