@@ -26,7 +26,7 @@ namespace Config.Net.Core.Box
          foreach (PropertyInfo pi in properties)
          {
             Type propertyType = pi.PropertyType;
-            ResultBox rbox;
+            ResultBox rBox;
             bool isCollection = false;
 
             if(ResultBox.TryGetCollection(propertyType, out propertyType))
@@ -41,24 +41,24 @@ namespace Config.Net.Core.Box
 
             if(propertyType.GetTypeInfo().IsInterface)
             {
-               rbox = new ProxyResultBox(pi.Name, propertyType);
+               rBox = new ProxyResultBox(pi.Name, propertyType);
             }
             else
             {
-               rbox = new PropertyResultBox(pi.Name, propertyType);
+               rBox = new PropertyResultBox(pi.Name, propertyType);
             }
 
-            ValidateSupportedType(rbox, valueHandler);
+            ValidateSupportedType(rBox, valueHandler);
 
-            AddAttributes(rbox, pi, valueHandler);
+            AddAttributes(rBox, pi, valueHandler);
 
             //adjust to collection
             if(isCollection)
             {
-               rbox = new CollectionResultBox(pi.Name, rbox);
+               rBox = new CollectionResultBox(pi.Name, rBox);
             }
 
-            result[pi.Name] = rbox;
+            result[pi.Name] = rBox;
          }
       }
 
@@ -70,11 +70,11 @@ namespace Config.Net.Core.Box
 
          foreach (MethodInfo method in methods)
          {
-            var mbox = new MethodResultBox(method);
+            var mBox = new MethodResultBox(method);
 
-            AddAttributes(mbox, method, valueHandler);
+            AddAttributes(mBox, method, valueHandler);
 
-            result[mbox.Name] = mbox;
+            result[mBox.Name] = mBox;
          }
       }
 
@@ -82,7 +82,7 @@ namespace Config.Net.Core.Box
       {
          Type t = null;
 
-         if (rb is PropertyResultBox pbox)
+         if (rb is PropertyResultBox pBox)
             t = rb.ResultBaseType;
 
          if (t != null && !valueHandler.IsSupported(t))

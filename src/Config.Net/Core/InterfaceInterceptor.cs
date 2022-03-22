@@ -45,24 +45,24 @@ namespace Config.Net.Core
       {
          if (TryInterceptInpc(invocation)) return;
 
-         ResultBox rbox = FindBox(invocation);
+         ResultBox rBox = FindBox(invocation);
 
          bool isRead =
-            (rbox is PropertyResultBox && PropertyResultBox.IsGetProperty(invocation.Method)) ||
-            (rbox is ProxyResultBox && PropertyResultBox.IsGetProperty(invocation.Method)) ||
-            (rbox is MethodResultBox mbox && mbox.IsGettter) ||
-            (rbox is CollectionResultBox);
+            (rBox is PropertyResultBox && PropertyResultBox.IsGetProperty(invocation.Method)) ||
+            (rBox is ProxyResultBox && PropertyResultBox.IsGetProperty(invocation.Method)) ||
+            (rBox is MethodResultBox mBox && mBox.IsGetter) ||
+            (rBox is CollectionResultBox);
 
          if(isRead)
          {
-            invocation.ReturnValue = _reader.Read(rbox, -1, invocation.Arguments);
+            invocation.ReturnValue = _reader.Read(rBox, -1, invocation.Arguments);
             return;
          }
          else
          {
-            _writer.Write(rbox, invocation.Arguments);
+            _writer.Write(rBox, invocation.Arguments);
 
-            TryNotifyInpc(invocation, rbox);
+            TryNotifyInpc(invocation, rBox);
          }
       }
 
@@ -88,15 +88,15 @@ namespace Config.Net.Core
          return false;
       }
 
-      private void TryNotifyInpc(IInvocation invocation, ResultBox rbox)
+      private void TryNotifyInpc(IInvocation invocation, ResultBox rBox)
       {
-         if (_inpcHandler == null || rbox is MethodResultBox) return;
+         if (_inpcHandler == null || rBox is MethodResultBox) return;
 
-         _inpcHandler.Invoke(invocation.InvocationTarget, new PropertyChangedEventArgs(rbox.Name));
-         if(rbox.Name != rbox.StoreByName)
+         _inpcHandler.Invoke(invocation.InvocationTarget, new PropertyChangedEventArgs(rBox.Name));
+         if(rBox.Name != rBox.StoreByName)
          {
             //notify on StoreByName as well
-            _inpcHandler.Invoke(invocation.InvocationTarget, new PropertyChangedEventArgs(rbox.StoreByName));
+            _inpcHandler.Invoke(invocation.InvocationTarget, new PropertyChangedEventArgs(rBox.StoreByName));
          }
       }
    }
