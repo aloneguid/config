@@ -83,6 +83,6 @@ namespace Config.Net.Tests.Virtual
 
    public interface ISetterArrays
    {
-      IEnumerable<int> WithSettter { get; set; }
+      IEnumerable<int> WithSetter { get; set; }
    }
 }
