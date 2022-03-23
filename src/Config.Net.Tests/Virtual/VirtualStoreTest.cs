@@ -8,6 +8,7 @@ using Config.Net.Json.Stores;
 using Config.Net.Stores;
 using Config.Net.Stores.Impl.CommandLine;
 using Config.Net.Yaml.Stores;
+using Xunit;
 
 namespace Config.Net.Tests.Virtual
 {
@@ -168,16 +169,22 @@ namespace Config.Net.Tests.Virtual
             creds.AzureKeyVaultSecret);
       }
    }*/
-
-#if DEBUG
-   public class AzureDevOpsVariableSetConfigStoreTest : VirtualStoreTest
+   
+   [System.Diagnostics.CodeAnalysis.SuppressMessage(
+      "Usage",
+      "xUnit1000:Test classes must be public",
+      
+      Justification = "Disabled because this is not implemented yet, change internal to public " +
+                      "once implemented to test")]
+   
+   //public class AzureDevOpsVariableSetConfigStoreTest : VirtualStoreTest
+   internal class AzureDevOpsVariableSetConfigStoreTest : VirtualStoreTest
    {
       protected override IConfigStore CreateStore()
       {
          return new AzureDevOpsVariableSetConfigStore(creds.AzDevOpsOrg, creds.AzDevOpsProject, creds.AzDevOpsPat, creds.AzDeOpsVarId);
       }
    }
-#endif
 
-#endregion
+   #endregion
 }
