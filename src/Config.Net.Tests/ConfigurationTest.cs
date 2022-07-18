@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Xunit;
 
@@ -17,6 +18,36 @@ namespace Config.Net.Tests
          Assert.Equal(7, settings.AnotherNumber);
          Assert.Equal(3, settings.Number);
       }
+
+      [Fact]
+
+      public void CreateJsonFileAndRead()
+      {
+         string filename = "testFile.json";
+         if (File.Exists(filename))
+         {
+            File.Delete(filename);
+         }
+
+         IDerivedSettings settings = new ConfigurationBuilder<IDerivedSettings>()
+            .UseJsonFile(filename)
+            .Build();
+
+         Assert.Equal(7, settings.AnotherNumber);
+         Assert.Equal(3, settings.Number);
+
+         settings.NumberThird = 9;
+         settings.NumberFourth = 1;
+
+         IDerivedSettings settings2 = new ConfigurationBuilder<IDerivedSettings>()
+            .UseJsonFile(filename)
+            .Build();
+
+         Assert.Equal(9, settings2.NumberThird);
+         Assert.Equal(1, settings2.NumberFourth);
+
+      }
+
 
       [Fact]
       public void Invalid_basic_type_prevents_builder()
@@ -45,7 +76,7 @@ namespace Config.Net.Tests
          ITwoSettings settings = builder.Build();
          Assert.Equal("first", settings.OneForSecond);
          Assert.Equal("first", settings.Second);
-            
+
       }
    }
 
@@ -62,7 +93,7 @@ namespace Config.Net.Tests
       int GetNumber(
 
          string section1Name,
-         
+
          string section2Name);
 
       void SetNumber(int value);
@@ -72,6 +103,8 @@ namespace Config.Net.Tests
    {
       [Option(DefaultValue = 7)]
       int AnotherNumber { get; }
+      int NumberThird { get; set; }
+      int NumberFourth { get; set; }
    }
 
    public interface ITwoSettings
