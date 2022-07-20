@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
    <PropertyGroup>
-      <Copyright>Copyright (c) 2015-2021 by Ivan Gavryliuk</Copyright>
+      <Copyright>Copyright (c) 2015-2022 by Ivan Gavryliuk</Copyright>
       <AssemblyTitle>Config.Net</AssemblyTitle>
       <Authors>Ivan Gavryliuk (@aloneguid)</Authors>
       <TargetFrameworks>netstandard2.1;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
@@ -18,6 +18,9 @@
       <PackageIconUrl />
       <Nullable>enable</Nullable>
       <LangVersion>latest</LangVersion>
+      <PackageProjectUrl>https://github.com/aloneguid/config</PackageProjectUrl>
+      <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
+      <PackageReadmeFile>README.md</PackageReadmeFile>
    </PropertyGroup>
 
    <ItemGroup>
@@ -30,6 +33,10 @@
    </ItemGroup>
 
    <ItemGroup>
+     <None Include="..\..\docs\README.md">
+       <Pack>True</Pack>
+       <PackagePath>\</PackagePath>
+     </None>
      <None Include="..\icon.png">
        <Pack>True</Pack>
        <PackagePath></PackagePath>

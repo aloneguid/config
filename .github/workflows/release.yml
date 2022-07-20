@@ -1,9 +1,9 @@
 name: Release
 
 env:
-  v: '5.0.0'
+  v: '5.0.1'
   av: '5.0.0'
-  pv: '5.0.0'
+  pv: '5.0.1'
 
 on:
   push:
