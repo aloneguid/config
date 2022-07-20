@@ -19,10 +19,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Config.Net.Json\Config.Net.Json.csproj" />
     <ProjectReference Include="..\Config.Net.Yaml\Config.Net.Yaml.csproj" />
     <ProjectReference Include="..\Config.Net\Config.Net.csproj" />
-    <ProjectReference Include="..\Impl\Azure\Config.Net.Azure.KeyVault\Config.Net.Azure.KeyVault.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />

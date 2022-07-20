@@ -1,15 +1,13 @@
-﻿﻿# Config.Net [![NuGet](https://img.shields.io/nuget/v/Config.Net.svg)](https://www.nuget.org/packages/Config.Net) [![open collective backers and sponsors](https://img.shields.io/opencollective/all/config.svg)](https://opencollective.com/config) [![Nuget](https://img.shields.io/nuget/dt/Config.Net)](https://www.nuget.org/packages/Config.Net)
+﻿# Config.Net [![NuGet](https://img.shields.io/nuget/v/Config.Net.svg)](https://www.nuget.org/packages/Config.Net) [![open collective backers and sponsors](https://img.shields.io/opencollective/all/config.svg)](https://opencollective.com/config) [![Nuget](https://img.shields.io/nuget/dt/Config.Net)](https://www.nuget.org/packages/Config.Net)
 
 A comprehensive, easy to use and powerful .NET configuration library, fully covered with unit tests and tested in the wild on thousands of servers and applications.
 
 This library eliminates the problem of having configuration in different places, having to convert types between different providers, hardcoding configuration keys across the solution, depending on specific configuration source implementation. It's doing that by exposing an abstract configuration interface and providing most common implementation for configuration sources like `app.config`, environment variables etc.
 
-![Abstract](doc/abstract.svg)
+![Abstract](abstract.svg)
 
 ## Index
 
-- Quick Start (this page)
-- [Supported Types](doc/SupportedTypes.md)
 - Configuration Sources
   - [App.config](doc/Stores_AppConfig.md)
   - [Command Line](doc/Stores_CommandLine.md)
@@ -17,9 +15,6 @@ This library eliminates the problem of having configuration in different places,
   - [.INI files](doc/Stores_IniFile.md)
   - [In-Memory](doc/Stores_InMemory.md)
   - [JSON Files](doc/Stores_JsonFile.md)
-  - **Microsoft Azure**
-    - [Azure Key Vault](doc/Stores_KeyVault.md) 
-  - [Storage.Net Integration](doc/Stores_StorageNet.md)
 - [Nested Interfaces](doc/NestedInterfaces.md)
 - [Collections](doc/Collections.md)
 - [Binding to Interface Methods](doc/DynamicConfiguration.md)
@@ -71,29 +66,29 @@ IMySettings settings = new ConfigurationBuilder<IMySettings>()
 
 This is literally all you have to do. Configuration builder is an entry to creating instances of your interface and underneath it creates a proxy class which intercepts calls to properties and fetches values from underlying configured stores.
 
-Not all of the types can be used in the properties, because Config.Net needs to know how to convert them to and from the underlying stores. [This list](doc/SupportedTypes.md) is growing though, and you can always [create a new one](doc/CustomParsers.md) (please don't forget to contribute back to Config.Net). Please also note that if you want to use internal types, you should add the following within your assembly:
+### Which Data Types are Supported?
 
-```chasrp
-[assembly: InternalsVisibleTo ("DynamicProxyGenAssembly2")]
-```
+Not all of the types can be used in the properties, because Config.Net needs to know how to convert them to and from the underlying stores. Out of the box basic .NET types (`bool`, `double`, `int`, `long`, `string`, `TimeSpan`, `DateTime`, `Uri`, `Guid`) are supported. Two more types are worth special mentioning:
 
+#### `System.Net.NetworkCredential`
 
-### Using appsettings.json similar to ASP.NET configuration
+Is a handy built-in .NET class for holding information with username, password and domain. In reality those three fields are almost always enough to hold connection information to remote servers. The following format is understood: `username:password@domain` and all parts are optional.
 
-```csharp
-IMySettings settings = new ConfigurationBuilder<IMySettings>()
-   .UseJsonConfig()
-   .Build();
-```
-Handling `appsettings.json` with environment override file `appsettings.{Environment}.json` based on "APP_ENV" environment variable.
+#### String Arrays
 
-See [Mapping to appsettings.json file](doc/Stores_JsonFile.md#mapping-to-appsettingsjson-file) for more information.
+Encoded using a command-line syntax:
+
+- values are separated by a space i.e. `value1 value2`
+- if you need spaces inside values you must take it in quotes i.e. `"value with space" valuewithoutspace`
+- quotes inside values must be escaped using a double quote (`""`) and the value itself should be quoted i.e. `"value with ""quotes""""`
+
+It's easy to add a new type by implementing `ITypeParser` interface.
 
 ### Using Multiple Sources
 
 `ConfigurationBuilder<T>` is used to instantiate your configuration interface. You can use it to add multiple configuration sources. To get the list of sources use IntelliSense (type dot-Use):
 
-![Intellisense00](doc/intellisense00.png)
+![Intellisense00](intellisense00.png)
 
 The order in which sources are added is important - Config.Net will try to read the source in the configured order and return the value from the first store where it exists.
 
@@ -153,7 +148,7 @@ public interface IMySettings
 
 ### Writing Settings
 
-Some configuration stores support writing values. You can write the value back by simply setting it's value:
+Some configuration stores support writing values. This can be checked by interrogating `IConfigStore.CanWrite` property. You can write the value back by simply setting it's value:
 
 ```csharp
 c.AuthClientId = "new value";
@@ -201,4 +196,4 @@ Does your company use Config.Net?  Ask your manager or marketing team if your co
 
 Thanks to [JetBrains](https://www.jetbrains.com) for kindly providing an open-source license to their amazing [Rider IDE](https://www.jetbrains.com/rider/) for Open Source Development.
 
-[![Jetbrains Rider](doc/jetbrains_rider_small.png)](https://www.jetbrains.com/rider/)
+[![Jetbrains Rider](jetbrains_rider_small.png)](https://www.jetbrains.com/rider/)

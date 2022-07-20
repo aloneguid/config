@@ -9,7 +9,7 @@ namespace Config.Net.Core.Box
       {
       }
 
-      public static bool IsProperty(MethodInfo mi, out bool isGetter, out string name)
+      public static bool IsProperty(MethodInfo mi, out bool isGetter, out string? name)
       {
          if (mi.Name.StartsWith("get_"))
          {
@@ -30,7 +30,7 @@ namespace Config.Net.Core.Box
          return false;
       }
 
-      public static bool IsProperty(MethodInfo mi, out string name)
+      public static bool IsProperty(MethodInfo mi, out string? name)
       {
          if (mi.Name.StartsWith("get_") || mi.Name.StartsWith("set_"))
          {

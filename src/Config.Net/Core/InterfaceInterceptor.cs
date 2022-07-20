@@ -12,13 +12,13 @@ namespace Config.Net.Core
    {
       private readonly Dictionary<string, ResultBox> _boxes;
       private IoHandler _ioHandler;
-      private readonly string _prefix;
+      private readonly string? _prefix;
       private readonly DynamicReader _reader;
       private readonly DynamicWriter _writer;
       private readonly bool _isInpc;
-      private PropertyChangedEventHandler _inpcHandler;
+      private PropertyChangedEventHandler? _inpcHandler;
 
-      public InterfaceInterceptor(Type interfaceType, IoHandler ioHandler, string prefix = null)
+      public InterfaceInterceptor(Type interfaceType, IoHandler ioHandler, string? prefix = null)
       {
          _boxes = BoxFactory.Discover(interfaceType, ioHandler.ValueHandler, prefix);
          _ioHandler = ioHandler;
@@ -30,7 +30,7 @@ namespace Config.Net.Core
 
       private ResultBox FindBox(IInvocation invocation)
       {
-         if (PropertyResultBox.IsProperty(invocation.Method, out string propertyName))
+         if (PropertyResultBox.IsProperty(invocation.Method, out string? propertyName) && propertyName != null)
          {
             return _boxes[propertyName];
          }
@@ -81,7 +81,7 @@ namespace Config.Net.Core
          {
             invocation.ReturnValue =
                _inpcHandler =
-               (PropertyChangedEventHandler)Delegate.Remove(_inpcHandler, (Delegate)invocation.Arguments[0]);
+               (PropertyChangedEventHandler?)Delegate.Remove(_inpcHandler, (Delegate)invocation.Arguments[0]);
             return true;
          }
 

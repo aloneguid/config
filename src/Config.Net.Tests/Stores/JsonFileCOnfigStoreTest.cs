@@ -2,21 +2,20 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Config.Net.Json.Stores;
 using Config.Net.Stores;
 using Xunit;
 
 namespace Config.Net.Tests.Stores
 {
-   public class JsonFileCOnfigStoreTest : AbstractTestFixture, IDisposable
+   public class JsonFileConfigStoreTest : AbstractTestFixture, IDisposable
    {
       private string _path;
-      private JsonFileConfigStore _store;
+      private JsonConfigStore _store;
 
-      public JsonFileCOnfigStoreTest()
+      public JsonFileConfigStoreTest()
       {
          _path = Path.Combine(BuildDir.FullName, "TestData", "sample.json");
-         _store = new JsonFileConfigStore(_path, true);
+         _store = new JsonConfigStore(_path, true);
       }
 
       [Fact]
@@ -30,6 +29,8 @@ namespace Config.Net.Tests.Stores
       [Fact]
       public void Write_inline_property_reads_back()
       {
+         if (!_store.CanWrite) return;
+
          string key = "ApplicationInsights.InstrumentationKey";
 
          _store.Write(key, "123");
@@ -40,6 +41,8 @@ namespace Config.Net.Tests.Stores
       [Fact]
       public void Write_new_value_hierarchically()
       {
+         if (!_store.CanWrite) return;
+
          string key = "One.Two.Three";
 
          _store.Write(key, "111");

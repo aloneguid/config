@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Config.Net.Core;
 
 namespace Config.Net.Stores
@@ -9,7 +8,7 @@ namespace Config.Net.Stores
    {
       private readonly IDictionary<string, string> _container;
 
-      public DictionaryConfigStore(IDictionary<string, string> container = null)
+      public DictionaryConfigStore(IDictionary<string, string>? container = null)
       {
          _container = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 
@@ -31,7 +30,7 @@ namespace Config.Net.Stores
 
       }
 
-      public string Read(string key)
+      public string? Read(string key)
       {
          if (key == null) return null;
 
@@ -40,7 +39,7 @@ namespace Config.Net.Stores
             return length.ToString();
          }
 
-         if (FlatArrays.IsArrayElement(key, k => _container.GetValueOrDefaultInternal(k), out string element))
+         if (FlatArrays.IsArrayElement(key, k => _container.GetValueOrDefaultInternal(k), out string? element))
          {
             return element;
          }
@@ -48,16 +47,18 @@ namespace Config.Net.Stores
          return _container.GetValueOrDefaultInternal(key);
       }
 
-      public void Write(string key, string value)
+      public void Write(string key, string? value)
       {
          if (key == null) return;
 
-         if(value == null)
+         if (value == null)
          {
             _container.Remove(key);
          }
-
-         _container[key] = value;
+         else
+         {
+            _container[key] = value;
+         }
       }
    }
 }

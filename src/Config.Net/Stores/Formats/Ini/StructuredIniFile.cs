@@ -21,23 +21,21 @@ namespace Config.Net.Stores.Formats.Ini
          _sections.Add(_globalSection);
       }
 
-      public string this[string key]
+      public string? this[string key]
       {
          get
          {
             if(key == null) return null;
 
-            IniKeyValue value;
+            IniKeyValue? value;
             return !_fullKeyNameToValue.TryGetValue(key, out value) ? null : value.Value;
          }
          set
          {
             if(key == null) return;
 
-            string sectionName;
-            string keyName;
-            IniSection.SplitKey(key, out sectionName, out keyName);
-            IniSection section = sectionName == null
+            IniSection.SplitKey(key, out string? sectionName, out string keyName);
+            IniSection? section = sectionName == null
                ? _globalSection
                : _sections.FirstOrDefault(s => s.Name == sectionName);
             if(section == null)
@@ -45,7 +43,7 @@ namespace Config.Net.Stores.Formats.Ini
                section = new IniSection(sectionName);
                _sections.Add(section);
             }
-            IniKeyValue ikv = section.Set(keyName, value);
+            IniKeyValue? ikv = section.Set(keyName, value);
 
             //update the local cache
             if(ikv != null)
@@ -72,7 +70,7 @@ namespace Config.Net.Stores.Formats.Ini
          {
             IniSection section = file._globalSection;
 
-            string line;
+            string? line;
             while((line = reader.ReadLine()) != null)
             {
                line = line.Trim();
@@ -92,7 +90,7 @@ namespace Config.Net.Stores.Formats.Ini
                }
                else
                {
-                  IniKeyValue ikv = IniKeyValue.FromLine(line, parseInlineComments);
+                  IniKeyValue? ikv = IniKeyValue.FromLine(line, parseInlineComments);
                   if(ikv == null) continue;
 
                   section.Add(ikv);

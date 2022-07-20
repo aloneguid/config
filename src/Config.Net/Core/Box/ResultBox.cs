@@ -7,9 +7,9 @@ namespace Config.Net.Core.Box
 {
    abstract class ResultBox
    {
-      private string _storeByName;
+      private string? _storeByName;
 
-      protected ResultBox(string name, Type resultType, object defaultResult)
+      protected ResultBox(string name, Type resultType, object? defaultResult)
       {
          Name = name;
          ResultType = resultType;
@@ -29,7 +29,7 @@ namespace Config.Net.Core.Box
 
       public Type ResultBaseType { get; }
 
-      public object DefaultResult { get; set; }
+      public object? DefaultResult { get; set; }
 
       #region [ Utility Methods ]
 

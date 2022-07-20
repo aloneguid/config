@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Config.Net.Core
@@ -9,20 +7,20 @@ namespace Config.Net.Core
    /// Implements a lazy value i.e. that can expire in future
    /// </summary>
    /// <typeparam name="T"></typeparam>
-   class LazyVar<T>
+   class LazyVar<T> where T : class
    {
-      private readonly Func<Task<T>> _renewFuncAsync;
-      private readonly Func<T> _renewFunc;
+      private readonly Func<Task<T?>>? _renewFuncAsync;
+      private readonly Func<T?>? _renewFunc;
       private DateTime _lastRenewed = DateTime.MinValue;
       private readonly TimeSpan _timeToLive;
-      private T _value;
+      private T? _value;
 
       /// <summary>
       /// Creates an instance of a lazy variable with time-to-live value
       /// </summary>
       /// <param name="timeToLive">Time to live. Setting to <see cref="TimeSpan.Zero"/> disables caching completely</param>
       /// <param name="renewFunc"></param>
-      public LazyVar(TimeSpan timeToLive, Func<Task<T>> renewFunc)
+      public LazyVar(TimeSpan timeToLive, Func<Task<T?>> renewFunc)
       {
          _timeToLive = timeToLive;
          _renewFuncAsync = renewFunc ?? throw new ArgumentNullException(nameof(renewFunc));
@@ -34,7 +32,7 @@ namespace Config.Net.Core
       /// </summary>
       /// <param name="timeToLive">Time to live. Setting to <see cref="TimeSpan.Zero"/> disables caching completely</param>
       /// <param name="renewFunc"></param>
-      public LazyVar(TimeSpan timeToLive, Func<T> renewFunc)
+      public LazyVar(TimeSpan timeToLive, Func<T?> renewFunc)
       {
          _timeToLive = timeToLive;
          _renewFuncAsync = null;
@@ -45,7 +43,7 @@ namespace Config.Net.Core
       /// Gets the values, renewing it if necessary
       /// </summary>
       /// <returns>Value</returns>
-      public async Task<T> GetValueAsync()
+      public async Task<T?> GetValueAsync()
       {
          if (_renewFuncAsync == null)
          {
@@ -72,7 +70,7 @@ namespace Config.Net.Core
       /// Gets the values, renewing it if necessary
       /// </summary>
       /// <returns>Value</returns>
-      public T GetValue()
+      public T? GetValue()
       {
          if (_renewFunc == null)
          {

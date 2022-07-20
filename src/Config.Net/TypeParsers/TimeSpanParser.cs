@@ -7,7 +7,7 @@ namespace Config.Net.TypeParsers
    {
       public IEnumerable<Type> SupportedTypes => new[] { typeof(TimeSpan) };
 
-      public bool TryParse(string value, Type t, out object result)
+      public bool TryParse(string? value, Type t, out object? result)
       {
          TimeSpan ts;
          bool parsed = TimeSpan.TryParse(value, TypeParserSettings.DefaultCulture, out ts);
@@ -15,9 +15,9 @@ namespace Config.Net.TypeParsers
          return parsed;
       }
 
-      public string ToRawString(object value)
+      public string? ToRawString(object? value)
       {
-         return ((TimeSpan)value).ToString(null, TypeParserSettings.DefaultCulture);
+         return ((TimeSpan?)value)?.ToString(null, TypeParserSettings.DefaultCulture);
       }
    }
 }

@@ -20,7 +20,7 @@ namespace Config.Net.TypeParsers
       };
 
 
-      public string ToRawString(object value)
+      public string? ToRawString(object? value)
       {
          if (value == null) return null;
 
@@ -30,7 +30,7 @@ namespace Config.Net.TypeParsers
             return value.ToString();
 
          if(t == typeof(bool))
-            return value.ToString().ToLowerInvariant();
+            return value?.ToString()?.ToLowerInvariant();
 
          if (t == typeof(Guid))
             return value.ToString();
@@ -41,7 +41,7 @@ namespace Config.Net.TypeParsers
          return null;
       }
 
-      public bool TryParse(string value, Type t, out object result)
+      public bool TryParse(string? value, Type t, out object? result)
       {
          if(value == null)
          {

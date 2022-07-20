@@ -11,7 +11,7 @@ namespace Config.Net.Core
    /// </summary>
    public static class FlatArrays
    {
-      public static bool IsArrayLength(string key, Func<string, string> getValue, out int length)
+      public static bool IsArrayLength(string? key, Func<string, string?> getValue, out int length)
       {
          if (!OptionPath.TryStripLength(key, out key))
          {
@@ -19,24 +19,24 @@ namespace Config.Net.Core
             return false;
          }
 
-         string value = getValue(key);
+         string? value = key == null ? null : getValue(key);
          if (value == null)
          {
             length = 0;
             return false;
          }
 
-         if (!StringArrayParser.TryParse(value, out string[] ar))
+         if (!StringArrayParser.TryParse(value, out string[]? ar))
          {
             length = 0;
             return false;
          }
 
-         length = ar.Length;
+         length = ar?.Length ?? 0;
          return true;
       }
 
-      public static bool IsArrayElement(string key, Func<string, string> getValue, out string value)
+      public static bool IsArrayElement(string? key, Func<string, string?> getValue, out string? value)
       {
          if(!OptionPath.TryStripIndex(key, out key, out int index))
          {
@@ -44,14 +44,14 @@ namespace Config.Net.Core
             return false;
          }
 
-         string arrayString = getValue(key);
-         if (!StringArrayParser.TryParse(arrayString, out string[] array) || index >= array.Length)
+         string? arrayString = key == null ? null : getValue(key);
+         if (!StringArrayParser.TryParse(arrayString, out string[]? array) || index >= array?.Length)
          {
             value = null;
             return false;
          }
 
-         value = array[index];
+         value = array?[index] ?? null;
          return true;
       }
    }

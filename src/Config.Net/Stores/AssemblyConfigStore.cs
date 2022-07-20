@@ -39,7 +39,7 @@ namespace Config.Net.Stores
       /// <summary>
       /// Reads the value by key
       /// </summary>
-      public string Read(string key)
+      public string? Read(string key)
       {
          KeyValueConfigurationElement element = _configuration.AppSettings.Settings[key];
 
@@ -49,10 +49,7 @@ namespace Config.Net.Stores
       /// <summary>
       /// Writing is not supported
       /// </summary>
-      public void Write(string key, string value)
-      {
-         throw new NotSupportedException();
-      }
+      public void Write(string key, string? value) => throw new NotSupportedException();
 
       /// <summary>
       /// Nothing to dispose

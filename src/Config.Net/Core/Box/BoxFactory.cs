@@ -8,7 +8,7 @@ namespace Config.Net.Core.Box
 {
    static class BoxFactory
    {
-      public static Dictionary<string, ResultBox> Discover(Type t, ValueHandler valueHandler, string basePath)
+      public static Dictionary<string, ResultBox> Discover(Type t, ValueHandler valueHandler, string? basePath)
       {
          var result = new Dictionary<string, ResultBox>();
 
@@ -19,7 +19,7 @@ namespace Config.Net.Core.Box
          return result;
       }
 
-      private static void DiscoverProperties(Type t, ValueHandler valueHandler, Dictionary<string, ResultBox> result, string basePath)
+      private static void DiscoverProperties(Type t, ValueHandler valueHandler, Dictionary<string, ResultBox> result, string? basePath)
       {
          IEnumerable<PropertyInfo> properties = GetHierarchyPublicProperties(t);
 
@@ -80,7 +80,7 @@ namespace Config.Net.Core.Box
 
       private static void ValidateSupportedType(ResultBox rb, ValueHandler valueHandler)
       {
-         Type t = null;
+         Type? t = null;
 
          if (rb is PropertyResultBox pbox)
             t = rb.ResultBaseType;
@@ -91,7 +91,7 @@ namespace Config.Net.Core.Box
          }
       }
 
-      private static object GetDefaultValue(Type t)
+      private static object? GetDefaultValue(Type t)
       {
          if (t.GetTypeInfo().IsValueType) return Activator.CreateInstance(t);
 
@@ -100,7 +100,9 @@ namespace Config.Net.Core.Box
 
       private static void AddAttributes(ResultBox box, PropertyInfo pi, ValueHandler valueHandler)
       {
-         AddAttributes(box, valueHandler, pi.GetCustomAttribute<OptionAttribute>(), pi.GetCustomAttribute<DefaultValueAttribute>());
+         AddAttributes(box, valueHandler,
+            pi.GetCustomAttribute<OptionAttribute>(),
+            pi.GetCustomAttribute<DefaultValueAttribute>());
       }
 
       private static void AddAttributes(ResultBox box, MethodInfo mi, ValueHandler valueHandler)
@@ -109,10 +111,10 @@ namespace Config.Net.Core.Box
       }
 
 
-      private static void AddAttributes(ResultBox box, ValueHandler valueHandler, params Attribute[] attributes)
+      private static void AddAttributes(ResultBox box, ValueHandler valueHandler, params Attribute?[] attributes)
       {
-         OptionAttribute optionAttribute = attributes.OfType<OptionAttribute>().FirstOrDefault();
-         DefaultValueAttribute defaultValueAttribute = attributes.OfType<DefaultValueAttribute>().FirstOrDefault();
+         OptionAttribute? optionAttribute = attributes.OfType<OptionAttribute>().FirstOrDefault();
+         DefaultValueAttribute? defaultValueAttribute = attributes.OfType<DefaultValueAttribute>().FirstOrDefault();
 
          if (optionAttribute?.Alias != null)
          {
@@ -124,22 +126,22 @@ namespace Config.Net.Core.Box
                              GetDefaultValue(box.ResultType);
       }
 
-      private static object GetDefaultValue(object defaultValue, ResultBox box, ValueHandler valueHandler)
+      private static object? GetDefaultValue(object? defaultValue, ResultBox box, ValueHandler valueHandler)
       {
-         object result = null;
+         object? result = null;
          if (defaultValue != null)
          {
             //validate that types for default value match
-            Type dvt = defaultValue?.GetType();
+            Type? dvt = defaultValue?.GetType();
 
             if (dvt != box.ResultType && dvt != typeof(string))
             {
-               throw new InvalidCastException($"Default value for option {box.Name} is of type {dvt.FullName} whereas the property has type {box.Name}. To fix this, either set default value to type {box.ResultType.FullName} or a string parseable to the target type.");
+               throw new InvalidCastException($"Default value for option {box.Name} is of type {dvt?.FullName} whereas the property has type {box.Name}. To fix this, either set default value to type {box.ResultType.FullName} or a string parseable to the target type.");
             }
 
             if (box.ResultType != typeof(string) && dvt == typeof(string))
             {
-               valueHandler.TryParse(box.ResultType, (string)defaultValue, out result);
+               valueHandler.TryParse(box.ResultType, (string?)defaultValue, out result);
             }
          }
 

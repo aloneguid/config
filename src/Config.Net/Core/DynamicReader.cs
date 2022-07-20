@@ -7,16 +7,16 @@ namespace Config.Net.Core
 {
    class DynamicReader
    {
-      private readonly string _basePath;
+      private readonly string? _basePath;
       private readonly IoHandler _ioHandler;
 
-      public DynamicReader(string basePath, IoHandler ioHandler)
+      public DynamicReader(string? basePath, IoHandler ioHandler)
       {
          _basePath = basePath;
          _ioHandler = ioHandler;
       }
 
-      public object Read(ResultBox rbox, int index = -1, params object[] arguments)
+      public object? Read(ResultBox rbox, int index = -1, params object[] arguments)
       {
          if (rbox is PropertyResultBox pbox) return ReadProperty(pbox, index);
 
@@ -29,7 +29,7 @@ namespace Config.Net.Core
          throw new NotImplementedException($"don't know how to read {rbox.GetType()}");
       }
 
-      private object ReadProperty(PropertyResultBox pbox, int index)
+      private object? ReadProperty(PropertyResultBox pbox, int index)
       {
          string path = OptionPath.Combine(index, _basePath, pbox.StoreByName);
 
@@ -48,14 +48,14 @@ namespace Config.Net.Core
          return xbox.GetInstanceAt(index);
       }
 
-      private object ReadCollection(CollectionResultBox cbox, int index)
+      private object? ReadCollection(CollectionResultBox cbox, int index)
       {
          string lengthPath = OptionPath.Combine(index, _basePath, cbox.StoreByName);
          lengthPath = OptionPath.AddLength(lengthPath);
 
          if (!cbox.IsInitialised)
          {
-            int length = (int)_ioHandler.Read(typeof(int), lengthPath, 0);
+            int length = (int?)_ioHandler.Read(typeof(int), lengthPath, 0) ?? 0;
 
             cbox.Initialise(_basePath, length, this);
          }
@@ -63,7 +63,7 @@ namespace Config.Net.Core
          return cbox.CollectionInstance;
       }
 
-      private object ReadMethod(MethodResultBox mbox, object[] arguments)
+      private object? ReadMethod(MethodResultBox mbox, object[] arguments)
       {
          string path = mbox.GetValuePath(arguments);
          path = OptionPath.Combine(_basePath, path);

@@ -13,7 +13,7 @@ namespace Config.Net.Core
 
       private static readonly ValueHandler _default = new ValueHandler();
 
-      public ValueHandler(IEnumerable<ITypeParser> customParsers = null)
+      public ValueHandler(IEnumerable<ITypeParser>? customParsers = null)
       {
          foreach (ITypeParser pc in GetBuiltInParsers())
          {
@@ -48,9 +48,9 @@ namespace Config.Net.Core
          return _supportedTypes.Contains(t) || _defaultParser.IsSupported(t);
       }
 
-      public object ParseValue(Type baseType, string rawValue, object defaultValue)
+      public object? ParseValue(Type baseType, string? rawValue, object? defaultValue)
       {
-         object result;
+         object? result;
 
          if (rawValue == null)
          {
@@ -67,7 +67,7 @@ namespace Config.Net.Core
          return result;
       }
 
-      public bool TryParse(Type propertyType, string rawValue, out object result)
+      public bool TryParse(Type propertyType, string? rawValue, out object? result)
       {
          if (_defaultParser.IsSupported(propertyType))   //type here must be a non-nullable one
          {
@@ -78,7 +78,12 @@ namespace Config.Net.Core
          }
          else
          {
-            ITypeParser typeParser = GetParser(propertyType);
+            ITypeParser? typeParser = GetParser(propertyType);
+            if (typeParser == null)
+            {
+               result = null;
+               return false;
+            }
             if (!typeParser.TryParse(rawValue, propertyType, out result))
             {
                return false;
@@ -88,9 +93,9 @@ namespace Config.Net.Core
          return true;
       }
 
-      public string ConvertValue(Type baseType, object value)
+      public string? ConvertValue(Type baseType, object? value)
       {
-         string str;
+         string? str;
 
          if (value == null)
          {
@@ -104,17 +109,17 @@ namespace Config.Net.Core
             }
             else
             {
-               ITypeParser parser = GetParser(value.GetType());
-               str = parser.ToRawString(value);
+               ITypeParser? parser = GetParser(value.GetType());
+               str = parser?.ToRawString(value);
             }
          }
 
          return str;
       }
 
-      private ITypeParser GetParser(Type t)
+      private ITypeParser? GetParser(Type t)
       {
-         ITypeParser result;
+         ITypeParser? result;
          _allParsers.TryGetValue(t, out result);
          return result;
       }

@@ -11,7 +11,7 @@ namespace Config.Net.Stores
    /// </summary>
    class IniFileConfigStore : IConfigStore
    {
-      private readonly string _fullName;
+      private readonly string? _fullName;
       private readonly StructuredIniFile _iniFile;
 
       /// <summary>
@@ -27,7 +27,7 @@ namespace Config.Net.Stores
          {
             _fullName = Path.GetFullPath(name);   // Allow relative path to INI file
 
-            string parentDirPath = Path.GetDirectoryName(_fullName);
+            string? parentDirPath = Path.GetDirectoryName(_fullName);
             if (string.IsNullOrEmpty(parentDirPath)) throw new IOException("the provided directory path is not valid");
             if (!Directory.Exists(parentDirPath))
             {
@@ -54,14 +54,14 @@ namespace Config.Net.Stores
 
       public bool CanWrite { get; }
 
-      public string Read(string key)
+      public string? Read(string key)
       {
          if (FlatArrays.IsArrayLength(key, k => _iniFile[k], out int length))
          {
             return length.ToString();
          }
 
-         if (FlatArrays.IsArrayElement(key, k => _iniFile[k], out string element))
+         if (FlatArrays.IsArrayElement(key, k => _iniFile[k], out string? element))
          {
             return element;
          }
@@ -69,7 +69,7 @@ namespace Config.Net.Stores
          return _iniFile[key];
       }
 
-      public void Write(string key, string value)
+      public void Write(string key, string? value)
       {
          if (!CanWrite) return;
 
@@ -104,6 +104,8 @@ namespace Config.Net.Stores
 
       private void WriteIniFile()
       {
+         if (_fullName == null) return;
+
          using(FileStream stream = File.Create(_fullName))
          {
             _iniFile.WriteTo(stream);

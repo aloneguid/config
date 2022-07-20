@@ -8,7 +8,7 @@ namespace Config.Net.TypeParsers
    {
       public IEnumerable<Type> SupportedTypes => new[] { typeof(string[]) };
 
-      public bool TryParse(string value, Type t, out object result)
+      public bool TryParse(string? value, Type t, out object? result)
       {
          if (value == null)
          {
@@ -20,7 +20,7 @@ namespace Config.Net.TypeParsers
          return true;
       }
 
-      public static bool TryParse(string value, out string[] result)
+      public static bool TryParse(string? value, out string[]? result)
       {
          if(value == null)
          {
@@ -32,9 +32,9 @@ namespace Config.Net.TypeParsers
          return true;
       }
 
-      public string ToRawString(object value)
+      public string? ToRawString(object? value)
       {
-         string[] arv = (string[])value;
+         string[]? arv = (string[]?)value;
 
          if (arv == null || arv.Length == 0) return null;
 

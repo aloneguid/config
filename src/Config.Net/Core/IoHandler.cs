@@ -21,19 +21,21 @@ namespace Config.Net.Core
 
       public ValueHandler ValueHandler => _valueHandler;
 
-      public object Read(Type baseType, string path, object defaultValue)
+      public object? Read(Type baseType, string path, object? defaultValue)
       {
-         if(!_keyToValue.TryGetValue(path, out LazyVar<object> value))
+         if(!_keyToValue.TryGetValue(path, out _))
          {
-            _keyToValue[path] = new LazyVar<object>(_cacheInterval, () => ReadNonCached(baseType, path, defaultValue));
+            var v = new LazyVar<object>(_cacheInterval, () => ReadNonCached(baseType, path, defaultValue));
+            _keyToValue[path] = v;
+            return v.GetValue();
          }
 
          return _keyToValue[path].GetValue();
       }
 
-      public void Write(Type baseType, string path, object value)
+      public void Write(Type baseType, string path, object? value)
       {
-         string valueToWrite = _valueHandler.ConvertValue(baseType, value);
+         string? valueToWrite = _valueHandler.ConvertValue(baseType, value);
 
          foreach (IConfigStore store in _stores.Where(s => s.CanWrite))
          {
@@ -41,20 +43,20 @@ namespace Config.Net.Core
          }
       }
 
-      private object ReadNonCached(Type baseType, string path, object defaultValue)
+      private object? ReadNonCached(Type baseType, string path, object? defaultValue)
       {
-         string rawValue = ReadFirstValue(path);
+         string? rawValue = ReadFirstValue(path);
 
          return _valueHandler.ParseValue(baseType, rawValue, defaultValue);
       }
 
-      private string ReadFirstValue(string key)
+      private string? ReadFirstValue(string key)
       {
          foreach (IConfigStore store in _stores)
          {
             if (store.CanRead)
             {
-               string value = store.Read(key);
+               string? value = store.Read(key);
 
                if (value != null) return value;
             }

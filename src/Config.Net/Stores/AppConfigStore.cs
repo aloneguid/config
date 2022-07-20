@@ -15,12 +15,12 @@ namespace Config.Net.Stores
 
       public bool CanWrite => false;
 
-      public string Read(string key)
+      public string? Read(string key)
       {
          if(key == null) return null;
 
          //first, look at appsettings and connection strings
-         string value = ConfigurationManager.AppSettings[key] ?? ConfigurationManager.ConnectionStrings[key]?.ConnectionString;
+         string? value = ConfigurationManager.AppSettings[key] ?? ConfigurationManager.ConnectionStrings[key]?.ConnectionString;
 
          if(value == null)
          {
@@ -39,10 +39,7 @@ namespace Config.Net.Stores
          return value;
       }
 
-      public void Write(string key, string value)
-      {
-         throw new NotSupportedException();
-      }
+      public void Write(string key, string? value) => throw new NotSupportedException();
 
       public void Dispose()
       {

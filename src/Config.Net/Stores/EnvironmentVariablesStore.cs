@@ -27,7 +27,7 @@ namespace Config.Net.Stores
       /// <summary>
       /// Reads value by key
       /// </summary>
-      public string Read(string key)
+      public string? Read(string key)
       {
          if (key == null) return null;
 
@@ -38,12 +38,12 @@ namespace Config.Net.Stores
                return length.ToString();
             }
 
-            if (FlatArrays.IsArrayElement(variant, k => Environment.GetEnvironmentVariable(k), out string element))
+            if (FlatArrays.IsArrayElement(variant, k => Environment.GetEnvironmentVariable(k), out string? element))
             {
                return element;
             }
 
-            string value = Environment.GetEnvironmentVariable(variant);
+            string? value = Environment.GetEnvironmentVariable(variant);
             if (value != null) return value;
          }
 
@@ -53,7 +53,7 @@ namespace Config.Net.Stores
       /// <summary>
       /// Writes value by key
       /// </summary>
-      public void Write(string key, string value)
+      public void Write(string key, string? value)
       {
          Environment.SetEnvironmentVariable(key, value);
       }

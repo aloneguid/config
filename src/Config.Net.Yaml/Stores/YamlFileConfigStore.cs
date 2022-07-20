@@ -26,12 +26,12 @@ namespace Config.Net.Yaml.Stores
 
       public bool CanWrite => false;
 
-      public string Read(string key)
+      public string? Read(string key)
       {
          return ReadYamlKey(key);
       }
 
-      public void Write(string key, string value)
+      public void Write(string key, string? value)
       {
          throw new NotSupportedException();
       }
@@ -40,11 +40,12 @@ namespace Config.Net.Yaml.Stores
       {
       }
 
-      private string ReadYamlKey(string name)
+      private string? ReadYamlKey(string name)
       {
          if (name == null || !File.Exists(_fullName)) return null;
 
-         bool isLength = OptionPath.TryStripLength(name, out name);
+         bool isLength = OptionPath.TryStripLength(name, out string? strippedName);
+         if(strippedName == null) return null;
 
          var ys = new YamlStream();
 
@@ -55,9 +56,9 @@ namespace Config.Net.Yaml.Stores
             ys.Load(reader);
          }
 
-         string[] parts = name.Split(HierarchySeparator, StringSplitOptions.RemoveEmptyEntries);
+         string[] parts = strippedName.Split(HierarchySeparator, StringSplitOptions.RemoveEmptyEntries);
 
-         YamlNode current = ys.Documents[0].RootNode;
+         YamlNode? current = ys.Documents[0].RootNode;
 
          foreach (string part in parts)
          {
@@ -69,15 +70,15 @@ namespace Config.Net.Yaml.Stores
          return GetResult(current, isLength);
       }
 
-      private YamlNode DiveIn(YamlNode node, string name)
+      private YamlNode? DiveIn(YamlNode? node, string name)
       {
-         bool isIndex = OptionPath.TryStripIndex(name, out name, out int index);
+         bool isIndex = OptionPath.TryStripIndex(name, out string? strippedName, out int index);
 
          if (node is YamlMappingNode currentMapping)
          {
-            YamlNode result = currentMapping
+            YamlNode? result = currentMapping
                .Children
-               .Where(c => IsMatch(c.Key, name))
+               .Where(c => IsMatch(c.Key, strippedName))
                .Select(c => c.Value)
                .FirstOrDefault();
 
@@ -97,7 +98,7 @@ namespace Config.Net.Yaml.Stores
          }
          else if (node is YamlSequenceNode currentSequence)
          {
-            YamlNode start = currentSequence.FirstOrDefault(el => DiveIn(el, name) != null);
+            YamlNode? start = currentSequence.FirstOrDefault(el => DiveIn(el, name) != null);
 
             return DiveIn(start, name);
          }
@@ -107,7 +108,7 @@ namespace Config.Net.Yaml.Stores
          }
       }
 
-      private bool IsMatch(YamlNode node, string name)
+      private bool IsMatch(YamlNode node, string? name)
       {
          if (node is YamlScalarNode scalar)
             return scalar.Value == name;
@@ -115,7 +116,7 @@ namespace Config.Net.Yaml.Stores
          return false;
       }
 
-      private string GetResult(YamlNode node, bool isLength)
+      private string? GetResult(YamlNode? node, bool isLength)
       {
          if (node == null) return null;
 

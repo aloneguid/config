@@ -20,13 +20,13 @@ namespace Config.Net
       /// <param name="t"></param>
       /// <param name="result"></param>
       /// <returns></returns>
-      bool TryParse(string value, Type t, out object result);
+      bool TryParse(string? value, Type t, out object? result);
 
       /// <summary>
       /// Converts value to a string to store in a backed store
       /// </summary>
       /// <param name="value"></param>
       /// <returns></returns>
-      string ToRawString(object value);
+      string? ToRawString(object? value);
    }
 }

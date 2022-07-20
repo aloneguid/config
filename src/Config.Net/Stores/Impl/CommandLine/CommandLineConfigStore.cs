@@ -1,5 +1,4 @@
-﻿#if !NETSTANDARD14
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Config.Net.Core;
 using Config.Net.TypeParsers;
@@ -17,7 +16,7 @@ namespace Config.Net.Stores.Impl.CommandLine
 
       public bool CanWrite => false;
 
-      public CommandLineConfigStore(string[] args = null, bool isCaseSensitive = false, IEnumerable<KeyValuePair<string, int>> nameToPosition = null)
+      public CommandLineConfigStore(string[]? args = null, bool isCaseSensitive = false, IEnumerable<KeyValuePair<string, int>>? nameToPosition = null)
       {
          _isCaseSensitive = isCaseSensitive;
 
@@ -30,7 +29,7 @@ namespace Config.Net.Stores.Impl.CommandLine
       {
       }
 
-      public string Read(string key)
+      public string? Read(string key)
       {
          if (key == null) return null;
 
@@ -39,30 +38,30 @@ namespace Config.Net.Stores.Impl.CommandLine
             return length.ToString();
          }
 
-         if(FlatArrays.IsArrayElement(key, k => _nameToValue.GetValueOrDefaultInternal(k), out string element))
+         if(FlatArrays.IsArrayElement(key, k => _nameToValue.GetValueOrDefaultInternal(k), out string? element))
          {
             return element;
          }
 
-         string value;
+         string? value;
          _nameToValue.TryGetValue(key, out value);
          return value;
       }
 
-      private string[] GetAsArray(string key)
+      private string[]? GetAsArray(string key)
       {
-         if (!_nameToValue.TryGetValue(key, out string allString)) return null;
+         if (!_nameToValue.TryGetValue(key, out string? allString)) return null;
 
-         if (!StringArrayParser.TryParse(allString, out string[] ar)) return null;
+         if (!StringArrayParser.TryParse(allString, out string[]? ar)) return null;
          return ar;
       }
 
-      public void Write(string key, string value)
+      public void Write(string key, string? value)
       {
          throw new NotSupportedException("command line cannot be written to");
       }
 
-      private void Parse(string[] args, IEnumerable<KeyValuePair<string, int>> nameToPosition)
+      private void Parse(string[] args, IEnumerable<KeyValuePair<string, int>>? nameToPosition)
       {
          _nameToValue.Clear();
 
@@ -82,18 +81,18 @@ namespace Config.Net.Stores.Impl.CommandLine
 
          for (int i = 0; i < args.Length; i++)
          {
-            string name;
-            string value;
+            string? name;
+            string? value;
 
-            Tuple<string, string> nameValue = Utils.SplitByDelimiter(args[i], ArgDelimiters);
-            name = nameValue.Item1.TrimStart(ArgPrefixes);
-            value = nameValue.Item2;
+            Tuple<string, string?>? nameValue = Utils.SplitByDelimiter(args[i], ArgDelimiters);
+            name = nameValue?.Item1.TrimStart(ArgPrefixes);
+            value = nameValue?.Item2;
 
             if (name != null && value != null)
             {
                _nameToValue[name] = value;
             }
-            else if(name != null && posToName.TryGetValue(i, out string ptnName))
+            else if(name != null && posToName.TryGetValue(i, out string? ptnName))
             {
                _nameToValue[ptnName] = args[i];
             }
@@ -101,4 +100,3 @@ namespace Config.Net.Stores.Impl.CommandLine
       }
    }
 }
-#endif

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Config.Net.Core.Box
 {
    class CollectionResultBox : ResultBox
    {
       private readonly ResultBox _elementResultBox;
-      private string _basePath;
-      private DynamicReader _reader;
+      private string? _basePath;
+      private DynamicReader? _reader;
 
       public CollectionResultBox(string name, ResultBox elementBox) : base(name, elementBox.ResultType, null)
       {
@@ -20,9 +19,9 @@ namespace Config.Net.Core.Box
 
       public bool IsInitialised { get; private set; }
 
-      public IEnumerable CollectionInstance { get; private set; }
+      public IEnumerable? CollectionInstance { get; private set; }
 
-      public void Initialise(string basePath, int length, DynamicReader reader)
+      public void Initialise(string? basePath, int length, DynamicReader reader)
       {
          _basePath = basePath;
          _reader = reader;
@@ -32,19 +31,19 @@ namespace Config.Net.Core.Box
          IsInitialised = true;
       }
 
-      private IEnumerable CreateGenericEnumerable(int count)
+      private IEnumerable? CreateGenericEnumerable(int count)
       {
          Type t = typeof(DynamicEnumerable<>);
          t = t.MakeGenericType(ResultType);
 
-         IEnumerable instance = (IEnumerable)Activator.CreateInstance(t, count, this);
+         IEnumerable? instance = (IEnumerable?)Activator.CreateInstance(t, count, this);
 
          return instance;
       }
 
-      private object ReadAt(int index)
+      private object? ReadAt(int index)
       {
-         return _reader.Read(ElementResultBox, index);
+         return _reader?.Read(ElementResultBox, index);
       }
 
       private class DynamicEnumerable<T> : IEnumerable<T>
@@ -74,6 +73,7 @@ namespace Config.Net.Core.Box
          private int _index = -1;
          private readonly int _count;
          private readonly CollectionResultBox _parent;
+         private T? _current;
 
          public DynamicEnumerator(int count, CollectionResultBox parent)
          {
@@ -81,9 +81,11 @@ namespace Config.Net.Core.Box
             _parent = parent;
          }
 
-         public T Current { get; private set; }
+#pragma warning disable CS8603 // Possible null reference return.
+         public T Current => _current ?? default(T);
 
-         object IEnumerator.Current => (T)Current;
+         object IEnumerator.Current => _current;
+#pragma warning restore CS8603 // Possible null reference return.
 
          public void Dispose()
          {
@@ -93,7 +95,7 @@ namespace Config.Net.Core.Box
          {
             _index += 1;
 
-            Current = (T)_parent.ReadAt(_index);
+            _current = (T?)_parent.ReadAt(_index);
 
             return _index < _count;
          }

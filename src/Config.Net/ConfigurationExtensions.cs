@@ -13,8 +13,9 @@ namespace Config.Net
       /// <summary>
       /// In-memory dictionary. Optionally you can pass pre-created dictionary, otherwise it will be created internally as empty.
       /// </summary>
-      public static ConfigurationBuilder<TInterface> UseInMemoryDictionary<TInterface>(this ConfigurationBuilder<TInterface> builder,
-         IDictionary<string, string> container = null) where TInterface : class
+      public static ConfigurationBuilder<TInterface> UseInMemoryDictionary<TInterface>(
+         this ConfigurationBuilder<TInterface> builder,
+         IDictionary<string, string>? container = null) where TInterface : class
       {
          builder.UseConfigStore(new DictionaryConfigStore(container));
          return builder;
@@ -99,7 +100,7 @@ namespace Config.Net
 
       public static ConfigurationBuilder<TInterface> UseCommandLineArgs<TInterface>(this ConfigurationBuilder<TInterface> builder,
          bool isCaseSensitive = false,
-         string[] args = null,
+         string[]? args = null,
          params KeyValuePair<string, int>[] parameterNameToPosition)
          where TInterface : class
       {
@@ -115,16 +116,34 @@ namespace Config.Net
          return builder;
       }
 
-      public static ConfigurationBuilder<TInterface> UseAzureDevOpsVariableSet<TInterface>(
-         this ConfigurationBuilder<TInterface> builder,
-         string organisationName,
-         string projectName,
-         string personalAccessToken,
-         string variableGroupId)
-         where TInterface : class
+#if NET5_0_OR_GREATER || NETCOREAPP3_1
+
+      /// <summary>
+      /// Uses JSON file as a builder storage.
+      /// </summary>
+      /// <param name="builder">Configuration object.</param>
+      /// <param name="jsonFilePath">Full path to json storage file.</param>
+      /// <returns>Changed builder.</returns>
+      /// <remarks>Storage file does not have to exist, however it will be created as soon as first write performed.</remarks>
+      public static ConfigurationBuilder<TInterface> UseJsonFile<TInterface>(this ConfigurationBuilder<TInterface> builder, string jsonFilePath) where TInterface : class
       {
-         builder.UseConfigStore(new AzureDevOpsVariableSetConfigStore(organisationName, projectName, personalAccessToken, variableGroupId));
+         builder.UseConfigStore(new JsonConfigStore(jsonFilePath, true));
          return builder;
       }
+
+      /// <summary>
+      /// Uses JSON file as a builder storage.
+      /// </summary>
+      /// <param name="builder">Configuration object.</param>
+      /// <param name="jsonString">Json document.</param>
+      /// <returns>Changed builder.</returns>
+      /// <remarks>Storage file does not have to exist, however it will be created as soon as first write performed.</remarks>
+      public static ConfigurationBuilder<TInterface> UseJsonString<TInterface>(this ConfigurationBuilder<TInterface> builder, string jsonString) where TInterface : class
+      {
+         builder.UseConfigStore(new JsonConfigStore(jsonString, false));
+         return builder;
+      }
+
+#endif
    }
 }

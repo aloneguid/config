@@ -9,7 +9,7 @@ namespace Config.Net.TypeParsers
    {
       public IEnumerable<Type> SupportedTypes => new[] { typeof(ulong) };
 
-      public bool TryParse(string value, Type t, out object result)
+      public bool TryParse(string? value, Type t, out object? result)
       {
          ulong ir;
          bool parsed = ulong.TryParse(value, NumberStyles.Integer, TypeParserSettings.DefaultCulture, out ir);
@@ -17,9 +17,9 @@ namespace Config.Net.TypeParsers
          return parsed;
       }
 
-      public string ToRawString(object value)
+      public string? ToRawString(object? value)
       {
-         return ((ulong)value).ToString(TypeParserSettings.DefaultNumericFormat, TypeParserSettings.DefaultCulture);
+         return ((ulong?)value)?.ToString(TypeParserSettings.DefaultNumericFormat, TypeParserSettings.DefaultCulture);
       }
    }
 }

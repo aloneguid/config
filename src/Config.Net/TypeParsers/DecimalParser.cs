@@ -9,7 +9,7 @@ namespace Config.Net.TypeParsers
    {
       public IEnumerable<Type> SupportedTypes => new[] { typeof(decimal) };
 
-      public bool TryParse(string value, Type t, out object result)
+      public bool TryParse(string? value, Type t, out object? result)
       {
          decimal dr;
          bool parsed = decimal.TryParse(value, NumberStyles.Float, TypeParserSettings.DefaultCulture, out dr);
@@ -18,9 +18,9 @@ namespace Config.Net.TypeParsers
 
       }
 
-      public string ToRawString(object value)
+      public string? ToRawString(object? value)
       {
-         return ((decimal)value).ToString(TypeParserSettings.DefaultNumericFormat, TypeParserSettings.DefaultCulture);
+         return ((decimal?)value)?.ToString(TypeParserSettings.DefaultNumericFormat, TypeParserSettings.DefaultCulture);
       }
    }
 }

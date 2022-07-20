@@ -5,10 +5,10 @@ namespace Config.Net.Core
 {
    class DynamicWriter
    {
-      private readonly string _basePath;
+      private readonly string? _basePath;
       private readonly IoHandler _ioHandler;
 
-      public DynamicWriter(string basePath, IoHandler ioHandler)
+      public DynamicWriter(string? basePath, IoHandler ioHandler)
       {
          _basePath = basePath;
          _ioHandler = ioHandler;

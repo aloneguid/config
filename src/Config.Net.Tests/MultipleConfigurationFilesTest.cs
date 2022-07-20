@@ -1,10 +1,5 @@
-using System.IO;
-using Config.Net.Json.Stores;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Config.Net.Stores;
 using Xunit;
 
 namespace Config.Net.Tests
@@ -14,18 +9,18 @@ namespace Config.Net.Tests
       private IRootElement ConfigInterface { get; }
 
       private const string configBasic = @"{
-'KeyA': 'basic',
-'KeyB': 'basic',
-    'Creds': [
+""KeyA"": ""basic"",
+""KeyB"": ""basic"",
+    ""Creds"": [
       {
-         'Username': 'user',
-         'Password': 'debug'
+         ""Username"": ""user"",
+         ""Password"": ""debug""
    }
 ]
 }";
 
       private const string configOverride = @"{
-'KeyB': 'override',
+""KeyB"": ""override""
 }";
 
       public interface IRootElement

@@ -6,7 +6,7 @@ namespace Config.Net.Stores.Formats.Ini
    {
       public const string KeyValueSeparator = "=";
 
-      public IniKeyValue(string key, string value, string comment)
+      public IniKeyValue(string key, string value, string? comment)
       {
          if(key == null) throw new ArgumentNullException(nameof(key));
          Key = key;
@@ -18,16 +18,16 @@ namespace Config.Net.Stores.Formats.Ini
 
       public string Value { get; set; }
 
-      public IniComment Comment { get; }
+      public IniComment? Comment { get; }
 
-      public static IniKeyValue FromLine(string line, bool parseInlineComments)
+      public static IniKeyValue? FromLine(string line, bool parseInlineComments)
       {
          int idx = line.IndexOf(KeyValueSeparator, StringComparison.CurrentCulture);
          if(idx == -1) return null;
 
          string key = line.Substring(0, idx).Trim();
          string value = line.Substring(idx + 1).Trim();
-         string comment = null;
+         string? comment = null;
 
          if (parseInlineComments)
          {

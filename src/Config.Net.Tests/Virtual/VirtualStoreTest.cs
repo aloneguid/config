@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using Config.Net;
-using Config.Net.Azure.KeyVault;
-using Config.Net.Json.Stores;
 using Config.Net.Stores;
 using Config.Net.Stores.Impl.CommandLine;
 using Config.Net.Yaml.Stores;
@@ -142,7 +137,7 @@ namespace Config.Net.Tests.Virtual
       protected override IConfigStore CreateStore()
       {
          string testFile = GetSamplePath("json");
-         return new JsonFileConfigStore(testFile, true);
+         return new JsonConfigStore(testFile, true);
       }
    }
 
@@ -152,7 +147,7 @@ namespace Config.Net.Tests.Virtual
       {
          string testFile = GetSamplePath("json");
          string json = File.ReadAllText(testFile);
-         return new JsonFileConfigStore(json, false);
+         return new JsonConfigStore(json, false);
       }
    }
 
@@ -169,7 +164,7 @@ namespace Config.Net.Tests.Virtual
       }
    }*/
 
-#if DEBUG
+/*#if DEBUG
    public class AzureDevOpsVariableSetConfigStoreTest : VirtualStoreTest
    {
       protected override IConfigStore CreateStore()
@@ -177,7 +172,7 @@ namespace Config.Net.Tests.Virtual
          return new AzureDevOpsVariableSetConfigStore(creds.AzDevOpsOrg, creds.AzDevOpsProject, creds.AzDevOpsPat, creds.AzDeOpsVarId);
       }
    }
-#endif
+#endif*/
 
 #endregion
 }

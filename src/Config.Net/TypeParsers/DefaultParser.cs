@@ -5,10 +5,16 @@ namespace Config.Net.TypeParsers
 {
    class DefaultParser
    {
-      public bool TryParse(string value, Type t, out object result)
+      public bool TryParse(string? value, Type t, out object? result)
       {
          if(IsEnum(t))
          {
+            if(value == null)
+            {
+               result = null;
+               return false;
+            }
+
             try
             {
                result = Enum.Parse(t, value, true);
@@ -35,7 +41,7 @@ namespace Config.Net.TypeParsers
          return IsEnum(t);
       }
 
-      public string ToRawString(object value)
+      public string? ToRawString(object? value)
       {
          if(value == null) return null;
 
@@ -54,7 +60,7 @@ namespace Config.Net.TypeParsers
          if(t == null) return false;
 
          //try to get the underlying type if this is a nullable type
-         Type nullable = Nullable.GetUnderlyingType(t);
+         Type? nullable = Nullable.GetUnderlyingType(t);
          if(nullable != null) t = nullable;
 
          return t.GetTypeInfo().IsEnum;

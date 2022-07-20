@@ -14,13 +14,13 @@ namespace Config.Net.Stores.Formats.Ini
       /// <summary>
       /// Section name
       /// </summary>
-      public string Name { get; set; }
+      public string? Name { get; set; }
 
       /// <summary>
       /// 
       /// </summary>
       /// <param name="name">Pass null to work with global section</param>
-      public IniSection(string name)
+      public IniSection(string? name)
       {
          if(name != null)
          {
@@ -35,18 +35,18 @@ namespace Config.Net.Stores.Formats.Ini
       {
          _entities.Add(entity);
 
-         IniKeyValue ikv = entity as IniKeyValue;
+         IniKeyValue? ikv = entity as IniKeyValue;
          if(ikv != null)
          {
             _keyToValue[ikv.Key] = ikv;
          }
       }
 
-      public IniKeyValue Set(string key, string value)
+      public IniKeyValue? Set(string key, string? value)
       {
          if(value == null)
          {
-            IniKeyValue ikv;
+            IniKeyValue? ikv;
             if(_keyToValue.TryGetValue(key, out ikv))
             {
                _keyToValue.Remove(key);
@@ -56,7 +56,7 @@ namespace Config.Net.Stores.Formats.Ini
          }
          else
          {
-            IniKeyValue ikv;
+            IniKeyValue? ikv;
             if(_keyToValue.TryGetValue(key, out ikv))
             {
                ikv.Value = value;
@@ -70,7 +70,7 @@ namespace Config.Net.Stores.Formats.Ini
          }
       }
 
-      public static void SplitKey(string fullKey, out string sectionName, out string keyName)
+      public static void SplitKey(string fullKey, out string? sectionName, out string keyName)
       {
          int idx = fullKey.IndexOf(SectionKeySeparator, StringComparison.CurrentCulture);
 
@@ -90,7 +90,7 @@ namespace Config.Net.Stores.Formats.Ini
       {
          foreach(IniEntity entity in _entities)
          {
-            IniKeyValue ikv = entity as IniKeyValue;
+            IniKeyValue? ikv = entity as IniKeyValue;
             if(ikv != null)
             {
                writer.Write($"{ikv.Key}{IniKeyValue.KeyValueSeparator}{ikv.Value}");
@@ -104,7 +104,7 @@ namespace Config.Net.Stores.Formats.Ini
                continue;
             }
 
-            IniComment comment = entity as IniComment;
+            IniComment? comment = entity as IniComment;
             if(comment != null)
             {
                writer.Write(IniComment.CommentSeparator);
@@ -115,7 +115,7 @@ namespace Config.Net.Stores.Formats.Ini
 
       public override string ToString()
       {
-         return Name;
+         return Name ?? string.Empty;
       }
    }
 }

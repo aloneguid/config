@@ -8,22 +8,22 @@ namespace Config.Net
 {
    static class Utils
    {
-      public static NetworkCredential ToNetworkCredential(this string s)
+      public static NetworkCredential? ToNetworkCredential(this string? s)
       {
          if (s == null) return null;
 
-         var credsAndDomain = SplitByDelimiter(s, "@");
-         string creds = credsAndDomain.Item1;
-         string domain = credsAndDomain.Item2;
+         Tuple<string, string?>? credsAndDomain = SplitByDelimiter(s, "@");
+         string? creds = credsAndDomain?.Item1;
+         string? domain = credsAndDomain?.Item2;
 
-         var usernameAndPassword = SplitByDelimiter(creds, ":");
-         string username = usernameAndPassword.Item1;
-         string password = usernameAndPassword.Item2;
+         Tuple<string, string?>? usernameAndPassword = SplitByDelimiter(creds, ":");
+         string? username = usernameAndPassword?.Item1;
+         string? password = usernameAndPassword?.Item2;
 
          return new NetworkCredential(username, password, domain);
       }
 
-      public static string ToFriendlyString(NetworkCredential credential)
+      public static string? ToFriendlyString(NetworkCredential? credential)
       {
          if (credential == null) return null;
 
@@ -51,11 +51,12 @@ namespace Config.Net
             : $"{usernameAndPassword}@{credential.Domain}";
       }
 
-      public static Tuple<string, string> SplitByDelimiter(string s, params string[] delimiter)
+      public static Tuple<string, string?>? SplitByDelimiter(string? s, params string[] delimiter)
       {
          if (s == null) return null;
 
-         string key, value;
+         string key;
+         string? value;
 
          if (delimiter == null || delimiter.Length == 0)
          {
@@ -80,7 +81,7 @@ namespace Config.Net
             }
          }
 
-         return new Tuple<string, string>(key, value);
+         return new Tuple<string, string?>(key, value);
       }
    }
 }

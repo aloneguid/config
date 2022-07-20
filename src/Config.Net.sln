@@ -1,37 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28516.95
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F2107671-5DC0-48C0-ABE8-D80ACDC5D7D2}"
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
-		..\README.md = ..\README.md
+		..\docs\README.md = ..\docs\README.md
 		..\.github\workflows\release.yml = ..\.github\workflows\release.yml
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{CDB02CCC-51F3-4777-A942-6F2E1DB3FD0B}"
-	ProjectSection(SolutionItems) = preProject
-		..\doc\Collections.md = ..\doc\Collections.md
-		..\doc\confignet.vsdx = ..\doc\confignet.vsdx
-		..\doc\CustomParsers.md = ..\doc\CustomParsers.md
-		..\doc\DynamicConfiguration.md = ..\doc\DynamicConfiguration.md
-		..\doc\flatline.md = ..\doc\flatline.md
-		..\doc\INotifyPropertyChanged.md = ..\doc\INotifyPropertyChanged.md
-		..\doc\jetbrains_rider.png = ..\doc\jetbrains_rider.png
-		..\doc\jetbrains_rider_small.png = ..\doc\jetbrains_rider_small.png
-		..\doc\NestedInterfaces.md = ..\doc\NestedInterfaces.md
-		..\README.md = ..\README.md
-		..\doc\Stores_AppConfig.md = ..\doc\Stores_AppConfig.md
-		..\doc\Stores_CommandLine.md = ..\doc\Stores_CommandLine.md
-		..\doc\Stores_Custom.md = ..\doc\Stores_Custom.md
-		..\doc\Stores_EnvironmentVariables.md = ..\doc\Stores_EnvironmentVariables.md
-		..\doc\Stores_IniFile.md = ..\doc\Stores_IniFile.md
-		..\doc\Stores_InMemory.md = ..\doc\Stores_InMemory.md
-		..\doc\Stores_JsonFile.md = ..\doc\Stores_JsonFile.md
-		..\doc\Stores_KeyVault.md = ..\doc\Stores_KeyVault.md
-		..\doc\Stores_StorageNet.md = ..\doc\Stores_StorageNet.md
-		..\doc\SupportedTypes.md = ..\doc\SupportedTypes.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config.Net", "Config.Net\Config.Net.csproj", "{C71E3744-1544-47AF-9A7B-E88F6F775975}"
@@ -39,14 +15,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config.Net.Tests", "Config.Net.Tests\Config.Net.Tests.csproj", "{7DEA3E81-9D00-4030-A16F-D1D54650FCCB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config.Net.Yaml", "Config.Net.Yaml\Config.Net.Yaml.csproj", "{38D20B28-729E-4C6A-9C74-20B039C39E48}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config.Net.Json", "Config.Net.Json\Config.Net.Json.csproj", "{707AB85D-DACA-4282-B339-48706BCDC668}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Impl", "Impl", "{51231C17-CE02-49B0-96B6-9E588113CF75}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure", "Azure", "{3AAB816A-C707-40A0-8CDF-47F0AD7C0162}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config.Net.Azure.KeyVault", "Impl\Azure\Config.Net.Azure.KeyVault\Config.Net.Azure.KeyVault.csproj", "{5CE56287-6FC3-443C-BCDE-FC75B257AEC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,21 +34,9 @@ Global
 		{38D20B28-729E-4C6A-9C74-20B039C39E48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38D20B28-729E-4C6A-9C74-20B039C39E48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38D20B28-729E-4C6A-9C74-20B039C39E48}.Release|Any CPU.Build.0 = Release|Any CPU
-		{707AB85D-DACA-4282-B339-48706BCDC668}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{707AB85D-DACA-4282-B339-48706BCDC668}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{707AB85D-DACA-4282-B339-48706BCDC668}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{707AB85D-DACA-4282-B339-48706BCDC668}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5CE56287-6FC3-443C-BCDE-FC75B257AEC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5CE56287-6FC3-443C-BCDE-FC75B257AEC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5CE56287-6FC3-443C-BCDE-FC75B257AEC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5CE56287-6FC3-443C-BCDE-FC75B257AEC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{3AAB816A-C707-40A0-8CDF-47F0AD7C0162} = {51231C17-CE02-49B0-96B6-9E588113CF75}
-		{5CE56287-6FC3-443C-BCDE-FC75B257AEC1} = {3AAB816A-C707-40A0-8CDF-47F0AD7C0162}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {414C0C13-66E5-4F73-BEF8-33FC415F61A3}

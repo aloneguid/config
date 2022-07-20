@@ -8,15 +8,15 @@ namespace Config.Net.TypeParsers
    {
       public IEnumerable<Type> SupportedTypes => new[] { typeof(NetworkCredential) };
 
-      public string ToRawString(object value)
+      public string? ToRawString(object? value)
       {
-         NetworkCredential nc = value as NetworkCredential;
+         NetworkCredential? nc = value as NetworkCredential;
          return Utils.ToFriendlyString(nc);
       }
 
-      public bool TryParse(string value, Type t, out object result)
+      public bool TryParse(string? value, Type t, out object? result)
       {
-         NetworkCredential nc = value.ToNetworkCredential();
+         NetworkCredential? nc = value.ToNetworkCredential();
          result = nc;
          return true;
       }

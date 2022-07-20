@@ -8,7 +8,7 @@ namespace Config.Net.TypeParsers
    {
       public IEnumerable<Type> SupportedTypes => new[] { typeof(long) };
 
-      public bool TryParse(string value, Type t, out object result)
+      public bool TryParse(string? value, Type t, out object? result)
       {
          long lr;
          bool parsed = long.TryParse(value, NumberStyles.Integer, TypeParserSettings.DefaultCulture, out lr);
@@ -16,9 +16,9 @@ namespace Config.Net.TypeParsers
          return parsed;
       }
 
-      public string ToRawString(object value)
+      public string? ToRawString(object? value)
       {
-         return ((long)value).ToString(TypeParserSettings.DefaultNumericFormat, TypeParserSettings.DefaultCulture);
+         return ((long?)value)?.ToString(TypeParserSettings.DefaultNumericFormat, TypeParserSettings.DefaultCulture);
       }
    }
 }

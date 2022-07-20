@@ -7,13 +7,13 @@ namespace Config.Net.TypeParsers
    {
       public IEnumerable<Type> SupportedTypes => new[] { typeof(string) };
 
-      public bool TryParse(string value, Type t, out object result)
+      public bool TryParse(string? value, Type t, out object? result)
       {
          result = value;
          return value != null;
       }
 
-      public string ToRawString(object value)
+      public string? ToRawString(object? value)
       {
          return value as string;
       }
