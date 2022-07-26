@@ -9,23 +9,20 @@ This library eliminates the problem of having configuration in different places,
 ## Index
 
 - Configuration Sources
-  - [App.config](doc/Stores_AppConfig.md)
-  - [Command Line](doc/Stores_CommandLine.md)
-  - [Environment Variables](doc/Stores_EnvironmentVariables.md)
-  - [.INI files](doc/Stores_IniFile.md)
-  - [In-Memory](doc/Stores_InMemory.md)
-  - [JSON Files](doc/Stores_JsonFile.md)
-- [Nested Interfaces](doc/NestedInterfaces.md)
-- [Collections](doc/Collections.md)
-- [Binding to Interface Methods](doc/DynamicConfiguration.md)
-- [INotifyPropertyChanged](doc/INotifyPropertyChanged.md)
-- Extending Config.Net
-  - [Implementing a custom parser](doc/CustomParsers.md)
-  - [Implementing a custom configuration store](doc/Stores_Custom.md)
+  - [App.config](Stores_AppConfig.md)
+  - [Command Line](Stores_CommandLine.md)
+  - [Environment Variables](Stores_EnvironmentVariables.md)
+  - [.INI files](Stores_IniFile.md)
+  - [In-Memory](Stores_InMemory.md)
+  - [JSON Files](Stores_JsonFile.md)
+- [Nested Interfaces](NestedInterfaces.md)
+- [Collections](Collections.md)
+- [Binding to Interface Methods](DynamicConfiguration.md)
+- [INotifyPropertyChanged](INotifyPropertyChanged.md)
 
 ## Quick Start
 
-Usually developers will hardcode reading cofiguration values from different sources like app.config, local json file etc. For instance, consider this code example:
+Usually developers will hardcode reading configuration values from different sources like app.config, local json file etc. For instance, consider this code example:
 
 ```csharp
 var clientId = ConfigurationManager.AppSettings["AuthClientId"];
