@@ -1,9 +1,9 @@
 name: Release
 
 env:
-  v: '5.0.2'
+  v: '5.0.3'
   av: '5.0.0'
-  pv: '5.0.2'
+  pv: '5.0.3'
 
 on:
   push:
@@ -49,3 +49,10 @@ jobs:
           name: packages
       - name: Push to nuget.org
         run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: github.ref == 'refs/heads/master'
+        with:
+          tag_name: ${{ env.v }}
+          name: ${{ env.v }}
+          files: "src/*.zip"
