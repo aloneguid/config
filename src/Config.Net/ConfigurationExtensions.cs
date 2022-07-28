@@ -116,8 +116,6 @@ namespace Config.Net
          return builder;
       }
 
-#if NET5_0_OR_GREATER || NETCOREAPP3_1
-
       /// <summary>
       /// Uses JSON file as a builder storage.
       /// </summary>
@@ -144,6 +142,5 @@ namespace Config.Net
          return builder;
       }
 
-#endif
    }
 }

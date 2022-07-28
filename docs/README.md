@@ -650,7 +650,9 @@ Collections are supported by using the [flatline syntax](#flatline-syntax).
 
 ### JSON
 
-JSON is supported in **read-only mode** and is using `System.Text.Json` namespace. For this reason it's only available in projects targeting .NET Core 3, .NET 5 and .NET 6.
+JSON is supported in read/write mode and is using `System.Text.Json.Nodes` namespace. For this reason it comes for free in .NET 6 and later, but will reference `System.Text.Json` nuget package v6 in earlier .NET versions.
+
+> JSON store does **not** support writing collections as of yet, mostly due to lack of time to implement it properly.
 
 #### Configuring
 
@@ -690,8 +692,8 @@ will correspond to the following JSON file:
 
 ``` json
 {
-   "AuthClientId":"Id",
-   "AuthClientSecret":"Secret"
+   "AuthClientId": "Id",
+   "AuthClientSecret": "Secret"
 }
 ```
 

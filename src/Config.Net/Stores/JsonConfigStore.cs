@@ -1,9 +1,7 @@
-﻿#if NET5_0_OR_GREATER || NETCOREAPP3_1
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Config.Net.Core;
 
 namespace Config.Net.Stores
@@ -14,7 +12,7 @@ namespace Config.Net.Stores
    public class JsonConfigStore : IConfigStore
    {
       private readonly string? _pathName;
-      private readonly Dictionary<string, JsonElement>? _jsonMap;
+      private JsonNode? _j;
 
       /// <summary>
       /// Create JSON storage in the file specified in <paramref name="name"/>.
@@ -31,11 +29,11 @@ namespace Config.Net.Stores
          if(isFilePath)
          {
             _pathName = Path.GetFullPath(name);   // Allow relative path to JSON file
-            _jsonMap = ReadJsonFile(_pathName);
+            _j = ReadJsonFile(_pathName);
          }
          else
          {
-            _jsonMap = ReadJsonString(name);
+            _j = ReadJsonString(name);
          }
       }
 
@@ -48,91 +46,94 @@ namespace Config.Net.Stores
 
       public bool CanRead => true;
 
-      public bool CanWrite => false;
+      public bool CanWrite => _pathName != null;
 
-      private static bool TryGetElementAt(JsonElement mother, int index, out JsonElement result)
+      public string? Read(string rawKey)
       {
-         result = mother;
+         if (string.IsNullOrEmpty(rawKey) || _j == null) return null;
 
-         if (index >= mother.GetArrayLength()) return false;
+         bool isLength = OptionPath.TryStripLength(rawKey, out string? key);
+         if (key == null) return null;
 
-         int idx = 0;
-         foreach(JsonElement e in mother.EnumerateArray())
-         {
-            if(idx++ == index)
-            {
-               result = e;
-               return true;
-            }
-         }
-
-         return false;
-      }
-
-      public string? Read(string key)
-      {
-         if (string.IsNullOrEmpty(key) || _jsonMap == null) return null;
-
-         bool isLength = OptionPath.TryStripLength(key, out string? strippedKey);
-         if (strippedKey == null) return null;
-
-         string[] parts = strippedKey.Split('.');
+         string[] parts = key.Split('.');
          if (parts.Length == 0) return null;
 
-         // navigate JSON manually (there's no jsonpath support)
-
-         string? safePart;
-         bool isIndex = OptionPath.TryStripIndex(parts[0], out safePart, out int partIndex);
-         if (safePart == null) return null;
-
-         if (!_jsonMap.TryGetValue(safePart, out JsonElement current)) return null;
-         if(isIndex)
+         JsonNode? node = _j;
+         foreach(string rawPart in parts)
          {
-            if (!TryGetElementAt(current, partIndex, out current)) return null;
-         }
+            bool isIndex = OptionPath.TryStripIndex(rawPart, out string? part, out int partIndex);
+            if (part == null) return null;
 
-         bool found = true;   // because previous lookup was successful (prev line)
-         for (int i = 1; i < parts.Length; i++)
-         {
-            if(current.ValueKind == JsonValueKind.Object)
+            node = node![part];
+            if (node == null) return null;
+
+            if(isIndex)
             {
-               found = current.TryGetProperty(parts[i], out JsonElement next);
-               if(found)
-                  current = next;
+               if (!(node is JsonArray ja)) return null;
+
+               if (partIndex < ja.Count)
+               {
+                  node = ja[partIndex];
+               }
                else
-                  break;
-            }
-            else if(current.ValueKind == JsonValueKind.Array)
-            {
-               throw new NotSupportedException();
-            }
-            else
-            {
-               found = false;
-               break;
+                  return null;
             }
          }
 
-         if (!found) return null;
+         if (isLength)
+            return node is JsonArray ja ? ja.Count.ToString() : null;
 
-         if(current.ValueKind == JsonValueKind.Array)
-         {
-            if (isLength)
-               return current.GetArrayLength().ToString();
-            else return null;
-         }
-         else
-         {
-            return current.ToString();
-         }
+         return node!.ToString();
       }
 
       public void Write(string key, string? value)
       {
-         throw new NotSupportedException();
+         if (string.IsNullOrEmpty(_pathName))
+            throw new InvalidOperationException("please specify file name for writeable config");
+
+         if (_j == null) _j = new JsonObject();
+
+         // navigate to target element, create if needed
+         string[] parts = key.Split('.');
+         if (parts.Length == 0) return;
+
+         JsonNode? node = _j;
+         string? lastPart = null;
+         foreach (string rawPart in parts)
+         {
+            bool isIndex = OptionPath.TryStripIndex(rawPart, out string? part, out int partIndex);
+            if (part == null) return;
+            lastPart = part;
+
+            JsonNode? nextNode = node[part];
+
+            if (isIndex)
+            {
+               throw new NotImplementedException();
+            }
+            else
+            {
+               if(nextNode == null)
+               {
+                  //create missing node
+                  nextNode = new JsonObject();
+                  node[part] = nextNode;
+               }
+            }
+
+            node = nextNode;
+
+         }
+
+         JsonObject? parent = node.Parent as JsonObject;
+         parent!.Remove(lastPart!);
+         parent![lastPart!] = JsonValue.Create(value);
+
+         string js = _j.ToJsonString(new JsonSerializerOptions { WriteIndented = true });
+         File.WriteAllText(_pathName, js);
       }
 
-      private static Dictionary<string, JsonElement>? ReadJsonFile(string fileName)
+      private static JsonNode? ReadJsonFile(string fileName)
       {
          if(File.Exists(fileName))
          {
@@ -143,10 +144,9 @@ namespace Config.Net.Stores
          return null;
       }
 
-      private static Dictionary<string, JsonElement>? ReadJsonString(string jsonString)
+      private static JsonNode? ReadJsonString(string jsonString)
       {
-         return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(jsonString);
+         return JsonNode.Parse(jsonString);
       }
    }
 }
-#endif

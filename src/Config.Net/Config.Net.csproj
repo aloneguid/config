@@ -28,6 +28,11 @@
       <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
    </ItemGroup>
 
+   <!-- we need latest system.text.json in order to support writeable json in earlier targets -->
+   <ItemGroup Condition="'$(TargetFramework)' != 'net6.0'">
+      <PackageReference Include="System.Text.Json" Version="6.0.5"/>
+   </ItemGroup>
+
    <ItemGroup>
       <Folder Include="Properties\" />
    </ItemGroup>
