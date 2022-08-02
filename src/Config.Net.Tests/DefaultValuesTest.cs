@@ -16,7 +16,7 @@ namespace Config.Net.Tests
          [DefaultValue("not set")]
          string UnitTestName { get; set; }
 
-         [DefaultValue((sbyte)10)]
+         [Option(DefaultValue = (sbyte)10)]
          sbyte NumberOfYears { get; set; }
 
          [DefaultValue((short)1000)]
@@ -31,13 +31,13 @@ namespace Config.Net.Tests
          [DefaultValue((byte)24)]
          byte HoursOfDay { get; set; }
 
-         [DefaultValue((ushort)1440)]
+         [Option(DefaultValue = (ushort)1440)]
          ushort MinutesOfDay { get; set; }
 
-         [DefaultValue((uint)86400)]
+         [Option(DefaultValue = (uint)86400)]
          uint SecondsOfDay { get; set; }
 
-         [DefaultValue((ulong)86400000000)]
+         [Option(DefaultValue = (ulong)86400000000)]
          ulong MicroSecondsOfDay { get; set; }
 
          [DefaultValue("Japan Denmark Australia")]
@@ -81,7 +81,7 @@ namespace Config.Net.Tests
       [Fact]
       public void Read_DefaultSByte_Reads()
       {
-         CheckProperty(nameof(IFixtureSettings.NumberOfYears));
+         CheckProperty(nameof(IFixtureSettings.NumberOfYears), (sbyte)10);
       }
 
       [Fact]
@@ -111,19 +111,19 @@ namespace Config.Net.Tests
       [Fact]
       public void Read_DefaultUShort_Reads()
       {
-         CheckProperty(nameof(IFixtureSettings.MinutesOfDay));
+         CheckProperty(nameof(IFixtureSettings.MinutesOfDay), (ushort)1440);
       }
 
       [Fact]
       public void Read_DefaultUInt_Reads()
       {
-         CheckProperty(nameof(IFixtureSettings.SecondsOfDay));
+         CheckProperty(nameof(IFixtureSettings.SecondsOfDay), (uint)86400);
       }
 
       [Fact]
       public void Read_DefaultULong_Reads()
       {
-         CheckProperty(nameof(IFixtureSettings.MicroSecondsOfDay));
+         CheckProperty(nameof(IFixtureSettings.MicroSecondsOfDay), (ulong)86400000000);
       }
 
       [Fact]

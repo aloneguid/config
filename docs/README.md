@@ -725,6 +725,12 @@ will correspond to the following JSON file:
 }
 ```
 
+## Using With
+
+### Azure Functions
+
+Azure function [configuration](https://docs.microsoft.com/en-us/azure/azure-functions/functions-how-to-use-azure-function-app-settings?tabs=portal) can be set in portal or settings file when developing locally. This is just a pure magic and they are all exposed as environment variables at the end of the day. `.UseEnvironmentVariables()` will allow to read those values.
+
 ## Sponsorship
 
 This framework is free and can be used for free, open source and commercial applications. Config.Net (all code, NuGets and binaries) are under the [MIT License (MIT)](https://github.com/aloneguid/config/blob/master/LICENSE). It's battle-tested and used by many awesome people and organisations. So hit the magic ⭐️ button, we appreciate it!!! 🙏 Thx!

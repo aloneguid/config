@@ -132,11 +132,11 @@ namespace Config.Net.Core.Box
          if (defaultValue != null)
          {
             //validate that types for default value match
-            Type? dvt = defaultValue?.GetType();
+            Type dvt = defaultValue.GetType();
 
             if (dvt != box.ResultType && dvt != typeof(string))
             {
-               throw new InvalidCastException($"Default value for option {box.Name} is of type {dvt?.FullName} whereas the property has type {box.Name}. To fix this, either set default value to type {box.ResultType.FullName} or a string parseable to the target type.");
+               throw new InvalidCastException($"Default value for option {box.Name} is of type {dvt.FullName} whereas the property has type {box.ResultType.FullName}. To fix this, either set default value to type {box.ResultType.FullName} or a string parseable to the target type.");
             }
 
             if (box.ResultType != typeof(string) && dvt == typeof(string))
