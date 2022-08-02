@@ -1,9 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <VersionPrefix>3.0.0</VersionPrefix>
-    <TargetFrameworks>netcoreapp3.1;net6.0</TargetFrameworks>
   </PropertyGroup>
-  <ItemGroup>
+
+   <Choose>
+      <When Condition="'$(OS)' == 'Windows_NT'">
+         <PropertyGroup>
+            <TargetFrameworks>netcoreapp3.1;net6.0;net461</TargetFrameworks>
+         </PropertyGroup>
+      </When>
+      <Otherwise>
+         <PropertyGroup>
+            <TargetFrameworks>netcoreapp3.1;net6.0</TargetFrameworks>
+         </PropertyGroup>
+      </Otherwise>
+   </Choose>
+
+   <ItemGroup>
     <None Update="TestData\sample.Debug.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
        <DependentUpon>TestData\sample.json</DependentUpon>

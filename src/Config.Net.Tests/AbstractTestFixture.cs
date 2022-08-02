@@ -55,7 +55,8 @@ namespace Config.Net.Tests
       {
          get
          {
-            return new DirectoryInfo(Path.GetDirectoryName(ThisAssembly.Location));
+            string dllPath = new Uri(ThisAssembly.CodeBase).LocalPath;
+            return new FileInfo(dllPath).Directory;
          }
       }
 
