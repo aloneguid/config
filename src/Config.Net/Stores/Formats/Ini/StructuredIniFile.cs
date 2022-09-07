@@ -60,7 +60,7 @@ namespace Config.Net.Stores.Formats.Ini
          }
       }
 
-      public static StructuredIniFile ReadFrom(Stream inputStream, bool parseInlineComments)
+      public static StructuredIniFile ReadFrom(Stream inputStream, bool parseInlineComments, bool unescapeNewLines = false)
       {
          if(inputStream == null) throw new ArgumentNullException(nameof(inputStream));
 
@@ -90,7 +90,7 @@ namespace Config.Net.Stores.Formats.Ini
                }
                else
                {
-                  IniKeyValue? ikv = IniKeyValue.FromLine(line, parseInlineComments);
+                  IniKeyValue? ikv = IniKeyValue.FromLine(line, parseInlineComments, unescapeNewLines);
                   if(ikv == null) continue;
 
                   section.Add(ikv);
