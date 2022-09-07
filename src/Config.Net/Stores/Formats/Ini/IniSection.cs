@@ -98,7 +98,7 @@ namespace Config.Net.Stores.Formats.Ini
                {
                   writer.Write(" ");
                   writer.Write(IniComment.CommentSeparator);
-                  writer.Write(ikv.Comment.Value);
+                  writer.Write(ikv.Comment.EscapedValue);
                }
                writer.WriteLine();
                continue;
