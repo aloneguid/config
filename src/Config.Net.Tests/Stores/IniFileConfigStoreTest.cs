@@ -85,5 +85,23 @@ key0=s1value0
 key0=s2value0
 ", resultText, false, true);
       }
+
+      [Theory]
+      [InlineData("key", "l1\r\nl2", @"key=l1\r\nl2")]
+      [InlineData("key", "l1\rl2", @"key=l1\rl2")]
+      [InlineData("key", "l1\nl2", @"key=l1\nl2")]
+      [InlineData("k1\r\nk2", "value", @"k1\r\nk2=value")]
+      [InlineData("k1\rk2", "value", @"k1\rk2=value")]
+      [InlineData("k1\nk2", "value", @"k1\nk2=value")]
+      public void Write_NewLine(string key, string value, string expectedOutput)
+      {
+         string fullPath = Path.Combine(TestDir.FullName, Guid.NewGuid() + ".ini");
+         var ini = new IniFileConfigStore(fullPath, true, true);
+
+         ini.Write(key, value);
+
+         string resultText = File.ReadAllText(fullPath);
+         Assert.Equal(expectedOutput + "\r\n", resultText);
+      }
    }
 }

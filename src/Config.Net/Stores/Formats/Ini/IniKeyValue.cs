@@ -18,6 +18,16 @@ namespace Config.Net.Stores.Formats.Ini
 
       public string Value { get; set; }
 
+      public string EscapedKey
+      {
+         get { return Key.Replace("\r", @"\r").Replace("\n", @"\n"); }
+      }
+
+      public string EscapedValue
+      {
+         get { return Value.Replace("\r", @"\r").Replace("\n", @"\n"); }
+      }
+
       public IniComment? Comment { get; }
 
       public static IniKeyValue? FromLine(string line, bool parseInlineComments)
