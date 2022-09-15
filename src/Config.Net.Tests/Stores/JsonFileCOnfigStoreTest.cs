@@ -50,9 +50,47 @@ namespace Config.Net.Tests.Stores
          Assert.Equal("111", _store.Read(key));
       }
 
+      [Fact]
+      public void AliasesOnCollections()
+      {
+         IMyConfigUsingAliases myConfig = new ConfigurationBuilder<IMyConfigUsingAliases>()
+            .UseConfigStore(_store)
+            .Build();
+
+         Assert.NotNull(myConfig.Credentials);
+         foreach (ICredsWithAlias c in myConfig.Credentials)
+         {
+            if (c.Name == "user1")
+            {
+               Assert.Equal("pass1", c.Pass);
+            }
+            else if (c.Name == "user2")
+            {
+               Assert.Equal("pass2", c.Pass);
+            }
+            else
+            {
+               Assert.Equal("user1", c.Name);
+            }
+         }
+      }
+
       public void Dispose()
       {
          _store.Dispose();
       }
+   }
+   public interface ICredsWithAlias
+   {
+      [Option(Alias = "Username")]
+      string Name { get; set; }
+      [Option(Alias = "Password")]
+      string Pass { get; set; }
+   }
+
+   public interface IMyConfigUsingAliases
+   {
+      [Option(Alias = "Creds")]
+      IEnumerable<ICredsWithAlias> Credentials { get; }
    }
 }
