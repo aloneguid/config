@@ -93,12 +93,12 @@ namespace Config.Net.Stores.Formats.Ini
             IniKeyValue? ikv = entity as IniKeyValue;
             if(ikv != null)
             {
-               writer.Write($"{ikv.Key}{IniKeyValue.KeyValueSeparator}{ikv.Value}");
+               writer.Write($"{ikv.EscapedKey}{IniKeyValue.KeyValueSeparator}{ikv.EscapedValue}");
                if(ikv.Comment != null)
                {
                   writer.Write(" ");
                   writer.Write(IniComment.CommentSeparator);
-                  writer.Write(ikv.Comment.Value);
+                  writer.Write(ikv.Comment.EscapedValue);
                }
                writer.WriteLine();
                continue;
