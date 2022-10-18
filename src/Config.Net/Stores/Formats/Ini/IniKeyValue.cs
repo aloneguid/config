@@ -18,9 +18,19 @@ namespace Config.Net.Stores.Formats.Ini
 
       public string Value { get; set; }
 
+      public string EscapedKey
+      {
+         get { return Key.Replace("\r", @"\r").Replace("\n", @"\n"); }
+      }
+
+      public string EscapedValue
+      {
+         get { return Value.Replace("\r", @"\r").Replace("\n", @"\n"); }
+      }
+
       public IniComment? Comment { get; }
 
-      public static IniKeyValue? FromLine(string line, bool parseInlineComments)
+      public static IniKeyValue? FromLine(string line, bool parseInlineComments, bool unescapeNewLines = false)
       {
          int idx = line.IndexOf(KeyValueSeparator, StringComparison.CurrentCulture);
          if(idx == -1) return null;
@@ -39,7 +49,19 @@ namespace Config.Net.Stores.Formats.Ini
             }
          }
 
+         if(unescapeNewLines)
+         {
+            key = UnescapeString(key);
+            value = UnescapeString(value);
+            comment = (comment != null) ? UnescapeString(comment) : null;
+         }
+
          return new IniKeyValue(key, value, comment);
+      }
+
+      private static string UnescapeString(string key)
+      {
+         return key.Replace(@"\r", "\r").Replace(@"\n", "\n");
       }
 
       public override string ToString()
