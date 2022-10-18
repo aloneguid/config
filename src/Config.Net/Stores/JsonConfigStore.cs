@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Config.Net.Core;
@@ -26,7 +27,7 @@ namespace Config.Net.Stores
       {
          if (name == null) throw new ArgumentNullException(nameof(name));
 
-         if(isFilePath)
+         if (isFilePath)
          {
             _pathName = Path.GetFullPath(name);   // Allow relative path to JSON file
             _j = ReadJsonFile(_pathName);
@@ -59,7 +60,7 @@ namespace Config.Net.Stores
          if (parts.Length == 0) return null;
 
          JsonNode? node = _j;
-         foreach(string rawPart in parts)
+         foreach (string rawPart in parts)
          {
             bool isIndex = OptionPath.TryStripIndex(rawPart, out string? part, out int partIndex);
             if (part == null) return null;
@@ -67,7 +68,7 @@ namespace Config.Net.Stores
             node = node![part];
             if (node == null) return null;
 
-            if(isIndex)
+            if (isIndex)
             {
                if (!(node is JsonArray ja)) return null;
 
@@ -113,7 +114,7 @@ namespace Config.Net.Stores
             }
             else
             {
-               if(nextNode == null)
+               if (nextNode == null)
                {
                   //create missing node
                   nextNode = new JsonObject();
@@ -130,12 +131,24 @@ namespace Config.Net.Stores
          parent![lastPart!] = JsonValue.Create(value);
 
          string js = _j.ToJsonString(new JsonSerializerOptions { WriteIndented = true });
+
+         FileInfo file = new FileInfo(_pathName);
+
+         if (file is not null)
+         {
+            if (file.Directory is not null)
+            {
+               file.Directory.Create();
+            }
+         }
+
          File.WriteAllText(_pathName, js);
+
       }
 
       private static JsonNode? ReadJsonFile(string fileName)
       {
-         if(File.Exists(fileName))
+         if (File.Exists(fileName))
          {
             string json = File.ReadAllText(fileName);
             return ReadJsonString(json);
