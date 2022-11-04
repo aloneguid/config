@@ -1,9 +1,9 @@
 name: Release
 
 env:
-  v: '5.1.2'
+  v: '5.1.4'
   av: '5.0.0'
-  pv: '5.1.2'
+  pv: '5.1.4'
 
 on:
   push:
@@ -15,6 +15,7 @@ on:
 jobs:
   build:
 
+    # we need Windows to build for classic .NET Framework
     runs-on: windows-latest
 
     steps:
@@ -44,6 +45,7 @@ jobs:
     needs: [build]
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
+    environment: nuget
     steps:
       - name: Download a Build Artifact
         uses: actions/download-artifact@v2

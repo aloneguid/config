@@ -11,6 +11,11 @@
 
       public string Value { get; set; }
 
+      public string EscapedValue
+      {
+         get { return Value.Replace("\r", @"\r").Replace("\n", @"\n"); }
+      }
+
       public override string ToString() => Value;
    }
 }

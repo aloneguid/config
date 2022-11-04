@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using Config.Net.Stores;
 using Xunit;
+using YamlDotNet.Core.Tokens;
 
 namespace Config.Net.Tests.Stores
 {
@@ -73,6 +74,25 @@ namespace Config.Net.Tests.Stores
                Assert.Equal("user1", c.Name);
             }
          }
+
+      [Fact]
+      public void TestCreatingFileInMissingFolder()
+      {
+         _path = Path.Combine("C:\\temp", "TestData", "sample.json");
+
+         if (Directory.Exists(_path))
+         {
+            Directory.Delete(_path);
+         }
+
+         string key = "One.Two.Three";
+
+         _store = new JsonConfigStore(_path, true);
+         _store.Write(key, "111");
+
+         Assert.Equal("111", _store.Read(key));
+
+         Assert.True(File.Exists(_path));
       }
 
       public void Dispose()

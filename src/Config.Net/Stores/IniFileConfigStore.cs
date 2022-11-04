@@ -19,7 +19,7 @@ namespace Config.Net.Stores
       /// </summary>r
       /// <param name="name">File does not have to exist, however it will be created as soon as you
       /// try to write to it</param>
-      public IniFileConfigStore(string name, bool isFilePath, bool parseInlineComments)
+      public IniFileConfigStore(string name, bool isFilePath, bool parseInlineComments, bool unescapeNewLines = false)
       {
          if (name == null) throw new ArgumentNullException(nameof(name));
 
@@ -34,13 +34,13 @@ namespace Config.Net.Stores
                Directory.CreateDirectory(parentDirPath);
             }
 
-            _iniFile = ReadIniFile(_fullName, parseInlineComments);
+            _iniFile = ReadIniFile(_fullName, parseInlineComments, unescapeNewLines);
 
             CanWrite = true;
          }
          else
          {
-            _iniFile = ReadIniContent(name, parseInlineComments);
+            _iniFile = ReadIniContent(name, parseInlineComments, unescapeNewLines);
 
             CanWrite = false;
          }
@@ -78,14 +78,14 @@ namespace Config.Net.Stores
          WriteIniFile();
       }
 
-      private static StructuredIniFile ReadIniFile(string fullName, bool parseInlineComments)
+      private static StructuredIniFile ReadIniFile(string fullName, bool parseInlineComments, bool unescapeNewLines = false)
       {
          FileInfo iniFile = new FileInfo(fullName);
          if(iniFile.Exists)
          {
             using(FileStream stream = iniFile.Open(FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-               return StructuredIniFile.ReadFrom(stream, parseInlineComments);
+               return StructuredIniFile.ReadFrom(stream, parseInlineComments, unescapeNewLines);
             }
          }
          else
@@ -94,11 +94,11 @@ namespace Config.Net.Stores
          }
       }
 
-      private static StructuredIniFile ReadIniContent(string content, bool parseInlineComments)
+      private static StructuredIniFile ReadIniContent(string content, bool parseInlineComments, bool unescapeNewLines = false)
       {
          using (Stream input = new MemoryStream(Encoding.UTF8.GetBytes(content)))
          {
-            return StructuredIniFile.ReadFrom(input, parseInlineComments);
+            return StructuredIniFile.ReadFrom(input, parseInlineComments, unescapeNewLines);
          }
       }
 
