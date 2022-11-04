@@ -74,6 +74,7 @@ namespace Config.Net.Tests.Stores
                Assert.Equal("user1", c.Name);
             }
          }
+      }
 
       [Fact]
       public void TestCreatingFileInMissingFolder()
