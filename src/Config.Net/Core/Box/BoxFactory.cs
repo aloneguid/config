@@ -56,6 +56,7 @@ namespace Config.Net.Core.Box
             if(isCollection)
             {
                rbox = new CollectionResultBox(pi.Name, rbox);
+               AddAttributes(rbox, pi, valueHandler);
             }
 
             result[pi.Name] = rbox;
