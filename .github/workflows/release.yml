@@ -29,6 +29,7 @@ jobs:
         dotnet-version: |
           3.1.x
           6.0.x
+          7.0.x
     - name: Install dependencies
       run: dotnet restore src/Config.Net.sln
     - name: Build
