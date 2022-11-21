@@ -61,3 +61,4 @@ jobs:
           tag_name: ${{ env.v }}
           name: ${{ env.v }}
           files: "src/*.zip"
+          generate_release_notes: true
