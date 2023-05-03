@@ -27,13 +27,13 @@
    </PropertyGroup>
 
    <ItemGroup>
-      <PackageReference Include="Castle.Core" Version="5.0.0" />
-      <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
+      <PackageReference Include="Castle.Core" Version="5.1.1" />
+      <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
    </ItemGroup>
 
    <!-- we need latest system.text.json in order to support writeable json in earlier targets -->
    <ItemGroup Condition="'$(TargetFramework)' != 'net6.0'">
-      <PackageReference Include="System.Text.Json" Version="6.0.5" />
+      <PackageReference Include="System.Text.Json" Version="7.0.2" />
    </ItemGroup>
 
    <ItemGroup>
