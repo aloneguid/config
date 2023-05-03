@@ -1,6 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk" InitialTargets="Log">
+﻿<Project Sdk="Microsoft.NET.Sdk">
    <PropertyGroup>
-      <Copyright>Copyright (c) 2015-2022 by Ivan Gavryliuk</Copyright>
+      <Copyright>Copyright (c) 2015-2023 by Ivan Gavryliuk</Copyright>
       <AssemblyTitle>Config.Net</AssemblyTitle>
       <Authors>Ivan Gavryliuk (@aloneguid)</Authors>
       <AssemblyName>Config.Net</AssemblyName>
@@ -19,28 +19,12 @@
       <PackageProjectUrl>https://github.com/aloneguid/config</PackageProjectUrl>
       <RepositoryUrl>https://github.com/aloneguid/config</RepositoryUrl>
       <PackageReadmeFile>README.md</PackageReadmeFile>
+      <TargetFrameworks>netstandard2.0;netstandard2.1;net6.0</TargetFrameworks>
    </PropertyGroup>
-
-   <Choose>
-      <When Condition="'$(OS)' == 'Windows_NT'">
-         <PropertyGroup>
-            <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0;net7.0;net461</TargetFrameworks>
-         </PropertyGroup>
-      </When>
-      <Otherwise>
-         <PropertyGroup>
-            <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0;net7.0</TargetFrameworks>
-         </PropertyGroup>
-      </Otherwise>
-   </Choose>
 
    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
    </PropertyGroup>
-
-   <Target Name="Log">
-      <Message Text="HELLO $(OS)" Importance="high"/>
-   </Target>
 
    <ItemGroup>
       <PackageReference Include="Castle.Core" Version="5.0.0" />
@@ -49,7 +33,7 @@
 
    <!-- we need latest system.text.json in order to support writeable json in earlier targets -->
    <ItemGroup Condition="'$(TargetFramework)' != 'net6.0'">
-      <PackageReference Include="System.Text.Json" Version="6.0.5"/>
+      <PackageReference Include="System.Text.Json" Version="6.0.5" />
    </ItemGroup>
 
    <ItemGroup>
