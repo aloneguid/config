@@ -6,12 +6,12 @@
    <Choose>
       <When Condition="'$(OS)' == 'Windows_NT'">
          <PropertyGroup>
-            <TargetFrameworks>netcoreapp3.1;net6.0;net7.0;net461</TargetFrameworks>
+            <TargetFrameworks>netcoreapp3.1;net6.0;net7.0;net8.0;net461</TargetFrameworks>
          </PropertyGroup>
       </When>
       <Otherwise>
          <PropertyGroup>
-            <TargetFrameworks>netcoreapp3.1;net6.0;net7.0</TargetFrameworks>
+            <TargetFrameworks>netcoreapp3.1;net6.0;net7.0;net8.0</TargetFrameworks>
          </PropertyGroup>
       </Otherwise>
    </Choose>
