@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config.Net", "Config.Net\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config.Net.Tests", "Config.Net.Tests\Config.Net.Tests.csproj", "{7DEA3E81-9D00-4030-A16F-D1D54650FCCB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Config.Net.Generator", "Config.Net.Generator\Config.Net.Generator.csproj", "{3A53750F-07E0-4451-A4C4-8951B6DDFF3A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{7DEA3E81-9D00-4030-A16F-D1D54650FCCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DEA3E81-9D00-4030-A16F-D1D54650FCCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DEA3E81-9D00-4030-A16F-D1D54650FCCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A53750F-07E0-4451-A4C4-8951B6DDFF3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A53750F-07E0-4451-A4C4-8951B6DDFF3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A53750F-07E0-4451-A4C4-8951B6DDFF3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A53750F-07E0-4451-A4C4-8951B6DDFF3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

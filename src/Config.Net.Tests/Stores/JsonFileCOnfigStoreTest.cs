@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Config.Net.Stores;
 using Xunit;
-using YamlDotNet.Core.Tokens;
 
-namespace Config.Net.Tests.Stores
-{
-   public class JsonFileConfigStoreTest : AbstractTestFixture, IDisposable
+namespace Config.Net.Tests.Stores {
+    public class JsonFileConfigStoreTest : AbstractTestFixture, IDisposable
    {
       private string _path;
       private JsonConfigStore _store;
