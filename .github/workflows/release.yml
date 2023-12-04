@@ -1,13 +1,12 @@
 name: Release
 
 env:
-  v: '5.1.5'
-  av: '5.0.0'
-  pv: '5.1.5'
+  v: '6.0.0-pre.1'
+  av: '6.0.0'
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, v6 ]
   pull_request:
     branches: [ master ]
   workflow_dispatch:
@@ -30,10 +29,11 @@ jobs:
           3.1.x
           6.0.x
           7.0.x
+          8.0.x
     - name: Install dependencies
       run: dotnet restore src/Config.Net.sln
     - name: Build
-      run: dotnet build src/Config.Net.sln --configuration Release --no-restore /p:Version=${{ env.pv }} /p:FileVersion=${{ env.v }} /p:AssemblyVersion=${{ env.av }} /p:Authors="Ivan Gavryliuk (@aloneguid)"
+      run: dotnet build src/Config.Net.sln --configuration Release --no-restore /p:Version=${{ env.v }} /p:FileVersion=${{ env.v }} /p:AssemblyVersion=${{ env.av }} /p:Authors="Ivan Gavryliuk (@aloneguid)"
     - name: Test
       run: dotnet test src/Config.Net.sln -c release --filter Category!=Integration --no-restore --verbosity normal /p:Version=${{ env.pv }} /p:FileVersion=${{ env.v }} /p:AssemblyVersion=${{ env.av }} /p:Authors="Ivan Gavryliuk (@aloneguid)"
     - name: Upload a Build Artifact

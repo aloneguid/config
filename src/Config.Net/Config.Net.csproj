@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk" InitialTargets="Log">
+﻿<Project Sdk="Microsoft.NET.Sdk">
    <PropertyGroup>
       <Copyright>Copyright (c) 2015-2022 by Ivan Gavryliuk</Copyright>
       <AssemblyTitle>Config.Net</AssemblyTitle>
@@ -37,10 +37,6 @@
    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
    </PropertyGroup>
-
-   <Target Name="Log">
-      <Message Text="HELLO $(OS)" Importance="high"/>
-   </Target>
 
    <ItemGroup>
       <PackageReference Include="Castle.Core" Version="5.0.0" />
