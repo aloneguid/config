@@ -15,8 +15,7 @@ on:
 jobs:
   build:
 
-    # we need Windows to build for classic .NET Framework
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -27,7 +26,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: |
-          3.1.x
           6.0.x
           8.0.x
     - name: Install dependencies
