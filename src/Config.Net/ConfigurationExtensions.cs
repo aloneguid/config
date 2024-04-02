@@ -3,144 +3,146 @@ using Config.Net.Stores;
 using System.Collections.Generic;
 using Config.Net.Stores.Impl.CommandLine;
 
-namespace Config.Net
-{
-   /// <summary>
-   /// Configuration extensions
-   /// </summary>
-   public static class ConfigurationExtensions
-   {
-      /// <summary>
-      /// In-memory dictionary. Optionally you can pass pre-created dictionary, otherwise it will be created internally as empty.
-      /// </summary>
-      public static ConfigurationBuilder<TInterface> UseInMemoryDictionary<TInterface>(
-         this ConfigurationBuilder<TInterface> builder,
-         IDictionary<string, string>? container = null) where TInterface : class
-      {
-         builder.UseConfigStore(new DictionaryConfigStore(container));
-         return builder;
-      }
+namespace Config.Net {
+    /// <summary>
+    /// Configuration extensions
+    /// </summary>
+    public static class ConfigurationExtensions {
+        /// <summary>
+        /// In-memory dictionary. Optionally you can pass pre-created dictionary, otherwise it will be created internally as empty.
+        /// </summary>
+        public static ConfigurationBuilder<TInterface> UseInMemoryDictionary<TInterface>(
+           this ConfigurationBuilder<TInterface> builder,
+           IDictionary<string, string>? container = null) where TInterface : class {
+            builder.UseConfigStore(new DictionaryConfigStore(container));
+            return builder;
+        }
 
-      /// <summary>
-      /// Standard app.config (web.config) builder store. Read-only.
-      /// </summary>
-      public static ConfigurationBuilder<TInterface> UseAppConfig<TInterface>(this ConfigurationBuilder<TInterface> builder) where TInterface : class
-      {
-         builder.UseConfigStore(new AppConfigStore());
-         return builder;
-      }
+        /// <summary>
+        /// Standard app.config (web.config) builder store. Read-only.
+        /// </summary>
+        public static ConfigurationBuilder<TInterface> UseAppConfig<TInterface>(this ConfigurationBuilder<TInterface> builder) where TInterface : class {
+            builder.UseConfigStore(new AppConfigStore());
+            return builder;
+        }
 
-      /// <summary>
-      /// Reads builder from the .dll.config or .exe.config file.
-      /// </summary>
-      /// <param name="builder"></param>
-      /// <param name="assembly">Reference to the assembly to look for</param>
-      /// <returns></returns>
-      public static ConfigurationBuilder<TInterface> UseAssemblyConfig<TInterface>(this ConfigurationBuilder<TInterface> builder, Assembly assembly) where TInterface : class
-      {
-         builder.UseConfigStore(new AssemblyConfigStore(assembly));
-         return builder;
-      }
+        /// <summary>
+        /// Reads builder from the .dll.config or .exe.config file.
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="assembly">Reference to the assembly to look for</param>
+        /// <returns></returns>
+        public static ConfigurationBuilder<TInterface> UseAssemblyConfig<TInterface>(this ConfigurationBuilder<TInterface> builder, Assembly assembly) where TInterface : class {
+            builder.UseConfigStore(new AssemblyConfigStore(assembly));
+            return builder;
+        }
 
-      /// <summary>
-      /// Uses system environment variables
-      /// </summary>
-      public static ConfigurationBuilder<TInterface> UseEnvironmentVariables<TInterface>(this ConfigurationBuilder<TInterface> builder) where TInterface : class
-      {
-         builder.UseConfigStore(new EnvironmentVariablesStore());
-         return builder;
-      }
+        /// <summary>
+        /// Uses system environment variables
+        /// </summary>
+        public static ConfigurationBuilder<TInterface> UseEnvironmentVariables<TInterface>(this ConfigurationBuilder<TInterface> builder) where TInterface : class {
+            builder.UseConfigStore(new EnvironmentVariablesStore());
+            return builder;
+        }
 
+        /// <summary>
+        /// Uses variables from the .env file. The file is a simple text file with key=value pairs.
+        /// Will attempt to load the file from the current directory if no path is provided, then
+        /// recursively go up the directory tree until it finds the file
+        /// </summary>
+        /// <typeparam name="TInterface"></typeparam>
+        /// <param name="builder"></param>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static ConfigurationBuilder<TInterface> UseDotEnvFile<TInterface>(
+            this ConfigurationBuilder<TInterface> builder,
+            string? filePath = null) where TInterface : class {
+            builder.UseConfigStore(new DotEnvConfigStore(filePath));
+            return builder;
+        }
 
-      /// <summary>
-      /// Simple INI storage.
-      /// </summary>
-      /// <param name="builder"></param>
-      /// <param name="iniFilePath">File does not have to exist, however it will be created as soon as you try to write to it.</param>
-      /// <param name="parseInlineComments">When true, inline comments are parsed. It is set to false by default so inline comments are considered a part of the value.</param>
-      /// <returns></returns>
-      public static ConfigurationBuilder<TInterface> UseIniFile<TInterface>(this ConfigurationBuilder<TInterface> builder,
-         string iniFilePath,
-         bool parseInlineComments = false) where TInterface : class
-      {
-         builder.UseConfigStore(new IniFileConfigStore(iniFilePath, true, parseInlineComments));
-         return builder;
-      }
+        /// <summary>
+        /// Simple INI storage.
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="iniFilePath">File does not have to exist, however it will be created as soon as you try to write to it.</param>
+        /// <param name="parseInlineComments">When true, inline comments are parsed. It is set to false by default so inline comments are considered a part of the value.</param>
+        /// <returns></returns>
+        public static ConfigurationBuilder<TInterface> UseIniFile<TInterface>(this ConfigurationBuilder<TInterface> builder,
+           string iniFilePath,
+           bool parseInlineComments = false) where TInterface : class {
+            builder.UseConfigStore(new IniFileConfigStore(iniFilePath, true, parseInlineComments));
+            return builder;
+        }
 
-      /// <summary>
-      /// Simple INI storage.
-      /// </summary>
-      /// <param name="builder"></param>
-      /// <param name="iniString">File contents</param>
-      /// <param name="parseInlineComments">When true, inline comments are parsed. It is set to false by default so inline comments are considered a part of the value</param>
-      /// <returns></returns>
-      public static ConfigurationBuilder<TInterface> UseIniString<TInterface>(this ConfigurationBuilder<TInterface> builder,
-         string iniString,
-         bool parseInlineComments = false) where TInterface : class
-      {
-         builder.UseConfigStore(new IniFileConfigStore(iniString, false, parseInlineComments));
-         return builder;
-      }
+        /// <summary>
+        /// Simple INI storage.
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="iniString">File contents</param>
+        /// <param name="parseInlineComments">When true, inline comments are parsed. It is set to false by default so inline comments are considered a part of the value</param>
+        /// <returns></returns>
+        public static ConfigurationBuilder<TInterface> UseIniString<TInterface>(this ConfigurationBuilder<TInterface> builder,
+           string iniString,
+           bool parseInlineComments = false) where TInterface : class {
+            builder.UseConfigStore(new IniFileConfigStore(iniString, false, parseInlineComments));
+            return builder;
+        }
 
-      /// <summary>
-      /// Accepts builder from the command line arguments. This is not intended to replace a command line parsing framework but rather
-      /// complement it in a builder like way. Uses current process' command line parameters automatically
-      /// </summary>
-      /// <param name="builder">Configuration object</param>
-      /// <param name="isCaseSensitive">When true argument names are case sensitive, false by default</param>
-      /// <returns>Changed builder</returns>
-      public static ConfigurationBuilder<TInterface> UseCommandLineArgs<TInterface>(this ConfigurationBuilder<TInterface> builder,
-         bool isCaseSensitive = false,
-         params KeyValuePair<string, int>[] parameterNameToPosition)
-         where TInterface : class
-      {
-         builder.UseConfigStore(new CommandLineConfigStore(null, isCaseSensitive, parameterNameToPosition));
-         return builder;
-      }
+        /// <summary>
+        /// Accepts builder from the command line arguments. This is not intended to replace a command line parsing framework but rather
+        /// complement it in a builder like way. Uses current process' command line parameters automatically
+        /// </summary>
+        /// <param name="builder">Configuration object</param>
+        /// <param name="isCaseSensitive">When true argument names are case sensitive, false by default</param>
+        /// <returns>Changed builder</returns>
+        public static ConfigurationBuilder<TInterface> UseCommandLineArgs<TInterface>(this ConfigurationBuilder<TInterface> builder,
+           bool isCaseSensitive = false,
+           params KeyValuePair<string, int>[] parameterNameToPosition)
+           where TInterface : class {
+            builder.UseConfigStore(new CommandLineConfigStore(null, isCaseSensitive, parameterNameToPosition));
+            return builder;
+        }
 
-      public static ConfigurationBuilder<TInterface> UseCommandLineArgs<TInterface>(this ConfigurationBuilder<TInterface> builder,
-         bool isCaseSensitive = false,
-         string[]? args = null,
-         params KeyValuePair<string, int>[] parameterNameToPosition)
-         where TInterface : class
-      {
-         builder.UseConfigStore(new CommandLineConfigStore(args, isCaseSensitive, parameterNameToPosition));
-         return builder;
-      }
+        public static ConfigurationBuilder<TInterface> UseCommandLineArgs<TInterface>(this ConfigurationBuilder<TInterface> builder,
+           bool isCaseSensitive = false,
+           string[]? args = null,
+           params KeyValuePair<string, int>[] parameterNameToPosition)
+           where TInterface : class {
+            builder.UseConfigStore(new CommandLineConfigStore(args, isCaseSensitive, parameterNameToPosition));
+            return builder;
+        }
 
-      public static ConfigurationBuilder<TInterface> UseCommandLineArgs<TInterface>(this ConfigurationBuilder<TInterface> builder,
-         params KeyValuePair<string, int>[] parameterNameToPosition)
-         where TInterface : class
-      {
-         builder.UseConfigStore(new CommandLineConfigStore(null, false, parameterNameToPosition));
-         return builder;
-      }
+        public static ConfigurationBuilder<TInterface> UseCommandLineArgs<TInterface>(this ConfigurationBuilder<TInterface> builder,
+           params KeyValuePair<string, int>[] parameterNameToPosition)
+           where TInterface : class {
+            builder.UseConfigStore(new CommandLineConfigStore(null, false, parameterNameToPosition));
+            return builder;
+        }
 
-      /// <summary>
-      /// Uses JSON file as a builder storage.
-      /// </summary>
-      /// <param name="builder">Configuration object.</param>
-      /// <param name="jsonFilePath">Full path to json storage file.</param>
-      /// <returns>Changed builder.</returns>
-      /// <remarks>Storage file does not have to exist, however it will be created as soon as first write performed.</remarks>
-      public static ConfigurationBuilder<TInterface> UseJsonFile<TInterface>(this ConfigurationBuilder<TInterface> builder, string jsonFilePath) where TInterface : class
-      {
-         builder.UseConfigStore(new JsonConfigStore(jsonFilePath, true));
-         return builder;
-      }
+        /// <summary>
+        /// Uses JSON file as a builder storage.
+        /// </summary>
+        /// <param name="builder">Configuration object.</param>
+        /// <param name="jsonFilePath">Full path to json storage file.</param>
+        /// <returns>Changed builder.</returns>
+        /// <remarks>Storage file does not have to exist, however it will be created as soon as first write performed.</remarks>
+        public static ConfigurationBuilder<TInterface> UseJsonFile<TInterface>(this ConfigurationBuilder<TInterface> builder, string jsonFilePath) where TInterface : class {
+            builder.UseConfigStore(new JsonConfigStore(jsonFilePath, true));
+            return builder;
+        }
 
-      /// <summary>
-      /// Uses JSON file as a builder storage.
-      /// </summary>
-      /// <param name="builder">Configuration object.</param>
-      /// <param name="jsonString">Json document.</param>
-      /// <returns>Changed builder.</returns>
-      /// <remarks>Storage file does not have to exist, however it will be created as soon as first write performed.</remarks>
-      public static ConfigurationBuilder<TInterface> UseJsonString<TInterface>(this ConfigurationBuilder<TInterface> builder, string jsonString) where TInterface : class
-      {
-         builder.UseConfigStore(new JsonConfigStore(jsonString, false));
-         return builder;
-      }
+        /// <summary>
+        /// Uses JSON file as a builder storage.
+        /// </summary>
+        /// <param name="builder">Configuration object.</param>
+        /// <param name="jsonString">Json document.</param>
+        /// <returns>Changed builder.</returns>
+        /// <remarks>Storage file does not have to exist, however it will be created as soon as first write performed.</remarks>
+        public static ConfigurationBuilder<TInterface> UseJsonString<TInterface>(this ConfigurationBuilder<TInterface> builder, string jsonString) where TInterface : class {
+            builder.UseConfigStore(new JsonConfigStore(jsonString, false));
+            return builder;
+        }
 
-   }
+    }
 }

@@ -526,6 +526,16 @@ The store supports reading and writing environment variables.
 
 Collections are supported by using the [flatline syntax](#flatline-syntax).
 
+### `.env` files
+
+```csharp
+IMySettings settings = new ConfigurationBuilder<IMySettings>()
+   .UseDotEnvFile()
+   .Build();
+```
+
+Will attempt to load the [`.env`](https://github.com/bkeepers/dotenv) file starting from the current directory, and going up the directory structure until it finds one. You can optionally pass folder path where the search will start from.
+
 ### InMemory
 
 To configure the store:
