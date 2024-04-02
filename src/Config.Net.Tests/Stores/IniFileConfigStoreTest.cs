@@ -101,7 +101,7 @@ key0=s2value0
          ini.Write(key, value);
 
          string resultText = File.ReadAllText(fullPath);
-         Assert.Equal(expectedOutput + "\r\n", resultText);
+         Assert.Equal(expectedOutput + "\n", resultText);
       }
    }
 }
