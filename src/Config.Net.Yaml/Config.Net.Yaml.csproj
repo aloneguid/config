@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
    <PropertyGroup>
       <AssemblyOriginatorKeyFile>../config.snk</AssemblyOriginatorKeyFile>
+       <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
       <AssemblyVersion>4.0.0.0</AssemblyVersion>
       <FileVersion>4.7.3.0</FileVersion>
       <Version>4.7.3-build00000001</Version>
@@ -22,20 +23,6 @@
    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
    </PropertyGroup>
-
-   <Choose>
-      <When Condition="'$(OS)' == 'Windows_NT'">
-         <PropertyGroup>
-            <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0;net7.0;net461</TargetFrameworks>
-         </PropertyGroup>
-      </When>
-      <Otherwise>
-         <PropertyGroup>
-            <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0;net7.0</TargetFrameworks>
-         </PropertyGroup>
-      </Otherwise>
-   </Choose>
-
 
    <ItemGroup>
       <PackageReference Include="YamlDotNet" Version="11.2.1" />
