@@ -47,7 +47,7 @@ jobs:
     environment: nuget
     steps:
       - name: Download a Build Artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4.1.7
         with:
           name: packages
       - name: Push to nuget.org
