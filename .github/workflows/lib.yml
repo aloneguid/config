@@ -69,11 +69,11 @@ jobs:
         name: bin
 
     - name: prerelease
-      if: ${{ env.VERSION_SUFFIX && github.ref == 'refs/heads/5.3' }}
+      if: ${{ env.VERSION_SUFFIX }}
       run: echo 'hey'
 
     - name: release
-      if: ${{ !env.VERSION_SUFFIX && github.ref == 'refs/heads/5.3' }}
+      if: ${{ !env.VERSION_SUFFIX }}
       run: echo 'hey'
 
 
