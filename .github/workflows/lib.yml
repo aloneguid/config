@@ -3,14 +3,13 @@ name: Release
 env:
   VERSION: '5.3.0'
   ASM_VERSION: '5.0.0'
-  # VERSION_SUFFIX: '-pre.1'
-  VERSION_SUFFIX: ''
+  VERSION_SUFFIX: '-pre.1'
+  # VERSION_SUFFIX: ''
 
 on:
   push:
     branches:
     - master
-    - '5.3'
   pull_request:
     branches:
     - master
@@ -42,7 +41,7 @@ jobs:
           6.0.x
           8.0.x
     - name: Build
-      run: dotnet build src/Config.Net.sln --configuration Release /p:Version=${{ env.VERSION }} /p:FileVersion=${{ env.VERSION }} /p:AssemblyVersion=${{ env.ASM_VERSION }}
+      run: dotnet build src/Config.Net.sln --configuration Release /p:Version=${{ env.VERSION }}${{ env.VERSION_SUFFIX }} /p:FileVersion=${{ env.VERSION }} /p:AssemblyVersion=${{ env.ASM_VERSION }}
     - name: collect artifacts
       run: |
         mkdir -p artifacts
@@ -62,12 +61,16 @@ jobs:
     needs:
       - build
       - test
-    if: github.ref == 'refs/heads/5.3'
+    if: github.ref == 'refs/heads/master'
     steps:
   
     - uses: actions/download-artifact@v4
       with:
         name: bin
+
+    # publish to nuget regardless
+    - name: Push to nuget.org
+      run: dotnet nuget push bin/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
 
     - name: prerelease
       if: ${{ env.VERSION_SUFFIX }}
