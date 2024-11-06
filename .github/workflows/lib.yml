@@ -62,7 +62,7 @@ jobs:
       - build
       - test
     # only run if VERSION_SUFFIX environment variable has a value and branch is '5.3'
-    if: env.VERSION_SUFFIX && github.ref == 'refs/heads/5.3'
+    if: ${{ env.VERSION_SUFFIX && github.ref == 'refs/heads/5.3' }}
     steps:
     - uses: actions/download-artifact@v4
       with:
@@ -75,7 +75,7 @@ jobs:
       - build
       - test
     # only run if VERSION_SUFFIX environment variable is empty and branch is '5.3'
-    if: !env.VERSION_SUFFIX && github.ref == 'refs/heads/5.3'
+    if: ${{ !env.VERSION_SUFFIX && github.ref == 'refs/heads/5.3' }}
     steps:
     - uses: actions/download-artifact@v4
       with:
