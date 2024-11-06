@@ -3,7 +3,8 @@ name: Release
 env:
   VERSION: '5.3.0'
   ASM_VERSION: '5.0.0'
-  VERSION_SUFFIX: '-pre.1'
+  # VERSION_SUFFIX: '-pre.1'
+  VERSION_SUFFIX: ''
 
 on:
   push:
