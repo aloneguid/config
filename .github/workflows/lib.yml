@@ -83,12 +83,12 @@ jobs:
     #   if: ${{ !env.VERSION_SUFFIX }}
     #   run: echo 'hey'
 
-    # - name: 📢 Create release
-    #   uses: softprops/action-gh-release@v1
-    #   if: ${{ !env.VERSION_SUFFIX }}
-    #   with:
-    #     tag_name: ${{ env.VERSION }}
-    #     name: ${{ env.VERSION }}
-    #     files: |
-    #       *.nupkg
-    #     body_path: release-notes.md
+    - name: 📢 Create release
+      uses: softprops/action-gh-release@v1
+      if: ${{ !env.VERSION_SUFFIX }}
+      with:
+        tag_name: ${{ env.VERSION }}
+        name: ${{ env.VERSION }}
+        files: |
+          *.nupkg
+        body_path: release-notes.md
