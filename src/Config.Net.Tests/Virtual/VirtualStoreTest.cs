@@ -2,7 +2,6 @@
 using System.IO;
 using Config.Net.Stores;
 using Config.Net.Stores.Impl.CommandLine;
-using Config.Net.Yaml.Stores;
 
 namespace Config.Net.Tests.Virtual {
     public abstract partial class VirtualStoreTest : AbstractTestFixture, IDisposable {
@@ -61,13 +60,6 @@ namespace Config.Net.Tests.Virtual {
             string content = File.ReadAllText(src);
 
             return new IniFileConfigStore(content, false, true);
-        }
-    }
-
-    public class YamlConfigStoreTest : VirtualStoreTest {
-        protected override IConfigStore CreateStore() {
-            string testFile = GetSamplePath("yml");
-            return new YamlFileConfigStore(testFile);
         }
     }
 

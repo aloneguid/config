@@ -41,11 +41,19 @@ jobs:
           8.0.x
     - name: Build
       run: dotnet build src/Config.Net.sln --configuration Release /p:Version=${{ env.VERSION }} /p:FileVersion=${{ env.VERSION }} /p:AssemblyVersion=${{ env.ASM_VERSION }}
-    - name: Upload a Build Artifact
+    - name: collect artifacts
+      run: |
+        mkdir -p artifacts
+        cp src/Config.Net/bin/Release/*.nupkg artifacts/
+        echo "${{ env.VERSION }}" >> artifacts/version.txt
+        cp docs/release-history.md artifacts/
+        grep -m 2 -B 1000 '^## ' artifacts/release-history.md | tail -n +3 | head -n -2 > artifacts/release-notes.md
+        cat artifacts/release-notes.md
+    - name: upload artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: nuget
-        path: src/**/*.nupkg
+        name: bin
+        path: artifacts/*
 
   # publish:
   #   needs:
