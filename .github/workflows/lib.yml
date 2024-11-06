@@ -30,51 +30,42 @@ jobs:
       run: dotnet test src/Config.Net.sln -c release --filter Category!=Integration
 
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-      name: Check-out source code
-      with:
-        submodules: true
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: |
           6.0.x
           8.0.x
-    - name: Install dependencies
-      run: dotnet restore src/Config.Net.sln
     - name: Build
-      run: dotnet build src/Config.Net.sln --configuration Release --no-restore /p:Version=${{ env.pv }} /p:FileVersion=${{ env.v }} /p:AssemblyVersion=${{ env.av }} /p:Authors="Ivan Gavryliuk (@aloneguid)"
-    - name: Test
-      run: dotnet test src/Config.Net.sln -c release --filter Category!=Integration --no-restore --verbosity normal /p:Version=${{ env.pv }} /p:FileVersion=${{ env.v }} /p:AssemblyVersion=${{ env.av }} /p:Authors="Ivan Gavryliuk (@aloneguid)"
+      run: dotnet build src/Config.Net.sln --configuration Release /p:Version=${{ env.VERSION }} /p:FileVersion=${{ env.VERSION }} /p:AssemblyVersion=${{ env.ASM_VERSION }}
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
-        name: packages
+        name: nuget
         path: src/**/*.nupkg
 
-  publish:
-    needs:
-      - build
-      - test
-    if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
-    environment: nuget
-    steps:
-      - name: Download a Build Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: packages
-      - name: Push to nuget.org
-        run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        if: github.ref == 'refs/heads/master'
-        with:
-          tag_name: ${{ env.v }}
-          name: ${{ env.v }}
-          files: "src/*.zip"
-          generate_release_notes: true
+  # publish:
+  #   needs:
+  #     - build
+  #     - test
+  #   if: github.ref == 'refs/heads/master'
+  #   runs-on: ubuntu-latest
+  #   environment: nuget
+  #   steps:
+  #     - name: Download a Build Artifact
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: packages
+  #     - name: Push to nuget.org
+  #       run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+  #     - name: Release
+  #       uses: softprops/action-gh-release@v1
+  #       if: github.ref == 'refs/heads/master'
+  #       with:
+  #         tag_name: ${{ env.v }}
+  #         name: ${{ env.v }}
+  #         files: "src/*.zip"
+  #         generate_release_notes: true
