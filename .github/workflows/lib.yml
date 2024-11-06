@@ -70,7 +70,7 @@ jobs:
 
     # publish to nuget regardless
     - name: Push to nuget.org
-      run: dotnet nuget push bin/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+      run: dotnet nuget push *.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
 
     - name: prerelease
       if: ${{ env.VERSION_SUFFIX }}
