@@ -1,20 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
-        <Copyright>Copyright (c) 2015-2022 by Ivan Gavryliuk</Copyright>
+        <Copyright>Copyright (c) 2015-2024 by Ivan Gavryliuk</Copyright>
         <AssemblyTitle>Config.Net</AssemblyTitle>
         <Authors>Ivan Gavryliuk (@aloneguid)</Authors>
         <AssemblyName>Config.Net</AssemblyName>
         <PackageId>Config.Net</PackageId>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <FileVersion>4.7.3.0</FileVersion>
-        <Version>4.7.3</Version>
+        <AssemblyVersion>5.0.0.0</AssemblyVersion>
+        <FileVersion>5.0.0.0</FileVersion>
+        <Version>5.0.0</Version>
         <Description>Super simple configuration framework for .NET focused on developer ergonomics and strong typing. Supports multiple configuration sources such as .ini, .json, .xml files, as well as external providers pluggable by other NuGet packages.</Description>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <WarningsAsErrors />
         <PackageIcon>icon.png</PackageIcon>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-        <PackageIconUrl />
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
         <PackageProjectUrl>https://github.com/aloneguid/config</PackageProjectUrl>
@@ -27,8 +26,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Castle.Core" Version="5.0.0" />
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
+        <PackageReference Include="Castle.Core" Version="5.1.1" />
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />
     </ItemGroup>
 
     <ItemGroup>

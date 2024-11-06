@@ -1,0 +1,105 @@
+name: Release
+
+env:
+  VERSION: '5.3.0'
+  ASM_VERSION: '5.0.0'
+  VERSION_SUFFIX: '-pre.1'
+  # VERSION_SUFFIX: ''
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+  workflow_dispatch:
+
+jobs:
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          6.0.x
+          8.0.x
+    - name: run tests
+      run: dotnet test src/Config.Net.sln -c release --filter Category!=Integration
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          6.0.x
+          8.0.x
+    - name: Build
+      run: dotnet build src/Config.Net.sln --configuration Release /p:Version=${{ env.VERSION }}${{ env.VERSION_SUFFIX }} /p:FileVersion=${{ env.VERSION }} /p:AssemblyVersion=${{ env.ASM_VERSION }}
+    - name: collect artifacts
+      run: |
+        mkdir -p artifacts
+        cp src/Config.Net/bin/Release/*.nupkg artifacts/
+        echo "${{ env.VERSION }}" >> artifacts/version.txt
+        cp docs/release-history.md artifacts/
+        grep -m 2 -B 1000 '^## ' artifacts/release-history.md | tail -n +3 | head -n -2 > artifacts/release-notes.md
+        cat artifacts/release-notes.md
+    - name: upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: bin
+        path: artifacts/*
+
+  release:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+      - test
+    if: github.ref == 'refs/heads/master'
+    steps:
+  
+    - uses: actions/download-artifact@v4
+      with:
+        name: bin
+
+    # publish to nuget regardless
+    - name: Push to nuget.org
+      run: dotnet nuget push bin/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+    - name: prerelease
+      if: ${{ env.VERSION_SUFFIX }}
+      run: echo 'hey'
+
+    - name: release
+      if: ${{ !env.VERSION_SUFFIX }}
+      run: echo 'hey'
+
+
+  # publish:
+  #   needs:
+  #     - build
+  #     - test
+  #   if: github.ref == 'refs/heads/master'
+  #   runs-on: ubuntu-latest
+  #   environment: nuget
+  #   steps:
+  #     - name: Download a Build Artifact
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: packages
+  #     - name: Push to nuget.org
+  #       run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+  #     - name: Release
+  #       uses: softprops/action-gh-release@v1
+  #       if: github.ref == 'refs/heads/master'
+  #       with:
+  #         tag_name: ${{ env.v }}
+  #         name: ${{ env.v }}
+  #         files: "src/*.zip"
+  #         generate_release_notes: true

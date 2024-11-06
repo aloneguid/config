@@ -1,117 +1,99 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Config.Net.Stores;
 using Xunit;
-using YamlDotNet.Core.Tokens;
 
-namespace Config.Net.Tests.Stores
-{
-   public class JsonFileConfigStoreTest : AbstractTestFixture, IDisposable
-   {
-      private string _path;
-      private JsonConfigStore _store;
+namespace Config.Net.Tests.Stores {
+    public class JsonFileConfigStoreTest : AbstractTestFixture, IDisposable {
+        private string _path;
+        private JsonConfigStore _store;
 
-      public JsonFileConfigStoreTest()
-      {
-         _path = Path.Combine(BuildDir.FullName, "TestData", "sample.json");
-         _store = new JsonConfigStore(_path, true);
-      }
+        public JsonFileConfigStoreTest() {
+            _path = Path.Combine(BuildDir.FullName, "TestData", "sample.json");
+            _store = new JsonConfigStore(_path, true);
+        }
 
-      [Fact]
-      public void Read_inline_property()
-      {
-         string key = _store.Read("ApplicationInsights.InstrumentationKey");
+        [Fact]
+        public void Read_inline_property() {
+            string key = _store.Read("ApplicationInsights.InstrumentationKey");
 
-         Assert.NotNull(key);
-      }
+            Assert.NotNull(key);
+        }
 
-      [Fact]
-      public void Write_inline_property_reads_back()
-      {
-         if (!_store.CanWrite) return;
+        [Fact]
+        public void Write_inline_property_reads_back() {
+            if(!_store.CanWrite)
+                return;
 
-         string key = "ApplicationInsights.InstrumentationKey";
+            string key = "ApplicationInsights.InstrumentationKey";
 
-         _store.Write(key, "123");
+            _store.Write(key, "123");
 
-         Assert.Equal("123", _store.Read(key));
-      }
+            Assert.Equal("123", _store.Read(key));
+        }
 
-      [Fact]
-      public void Write_new_value_hierarchically()
-      {
-         if (!_store.CanWrite) return;
+        [Fact]
+        public void Write_new_value_hierarchically() {
+            if(!_store.CanWrite)
+                return;
 
-         string key = "One.Two.Three";
+            string key = "One.Two.Three";
 
-         _store.Write(key, "111");
+            _store.Write(key, "111");
 
-         Assert.Equal("111", _store.Read(key));
-      }
+            Assert.Equal("111", _store.Read(key));
+        }
 
-      [Fact]
-      public void AliasesOnCollections()
-      {
-         IMyConfigUsingAliases myConfig = new ConfigurationBuilder<IMyConfigUsingAliases>()
-            .UseConfigStore(_store)
-            .Build();
+        [Fact]
+        public void AliasesOnCollections() {
+            IMyConfigUsingAliases myConfig = new ConfigurationBuilder<IMyConfigUsingAliases>()
+               .UseConfigStore(_store)
+               .Build();
 
-         Assert.NotNull(myConfig.Credentials);
-         foreach (ICredsWithAlias c in myConfig.Credentials)
-         {
-            if (c.Name == "user1")
-            {
-               Assert.Equal("pass1", c.Pass);
+            Assert.NotNull(myConfig.Credentials);
+            foreach(ICredsWithAlias c in myConfig.Credentials) {
+                if(c.Name == "user1") {
+                    Assert.Equal("pass1", c.Pass);
+                } else if(c.Name == "user2") {
+                    Assert.Equal("pass2", c.Pass);
+                } else {
+                    Assert.Equal("user1", c.Name);
+                }
             }
-            else if (c.Name == "user2")
-            {
-               Assert.Equal("pass2", c.Pass);
+        }
+
+        [Fact]
+        public void TestCreatingFileInMissingFolder() {
+            _path = Path.Combine("C:\\temp", "TestData", "sample.json");
+
+            if(Directory.Exists(_path)) {
+                Directory.Delete(_path);
             }
-            else
-            {
-               Assert.Equal("user1", c.Name);
-            }
-         }
-      }
 
-      [Fact]
-      public void TestCreatingFileInMissingFolder()
-      {
-         _path = Path.Combine("C:\\temp", "TestData", "sample.json");
+            string key = "One.Two.Three";
 
-         if (Directory.Exists(_path))
-         {
-            Directory.Delete(_path);
-         }
+            _store = new JsonConfigStore(_path, true);
+            _store.Write(key, "111");
 
-         string key = "One.Two.Three";
+            Assert.Equal("111", _store.Read(key));
 
-         _store = new JsonConfigStore(_path, true);
-         _store.Write(key, "111");
+            Assert.True(File.Exists(_path));
+        }
 
-         Assert.Equal("111", _store.Read(key));
+        public void Dispose() {
+            _store.Dispose();
+        }
+    }
+    public interface ICredsWithAlias {
+        [Option(Alias = "Username")]
+        string Name { get; set; }
+        [Option(Alias = "Password")]
+        string Pass { get; set; }
+    }
 
-         Assert.True(File.Exists(_path));
-      }
-
-      public void Dispose()
-      {
-         _store.Dispose();
-      }
-   }
-   public interface ICredsWithAlias
-   {
-      [Option(Alias = "Username")]
-      string Name { get; set; }
-      [Option(Alias = "Password")]
-      string Pass { get; set; }
-   }
-
-   public interface IMyConfigUsingAliases
-   {
-      [Option(Alias = "Creds")]
-      IEnumerable<ICredsWithAlias> Credentials { get; }
-   }
+    public interface IMyConfigUsingAliases {
+        [Option(Alias = "Creds")]
+        IEnumerable<ICredsWithAlias> Credentials { get; }
+    }
 }
