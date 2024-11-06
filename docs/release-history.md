@@ -1,8 +1,9 @@
-## 5.3.0
+## 5.2.1
 
 ### Improvements
 
 - Upgraded dependent libraries.
+- Unified release pipeline
 
 ## 5.2.0
 
