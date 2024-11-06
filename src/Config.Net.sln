@@ -8,7 +8,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\.editorconfig = ..\.editorconfig
 		..\.github\ISSUE_TEMPLATE.md = ..\.github\ISSUE_TEMPLATE.md
 		..\docs\README.md = ..\docs\README.md
-		..\.github\workflows\release.yml = ..\.github\workflows\release.yml
+		..\.github\workflows\lib.yml = ..\.github\workflows\lib.yml
+		..\docs\release-notes.md = ..\docs\release-notes.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config.Net", "Config.Net\Config.Net.csproj", "{C71E3744-1544-47AF-9A7B-E88F6F775975}"
