@@ -3,6 +3,7 @@ name: Release
 env:
   VERSION: '5.3.0'
   ASM_VERSION: '5.0.0'
+  VERSION_SUFFIX: '-pre.1'
 
 on:
   push:
@@ -54,6 +55,32 @@ jobs:
       with:
         name: bin
         path: artifacts/*
+
+  prerelease:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+      - test
+    # only run if VERSION_SUFFIX environment variable has a value and branch is '5.3'
+    if: env.VERSION_SUFFIX && github.ref == 'refs/heads/5.3'
+    steps:
+    - uses: actions/download-artifact@v4
+      with:
+        name: bin
+
+
+  release:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+      - test
+    # only run if VERSION_SUFFIX environment variable is empty and branch is '5.3'
+    if: !env.VERSION_SUFFIX && github.ref == 'refs/heads/5.3'
+    steps:
+    - uses: actions/download-artifact@v4
+      with:
+        name: bin
+  
 
   # publish:
   #   needs:
